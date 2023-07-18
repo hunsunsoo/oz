@@ -797,6 +797,7 @@ https://www.notion.so/5b16ea74515e430ea3136ab9d6cb6df0
   - 방만들때 - 랭킹에 등록할 팀명 적기
 
 - ERD
+
   - 비밀번호 - 길이 크게하기
   - 명확한 코멘트 달기
   - 탈퇴는 하되, 정보는 갖고 있는다.
@@ -836,12 +837,14 @@ https://www.notion.so/5b16ea74515e430ea3136ab9d6cb6df0
 
 - 회의 결과 ERD 내용 하단 첨부
 </div>
+</details>
 
 <details>
 <summary>목업 수정 결과물</summary>
 <div markdown = "1">
 <img src="https://github.com/HanSungHyeon/HanSungHyeon/assets/66876894/cde6096c-1307-4f75-972c-cf20c972faa9">
 </div>
+</details>
 
 <details>
 <summary>ERD 수정 결과물</summary>
@@ -849,3 +852,4 @@ https://www.notion.so/5b16ea74515e430ea3136ab9d6cb6df0
 <img src="https://user-images.githubusercontent.com/108648330/254320757-2317db3d-2775-4d69-a695-e79c521ebca6.png">
 <img src="https://user-images.githubusercontent.com/108648330/254320991-7d9a498a-5359-4d28-bd4d-cac0c215b255.png">
 </div>
+</details>
