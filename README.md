@@ -840,14 +840,14 @@ https://www.notion.so/5b16ea74515e430ea3136ab9d6cb6df0
 </details>
 
 <details>
-<summary>목업 수정 결과물</summary>
+<summary>ERD 수정 결과물</summary>
 <div markdown = "1">
-<img src="https://github.com/HanSungHyeon/HanSungHyeon/assets/66876894/cde6096c-1307-4f75-972c-cf20c972faa9">
+<img src="https://user-images.githubusercontent.com/108648330/254320329-592a87cf-2b27-4eca-9584-1e003a2097b7.png">
 </div>
 </details>
 
 <details>
-<summary>ERD 수정 결과물</summary>
+<summary>목업 수정 결과물</summary>
 <div markdown = "1">
 <img src="https://user-images.githubusercontent.com/108648330/254320757-2317db3d-2775-4d69-a695-e79c521ebca6.png">
 <img src="https://user-images.githubusercontent.com/108648330/254320991-7d9a498a-5359-4d28-bd4d-cac0c215b255.png">
