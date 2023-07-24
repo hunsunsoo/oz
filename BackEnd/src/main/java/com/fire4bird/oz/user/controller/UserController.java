@@ -7,11 +7,11 @@ import com.fire4bird.oz.user.dto.ResignDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,12 +33,8 @@ public class UserController {
 
     //유저 회원탈퇴
     @DeleteMapping("/resign")
-    public ResponseEntity resignUser(@RequestBody ResignDto resignDto,
-                                     HttpServletRequest request) {
-        String accessToken = jwtProvider.getToken(request);
-        log.info(accessToken);
-
-        String userId = jwtProvider.getUserId(accessToken);
+    public ResponseEntity resignUser(@RequestBody ResignDto resignDto) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         userService.resignUser(Integer.parseInt(userId),resignDto.getPassword());
 
