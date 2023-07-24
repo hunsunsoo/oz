@@ -18,6 +18,7 @@ public class UserService {
 
     //유저 임시 회원가입
     public void registUser(User user, String provider) {
+        checkEmailAndProvider(user.getEmail(), provider);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setProvider(provider);
 
@@ -60,7 +61,14 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("비밀번호가 틀렸습니다."));
     }
 
-    //회원가입 이메일 중복 검사
+    //회원가입 이메일 및 provider 중복 검사
+    public void checkEmailAndProvider(String email, String provider) {
+        Optional<User> findUser = userRepository.findByEmailAndProvider(email, provider);
+
+        if (findUser.isPresent()) {
+            throw new RuntimeException("해당 회원이 이미 존재합니다.");
+        }
+    }
 
     //패스워드 일치여부 확인
     public void checkPassword(String password, User user) {
