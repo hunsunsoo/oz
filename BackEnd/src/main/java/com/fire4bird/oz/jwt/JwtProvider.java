@@ -2,8 +2,10 @@ package com.fire4bird.oz.jwt;
 
 import com.fire4bird.oz.user.entity.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,14 +64,29 @@ public class JwtProvider {
 
     //엑세스 토큰 생성
     public String createAccessToken(User user) {
-        return this.createToken(user, accessTokenValidTime);
+        return this.createToken(user, accessTokenValidTime * 10);
     }
 
     //리프레시 토큰 생성
     public String createRefreshToken(User user) {
-        return this.createToken(user, refreshTokenValidTime * 2);
+        return this.createToken(user, refreshTokenValidTime * 10);
     }
-    //토큰에서 유저정보 까기
+
+    //토큰 디코딩
+    public String getUserId(String token) {
+        JwtParser parser = Jwts.parserBuilder().setSigningKey(getSigningKey(secretKey)).build();
+        
+        //토큰에서 바디를 꺼내 payload의 sub만 꺼냈음 -> 유저 식별자를 통해 db를 조회하기 위함
+        //payload의 내용이 충분히 있다면 db조회 과정을 생략하고 claim을 바로 사용해되나
+        //payload에 많은 정보가 들어가는 것은 보안적으로 불리하며 식별자를 통해 db를 한 번 조회하는 것이 깔끔하고 정확하다고 판단
+        return parser.parseClaimsJws(token).getBody().getSubject();
+    }
+
+    //헤더에서 토큰 가져오기
+    public String getToken(HttpServletRequest request) {
+
+        return request.getHeader("AccessToken");
+    }
     
     //토큰 유효성 검증
 
