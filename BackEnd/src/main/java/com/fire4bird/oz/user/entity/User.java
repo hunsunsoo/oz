@@ -45,4 +45,7 @@ public class User {
 
     @Column(name = "out_date")
     private LocalDateTime outDate;
+
+    @Column(name = "refresh_token")
+    private String refreshToken;
 }
