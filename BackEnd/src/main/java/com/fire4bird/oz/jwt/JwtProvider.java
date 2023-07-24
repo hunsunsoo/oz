@@ -1,6 +1,7 @@
 package com.fire4bird.oz.jwt;
 
 import com.fire4bird.oz.user.entity.User;
+import com.fire4bird.oz.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -30,6 +31,8 @@ public class JwtProvider {
 
     @Value("${jwt.refresh-token-valid-time}")
     private long refreshTokenValidTime;
+
+    private final UserRepository userRepository;
 
     //키 생성
     private static Key getSigningKey(String secretKey) {
@@ -69,7 +72,11 @@ public class JwtProvider {
 
     //리프레시 토큰 생성
     public String createRefreshToken(User user) {
-        return this.createToken(user, refreshTokenValidTime * 10);
+        String refreshToken = this.createToken(user, refreshTokenValidTime * 10);
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+
+        return refreshToken;
     }
 
     //토큰 디코딩
@@ -87,8 +94,22 @@ public class JwtProvider {
 
         return request.getHeader("AccessToken");
     }
-    
+
     //토큰 유효성 검증
+    //유효성 검사 성공 true 실패 false
+    public boolean isTokenValid(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey(secretKey))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return !claims.getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     //엑세스 토큰 재발급
 }
