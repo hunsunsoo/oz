@@ -24,10 +24,10 @@ public class JwtProvider {
     private String secretKey;
 
     @Value("${jwt.access-token-valid-time}")
-    private String accessTokenValidTime;
+    private long accessTokenValidTime;
 
     @Value("${jwt.refresh-token-valid-time}")
-    private String refreshTokenValidTime;
+    private long refreshTokenValidTime;
 
     //키 생성
     private static Key getSigningKey(String secretKey) {
@@ -37,14 +37,16 @@ public class JwtProvider {
     }
 
     //토큰생성 - 공통 코드
-    public String createToken(User user) {
+    public String createToken(User user,long time) {
         //토큰 제목
         log.info("토큰 생성하러 들어감");
         Claims claims = Jwts.claims();
 
+        Date now = new Date();
         claims
                 .setSubject(Integer.toString(user.getUserId()))
-                .setIssuedAt(new Date());
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime()+ time));
 
         claims.put("userId",user.getUserId());
         claims.put("email",user.getEmail());
@@ -60,12 +62,12 @@ public class JwtProvider {
 
     //엑세스 토큰 생성
     public String createAccessToken(User user) {
-        return this.createToken(user);
+        return this.createToken(user, accessTokenValidTime);
     }
 
     //리프레시 토큰 생성
     public String createRefreshToken(User user) {
-        return this.createToken(user);
+        return this.createToken(user, refreshTokenValidTime * 2);
     }
     //토큰에서 유저정보 까기
     
