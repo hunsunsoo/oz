@@ -2,6 +2,7 @@ package com.fire4bird.oz.jwt;
 
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
+import com.fire4bird.oz.user.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -11,11 +12,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 
 @Configuration
@@ -33,6 +38,7 @@ public class JwtProvider {
     private long refreshTokenValidTime;
 
     private final UserRepository userRepository;
+    private final CustomUserDetailService customUserDetailService;
 
     //키 생성
     private static Key getSigningKey(String secretKey) {
@@ -93,6 +99,13 @@ public class JwtProvider {
     public String getToken(HttpServletRequest request) {
 
         return request.getHeader("AccessToken");
+    }
+
+    //토큰 인증 정보 조회
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserId(token));
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", Collections.emptyList());
     }
 
     //토큰 유효성 검증
