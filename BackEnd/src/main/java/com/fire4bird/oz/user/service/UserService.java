@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,17 @@ public class UserService {
     public void registUser(User user, String provider) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setProvider(provider);
+
+        userRepository.save(user);
+    }
+
+    //유저 회원 탈퇴
+    public void resignUser(int userId, String password) {
+        User user = findUser(userId);
+
+        checkPassword(password, user);
+
+        user.setOutDate(LocalDateTime.now());
 
         userRepository.save(user);
     }
@@ -39,6 +51,13 @@ public class UserService {
 
         return findUser
                 .orElseThrow(() -> new RuntimeException("해당 회원이 없습니다."));
+    }
+
+    public User findUser(int userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+
+        return findUser
+                .orElseThrow(() -> new RuntimeException("비밀번호가 틀렸습니다."));
     }
 
     //회원가입 이메일 중복 검사

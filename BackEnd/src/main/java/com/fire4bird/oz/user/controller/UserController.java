@@ -3,17 +3,16 @@ package com.fire4bird.oz.user.controller;
 import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
+import com.fire4bird.oz.user.dto.ResignDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +30,21 @@ public class UserController {
         userService.registUser(userMapper.registUserToUser(registUserDto), "self");
         return ResponseEntity.ok("회원 가입 완료");
     }
+
     //유저 회원탈퇴
+    @DeleteMapping("/resign")
+    public ResponseEntity resignUser(@RequestBody ResignDto resignDto,
+                                     HttpServletRequest request) {
+        String accessToken = jwtProvider.getToken(request);
+        log.info(accessToken);
+
+        String userId = jwtProvider.getUserId(accessToken);
+
+        userService.resignUser(Integer.parseInt(userId),resignDto.getPassword());
+
+        return ResponseEntity.ok("회원 탈퇴 완료");
+
+    }
 
     //로그인
     @PostMapping("/login")
@@ -44,8 +57,8 @@ public class UserController {
         String refreshToken = jwtProvider.createRefreshToken(findUser);
         log.info("refreshToken {}", refreshToken);
 
-        response.setHeader("AccessToken",accessToken);
-        response.setHeader("RefreshToken",refreshToken);
+        response.setHeader("AccessToken", accessToken);
+        response.setHeader("RefreshToken", refreshToken);
 
         return ResponseEntity.ok("로그인 성공");
     }
