@@ -7,10 +7,12 @@ import com.fire4bird.oz.user.dto.ResignDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,5 +59,23 @@ public class UserController {
         response.setHeader("RefreshToken", refreshToken);
 
         return ResponseEntity.ok("로그인 성공");
+    }
+
+    //엑세스 토큰 재발급
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(HttpServletRequest request,HttpServletResponse response) {
+        String refreshToken = jwtProvider.getRefreshToken(request);
+
+        User dbUser = userService.findUser(refreshToken);
+
+        String payloadId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userService.checkUser(dbUser.getUserId(), Integer.parseInt(payloadId));
+
+        String accessToken = jwtProvider.createAccessToken(dbUser);
+
+        response.setHeader("AccessToken",accessToken);
+
+        return ResponseEntity.ok("엑세스 토큰 재발급 성공");
     }
 }

@@ -61,6 +61,21 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("비밀번호가 틀렸습니다."));
     }
 
+    //리프레시 토큰으로 유저 조회
+    public User findUser(String refreshToken) {
+        Optional<User> findUser = userRepository.findByRefreshToken(refreshToken);
+
+        return findUser
+                .orElseThrow(() -> new RuntimeException("해당 회원이 없습니다"));
+    }
+
+    //db조회 사용자 = 토큰 payload 사용자 동일한지 확인
+    public boolean checkUser(int dbUserId, int payloadId) {
+        if(dbUserId == payloadId) return true;
+
+        throw new RuntimeException("토큰이 유효하지 않음");
+    }
+
     //회원가입 이메일 및 provider 중복 검사
     public void checkEmailAndProvider(String email, String provider) {
         Optional<User> findUser = userRepository.findByEmailAndProvider(email, provider);
@@ -78,4 +93,7 @@ public class UserService {
             throw new RuntimeException("비밀번호 틀림");
         }
     }
+
+
+
 }
