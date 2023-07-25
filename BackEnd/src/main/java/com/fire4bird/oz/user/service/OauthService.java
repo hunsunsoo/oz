@@ -13,6 +13,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -41,7 +43,7 @@ public class OauthService {
         body.add("client_id", clientId);
         body.add("redirect_uri", redirectUri);
         body.add("code", code);
-        body.add("grant_type","authorization_code");
+        body.add("grant_type", "authorization_code");
 
 
         return webClient.post()
@@ -54,7 +56,7 @@ public class OauthService {
     }
 
     //토큰으로 사용자 정보 받아오기
-    public String getUserInfo(String response) throws JsonProcessingException {
+    public User getUserInfo(String response) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         WebClient webClient = WebClient.create();
         //일단 응답 받고 어떻게 가져오는 지 확인하기
@@ -78,29 +80,25 @@ public class OauthService {
         log.info("nickname : {}", nickname);
         log.info("email : {}", email);
 
-        return userInfo;
+        return registOrLogin(email, nickname);
     }
 
     //로그인 및 회원가입
-    public void registOrLogin(String email, String nickname) {
-
+    public User registOrLogin(String email, String nickname) {
+        User kakaoUser = User.builder()
+                .email(email)
+                .name(nickname)
+                .nickname(nickname)
+                .password("ssafy")
+                .joinDate(LocalDateTime.now())
+                .build();
         //회원 가입을 했는 지 확인
         //findUser가 회원 못 찾으면 에러 뱉음 -> try catch로 처리
         try {
-            User user = userService.findUser(email, "kakao");
-
-            //회원가입을 이미 했다면 로그인 처리
-            //카카오는 비밀번호 대조를 진행하지 않음
-            //추가적이 메서드 생성 or 회원가입 처리 시 임의의 비밀번호 insert
-            //회원 가입 처리 시 임의의 비밀번호를 넣지 않는다면? -> password 컬럼 null 가능해야함 -> 자체 로그인 진행시 dto에서 password 필드유효성 검사 진행
-            //임의의 비밀번호를 넣었을 경우 -> 회원 비밀번호 변경을 진행하였을 때 -> 추후 로그인 진행 시 문제 발생
-
+            kakaoUser = userService.findUser(email, "kakao");
         } catch (Exception e) {
-
+            kakaoUser = userService.registUser(kakaoUser, "kakao");
         }
-
-
-        //회원가입을 하지 않았다면 회원 가입 후 로그인 처리
-        
+        return kakaoUser;
     }
 }
