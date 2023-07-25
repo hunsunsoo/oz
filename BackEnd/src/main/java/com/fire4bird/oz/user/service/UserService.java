@@ -16,20 +16,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    //유저 임시 회원가입
-    public void registUser(User user, String provider) {
+    //유저 회원가입
+    public User registUser(User user, String provider) {
         checkEmailAndProvider(user.getEmail(), provider);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setProvider(provider);
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     //유저 회원 탈퇴
     public void resignUser(int userId, String password) {
         User user = findUser(userId);
 
-        checkPassword(password, user);
+        if (user.getProvider().equals("self")) {
+            checkPassword(password, user);
+        }
 
         user.setOutDate(LocalDateTime.now());
 
@@ -93,7 +95,4 @@ public class UserService {
             throw new RuntimeException("비밀번호 틀림");
         }
     }
-
-
-
 }
