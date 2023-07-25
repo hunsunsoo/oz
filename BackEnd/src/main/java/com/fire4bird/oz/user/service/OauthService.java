@@ -85,13 +85,11 @@ public class OauthService {
 
     //로그인 및 회원가입
     public User registOrLogin(String email, String nickname) {
-        User kakaoUser = User.builder()
-                .email(email)
-                .name(nickname)
-                .nickname(nickname)
-                .password("ssafy")
-                .joinDate(LocalDateTime.now())
-                .build();
+        User kakaoUser = new User();
+        kakaoUser.setEmail(email);
+        kakaoUser.setName(nickname);
+        kakaoUser.setNickname(nickname);
+        kakaoUser.setPassword("ssafy");
         //회원 가입을 했는 지 확인
         //findUser가 회원 못 찾으면 에러 뱉음 -> try catch로 처리
         try {
