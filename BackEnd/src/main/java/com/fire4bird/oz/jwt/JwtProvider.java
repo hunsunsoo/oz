@@ -96,9 +96,13 @@ public class JwtProvider {
     }
 
     //헤더에서 토큰 가져오기
-    public String getToken(HttpServletRequest request) {
+    public String getAccessToken(HttpServletRequest request) {
 
         return request.getHeader("AccessToken");
+    }
+    public String getRefreshToken(HttpServletRequest request) {
+
+        return request.getHeader("RefreshToken");
     }
 
     //토큰 인증 정보 조회
@@ -123,6 +127,4 @@ public class JwtProvider {
             return false;
         }
     }
-
-    //엑세스 토큰 재발급
 }
