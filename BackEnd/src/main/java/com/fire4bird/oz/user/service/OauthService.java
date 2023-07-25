@@ -2,6 +2,7 @@ package com.fire4bird.oz.user.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fire4bird.oz.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,8 @@ public class OauthService {
 
     @Value("${kakao.info-url}")
     private String infoUri;
+
+    private final UserService userService;
 
     //인가 코드로 토큰 받아오기
     public String getToken(String code) {
@@ -76,5 +79,28 @@ public class OauthService {
         log.info("email : {}", email);
 
         return userInfo;
+    }
+
+    //로그인 및 회원가입
+    public void registOrLogin(String email, String nickname) {
+
+        //회원 가입을 했는 지 확인
+        //findUser가 회원 못 찾으면 에러 뱉음 -> try catch로 처리
+        try {
+            User user = userService.findUser(email, "kakao");
+
+            //회원가입을 이미 했다면 로그인 처리
+            //카카오는 비밀번호 대조를 진행하지 않음
+            //추가적이 메서드 생성 or 회원가입 처리 시 임의의 비밀번호 insert
+            //회원 가입 처리 시 임의의 비밀번호를 넣지 않는다면? -> password 컬럼 null 가능해야함 -> 자체 로그인 진행시 dto에서 password 필드유효성 검사 진행
+            //임의의 비밀번호를 넣었을 경우 -> 회원 비밀번호 변경을 진행하였을 때 -> 추후 로그인 진행 시 문제 발생
+
+        } catch (Exception e) {
+
+        }
+
+
+        //회원가입을 하지 않았다면 회원 가입 후 로그인 처리
+        
     }
 }
