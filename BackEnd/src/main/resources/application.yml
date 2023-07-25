@@ -23,3 +23,10 @@ jwt:
   secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
   access-token-valid-time: 60000
   refresh-token-valid-time: 60000
+
+kakao:
+  client-id: 581ca2cce261061e9424b527fdadf174
+  redirect-uri: http://localhost:8080/api/oauth/kakao
+  token-url: https://kauth.kakao.com/oauth/token
+  info-url: https://kapi.kakao.com/v1/user/access_token_info
+
