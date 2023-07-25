@@ -2,6 +2,7 @@ package com.fire4bird.oz.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,6 +18,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User implements UserDetails {
 
     @Id
@@ -49,7 +51,7 @@ public class User implements UserDetails {
     @Column(name = "out_date")
     private LocalDateTime outDate;
 
-    @Column(name = "refresh_token")
+    @Column(name = "refresh_token", length = 300)
     private String refreshToken;
 
     @Override
