@@ -38,7 +38,7 @@ public class UserController {
     public ResponseEntity resignUser(@RequestBody ResignDto resignDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        userService.resignUser(Integer.parseInt(userId),resignDto.getPassword());
+        userService.resignUser(Integer.parseInt(userId), resignDto.getPassword());
 
         return ResponseEntity.ok("회원 탈퇴 완료");
 
@@ -63,7 +63,7 @@ public class UserController {
 
     //엑세스 토큰 재발급
     @PostMapping("/reissue")
-    public ResponseEntity reissue(HttpServletRequest request,HttpServletResponse response) {
+    public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = jwtProvider.getRefreshToken(request);
 
         User dbUser = userService.findUser(refreshToken);
@@ -74,8 +74,18 @@ public class UserController {
 
         String accessToken = jwtProvider.createAccessToken(dbUser);
 
-        response.setHeader("AccessToken",accessToken);
+        response.setHeader("AccessToken", accessToken);
 
         return ResponseEntity.ok("엑세스 토큰 재발급 성공");
+    }
+
+    //로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity logoutUser(HttpServletRequest request) {
+        String refreshToken = jwtProvider.getRefreshToken(request);
+
+        userService.deleteRefreshToken(refreshToken);
+
+        return ResponseEntity.ok("로그아웃 성공");
     }
 }
