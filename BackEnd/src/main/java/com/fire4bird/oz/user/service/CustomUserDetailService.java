@@ -1,5 +1,7 @@
 package com.fire4bird.oz.user.service;
 
+import com.fire4bird.oz.error.BusinessLogicException;
+import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         return userRepository.findById(Integer.parseInt(userId))
-                .orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 }

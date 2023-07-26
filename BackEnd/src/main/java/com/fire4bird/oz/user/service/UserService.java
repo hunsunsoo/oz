@@ -1,5 +1,7 @@
 package com.fire4bird.oz.user.service;
 
+import com.fire4bird.oz.error.BusinessLogicException;
+import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,14 +55,15 @@ public class UserService {
         Optional<User> findUser = userRepository.findByEmailAndProviderAndOutDateNull(email, provider);
 
         return findUser
-                .orElseThrow(() -> new RuntimeException("해당 회원이 없습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
     }
 
     public User findUser(int userId) {
         Optional<User> findUser = userRepository.findById(userId);
 
         return findUser
-                .orElseThrow(() -> new RuntimeException("비밀번호가 틀렸습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
     //리프레시 토큰으로 유저 조회
@@ -68,14 +71,14 @@ public class UserService {
         Optional<User> findUser = userRepository.findByRefreshToken(refreshToken);
 
         return findUser
-                .orElseThrow(() -> new RuntimeException("해당 회원이 없습니다"));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
     //db조회 사용자 = 토큰 payload 사용자 동일한지 확인
     public void checkUser(int dbUserId, int payloadId) {
         if(dbUserId == payloadId) return;
 
-        throw new RuntimeException("토큰이 유효하지 않음");
+        throw new BusinessLogicException(ExceptionCode.TOKEN_NOT_VALID);
     }
 
     //회원가입 이메일 및 provider 중복 검사
@@ -83,7 +86,7 @@ public class UserService {
         Optional<User> findUser = userRepository.findByEmailAndProviderAndOutDateNull(email, provider);
 
         if (findUser.isPresent()) {
-            throw new RuntimeException("해당 회원이 이미 존재합니다.");
+            throw new BusinessLogicException(ExceptionCode.DUPLICATE_ID);
         }
     }
 
@@ -92,7 +95,7 @@ public class UserService {
         boolean matches = passwordEncoder.matches(password, user.getPassword());
 
         if(!matches){
-            throw new RuntimeException("비밀번호 틀림");
+            throw new BusinessLogicException(ExceptionCode.BAD_PARAM);
         }
     }
 
