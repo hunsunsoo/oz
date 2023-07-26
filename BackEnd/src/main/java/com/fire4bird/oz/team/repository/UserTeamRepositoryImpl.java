@@ -17,7 +17,7 @@ public class UserTeamRepositoryImpl implements UserTeamRepositoryCustom{
 
     // 모든 멤버가 들어 있는
     @Override
-    public int findTeamIdByUserId(List<Integer> userId) {
+    public List<Integer> findTeamIdByUserId(List<Integer> userId) {
         List<Integer> ans = jpaQueryFactory
                 .select(userTeam.team.teamId)
                 .from(userTeam)
@@ -26,6 +26,6 @@ public class UserTeamRepositoryImpl implements UserTeamRepositoryCustom{
                 .having(userTeam.team.teamId.count().goe(4))
                 .fetch();
 
-        return ans.get(0);
+        return ans;
     }
 }
