@@ -9,17 +9,18 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user_team")
+@IdClass(UserTeamPK.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserTeam {
     @Id
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     User user;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
+    @JoinColumn(name = "team_id", referencedColumnName = "teamId")
     Team team;
 }
