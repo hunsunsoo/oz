@@ -2,27 +2,23 @@ package com.fire4bird.oz.round.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Builder
-@Table(name = "round")
+@Table(name = "team")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Round {
+public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roundId;
+    private Integer teamId;
 
-    @JoinColumn(name = "team_id")
-    @ManyToOne
-    private Team team;
+    private String teamName;
 
-    //팀 별 회차
-    private Integer teamRound;
-
+    private LocalDateTime compositionTime;
 }
