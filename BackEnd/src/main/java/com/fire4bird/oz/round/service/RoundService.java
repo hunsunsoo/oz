@@ -1,7 +1,5 @@
 package com.fire4bird.oz.round.service;
 
-import com.fire4bird.oz.error.BusinessLogicException;
-import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.round.dto.RoundDto;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.round.entity.Team;
@@ -9,11 +7,14 @@ import com.fire4bird.oz.round.entity.UserRound;
 import com.fire4bird.oz.round.repository.RoundRepository;
 import com.fire4bird.oz.round.repository.TeamRepository;
 import com.fire4bird.oz.round.repository.UserRoundRepository;
+import com.fire4bird.oz.user.entity.User;
+import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class RoundService {
 
     private final TeamRepository teamRepository;
     private final RoundRepository roundRepository;
+    private final UserRepository userRepository;
     private final UserRoundRepository userRoundRepository;
     @Transactional
     public void roundSave(RoundDto roundDto){
@@ -44,14 +46,22 @@ public class RoundService {
             roundRepository.save(findRound);
         }
 
+        //한번에 저장
+        //회차
+        Round realfindRound = roundRepository.findByTeam(findTeam).orElse(new Round());
+        roleSave(roundDto,findTeam,realfindRound);
     }
 
     @Transactional
-    public void roleSave(RoundDto roundDto){
-        //역할군 저장
-        UserRound userRound = new UserRound();
-        userRound.setRole(roundDto.getRole());
-        userRoundRepository.save(userRound);
+    public void roleSave(RoundDto roundDto,Team team, Round round){
+        List<RoundDto.RoleDTO> roleList = roundDto.getRoleList();
+        for (RoundDto.RoleDTO roleDTO : roleList) {
+            User findUser = userRepository.findById(roleDTO.getUserId()).orElseThrow(() -> new RuntimeException());
+
+            //역할군 저장
+            UserRound userRound = UserRound.builder().role(roleDTO.getRole()).user(findUser).round(round).team(team).build();
+            userRoundRepository.save(userRound);
+        }
     }
 
 }
