@@ -4,10 +4,12 @@ package com.fire4bird.oz.team.entity;
 import com.fire4bird.oz.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @Table(name = "user_team")
 @IdClass(UserTeamPK.class)
 @Data
