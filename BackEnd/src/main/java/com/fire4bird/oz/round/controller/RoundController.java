@@ -24,7 +24,7 @@ public class RoundController {
     public ResponseEntity roundStart(@RequestBody RoundDto roundDto) {
         //방장이 start
         roundService.roundSave(roundDto);
-        return new ResponseEntity<>(new CMRespDto<>(1,"모험 시작", roundDto), HttpStatus.OK);
+        return new ResponseEntity<>(new CMRespDto<>(1,"모험 시작", null), HttpStatus.OK);
     }
 
 }

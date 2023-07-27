@@ -4,6 +4,7 @@ import com.fire4bird.oz.round.dto.RoundDto;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.round.entity.Team;
 import com.fire4bird.oz.round.entity.UserRound;
+import com.fire4bird.oz.round.entity.UserRoundId;
 import com.fire4bird.oz.round.repository.RoundRepository;
 import com.fire4bird.oz.round.repository.TeamRepository;
 import com.fire4bird.oz.round.repository.UserRoundRepository;
@@ -27,21 +28,22 @@ public class RoundService {
     private final RoundRepository roundRepository;
     private final UserRepository userRepository;
     private final UserRoundRepository userRoundRepository;
+
     @Transactional
-    public void roundSave(RoundDto roundDto){
+    public void roundSave(RoundDto roundDto) {
         //팀 확인
-        Team findTeam = teamRepository.findByTeamName(roundDto.getTeamName()).orElseThrow(()->new RuntimeException());
+        Team findTeam = teamRepository.findByTeamName(roundDto.getTeamName()).orElseThrow(() -> new RuntimeException());
 
         //회차 찾기
         Round findRound = roundRepository.findByTeam(findTeam).orElse(new Round());
 
-        if(findRound.getRoundId() == null){
+        if (findRound.getRoundId() == null) {
             //없으면 insert
             Round round = Round.builder().team(findTeam).teamRound(1).build();
             roundRepository.save(round);
-        }else{
+        } else {
             //있으면 update count++
-            int teamRound = findRound.getTeamRound()+1;
+            int teamRound = findRound.getTeamRound() + 1;
             findRound.setTeamRound(teamRound);
             roundRepository.save(findRound);
         }
@@ -49,17 +51,20 @@ public class RoundService {
         //한번에 저장
         //회차
         Round realfindRound = roundRepository.findByTeam(findTeam).orElse(new Round());
-        roleSave(roundDto,findTeam,realfindRound);
+        roleSave(roundDto, findTeam, realfindRound);
     }
 
     @Transactional
-    public void roleSave(RoundDto roundDto,Team team, Round round){
-        List<RoundDto.RoleDTO> roleList = roundDto.getRoleList();
+    public void roleSave(RoundDto roundDto, Team team, Round round) {
+        List<RoundDto.RoleDTO> roleList = roundDto.getUserRole();
         for (RoundDto.RoleDTO roleDTO : roleList) {
-            User findUser = userRepository.findById(roleDTO.getUserId()).orElseThrow(() -> new RuntimeException());
+            User user = userRepository.findById(roleDTO.getUserId()).orElseThrow(() -> new RuntimeException());
+
+            //복합키
+            UserRoundId userRoundId = UserRoundId.builder().roundId(round.getRoundId()).teamId(team.getTeamId()).userId(user.getUserId()).build();
 
             //역할군 저장
-            UserRound userRound = UserRound.builder().role(roleDTO.getRole()).user(findUser).round(round).team(team).build();
+            UserRound userRound = UserRound.builder().role(roleDTO.getRole()).user(user).round(round).team(team).userRoundId(userRoundId).build();
             userRoundRepository.save(userRound);
         }
     }
