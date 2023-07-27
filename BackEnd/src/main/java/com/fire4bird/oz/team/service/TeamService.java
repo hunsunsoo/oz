@@ -10,6 +10,8 @@ import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class TeamService {
     // 있는 팀이면 팀명 출력, 아니면 출력 X
     // 팀명 고르고 출발하면 중복 체크를 하고 가능하면 팀 저장
     // 팀이 저장될 때 사용자 유저 테이블이 같이 만들어져야 함
+
     private final TeamRepository teamRepository;
     private final UserTeamRepository userTeamRepository;
     private final UserTeamRepositoryCustom userTeamRepositoryCustom;
@@ -40,7 +43,7 @@ public class TeamService {
 //            team.setTeamName(registTeamDto.getTeamName());
 //            return teamRepository.save(team);
 //        }
-
+        if(team == null) team = new Team();
         team.setTeamName(registTeamDto.getTeamName());
 
         userTeamSave(registTeamDto, team);
@@ -76,7 +79,7 @@ public class TeamService {
     }
 
     public Team findTeam(List<Integer> users){
-        List<Integer> teamId = userTeamRepositoryCustom.findTeamIdByUserId(users);
+        List<Integer> teamId = userTeamRepositoryCustom.checkTeam(users);
         if(teamId.size() == 0) return null;
 
         Optional<Team> team = teamRepository.findByTeamId(teamId.get(0));

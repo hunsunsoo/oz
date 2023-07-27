@@ -18,11 +18,13 @@ import lombok.NoArgsConstructor;
 public class UserTeam {
     @Id
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id")//, referencedColumnName = "userId")
+    @MapsId("userId")
     User user;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "teamId")
+    @JoinColumn(name = "team_id")//, referencedColumnName = "teamId")
+    @MapsId("teamId")
     Team team;
 }
