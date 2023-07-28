@@ -68,7 +68,7 @@ public class TeamService {
     public Team checkTeamName(RegistTeamDto registTeamDto) {
         if(teamRepository.existsByTeamName(registTeamDto.getTeamName())){
             Team team = findTeam(registTeamDto.getUsers());
-            if(team.getTeamName() == registTeamDto.getTeamName()){
+            if(team.getTeamName().equals(registTeamDto.getTeamName())){
                 return team;
             }else throw new RuntimeException("중복된 팀명입니다");
         }else{
