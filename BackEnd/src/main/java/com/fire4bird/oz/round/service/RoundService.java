@@ -2,12 +2,12 @@ package com.fire4bird.oz.round.service;
 
 import com.fire4bird.oz.round.dto.RoundDto;
 import com.fire4bird.oz.round.entity.Round;
-import com.fire4bird.oz.round.entity.Team;
 import com.fire4bird.oz.round.entity.UserRound;
 import com.fire4bird.oz.round.entity.UserRoundId;
 import com.fire4bird.oz.round.repository.RoundRepository;
-import com.fire4bird.oz.round.repository.TeamRepository;
 import com.fire4bird.oz.round.repository.UserRoundRepository;
+import com.fire4bird.oz.team.entity.Team;
+import com.fire4bird.oz.team.repository.TeamRepository;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

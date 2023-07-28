@@ -1,5 +1,6 @@
 package com.fire4bird.oz.round.entity;
 
+import com.fire4bird.oz.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
