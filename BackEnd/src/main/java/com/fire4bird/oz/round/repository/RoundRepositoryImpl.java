@@ -24,12 +24,6 @@ public class RoundRepositoryImpl implements RoundRepositoryCustom {
                 .from(round)
                 .fetchOne();
 
-//        if (ans == null) {
-//            // 조회 결과가 없을 경우, 적절한 처리를 수행하거나 예외를 던질 수 있습니다.
-//            throw new EntityNotFoundException("No entity found with the given team.");
-//        }
-
         return ans;
-
     }
 }
