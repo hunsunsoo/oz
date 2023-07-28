@@ -20,9 +20,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RoundService {
-    // 모험시작 -> 역할, 유저 아이디들 전달, 팀 전달.
-    // 팀명을 받아 -> 회차 테이블에서 팀별 회차 확인 -> 없으면 insert 있으면 count++ update
-    // 회차 테이블이 저장될때 사용자 회차 테이블 역할군 저장 -> 사용자 일련번호/ 회차 일련번호 / 팀 일련번호 / 역할군
 
     private final TeamRepository teamRepository;
     private final RoundRepository roundRepository;
@@ -34,24 +31,21 @@ public class RoundService {
         //팀 확인
         Team findTeam = teamRepository.findByTeamName(roundDto.getTeamName()).orElseThrow(() -> new RuntimeException());
 
-        //회차 찾기
-        Round findRound = roundRepository.findByTeam(findTeam).orElse(new Round());
-
-        if (findRound.getRoundId() == null) {
+        //가장 높은 회차 찾기
+        Round findRound = roundRepository.recentRound(findTeam);
+        if (findRound == null) {
             //없으면 insert
-            Round round = Round.builder().team(findTeam).teamRound(1).build();
-            roundRepository.save(round);
+            findRound = Round.builder().team(findTeam).teamRound(1).build();
         } else {
-            //있으면 update count++
+            //있으면 insert count++
             int teamRound = findRound.getTeamRound() + 1;
-            findRound.setTeamRound(teamRound);
-            roundRepository.save(findRound);
+            findRound = Round.builder().team(findTeam).teamRound(teamRound).build();
         }
+        roundRepository.save(findRound);
 
         //한번에 저장
         //회차
-        Round realfindRound = roundRepository.findByTeam(findTeam).orElse(new Round());
-        roleSave(roundDto, findTeam, realfindRound);
+        roleSave(roundDto, findTeam, findRound);
     }
 
     @Transactional
@@ -63,7 +57,7 @@ public class RoundService {
             //복합키
             UserRoundId userRoundId = UserRoundId.builder().roundId(round.getRoundId()).teamId(team.getTeamId()).userId(user.getUserId()).build();
 
-            //역할군 저장
+            //역할군 저장 //여기가 문제야..
             UserRound userRound = UserRound.builder().role(roleDTO.getRole()).user(user).round(round).team(team).userRoundId(userRoundId).build();
             userRoundRepository.save(userRound);
         }
