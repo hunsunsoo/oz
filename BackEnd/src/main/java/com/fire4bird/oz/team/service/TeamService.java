@@ -46,8 +46,10 @@ public class TeamService {
         if(team == null) team = new Team();
         team.setTeamName(registTeamDto.getTeamName());
 
+        teamRepository.save(team);
+        team = teamRepository.findByTeamName(team.getTeamName()).orElseThrow(() -> new RuntimeException());
         userTeamSave(registTeamDto, team);
-        return teamRepository.save(team);
+        return team;
     }
 
     // 유저 팀 만들기
