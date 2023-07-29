@@ -1,6 +1,8 @@
 package com.fire4bird.oz.error;
 
+import com.fire4bird.oz.common.CMRespDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +21,11 @@ public class ExceptionController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity globalException(Exception e) {
         return ResponseEntity.status(500).body(e.getMessage());
+    }
+
+    @ExceptionHandler(CustomValidationApiException.class)
+    public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
+        return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
     }
 
 }
