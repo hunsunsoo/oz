@@ -1,13 +1,12 @@
 package com.fire4bird.oz.team.controller;
 
 
-import com.fire4bird.oz.CMRespDto;
+
+import com.fire4bird.oz.common.CMRespDto;
 import com.fire4bird.oz.team.dto.CheckUserDto;
 import com.fire4bird.oz.team.dto.RegistTeamDto;
 import com.fire4bird.oz.team.entity.Team;
-import com.fire4bird.oz.team.mapper.TeamMapper;
 import com.fire4bird.oz.team.service.TeamService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
