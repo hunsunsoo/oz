@@ -34,7 +34,6 @@ public class UserRound {
     @MapsId("roundId")
     private Round round;
 
-    //회차 당 역할
     private int role;
 
 }

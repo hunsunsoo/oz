@@ -3,11 +3,7 @@ package com.fire4bird.oz.round.repository;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.team.entity.Team;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-import java.util.Optional;
 
 import static com.fire4bird.oz.round.entity.QRound.round;
 
@@ -15,7 +11,7 @@ import static com.fire4bird.oz.round.entity.QRound.round;
 public class RoundRepositoryImpl implements RoundRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
-    //팀 찾기 //round안에 회차가 제일 높은..
+    //팀의 회차가 제일 높은 Round 찾기
     @Override
     public Round recentRound(Team team) {
         Round ans = jpaQueryFactory

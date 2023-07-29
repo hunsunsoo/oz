@@ -23,7 +23,6 @@ public class Round {
     @ManyToOne
     private Team team;
 
-    //팀 별 회차
     private Integer teamRound;
 
 }
