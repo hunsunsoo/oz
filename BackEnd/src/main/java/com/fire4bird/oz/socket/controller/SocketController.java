@@ -1,13 +1,12 @@
 package com.fire4bird.oz.socket.controller;
 
-import com.fire4bird.oz.socket.dto.SocketRoomDto;
+import com.fire4bird.oz.common.CMRespDto;
+import com.fire4bird.oz.socket.dto.SocketCreateDto;
 import com.fire4bird.oz.socket.service.SocketService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,13 +15,13 @@ public class SocketController {
 
     private final SocketService socketService;
 
+    //todo 예시 코드
     @PostMapping
-    public SocketRoomDto createRoom(@Valid @RequestBody SocketRoomDto createSocketDto, BindingResult bindingResult) {
-        return socketService.createRoom(createSocketDto.getRtcSession(),createSocketDto.getTeamName());
+    public ResponseEntity createRoom(@RequestParam String rtcSession) {
+        String teamName = "불사조";
+        SocketCreateDto socketRoom = socketService.createRoom(rtcSession,teamName);
+
+        return new ResponseEntity<>(new CMRespDto<>(1,"웹소켓 방 생성", socketRoom), HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<SocketRoomDto> findAllRoom() {
-        return socketService.findAllRoom();
-    }
 }

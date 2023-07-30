@@ -1,7 +1,9 @@
 package com.fire4bird.oz.socket.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fire4bird.oz.socket.dto.SocketRoomDto;
+import com.fire4bird.oz.error.BusinessLogicException;
+import com.fire4bird.oz.error.ExceptionCode;
+import com.fire4bird.oz.socket.dto.SocketCreateDto;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,9 +12,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -21,24 +21,20 @@ import java.util.Map;
 public class SocketService {
 
     private final ObjectMapper objectMapper;
-    private Map<String, SocketRoomDto> socketRooms;
+    private Map<String, SocketCreateDto> socketRooms;
 
     @PostConstruct
     private void init() {
         socketRooms = new LinkedHashMap<>();
     }
 
-    public List<SocketRoomDto> findAllRoom() {
-        return new ArrayList<>(socketRooms.values());
+    public SocketCreateDto findRoomById(String rtcSession) {
+        return socketRooms.get(rtcSession);
     }
 
-    public SocketRoomDto findRoomById(String roomId) {
-        return socketRooms.get(roomId);
-    }
-
-    public SocketRoomDto createRoom(String rtcSession, String teamName) {
-        SocketRoomDto socketRoom = SocketRoomDto.builder()
-                .RTCSession(rtcSession)
+    public SocketCreateDto createRoom(String rtcSession, String teamName) {
+        SocketCreateDto socketRoom = SocketCreateDto.builder()
+                .rtcSession(rtcSession)
                 .teamName(teamName)
                 .build();
         socketRooms.put(rtcSession, socketRoom);
@@ -49,7 +45,7 @@ public class SocketService {
         try {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            new BusinessLogicException(ExceptionCode.SOCKET_MESSAGE_FAIL);
         }
     }
 }

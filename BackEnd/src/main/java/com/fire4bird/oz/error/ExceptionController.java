@@ -23,6 +23,7 @@ public class ExceptionController {
         return ResponseEntity.status(500).body(e.getMessage());
     }
 
+    //유효성 검사 실패 시 return
     @ExceptionHandler(CustomValidationApiException.class)
     public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
         return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
