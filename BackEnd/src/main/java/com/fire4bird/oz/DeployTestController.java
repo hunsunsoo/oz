@@ -9,6 +9,6 @@ public class DeployTestController {
 
     @GetMapping("/")
     public ResponseEntity deployTest() {
-        return ResponseEntity.ok("제발 쫌...");
+        return ResponseEntity.ok("제발 쫌... 이제 되는거지??");
     }
 }
