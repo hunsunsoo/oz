@@ -19,6 +19,15 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  freemarker:
+    cache: false
+
 jwt:
   secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
   access-token-valid-time: 60000

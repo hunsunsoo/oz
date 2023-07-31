@@ -17,5 +17,5 @@ public class SocketMessage {
     private String rtcSession;
     private Integer userId;
     private String message;
-    private WebSocketMessage object;
+    private Object data;
 }
