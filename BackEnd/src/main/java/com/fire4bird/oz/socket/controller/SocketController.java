@@ -15,7 +15,7 @@ public class SocketController {
 
     private final SocketService socketService;
 
-    //todo 예시 코드
+    //todo 웹소켓 방 생성 예시 코드
     @PostMapping
     public ResponseEntity createRoom(@RequestParam String rtcSession) {
         String teamName = "불사조";
