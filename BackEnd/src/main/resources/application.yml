@@ -28,6 +28,10 @@ spring:
   freemarker:
     cache: false
 
+  redis:
+    host: localhost
+    port: 6379
+
 jwt:
   secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
   access-token-valid-time: 60000

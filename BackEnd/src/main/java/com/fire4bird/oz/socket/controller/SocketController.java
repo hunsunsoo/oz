@@ -2,7 +2,7 @@ package com.fire4bird.oz.socket.controller;
 
 import com.fire4bird.oz.common.CMRespDto;
 import com.fire4bird.oz.socket.dto.SocketCreateDto;
-import com.fire4bird.oz.socket.service.SocketRepository;
+import com.fire4bird.oz.socket.repository.SocketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class SocketController {
     @PostMapping
     public ResponseEntity createRoom(@RequestParam String rtcSession) {
         String teamName = "불사조";
-        SocketCreateDto socketRoom = socketRepository.createRoom(rtcSession,teamName);
+        SocketCreateDto socketRoom = socketRepository.createRoom(rtcSession);
 
         return new ResponseEntity<>(new CMRespDto<>(1,"웹소켓 방 생성", socketRoom), HttpStatus.OK);
     }
