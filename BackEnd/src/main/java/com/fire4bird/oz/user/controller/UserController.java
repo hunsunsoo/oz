@@ -28,6 +28,11 @@ public class UserController {
     //유저 회원가입
     @PostMapping("/signup")
     public ResponseEntity registUser(@RequestBody RegistUserDto registUserDto) {
+        log.info("회원가입 요청 들어옴");
+        log.info("이름 : {}",registUserDto.getName());
+        log.info("비밀번호 : {}",registUserDto.getPassword());
+        log.info("닉네임 : {}",registUserDto.getNickname());
+        log.info("이메일 : {}",registUserDto.getEmail());
         userService.registUser(userMapper.registUserToUser(registUserDto), "self");
         return ResponseEntity.ok("회원 가입 완료");
     }
