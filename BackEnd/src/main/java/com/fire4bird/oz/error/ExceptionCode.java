@@ -12,9 +12,10 @@ public enum ExceptionCode {
     /** 모험 시작 **/
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "팀을 찾을 수 없습니다."),
     VALIDATION_FAIL(HttpStatus.BAD_REQUEST.value(), "유효검사 실패하였습니다."),
-    FORBIDDEN_OWNER(HttpStatus.FORBIDDEN.value(), "방장이 아닙니다.");
+    FORBIDDEN_OWNER(HttpStatus.FORBIDDEN.value(), "방장이 아닙니다."),
 
-
+    /** 웹 소켓 **/
+    SOCKET_MESSAGE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(),"웹 소켓 메시지 전달에 실패하였습니다.");
     @Getter
     private final int status;
 
