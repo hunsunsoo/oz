@@ -16,8 +16,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Repository
 public class SocketRepository {
-    private RedisMessageListenerContainer redisMessageListener;
-    private RedisSubscriber redisSubscriber;
+    private final RedisMessageListenerContainer redisMessageListener;
+    private final RedisSubscriber redisSubscriber;
     // Redis
     private static final String SOKET_ROOMS = "SOKET_ROOMS"; // 소켓룸 저장
     private final RedisTemplate<String, Object> redisTemplate;
