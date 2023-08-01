@@ -3,7 +3,7 @@ spring:
     active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/oz?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql:3306/oz?serverTimezone=UTC&characterEncoding=UTF-8&usrSSL=false
     username: fire4bird
     password: fire4bird
 
