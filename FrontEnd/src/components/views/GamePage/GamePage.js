@@ -3,8 +3,14 @@ import { OpenVidu } from 'openvidu-browser';
 import { useLocation } from 'react-router-dom';
 import RTCViewLower from './RTCViewLower';
 import axios from 'axios';
+import Header from '../Header/Header';
+import GamingHeader from '../Header/GamingHeader';
+import RoleSelect from '../../RoleSelect';
 
 const GamePage = () => {
+  // 헤더 컴포넌트 조건부 렌더링 - 게임시작전에는 false, 게임시작 후에는 true
+  const [isGaming, setIsGaming] = useState(false); 
+
   // 세션 아이디 추출
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -46,6 +52,11 @@ const GamePage = () => {
       window.removeEventListener("beforeunload", onbeforeunload);
     };
   }, []);
+
+  // 헤더 조건부 렌더링 핸들러
+  const handleToggleHeader = () => {
+    setIsGaming(!isGaming);
+  };
 
   const onbeforeunload = () => {
     leaveSession();
@@ -205,9 +216,17 @@ const GamePage = () => {
       });
     };
 
+  const divStyle = {
+    margin: '0',
+    padding: '0',
+    height: '100vh',
+    overflow: 'hidden'
+  };
 
   return (
-    <div>
+    <div style={divStyle}>
+      {isGaming ? <GamingHeader /> : <Header />}
+      <RoleSelect />
       <RTCViewLower publisher={publisher} subscribers={subscribers} />
     </div>
   );
