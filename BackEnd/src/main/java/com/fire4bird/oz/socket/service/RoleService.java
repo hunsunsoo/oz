@@ -37,24 +37,25 @@ public class RoleService {
                     //선택 할 수 있는 경우
                     if(checkRole(role, selectRole)){
                         role[message.getUserId()] = selectRole;
-                        message.setMessage(message.getUserId() + "님이"+selectRole+"역할을 선택하였습니다.");
+                        message.setMessage(message.getUserId() + "님이 "+selectRole+"역할을 선택하였습니다.");
                         socketRoleDto.setSaveState(1);
                     }else {
                     //다른 유저가 선택한 경우
-                        message.setMessage(message.getUserId() + "님은 이미 다른 유저가 선택하였습니다.");
+                        message.setMessage(selectRole + "역할은 이미 다른 유저가 선택하였습니다.");
                         socketRoleDto.setSaveState(-1);
                     }
                 }
             }else {
             //유저 역할 취소
                 role[message.getUserId()] = 0;
-                message.setMessage(message.getUserId() + "님이"+selectRole+"역할을 취소하였습니다.");
+                message.setMessage(message.getUserId() + "님이 "+selectRole+"역할을 취소하였습니다.");
             }
             roles.replace(message.getRtcSession(), role);
         }else{
             int[] role = new int[4];
             role[message.getUserId()] = selectRole;
-            message.setMessage(message.getUserId() + "님이"+selectRole+"역할을 선택하였습니다.");
+            message.setMessage(message.getUserId() + "님이 "+selectRole+"역할을 선택하였습니다.");
+            socketRoleDto.setSaveState(1);
             roles.put(message.getRtcSession(), role);
         }
 

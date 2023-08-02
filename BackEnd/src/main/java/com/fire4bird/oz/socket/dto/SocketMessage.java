@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SocketMessage implements Serializable {

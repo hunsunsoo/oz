@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SocketRoleDto implements Serializable {

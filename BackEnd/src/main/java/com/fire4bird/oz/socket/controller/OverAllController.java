@@ -33,13 +33,11 @@ public class OverAllController {
     @MessageMapping("/socket/role")
     public void socketRole(SocketMessage message) {
         try {
-
             // ObjectMapper를 사용하여 JSON을 SocketRoleDto 객체로 변환
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonString = objectMapper.writeValueAsString(message.getData());
             SocketRoleDto socketRoleDto = objectMapper.readValue(jsonString, SocketRoleDto.class);
 
-//            SocketRoleDto socketRoleDto = (SocketRoleDto) message.getData();
             socketRoleDto = roleService.roleSelect(message, socketRoleDto);
             message.setData(socketRoleDto);
         }catch (Exception e){
