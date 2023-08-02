@@ -1,12 +1,11 @@
 package com.fire4bird.oz.socket.controller;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fire4bird.oz.socket.dto.SocketMessage;
 import com.fire4bird.oz.socket.dto.SocketRoleDto;
 import com.fire4bird.oz.socket.repository.SocketRepository;
 import com.fire4bird.oz.socket.service.RedisPublisher;
+import com.fire4bird.oz.socket.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Controller;
 public class OverAllController {
     private final RedisPublisher redisPublisher;
     private final SocketRepository socketRepository;
+    private final RoleService roleService;
 
     /**
      * websocket "/pub/socket/enter"로 들어오는 메시징을 처리한다.
@@ -31,18 +31,21 @@ public class OverAllController {
     }
 
     @MessageMapping("/socket/role")
-    public void message(SocketMessage message) {
-        socketRepository.enterSocketRoom(message.getRtcSession());
-        message.setMessage(message.getUserId() + "님이 입장하셨습니다.");
-
+    public void socketRole(SocketMessage message) {
         try {
-            SocketRoleDto socketRoleDto = new SocketRoleDto();
-            socketRoleDto.setMessage("@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+            // ObjectMapper를 사용하여 JSON을 SocketRoleDto 객체로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(message.getData());
+            SocketRoleDto socketRoleDto = objectMapper.readValue(jsonString, SocketRoleDto.class);
+
+//            SocketRoleDto socketRoleDto = (SocketRoleDto) message.getData();
+            socketRoleDto = roleService.roleSelect(message, socketRoleDto);
             message.setData(socketRoleDto);
         }catch (Exception e){
-            log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+e.getMessage());
+            message.setMessage("error: "+e.getMessage());
+            log.info(e.getMessage());
         }
-
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
     }
 }
