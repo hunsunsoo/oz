@@ -3,114 +3,125 @@ import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 // import styled from "styled-components";
 import UserVideoComponent from "./UserVideoComponent";
-// import ChatBox from "./Chat/ChatBox";
+// import ChatBox from "../tools/ChatBox";
+// import Chatting from "../tools/Chatting";
 
 // 로컬 미디어 서버 주소
 const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 
+class OpenViduComponent extends Component {
+    render() {
+        const { subscribers } = this.state;
+        // 최대 4명까지만 처리하도록 제한
+        const visibleSubscribers = subscribers.slice(0, 3);
+        // 나머지 빈 자리 개수 계산
+        const emptySlots = 3 - visibleSubscribers.length;
 
-class RunOV extends Component {
-  render() {
-    const { subscribers } = this.state;
-    // 최대 4명까지만 처리하도록 제한
-    const visibleSubscribers = subscribers.slice(0, 3);
-    // 나머지 빈 자리 개수 계산
-    const emptySlots = 3 - visibleSubscribers.length;
-
-    return (
-      <div>
-        <div>
-          <div style={{height:"400px"}}> Oz의 마법사 </div>
-        </div>
-        <div>
-          {this.state.session === undefined ? ( // 세션이 존재하지 않는다 = 방을 입장 안했을 때 join버튼이 나옴
-          // 근데 방만들기와 방 접속하기 따로만들어야함
-            <div
-              style={{
-                position: "absolute",
-                right: "0",
-                left: "0",
-                width: "300px",
-                margin: "auto",
-                height: "300px",
-              }}
-              id="join"
-            >
-              <div>
-                <h1 style={{ color: "white" }}> Join a video session </h1>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Enter Session ID"
-                    value={this.state.mySessionId}
-                    onChange={this.handleSessionIdChange}
-                  />
-                  <button onClick={this.handleCreateSession}>방 만들기</button>
-                  <button onClick={this.handleJoinSession}>방 접속하기</button>
+        return (
+            <div style={{width: "100%", height: "100%"}}>
+                <div style={{width: "100%", height: "100%"}}>
+                {this.state.session === "undefined" ? ( // 세션이 존재하지 않는다 = 방을 입장 안했을 때 join버튼이 나옴
+                // 근데 방만들기와 방 접속하기 따로만들어야함
+                    // <div
+                    // style={{
+                    //     position: "absolute",
+                    //     right: "0",
+                    //     left: "0",
+                    //     width: "300px",
+                    //     margin: "auto",
+                    //     height: "300px",
+                    // }}
+                    // id="join"
+                    // >
+                    // <div style={{width: "100%", height: "100%"}}>
+                    //     <h1 style={{ color: "white" }}> Join a video session </h1>
+                    //     <div style={{width: "100%", height: "100%"}}>
+                    //     <input
+                    //         type="text"
+                    //         placeholder="Enter Session ID"
+                    //         value={this.state.mySessionId}
+                    //         onChange={this.handleSessionIdChange}
+                    //     />
+                    //     <button onClick={this.handleCreateSession}>방 만들기</button>
+                    //     <button onClick={this.handleJoinSession}>방 접속하기</button>
+                    //     </div>
+                    // </div>
+                    // </div>
+                    <div>null</div>
+                ) : ( // 이부분은 세션이 있다 = 원래카면 게임화면 띄워주는 부분 -> 컴포넌트화 된 게임화면 띄워주면 될듯
+                    <div style={{width: "100%", height: "100%"}}>
+                        {this.state.isStart ? (
+                            <div style={{width: "100%", height: "100%"}}>
+                            {this.state.session !== undefined ? (
+                                <div
+                                // primary={this.state.isChat}
+                                ref={this.userRef}
+                                style={{display:"flex"}}
+                                >
+                                {this.state.publisher !== undefined ? (
+                                    <div key={this.state.publisher.stream.streamId}>
+                                    <UserVideoComponent
+                                        streamManager={this.state.publisher}
+                                    />
+                                    </div>
+                                ) : null}
+                                {visibleSubscribers.map((sub, i) => (
+                                    <div key={sub.stream.streamId}>
+                                    <UserVideoComponent streamManager={sub} />
+                                    </div>
+                                ))}
+                
+                                {/* 빈 자리를 검정색 배경화면으로 출력 */}
+                                {[...Array(emptySlots)].map((_, i) => (
+                                    <div>
+                                      <div style={{height:"200px", width:"266px", backgroundColor:"black", marginLeft:"50px"}}></div>
+                                      {console.log(emptySlots)}
+                                    </div>
+                                ))}
+                                </div>
+                            ) : null}
+                            </div>
+                         ) : (
+                            // 여기가 대기방 RTC
+                            <div style={{width: "100%", height: "100%"}}>
+                                <div style={{display: "inline-block", width: "60%", height:"100%"}}>
+                                    <div style={{marginTop: "5%", marginLeft: "7.5%", width: "75%", height: "85%", backgroundColor: "#F0EAD2"}}>
+                                        WebRTC
+                                    </div>
+                                </div>
+                                <div style={{display: "inline-block", width: "40%", height:"100%"}}>
+                                    <div style={{marginTop: "5%", marginLeft: "7.5%", width: "75%", height: "85%", backgroundColor: "#F0EAD2"}}>
+                                        Chat
+                                        <div primary={this.state.isChat}>
+                                            <div>
+                                                {/* <ChatBox /> */}
+                                                {/* <Chatting/> */}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         )}
+                    </div>
+                )}
                 </div>
-              </div>
             </div>
-          ) : ( // 이부분은 세션이 있다 = 원래카면 게임화면 띄워주는 부분 -> 컴포넌트화 된 게임화면 띄워주면 될듯
-            <div>
-              짜잔 화상회의가 실행중입니다.
-            </div>
-          )}
-          <div>
-            <div>
-              {this.state.session !== undefined ? (
-                <div
-                  // primary={this.state.isChat}
-                  ref={this.userRef}
-                  style={{display:"flex"}}
-                >
-                  {this.state.publisher !== undefined ? (
-                    <div key={this.state.publisher.stream.streamId}>
-                      <UserVideoComponent
-                        streamManager={this.state.publisher}
-                      />
-                    </div>
-                  ) : null}
-                  {visibleSubscribers.map((sub, i) => (
-                    <div key={sub.stream.streamId}>
-                      <UserVideoComponent streamManager={sub} />
-                    </div>
-                  ))}
-
-                  {/* 빈 자리를 검정색 배경화면으로 출력 */}
-                  {[...Array(emptySlots)].map((_, i) => (
-                    <div>
-                      <div style={{height:"200px", width:"266px", backgroundColor:"black", marginRight:"50px"}}></div>
-                      {console.log(emptySlots)}
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </div>
-          {/* <div primary={this.state.isChat}>
-            <div>
-              <ChatBox />
-            </div>
-          </div> */}
-        </div>
-      </div>
-
-
-    )
-  }
-  constructor(props) {
+        )
+    }
+constructor(props) {
     super(props);
     this.userRef = React.createRef();
 
     this.state = {
-      mySessionId: "DEFAULT", // 세션아이디는 일단은 디폴트값으로줬음. 방을 만들거나, 방에 접속할 때 입력한 값으로 갱신된 후에 방에 들어갈 수 있도록.. 접속하기인데 방이없다면 거절메시지
-      myUserName: "Participant" + Math.floor(Math.random() * 100), // 회원가입시 받은 닉네임 들어가면 좋을듯
-      session: undefined,
+      mySessionId: props.sessionId, // 세션아이디는 일단은 디폴트값으로줬음. 방을 만들거나, 방에 접속할 때 입력한 값으로 갱신된 후에 방에 들어갈 수 있도록.. 접속하기인데 방이없다면 거절메시지
+      myUserName: props.myUserName, // 회원가입시 받은 닉네임 들어가면 좋을듯
+      session: props.session,
       mainStreamManager: undefined,
       publisher: undefined, // 로컬 웹캠 스트림
       subscribers: [], // 다른 사용자의 활성 스트림
+      isStart: props.isStart,
       isMike: true,
       isCamera: true,
       isSpeaker: true,
@@ -128,9 +139,11 @@ class RunOV extends Component {
     
   }
 
+
   componentDidMount() {
     // this.leaveSession();
     window.addEventListener("beforeunload", this.onbeforeunload);
+    this.handleJoinSession();
     // 스터디방에서 화상회의 입장 -> props로 roomId로 받으면 세션id 업뎃 user 정보 전역변수 가져옴 -> 상태값 업뎃
   }
 
@@ -443,4 +456,4 @@ class RunOV extends Component {
 
 }
 
-export default RunOV;
+export default OpenViduComponent;
