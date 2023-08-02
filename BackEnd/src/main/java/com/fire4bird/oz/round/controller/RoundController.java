@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/round")
+@RequestMapping("/round")
 public class RoundController {
 
     private final RoundService roundService;
