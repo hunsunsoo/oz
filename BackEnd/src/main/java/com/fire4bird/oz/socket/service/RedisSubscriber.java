@@ -1,6 +1,8 @@
 package com.fire4bird.oz.socket.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fire4bird.oz.error.BusinessLogicException;
+import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.socket.dto.SocketMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +29,12 @@ public class RedisSubscriber implements MessageListener {
         try {
             // redis에서 발행된 데이터를 받아 deserialize
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-            // ChatMessage 객채로 맵핑
+            // SocketMessage 객채로 맵핑
             SocketMessage roomMessage = objectMapper.readValue(publishMessage, SocketMessage.class);
             // Websocket 구독자에게 채팅 메시지 Send
-            messagingTemplate.convertAndSend("/sub/socket/room/" + roomMessage.getRtcSession(), roomMessage);
+            messagingTemplate.convertAndSend("/sub/socket/"+roomMessage.getType()+"/"+ roomMessage.getRtcSession(), roomMessage);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            new BusinessLogicException(ExceptionCode.SOCKET_MESSAGE_FAIL);
         }
     }
 }
