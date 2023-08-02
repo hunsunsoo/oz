@@ -6,19 +6,13 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
+
 @Setter
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocketMessage implements Serializable {
+public class SocketRoleDto implements Serializable {
 
-    @NotBlank
-    private String type;
-    @NotBlank
-    private String rtcSession;
-    @NotNull
-    private Integer userId;
     private String message;
-    private Object data;
+
 }

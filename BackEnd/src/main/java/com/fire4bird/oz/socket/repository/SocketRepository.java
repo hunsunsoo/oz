@@ -40,11 +40,11 @@ public class SocketRepository {
         return opsHashChatRoom.get(SOKET_ROOMS, id);
     }
 
-    /**
+    /**wqdxlmc;/cqaeKSLN<?
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
      */
-    public SocketCreateDto createRoom(String rtcSession) {
-        SocketCreateDto socketRoom = SocketCreateDto.builder().rtcSession(rtcSession).build();
+    public SocketCreateDto createRoom(String rtcSession,String temaName) {
+        SocketCreateDto socketRoom = SocketCreateDto.builder().rtcSession(rtcSession).teamName(temaName     ).build();
         opsHashChatRoom.put(SOKET_ROOMS, rtcSession, socketRoom);
         return socketRoom;
     }
