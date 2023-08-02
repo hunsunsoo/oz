@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SetBoardRes {
-    private Integer gameId;
-    private String numberBoard;
-    private int turn;
+public class SetAnswerRes {
+    private int answer;
 }
