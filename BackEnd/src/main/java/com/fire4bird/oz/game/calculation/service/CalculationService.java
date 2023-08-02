@@ -23,21 +23,31 @@ public class CalculationService {
     private final CalculationLogRepository calculationLogRepository;
     private final RoundRepository roundRepository;
 
-    public SetBoardRes initSave(InitReq req, SetBoardRes setBoardRes){
+    public SetBoardRes initSave(InitReq req){
          Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
+         Calculation newCalculation = calculationRepository.recentCalculation(findRound);
 
-         Calculation newCalculation = calculationRepository.findByRound_RoundId(req.getRoundId()).orElse(null);
-         if(newCalculation == null){
-             setBoardRes.setTurn(1);
-             newCalculation = Calculation.builder().round(findRound).turn(1).answer(setBoardRes.getAnswer()).numberBoard(setBoardRes.getNumberBoard()).build();
-         } else {
-             int calTurn = newCalculation.getTurn() + 1;
-             setBoardRes.setTurn(calTurn);
-             newCalculation = Calculation.builder().round(findRound).turn(calTurn).answer(setBoardRes.getAnswer()).numberBoard(setBoardRes.getNumberBoard()).build();
-         }
+         int calTurn = 1;
+         if(newCalculation != null)
+             calTurn = newCalculation.getTurn() + 1;
+
+
+         newCalculation = Calculation.builder()
+                 .round(findRound)
+                 .turn(calTurn).
+                 answer(req.getAnswer())
+                 .numberBoard(req.getNumberBoard())
+                 .build();
+
          calculationRepository.save(newCalculation);
-         newCalculation = calculationRepository.findByRound_RoundId(findRound.getRoundId()).orElseThrow(() -> new RuntimeException("사칙연산 에러"));
+         newCalculation = calculationRepository.recentCalculation(findRound);
+
+         SetBoardRes setBoardRes = new SetBoardRes();
          setBoardRes.setGameId(newCalculation.getGameId());
+         setBoardRes.setTurn(newCalculation.getTurn());
+         setBoardRes.setAnswer(newCalculation.getAnswer());
+         setBoardRes.setNumberBoard(newCalculation.getNumberBoard());
+
          return setBoardRes;
     }
 

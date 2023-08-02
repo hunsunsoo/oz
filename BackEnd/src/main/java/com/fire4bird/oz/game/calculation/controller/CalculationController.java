@@ -7,6 +7,7 @@ import com.fire4bird.oz.game.calculation.dto.response.HelperSubmitRes;
 import com.fire4bird.oz.game.calculation.dto.response.SetBoardRes;
 import com.fire4bird.oz.game.calculation.manager.GameManager;
 import com.fire4bird.oz.game.calculation.service.CalculationService;
+import com.fire4bird.oz.round.service.RoundService;
 import com.fire4bird.oz.team.service.TeamService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class CalculationController {
     @Autowired
     private final SimpMessagingTemplate template;
 
-    private final TeamService teamService;
+    private final RoundService roundService;
     private final CalculationService calculationService;
 
 
@@ -41,31 +42,31 @@ public class CalculationController {
         gameManagerMap = new ConcurrentHashMap<>();
     }
 
-    @MessageMapping("/calculation/start/{roomId}")
-    @SendTo("/calculation/from/start/{roomId}")
-    public void gameStart(@DestinationVariable Integer roomId) throws Exception{
+    @MessageMapping("/calculation/start/{roundId}")
+    @SendTo("/calculation/from/start/{roundId}")
+    public void gameStart(@DestinationVariable Integer roundId) throws Exception{
         System.out.println("first");
-        gameManagerMap.put(roomId, new GameManager(roomId, teamService, calculationService));
+        gameManagerMap.put(roundId, new GameManager(roundId, roundService, calculationService));
     }
 
-    // 게임에 참여한 모든 사용자의 일련번호를 추가
-    @MessageMapping("/calculation/addplayer/{roomId}")
-    public void addPlayer(@DestinationVariable Integer roomId, @RequestBody Integer userId){
-        System.out.println("hello");
-        if(gameManagerMap.get(roomId).addPlayer(userId)){
-            broadcastAllconnected(roomId);
-        }
-    }
-
-    // 모든 사용자가 들어왔다
-    public void broadcastAllconnected(Integer roomId){
-        template.convertAndSend("/calculation/from/checkconnect/" + roomId, true);
-    }
+//    // 게임에 참여한 모든 사용자의 일련번호를 추가
+//    @MessageMapping("/calculation/addplayer/{roomId}")
+//    public void addPlayer(@DestinationVariable Integer roomId, @RequestBody Integer userId){
+//        System.out.println("hello");
+//        if(gameManagerMap.get(roomId).addPlayer(userId)){
+//            broadcastAllconnected(roomId);
+//        }
+//    }
+//
+//    // 모든 사용자가 들어왔다
+//    public void broadcastAllconnected(Integer roomId){
+//        template.convertAndSend("/calculation/from/checkconnect/" + roomId, true);
+//    }
 
     // 게임에 필요한 보드판, 답 설정
-    @MessageMapping("/calculation/setboard/{roomId}")
-    public SetBoardRes setGame(@DestinationVariable Integer roomId, InitReq req){
-        return gameManagerMap.get(roomId).setGame(req);
+    @MessageMapping("/calculation/setboard/{roundId}")
+    public SetBoardRes setGame(@DestinationVariable Integer roundId){
+        return gameManagerMap.get(roundId).setGame(roundId);
     }
 
     // 조력자가 번호를 선택함 log 전달
