@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class InitReq {
     private Integer roundId;
+    private int answer;
+    private String numberBoard;
 }
