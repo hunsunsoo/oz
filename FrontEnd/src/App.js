@@ -8,6 +8,8 @@ import RoomPage from "./components/views/RoomPage/RoomPage";
 import SelectRolePage from "./components/views/SelectRolePage/SelectRolePage"
 import GamePlayPage from "./components/views/GamePlayPage/GamePlayPage";
 import RunOv from "./OpenVidu/RunOV"
+import Scripts from "./components/scripts/Scripts";
+import WithDrawl from "./components/views/WithDrawl/WithDrawl";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/role" element={<SelectRolePage/>}/>
           <Route path="/gameplay" element={<GamePlayPage/>}/>
           <Route path="/runov" element={<RunOv/>}/>
+          <Route path="/scripts" element={<Scripts />}/>
+          <Route path="/withdrawl" element={<WithDrawl />}/>
         </Routes>
       </div>
     </BrowserRouter>

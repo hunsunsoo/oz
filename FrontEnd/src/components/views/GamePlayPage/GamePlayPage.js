@@ -5,20 +5,48 @@ import FriendsRTC from '../Footer/FriendsRTC';
 import { GameComp_1_11, GameComp_1_12 } from './GamePlay';
 
 const GamePlayPage = () => {
-  const isState = 2;
+  const isState = 1;
+  const isIndex = 3;
     
   let componentToRender;
 
   switch (isState) {
-    case 1:
-      componentToRender = <GameComp_1_11 />;
-      break;
-    case 2:
-      componentToRender = <GameComp_1_12 />;
-      break;
-    // Add more cases as needed for other conditions
-    default:
-      componentToRender = null; // Render nothing if no condition matches
+    case 0: // 이게 스테이지 구분 (0-1)
+      switch (isIndex) { // 이게 인덱스 구분
+        case 1: 
+          componentToRender = null;
+          break;
+        case 2:
+          componentToRender = null;
+          break;
+        case 3:
+          componentToRender = null;
+          break; 
+      }
+    case 1: // 이게 스테이지 구분 (1-1)
+      switch (isIndex) { // 이게 인덱스 구분
+        case 1: 
+          componentToRender = null;
+          break;
+        case 2:
+          componentToRender = null;
+          break;
+        case 3:
+          componentToRender = <GameComp_1_12 />;
+          break; 
+      }
+    case 2: // 이게 스테이지 구분 (2-1)
+      switch (isIndex) { // 이게 인덱스 구분
+        case 1: 
+          componentToRender = null;
+          break;
+        case 2:
+          componentToRender = <GameComp_1_12 />;
+          break;
+        case 3:
+          componentToRender = <GameComp_1_12 />;
+          break; 
+      }
   }
 
   const divStyle = { // header, rtc 포함된 전체 div
@@ -40,7 +68,7 @@ const GamePlayPage = () => {
         <div style={bodyStyle}>
           {componentToRender}
         </div>
-        {/* <FriendsRTC/> */}
+        <FriendsRTC/>
       </div>
   );
 };

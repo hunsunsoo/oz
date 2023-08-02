@@ -42,35 +42,36 @@ const subBtnSttyle = {
     height: "50px", // 아이콘의 높이
     };
 
+// export class 
 
-export class GameComp_1_11 extends Component {
-    render() {
-        return (
-            <div style={compStyle}>
-                <div style={backgroundDiv}>
-                    <div style={BoardStyle}>
-                        <NumberBoard/>
-                    </div>
-                    <img src="/questionMark.png" alt="questionMark" style={iconStyle} />
-                </div>
-            </div>
-        );
-    }
-}
 
-export class GameComp_1_12 extends Component {
-    render() {
-        return (
-            <div style={compStyle}>
-                <div style={backgroundDiv}>
-                    <div style={BoardStyle}>
-                        <AlphaBoard/>
-                    </div>
-                    <img src="/questionMark.png" alt="questionMark" style={iconStyle} />
-                    <img src="/stage1SubBtn.png" alt="stage1SubBtn" style={subBtnSttyle} />
-                </div>
-            </div>
-        );
-    }
-}
+const GameComp_1_11 = () => {
+    return (
+      <div style={compStyle}>
+        <div style={backgroundDiv}>
+          <div style={BoardStyle}>
+            <NumberBoard />
+          </div>
+          <img src="/questionMark.png" alt="questionMark" style={iconStyle} />
+        </div>
+      </div>
+    );
+  };
+  
+  const GameComp_1_12 = () => {
+    return (
+      <div style={compStyle}>
+        <div style={backgroundDiv}>
+          <div style={BoardStyle}>
+            <AlphaBoard />
+          </div>
+          <img src="/questionMark.png" alt="questionMark" style={iconStyle} />
+          <img src="/stage1SubBtn.png" alt="stage1SubBtn" style={subBtnSttyle} />
+        </div>
+      </div>
+    );
+  };
+  
+  export { GameComp_1_11, GameComp_1_12 };
+  
 
