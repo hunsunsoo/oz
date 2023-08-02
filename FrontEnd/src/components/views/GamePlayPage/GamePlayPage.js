@@ -2,11 +2,11 @@ import React from 'react';
 import Header from "../Header/Header.js"
 import RoleSelect from '../../RoleSelect.js';
 import FriendsRTC from '../Footer/FriendsRTC';
-import { GameComp_1_11, GameComp_1_12 } from './GamePlay';
+import { GameComp_1_11, GameComp_1_12, GameComp_1_13, GameComp_2_11, GameComp_2_12 } from './GamePlay';
 
 const GamePlayPage = () => {
-  const isState = 1;
-  const isIndex = 3;
+  const isState = 2;
+  const isIndex = 12;
     
   let componentToRender;
 
@@ -23,6 +23,7 @@ const GamePlayPage = () => {
           componentToRender = null;
           break; 
       }
+      break;
     case 1: // 이게 스테이지 구분 (1-1)
       switch (isIndex) { // 이게 인덱스 구분
         case 1: 
@@ -32,21 +33,41 @@ const GamePlayPage = () => {
           componentToRender = null;
           break;
         case 3:
+          componentToRender = null;
+          break;
+        case 11: 
+          componentToRender = <GameComp_1_11 />;
+          break;
+        case 12:
           componentToRender = <GameComp_1_12 />;
+          break;
+        case 13:
+          componentToRender = <GameComp_1_13 />;
           break; 
       }
+      break;
     case 2: // 이게 스테이지 구분 (2-1)
       switch (isIndex) { // 이게 인덱스 구분
         case 1: 
           componentToRender = null;
           break;
         case 2:
-          componentToRender = <GameComp_1_12 />;
+          componentToRender = null;
           break;
         case 3:
-          componentToRender = <GameComp_1_12 />;
+          componentToRender = null;
+          break;
+        case 11: 
+          componentToRender = <GameComp_2_11 />;
+          break;
+        case 12:
+          componentToRender = <GameComp_2_12 />;
+          break;
+        case 13:
+          componentToRender = null;
           break; 
       }
+      break;
   }
 
   const divStyle = { // header, rtc 포함된 전체 div
@@ -68,7 +89,7 @@ const GamePlayPage = () => {
         <div style={bodyStyle}>
           {componentToRender}
         </div>
-        <FriendsRTC/>
+        {/* <FriendsRTC/> */}
       </div>
   );
 };
