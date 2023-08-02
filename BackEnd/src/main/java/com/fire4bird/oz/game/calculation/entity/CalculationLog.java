@@ -20,11 +20,14 @@ public class CalculationLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gameId;
+    private Integer logId;
 
     @ManyToOne
     @JoinColumn(name = "round_id", referencedColumnName = "roundId")
     private Round round;
+
+    @Column(name = "turn", nullable = false)
+    private int turn;
 
     @Column(name = "user_id")
     private int userId;
@@ -37,9 +40,6 @@ public class CalculationLog {
 
     @Column(name = "message", length = 300, nullable = false)
     private String message;
-
-    @Column(name = "turn", nullable = false)
-    private int turn;
 
     @CreatedDate
     @Column(name = "log_time")

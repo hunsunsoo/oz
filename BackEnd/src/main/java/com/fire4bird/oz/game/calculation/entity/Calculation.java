@@ -29,6 +29,9 @@ public class Calculation {
     @Column(name = "answer", nullable = false)
     private int answer;
 
+    @Column(name = "submit_answer")
+    private int submitAnswer;
+
     @Column(name = "aid_select_num", length = 100)
     private String aidSelectNum;
 
