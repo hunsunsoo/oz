@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class Player {
     private User user;
-    private String role;
+    private int role;
 
-    public Player(User user, String role){
+    public Player(User user, int role){
         this.user = user;
         this.role = role;
     }
