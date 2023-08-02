@@ -6,10 +6,12 @@ import com.fire4bird.oz.socket.dto.SocketRoleDto;
 import com.fire4bird.oz.socket.repository.SocketRepository;
 import com.fire4bird.oz.socket.service.RedisPublisher;
 import com.fire4bird.oz.socket.service.RoleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 
 @RequiredArgsConstructor
 @Controller

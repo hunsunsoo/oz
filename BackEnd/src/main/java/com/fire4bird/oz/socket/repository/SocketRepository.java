@@ -45,7 +45,10 @@ public class SocketRepository {
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
      */
     public SocketCreateDto createRoom(String rtcSession, String temaName) {
-        SocketCreateDto socketRoom = SocketCreateDto.builder().rtcSession(rtcSession).teamName(temaName).build();
+        SocketCreateDto socketRoom = SocketCreateDto.builder()
+                .rtcSession(rtcSession)
+                .teamName(temaName)
+                .build();
         opsHashChatRoom.put(SOKET_ROOMS, rtcSession, socketRoom);
         return socketRoom;
     }

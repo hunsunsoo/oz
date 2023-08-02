@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SocketCreateDto implements Serializable{
