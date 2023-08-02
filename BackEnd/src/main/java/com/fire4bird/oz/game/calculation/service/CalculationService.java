@@ -45,17 +45,16 @@ public class CalculationService {
          SetBoardRes setBoardRes = new SetBoardRes();
          setBoardRes.setGameId(newCalculation.getGameId());
          setBoardRes.setTurn(newCalculation.getTurn());
-         setBoardRes.setAnswer(newCalculation.getAnswer());
          setBoardRes.setNumberBoard(newCalculation.getNumberBoard());
 
          return setBoardRes;
     }
 
     // 로그에 저장됨
-    public void getHelperNum(HelperSubmitReq req) {
+    public void helperLog(HelperLogReq req) {
         Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
         String msg;
-        if(req.getSelected() == 1) msg = "조력자: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택하셨습니다.";
+        if(req.getIsSelected() == 1) msg = "조력자: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택하셨습니다.";
         else msg = "조력자: [" + req.getR() + ", " + req.getC() + "] 좌표를 취소하셨습니다.";
 
         CalculationLog log = CalculationLog.builder()
@@ -70,24 +69,25 @@ public class CalculationService {
         calculationLogRepository.save(log);
     }
 
-    public void helpUpdate(HelperSubmitAllReq req) {
+    public void helperUpdate(HelperSubmitReq req) {
         Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
         findCalculation.setAidSelectNum(req.getSelectedNums());
 
         calculationRepository.save(findCalculation);
     }
 
-    public void submitAnswer(SubmitAnswerReq req){
+    public void submitAnswer(ActorAnswerReq req, int answer){
         Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
 
         findCalculation.setActorSelectNum(req.getNumbers());
         findCalculation.setSelectOp(req.getMarks());
+        findCalculation.setSubmitAnswer(answer);
 
         calculationRepository.save(findCalculation);
     }
 
 
-    public void actorLog(ActorSelectOneReq req) {
+    public void actorLog(ActorLogReq req) {
         Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
         String msg = "허수아비: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택했습니다";
 

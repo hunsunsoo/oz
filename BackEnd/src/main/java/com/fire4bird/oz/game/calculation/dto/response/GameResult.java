@@ -12,7 +12,6 @@ public class GameResult {
 
     private String msg;
     private boolean isFinished;
-    private boolean completeHelp;
 
     public GameResult() {}
 
@@ -30,11 +29,6 @@ public class GameResult {
         }
     }
 
-    public GameResult(boolean completeHelp){
-        this.isFinished = false;
-        this.completeHelp = completeHelp;
-
-    }
 
     public static GameResult returnSuccess(){
         return new GameResult(GameResultType.RESULT_SUCCESS);
@@ -43,5 +37,7 @@ public class GameResult {
     public static GameResult returnFail(){
         return new GameResult(GameResultType.RESULT_FAIL);
     }
+
+    public static GameResult returnError() { return new GameResult(GameResultType.RESULT_ERROR);}
 
 }

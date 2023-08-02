@@ -1,10 +1,7 @@
 package com.fire4bird.oz.game.calculation.manager;
 
 import com.fire4bird.oz.game.calculation.dto.request.*;
-import com.fire4bird.oz.game.calculation.dto.response.GuessAnswerRes;
-import com.fire4bird.oz.game.calculation.dto.response.HelperRes;
-import com.fire4bird.oz.game.calculation.dto.response.HelperSubmitRes;
-import com.fire4bird.oz.game.calculation.dto.response.SetBoardRes;
+import com.fire4bird.oz.game.calculation.dto.response.*;
 import com.fire4bird.oz.game.calculation.entity.Player;
 import com.fire4bird.oz.game.calculation.service.CalculationService;
 import com.fire4bird.oz.round.entity.UserRound;
@@ -42,8 +39,6 @@ public class GameManager {
     private boolean isGameStarted;
     // 조력자가 선택한 블럭의 숫자 관리, 객체가 만들어질 때 0으로 초기화
     private int helperCount;
-    // 허수아비가 선택한 정답의 개수, 없어질 수 있음
-    private int answerCount;
 
     public GameManager(Integer roundId, RoundService roundService, CalculationService calculationService){
         this.roundId = roundId;
@@ -52,7 +47,7 @@ public class GameManager {
         players = new LinkedList<>();
         this.calculationService = calculationService;
         this.helperCount = 0;
-        this.answerCount = 0;
+        this.isGameStarted = true;
 
         this.setRole(userRounds);
     }
@@ -105,9 +100,47 @@ public class GameManager {
         return Arrays.toString(boards);
     }
 
+    public SetAnswerRes getAnswer(){
+        SetAnswerRes res = new SetAnswerRes();
+        res.setAnswer(this.answer);
+        return res;
+    }
+
+    public HelperRes helperLog(HelperLogReq req){
+        HelperRes helperRes = new HelperRes();
+        if(req.getIsSelected() == 1) this.helperCount++;
+        else this.helperCount--;
+        helperRes.setR(req.getR());
+        helperRes.setC(req.getC());
+
+        calculationService.helperLog(req);
+        return helperRes;
+    }
+
+    public HelperSubmitRes helperSubmit(HelperSubmitReq req) {
+        // [[y, x], [y, x], [y, x], [y, x], [y, x], [y, x]]
+        String selected = req.getSelectedNums();
+        int firstY = 2;
+        int firstX = 5;
+        int[] num = new int[6];
+        for(int i = 0; i<6; i++){
+            num[i] = numberBoard[selected.charAt(firstY)-'0'][selected.charAt(firstX)-'0'];
+            firstY += 8;
+            firstX += 8;
+        }
+
+        calculationService.helperUpdate(req);
+        HelperSubmitRes helperSubmitRes = new HelperSubmitRes();
+        helperSubmitRes.setSelectedNums(num);
+        return helperSubmitRes;
+    }
+
+    public void actorLog(ActorLogReq req) {
+        calculationService.actorLog(req);
+    }
+
     // 주어진 String 값으로 계산을 해 답과 비교
-    public GuessAnswerRes guessAnswer(SubmitAnswerReq req){
-        calculationService.submitAnswer(req);
+    public GuessAnswerRes guessAnswer(ActorAnswerReq req){
         boolean isCorrect = false;
         // req에 들어 있을 numbers 예시
         // [[y, x], [y, x], [y, x]]
@@ -132,7 +165,7 @@ public class GameManager {
             case '/':
                 ans = num[0] / num[1];
                 if(num[0] % num[1] != 1)
-                    return new GuessAnswerRes(req.getUserId(), false, true, ans);
+                    return new GuessAnswerRes(false, true, ans);
                 break;
             case '+':
                 ans = num[0] + num[1];
@@ -148,7 +181,7 @@ public class GameManager {
                 break;
             case '/':
                 if(ans%num[2] != 0 )
-                    return new GuessAnswerRes(req.getUserId(), false, true, ans);
+                    return new GuessAnswerRes(false, true, ans);
                 ans /= num[2];
                 break;
             case '+':
@@ -160,44 +193,11 @@ public class GameManager {
         }
 
         if(answer == ans) isCorrect =  true;
-        return new GuessAnswerRes(req.getUserId(), isCorrect, true, ans);
+        calculationService.submitAnswer(req, ans);
+        return new GuessAnswerRes(isCorrect, true, ans);
     }
-
-    public HelperRes getHelperNum(HelperSubmitReq req){
-        HelperRes helperRes = new HelperRes();
-        if(req.getSelected() == 1) this.helperCount++;
-        else this.helperCount--;
-        helperRes.setR(req.getR());
-        helperRes.setC(req.getC());
-
-        calculationService.getHelperNum(req);
-        return helperRes;
-    }
-
 
     public int isCalculationGameCompleted(){
         return 0;
-    }
-
-    public HelperSubmitRes showHelp(HelperSubmitAllReq req) {
-        // [[y, x], [y, x], [y, x], [y, x], [y, x], [y, x]]
-        String selected = req.getSelectedNums();
-        int firstY = 2;
-        int firstX = 5;
-        int[] num = new int[6];
-        for(int i = 0; i<6; i++){
-            num[i] = numberBoard[selected.charAt(firstY)-'0'][selected.charAt(firstX)-'0'];
-            firstY += 8;
-            firstX += 8;
-        }
-
-        calculationService.helpUpdate(req);
-        HelperSubmitRes helperSubmitRes = new HelperSubmitRes();
-        helperSubmitRes.setSelectedNums(num);
-        return helperSubmitRes;
-    }
-
-    public void selectAnswerOne(ActorSelectOneReq req) {
-        calculationService.actorLog(req);
     }
 }
