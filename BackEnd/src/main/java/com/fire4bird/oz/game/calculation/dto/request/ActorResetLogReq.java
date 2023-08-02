@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class HelperSubmitAllReq {
-    private Integer gameId;
-    private String selectedNums;
+public class ActorResetLogReq {
+    private Integer roundId;
+    private Integer userId;
 }

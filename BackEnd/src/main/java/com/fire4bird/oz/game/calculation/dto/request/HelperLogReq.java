@@ -5,11 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SubmitLogReq {
+public class HelperLogReq {
     private Integer roundId;
     private Integer userId;
-    private boolean isSystem;
-    private int logType;
-    private String message;
-
+    private int isSelected;
+    private int r;
+    private int c;
 }
