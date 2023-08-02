@@ -17,10 +17,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -67,32 +64,27 @@ public class CalculationController {
 
     // 게임에 필요한 보드판, 답 설정
     @MessageMapping("/calculation/setboard/{roomId}")
-    @SendTo("/calculation/from/setboard/{roomId}")
     public SetBoardRes setGame(@DestinationVariable Integer roomId, InitReq req){
         return gameManagerMap.get(roomId).setGame(req);
     }
 
     // 조력자가 번호를 선택함 log 전달
     @MessageMapping("/calculation/selecthelp/{roomId}")
-    @SendTo("/calculation/from/selecthelp/{roomId}")
     public HelperRes helpBlock(@DestinationVariable Integer roomId, HelperSubmitReq req){
         return gameManagerMap.get(roomId).getHelperNum(req);
     }
 
     @MessageMapping("/calculation/selecthelpall/{roomId}")
-    @SendTo("/calculation/from/selecthelpall/{roomId}")
     public HelperSubmitRes showHelp(@DestinationVariable Integer roomId, HelperSubmitAllReq req){
         return gameManagerMap.get(roomId).showHelp(req);
     }
 
     @MessageMapping("/calculation/selectAnswerOne/{roomId}")
-    @SendTo("/calculation/from/selectAnswerOne/{roomId}")
     public void selectAnswerOne(@DestinationVariable Integer roomId, ActorSelectOneReq req){
         gameManagerMap.get(roomId).selectAnswerOne(req);
     }
 
     @MessageMapping("/calculation/selectAnswer/{roomId}")
-    @SendTo("/calculation/from/selectAnswer/{roomId}")
     public GuessAnswerRes selectAnswer(@DestinationVariable Integer roomId, SubmitAnswerReq req){
         return gameManagerMap.get(roomId).guessAnswer(req);
     }
