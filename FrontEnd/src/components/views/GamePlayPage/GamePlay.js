@@ -1,77 +1,188 @@
 import React, { Component } from "react";
 import NumberBoard from "./NumberBoard";
 import AlphaBoard from "./AlphaBoard";
-
-const compStyle = { // 실질적인 component부분
-width: "90%",
-height: "95%",
-padding: "2.5% 5%",
-}
-
-const backgroundDiv = { // 배경먹이고
-width: "100%",
-height: "90%",
-background: `url('/stage1Background.png')`, // 이미지 경로를 여기에 입력하세요.
-backgroundSize: "cover",
-backgroundPosition: "center",
-padding: "0",
-}
-
-const BoardStyle = { // 숫자판, 알파벳판
-    position: 'absolute',
-    top: '40%',
-    left: '50%',
-    margin: '-150px 0 0 -150px'
-  };
-
-// 게임방법 아이콘 스타일
-const iconStyle = {
-position: "absolute",
-top: "55%", // 하단 여백
-left: "7.5%", // 좌측 여백
-width: "50px", // 아이콘의 너비
-height: "50px", // 아이콘의 높이
+import style from "./GamePlay.module.css";
+import {
+  IntrodialogueData,
+  dialogueData,
+  OutrodialogueData,
+} from "../../scripts/Scripts";
+const characterToClassMap = {
+  도로시: "character_dorothy",
+  허수아비: "character_scarecrow",
+  사자: "character_lion",
+  "양철 나무꾼": "character_tinman",
+  // 다른 캐릭터들...
 };
 
-// 조력자 제출 스타일
-const subBtnSttyle = {
-    position: "absolute",
-    top: "55%", // 하단 여백
-    right: "7.5%", // 좌측 여백
-    width: "100px", // 아이콘의 너비
-    height: "50px", // 아이콘의 높이
-    };
+const GameComp = React.memo(({ type, index }) => {
+  // const dialogueDataMapping = {
+  //   intro: IntrodialogueData,
+  //   outro: OutrodialogueData,
+  // };
 
-// export class 
+  // const data = dialogueDataMapping[type][index];
 
-
-const GameComp_1_11 = () => {
+  // 다른 type에 따른 컴포넌트 렌더링
+  if (type === "intro" && index <= 2) {
     return (
-      <div style={compStyle}>
-        <div style={backgroundDiv}>
-          <div style={BoardStyle}>
-            <NumberBoard />
+      <div className={style.compStyle}>
+        <div className={style.background_1}>
+          <div className={style.IntrodialogueData}>
+            {IntrodialogueData[index].character}
+            <br />
+            {IntrodialogueData[index].message}
           </div>
-          <img src="/questionMark.png" alt="questionMark" style={iconStyle} />
         </div>
       </div>
     );
-  };
-  
-  const GameComp_1_12 = () => {
+  }
+  if (type === "intro" && index <= 14) {
+    const characterName = IntrodialogueData[index].character;
+    const characterImageClass = characterToClassMap[characterName];
     return (
-      <div style={compStyle}>
-        <div style={backgroundDiv}>
-          <div style={BoardStyle}>
-            <AlphaBoard />
+      <div className={style.compStyle}>
+        <div className={style["background_1"]}>
+          <div className={style[characterImageClass]}></div>
+
+          <div className={style.IntrodialogueData}>
+            {IntrodialogueData[index].character}
+            <br />
+            {IntrodialogueData[index].message}
           </div>
-          <img src="/questionMark.png" alt="questionMark" style={iconStyle} />
-          <img src="/stage1SubBtn.png" alt="stage1SubBtn" style={subBtnSttyle} />
         </div>
       </div>
     );
-  };
-  
-  export { GameComp_1_11, GameComp_1_12 };
-  
+  }
+  if (type === "intro" && index <= 16) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_2"]}>
+          <div className={style.IntrodialogueData}>
+            {IntrodialogueData[index].character}
+            <br />
+            {IntrodialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "stage1" && index <= 2) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_3"]}>
+          <div className={style.dialogueData}>
+            {dialogueData[index].character}
+            <br />
+            {dialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "stage1" && index === 10) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_3"]}></div>
+      </div>
+    );
+  }
+  if (type === "stage2" && index <= 2) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_4"]}>
+          <div className={style.dialogueData}>
+            {dialogueData[index].character}
+            <br />
+            {dialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "stage2" && index === 11) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_4"]}>
+          <div className={style.dialogueData}>
+            {dialogueData[index].character}
+            <br />
+            {dialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "stage3" && index <= 2) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_5"]}>
+          <div className={style.dialogueData}>
+            {dialogueData[index].character}
+            <br />
+            {dialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "stage3" && index === 10) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_5"]}>
+          <div className={style.dialogueData}>
+            {dialogueData[index].character}
+            <br />
+            {dialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "stage4" && index <= 1) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_6"]}>
+          <div className={style.dialogueData}>
+            {dialogueData[index].character}
+            <br />
+            {dialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "outro" && index <= 9) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_7"]}>
+          <div className={style.OutrodialogueData}>
+            {OutrodialogueData[index].character}
+            <br />
+            {OutrodialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (type === "outro" && index <= 13) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style["background_8"]}>
+          <div className={style.OutrodialogueData}>
+            {OutrodialogueData[index].character}
+            <br />
+            {OutrodialogueData[index].message}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
+  // 다른 type의 예
+  if (type === "otherType") {
+    // 여기에 다른 타입의 컴포넌트 렌더링 로직
+  }
+});
+
+export { GameComp };
