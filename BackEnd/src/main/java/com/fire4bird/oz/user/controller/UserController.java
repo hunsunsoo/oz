@@ -6,10 +6,7 @@ import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
 import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
 import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
-import com.fire4bird.oz.user.dto.EmailCodeDto;
-import com.fire4bird.oz.user.dto.LoginDto;
-import com.fire4bird.oz.user.dto.RegistUserDto;
-import com.fire4bird.oz.user.dto.ResignDto;
+import com.fire4bird.oz.user.dto.*;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
@@ -110,7 +107,7 @@ public class UserController {
     }
 
     //이메일 인증
-    @PostMapping("/mail")
+    @GetMapping("/mail")
     public ResponseEntity sendMail() throws MessagingException {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -129,5 +126,17 @@ public class UserController {
         emailCodeService.deleteEmailCode(emailCodeDto.getEmailCode());
 
         return ResponseEntity.ok("이메일 코드 검증 완료");
+    }
+
+    //유저 정보 변경
+    @PutMapping("/update")
+    public ResponseEntity updateUser(@RequestBody UpdateUserDto updateUserDto) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        updateUserDto.setUserId(Integer.parseInt(userId));
+
+        userService.updateUser(userMapper.updateUserDtoToUser(updateUserDto));
+
+        return null;
     }
 }
