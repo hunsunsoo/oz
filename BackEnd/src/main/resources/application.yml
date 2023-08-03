@@ -23,6 +23,7 @@ spring:
   freemarker:
     cache: false
 
+
   redis:
     host: localhost
     port: 6379
