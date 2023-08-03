@@ -69,6 +69,9 @@ public class UserService {
         Optional.ofNullable(user.getNickname())
                 .ifPresent(findUser::setNickname);
 
+        Optional.ofNullable(user.getPassword())
+                        .ifPresent(password -> findUser.setPassword(passwordEncoder.encode(password)));
+
         userRepository.save(findUser);
     }
 
