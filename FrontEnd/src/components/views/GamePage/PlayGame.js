@@ -1,19 +1,11 @@
-import React, { useState } from "react";
-import { IntrodialogueData } from "../../scripts/Scripts";
+import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
-// import {
-//   GameComp_1_11,
-//   GameComp_1_12,
-//   GameComp_1_13,
-//   GameComp_2_11,
-//   GameComp_2_12,
-// } from "./GameComps/GameComps";
-import GameComps from "./GameComps/GameComps";
 
 const PlayGame = () => {
   const [isStage, setIsStage] = useState(0);
   const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 11, 12, 11, 7, 14];
+
   const handleNext = () => {
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
@@ -22,129 +14,46 @@ const PlayGame = () => {
       setIsStage(isStage + 1);
     }
   };
-  // const renderComponent = (isState, isIndex) => {
-  //   const types = ["intro", "stage1", "stage2", "stage3", "stage4", "outro"];
-  //   return <GameComp type={types[isState]} index={isIndex} />;
-  // };
+  const isButtonActive = isStage >= 1 && isStage <= 4 && isIndex >= 11 && isIndex <= 20;
 
-  // const renderComponent = (isState, isIndex) => {
-  //   switch (isState) {
-  //     case 0:
-  //       console.log(1);
-  //       return <GameComp type="intro" index={isIndex} />;
-  //     case 1:
-  //       console.log(2);
-  //       console.log(isIndex);
-  //       return <GameComp type="stage1" index={isIndex} />;
-  //     case 2:
-  //       return <GameComp type="stage2" index={isIndex} />;
-  //     case 3:
-  //       return <GameComp type="stage3" index={isIndex} />;
-  //     case 4:
-  //       return <GameComp type="stage4" index={isIndex} />;
-  //     case 5:
-  //       return <GameComp type="outro" index={isIndex} />;
-  //     default:
-  //       return null;
-  //   }
-  // };
+  const indexNext = () => {
+    setIsIndex(isIndex + 1);
+  };
 
-  const divStyle = {
+  useEffect(() => {
+    // 10초 후에 숫자판 (일단 3초)
+    if (isStage === 1 && isIndex === 11) {
+      const timeoutId = setTimeout(() => {
+        setIsIndex(isIndex + 1);
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isStage, isIndex]);
+
+  const gamedivStyle = {
     margin: "0",
     padding: "0",
-    height: "100vh",
+    height: "60%",
     overflow: "hidden",
   };
 
-  // const types = ["intro", "stage1", "stage2", "stage3", "stage4", "outro"];
-  // let componentToRender;
-
-  // switch (isStage) {
-  //   case 0: // 이게 스테이지 구분 (0-1)
-  //     switch (
-  //       isIndex // 이게 인덱스 구분
-  //     ) {
-  //       case 1:
-  //         componentToRender = <GameComp type={isState} index={isIndex} />;
-  //         break;
-  //       case 2:
-  //         componentToRender = (
-  //           <GameComp type={types[isState]} index={isIndex} />
-  //         );
-  //         break;
-  //       case 3:
-  //         componentToRender = (
-  //           <GameComp type={types[isState]} index={isIndex} />
-  //         );
-  //         break;
-  //     }
-  //     break;
-  //   case 1: // 이게 스테이지 구분 (1-1)
-  //     switch (
-  //       isIndex // 이게 인덱스 구분
-  //     ) {
-  //       case 1:
-  //         componentToRender = null;
-  //         break;
-  //       case 2:
-  //         componentToRender = null;
-  //         break;
-  //       case 3:
-  //         componentToRender = null;
-  //         break;
-  //       case 11:
-  //         componentToRender = null;
-  //         break;
-  //       case 12:
-  //         componentToRender = <GameComp_1_12 />;
-  //         break;
-  //       case 13:
-  //         componentToRender = <GameComp_1_13 />;
-  //         break;
-  //     }
-  //     break;
-  //   case 2: // 이게 스테이지 구분 (2-1)
-  //     switch (
-  //       isIndex // 이게 인덱스 구분
-  //     ) {
-  //       case 1:
-  //         componentToRender = null;
-  //         break;
-  //       case 2:
-  //         componentToRender = null;
-  //         break;
-  //       case 3:
-  //         componentToRender = null;
-  //         break;
-  //       case 11:
-  //         componentToRender = <GameComp_2_11 />;
-  //         break;
-  //       case 12:
-  //         componentToRender = <GameComp_2_12 />;
-  //         break;
-  //       case 13:
-  //         componentToRender = null;
-  //         break;
-  //     }
-  //     break;
-  // }
-
   const bodyStyle = {
     width: "100%",
-    height: "60%",
+    height: "100%",
     backgroundColor: "#DDE5B6",
   };
 
+  const BtnStyle = {
+    position: "absolute",
+    // display: isButtonActive ? "none" : "block",
+  }
+
   return (
-    <div style={divStyle}>
-      {/* <div style={bodyStyle}>
-        {renderComponent(isState, isIndex)}
-      </div>
-    {isIndex} */}
-      {/* <div style={bodyStyle}>{componentToRender}</div> */}
-      <button onClick={handleNext}>Next</button>
+    <div style={gamedivStyle}>
       <div style={bodyStyle}>
-        <GameComp isStage={isStage} isIndex={isIndex} />
+        <button style={BtnStyle} onClick={handleNext} >Next</button>
+        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} />
       </div>
     </div>
   );

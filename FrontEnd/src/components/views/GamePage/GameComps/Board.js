@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Board.css"; // 별도의 CSS 파일을 import 합니다.
 
 const NumberBoard = () => {
@@ -29,7 +29,7 @@ const NumberBoard = () => {
   );
 };
 
-const AlphaBoard = () => {
+const AlphaBoard = ( {onCellClick} ) => {
   const boardData = [
     ['A', 'B', 'C', 'D', 'E', 'F'],
     ['G', 'H', 'I', 'J', 'K', 'L'],
@@ -39,6 +39,20 @@ const AlphaBoard = () => {
     ['e', 'f', 'g', 'h', 'i', 'j']
   ];
 
+  const [selectedCells, setSelectedCells] = useState([]);
+
+  const handleClick = (cellValue) => {
+    const isCellSelected = selectedCells.includes(cellValue);
+
+    if (isCellSelected) {
+      setSelectedCells(selectedCells.filter((value) => value !== cellValue));
+    } else {
+      setSelectedCells([...selectedCells, cellValue]);
+    }
+
+    onCellClick(selectedCells);
+  };
+
   return (
     <div className="alpha-board">
       {boardData.map((row, rowIndex) => (
@@ -47,8 +61,14 @@ const AlphaBoard = () => {
             <div
               className={rowIndex % 2 === columnIndex % 2 ? "alpha-cell even" : "alpha-cell odd"}
               key={columnIndex}
+              onClick={() => handleClick(cell)}
+              style={{
+                // Apply red border style to selected cells
+                outline: selectedCells.includes(cell) ? "2px solid red" : "none",
+                outlineOffset: "-2px"
+              }}
             >
-              {cell}
+              {cell} 
             </div>
           ))}
         </div>
