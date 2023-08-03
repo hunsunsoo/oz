@@ -1,15 +1,19 @@
 package com.fire4bird.oz.user.controller;
 
+import com.fire4bird.oz.emailcode.mapper.EmailCodeMapper;
+import com.fire4bird.oz.emailcode.service.EmailCodeService;
 import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
 import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
 import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
+import com.fire4bird.oz.user.dto.EmailCodeDto;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
 import com.fire4bird.oz.user.dto.ResignDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +30,11 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final EmailCodeMapper emailCodeMapper;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
     private final BlackListService blackListService;
+    private final EmailCodeService emailCodeService;
 
     //유저 회원가입
     @PostMapping("/signup")
@@ -45,7 +51,6 @@ public class UserController {
         userService.resignUser(Integer.parseInt(userId), resignDto.getPassword());
 
         return ResponseEntity.ok("회원 탈퇴 완료");
-
     }
 
     //로그인
@@ -102,5 +107,27 @@ public class UserController {
         blackListService.registBlackList(accessToken);
 
         return ResponseEntity.ok("로그아웃 성공");
+    }
+
+    //이메일 인증
+    @PostMapping("/mail")
+    public ResponseEntity sendMail() throws MessagingException {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        String emailCode = emailCodeService.sendMail(Integer.parseInt(userId));
+
+        emailCodeService.saveEmailCode(emailCodeMapper.paramToEmailCode(emailCode, Integer.parseInt(userId)));
+
+        return ResponseEntity.ok("인증 코드  전송");
+    }
+
+
+    //이메일 인증 코드 체크
+    @PostMapping("/codechek")
+    public ResponseEntity checkMailCode(@RequestBody EmailCodeDto emailCodeDto) {
+        emailCodeService.findEmailCode(emailCodeDto.getEmailCode());
+        emailCodeService.deleteEmailCode(emailCodeDto.getEmailCode());
+
+        return ResponseEntity.ok("이메일 코드 검증 완료");
     }
 }
