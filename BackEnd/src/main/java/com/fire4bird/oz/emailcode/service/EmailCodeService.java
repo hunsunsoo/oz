@@ -38,6 +38,11 @@ public class EmailCodeService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CODE_NOT_VALID));
     }
 
+    //레디스에 있는 인증 코드 삭제
+    public void deleteEmailCode(String emailCode ) {
+        emailCodeRepository.deleteById(emailCode);
+    }
+
     //인증번호 생성
     public String createCode() {
         log.info("인증코드 생성 진입");
