@@ -66,17 +66,12 @@ public class UserService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
-    //리프레시 토큰으로 유저 조회
-    public User findUser(String refreshToken) {
-        Optional<User> findUser = userRepository.findByRefreshToken(refreshToken);
 
-        return findUser
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-    }
-
-    //db조회 사용자 = 토큰 payload 사용자 동일한지 확인
-    public void checkUser(int dbUserId, int payloadId) {
-        if(dbUserId == payloadId) return;
+    //리프레시 유저 식별자 = 토큰 payload 사용자 동일한지 확인
+    public User checkUser(int refreshUserId, int payloadId) {
+        if(refreshUserId == payloadId){
+            return findUser(refreshUserId);
+        }
 
         throw new BusinessLogicException(ExceptionCode.TOKEN_NOT_VALID);
     }
@@ -97,14 +92,5 @@ public class UserService {
         if(!matches){
             throw new BusinessLogicException(ExceptionCode.BAD_PARAM);
         }
-    }
-
-    //리프레시 토큰 제거
-    public void deleteRefreshToken(String refreshToken) {
-        User findUser = findUser(refreshToken);
-
-        findUser.setRefreshToken(null);
-
-        userRepository.save(findUser);
     }
 }

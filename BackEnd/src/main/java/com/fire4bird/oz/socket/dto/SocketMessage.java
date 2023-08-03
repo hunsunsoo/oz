@@ -13,11 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SocketMessage implements Serializable {
 
-    @NotBlank
     private String type;
-    @NotBlank
     private String rtcSession;
-    @NotNull
     private Integer userId;
     private String message;
     private Object data;

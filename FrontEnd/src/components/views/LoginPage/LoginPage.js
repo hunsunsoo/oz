@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ function LoginPage(props) {
     };
 
     dispatch(loginUser(body)).then((response) => {
-      // console.log(response.payload.headers.accesstoken);
+      console.log(response.payload.headers.accesstoken);
 
       if (response.payload.data === "로그인 성공") {
         const Atoken = response.payload.headers.accesstoken;
@@ -71,27 +71,69 @@ function LoginPage(props) {
           height: "100vh",
         }}
       >
-        <form
-          className="form"
-          style={{ display: "flex", flexDirection: "column" }}
-          onSubmit={onSubmitHandler}
-        >
-          <input type="email" value={Email} onChange={onEmailHandler} />
+        <div className={style.box}>
+          <form
+            className="form"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignitems: "center",
+              justifyContent: "center",
+            }}
+            onSubmit={onSubmitHandler}
+          >
+            <div
+              style={{
+                display: "flex",
+                border: "none",
+                borderBottom: "3px solid #6C584C",
+                outline: "none",
+              }}
+            >
+              <div style={{ float: "left", width: "30px" }}></div>
+              <input
+                style={{ float: "left" }}
+                placeholder="Email"
+                className={style.input}
+                type="email"
+                value={Email}
+                onChange={onEmailHandler}
+              />
+            </div>
 
-          {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
+            {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
                그 지정한 값을 받아온다. */}
-          <br />
-          <input
-            type="password"
-            value={Password}
-            onChange={onPasswordHandler}
-          />
-          <br />
+            <br />
+            <br />
+            <div
+              style={{
+                display: "flex",
+                border: "none",
+                borderBottom: "3px solid #6C584C",
+                outline: "none",
+              }}
+            >
+              <input
+                className={style.input}
+                placeholder="Password"
+                type="password"
+                value={Password}
+                onChange={onPasswordHandler}
+              />
+            </div>
+            <br />
+            <br />
 
-          <button>Login</button>
-          <br />
-          <MyButton text={"회원가입"} onClick={() => navigate(`/register`)} />
-        </form>
+            <button className={style.button}>Login</button>
+            <br />
+            <button
+              className={style.button}
+              onClick={() => navigate(`/register`)}
+            >
+              회원가입
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

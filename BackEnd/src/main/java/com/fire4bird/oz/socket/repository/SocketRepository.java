@@ -13,13 +13,14 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @RequiredArgsConstructor
 @Repository
 public class SocketRepository {
+    //Redis
+    private static final String SOKET_ROOMS = "SOKET_ROOMS"; //hkeys
     private final RedisMessageListenerContainer redisMessageListener;
     private final RedisSubscriber redisSubscriber;
-    // Redis
-    private static final String SOKET_ROOMS = "SOKET_ROOMS"; // 소켓룸 저장
     private final RedisTemplate<String, Object> redisTemplate;
     private HashOperations<String, String, SocketCreateDto> opsHashChatRoom;
     private Map<String, ChannelTopic> topics;
@@ -40,11 +41,14 @@ public class SocketRepository {
         return opsHashChatRoom.get(SOKET_ROOMS, id);
     }
 
-    /**wqdxlmc;/cqaeKSLN<?
+    /**
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
      */
-    public SocketCreateDto createRoom(String rtcSession,String temaName) {
-        SocketCreateDto socketRoom = SocketCreateDto.builder().rtcSession(rtcSession).teamName(temaName     ).build();
+    public SocketCreateDto createRoom(String rtcSession, String temaName) {
+        SocketCreateDto socketRoom = SocketCreateDto.builder()
+                .rtcSession(rtcSession)
+                .teamName(temaName)
+                .build();
         opsHashChatRoom.put(SOKET_ROOMS, rtcSession, socketRoom);
         return socketRoom;
     }

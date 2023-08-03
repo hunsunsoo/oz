@@ -1,7 +1,5 @@
 package com.fire4bird.oz.socket.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -13,6 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SocketRoleDto implements Serializable {
 
-    private String message;
-
+    private int role;
+    private int state;//요청 상태(-1:취소,1:선택)
+    private int saveState;//저장 상태(-1:실패,1:성공)
 }

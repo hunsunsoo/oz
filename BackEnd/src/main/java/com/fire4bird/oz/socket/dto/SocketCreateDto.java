@@ -6,9 +6,9 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Builder
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SocketCreateDto implements Serializable{

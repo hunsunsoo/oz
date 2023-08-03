@@ -5,16 +5,20 @@ import MyButton from "../../tools/MyButton";
 function LandingPage() {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className={style.coverPage}>
       <div className={style.landingpage}>
-        <div
-          style={{
-            width: "100%",
-            height: "100vh",
-          }}
-        >
-          <MyButton text={"로그인"} onClick={() => navigate(`/login`)} />
-        </div>
+        <div className={style.character}></div>
+        <div className={style.milestone}></div>
+        <div className={style.oz}></div>
+        <div className={style.ozstory}></div>
+        <button
+          className={style.gotologin}
+          onClick={() => navigate(`/login`)}
+        />
+        <button
+          className={style.gotosignup}
+          onClick={() => navigate(`/register`)}
+        />
       </div>
     </div>
   );
