@@ -4,10 +4,10 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public enum ExceptionCode {
-    DUPLICATE_ID(409,"중복된 아이디가 존재합니다."),
-    BAD_PARAM(404,"아이디 혹은 비밀번호가 틀렸습니다."),
-    USER_NOT_FOUND(404,"해당 회원을 찾을 수 없습니다."),
-    TOKEN_NOT_VALID(401, "토큰이 유효하지 않습니다.") ,
+    DUPLICATE_ID(HttpStatus.CONFLICT.value(), "중복된 아이디가 존재합니다."),
+    BAD_PARAM(HttpStatus.NOT_FOUND.value(),"아이디 혹은 비밀번호가 틀렸습니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(),"해당 회원을 찾을 수 없습니다."),
+    TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED.value(), "토큰이 유효하지 않습니다.") ,
 
     /** 모험 시작 **/
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "팀을 찾을 수 없습니다."),
