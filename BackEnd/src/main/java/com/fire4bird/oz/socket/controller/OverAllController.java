@@ -25,9 +25,9 @@ public class OverAllController {
      * websocket "/pub/socket/enter"로 들어오는 메시징을 처리한다.
      */
     @MessageMapping("/socket/enter")
-    public void socketEnter(SocketMessage message) {
-        socketRepository.enterSocketRoom(message.getRtcSession());
-        message.setMessage(message.getUserId() + "님이 입장하셨습니다.");
+    public void enterManageSocket(SocketMessage message) {
+
+        message.setMessage(message.getRtcSession() + "채널을 등록하였습니다.");
 
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
     }
