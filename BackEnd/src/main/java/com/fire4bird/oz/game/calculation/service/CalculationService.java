@@ -51,7 +51,7 @@ public class CalculationService {
     }
 
     // 로그에 저장됨
-    public void helperLog(HelperLogReq req) {
+    public void helperLog(HelperLogReq req, int turn) {
         Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
         String msg;
         if(req.getIsSelected() == 1) msg = "조력자: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택하셨습니다.";
@@ -64,6 +64,7 @@ public class CalculationService {
                 .logType(3)
                 .message(msg)
                 .logTime(LocalDateTime.now())
+                .turn(turn)
                 .build();
 
         calculationLogRepository.save(log);
@@ -79,7 +80,7 @@ public class CalculationService {
     public void submitAnswer(ActorAnswerReq req, int answer){
         Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
 
-        findCalculation.setActorSelectNum(req.getNumbers());
+        findCalculation.setActorSelectNum(req.getSelectedNums());
         findCalculation.setSelectOp(req.getMarks());
         findCalculation.setSubmitAnswer(answer);
 
@@ -87,7 +88,7 @@ public class CalculationService {
     }
 
 
-    public void actorLog(ActorLogReq req) {
+    public void actorLog(ActorLogReq req, int turn) {
         Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
         String msg = "허수아비: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택했습니다";
 
@@ -98,6 +99,7 @@ public class CalculationService {
                 .logType(2)
                 .message(msg)
                 .logTime(LocalDateTime.now())
+                .turn(turn)
                 .build();
 
         calculationLogRepository.save(log);

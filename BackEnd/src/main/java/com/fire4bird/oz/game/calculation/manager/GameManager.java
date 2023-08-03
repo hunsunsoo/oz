@@ -27,7 +27,8 @@ public class GameManager {
     private RoundService roundService;
     // 게임에 대한 모든 데이터를 저장할 calculationService
     private CalculationService calculationService;
-    // 게임을 진행 중인 유저의 역할을 저장할 map(1: 허수아비, 2: 도로시, 3: 사자, 4: 양철 나무꾼)
+    private String session;
+    // 게임을 진행 중인 유저와 역할을 저장할 list
     private List<Player> players;
     // 랜덤으로 설정된 정답과 숫자판 -> 게임 시작 때마다 init
     private int answer;
@@ -35,14 +36,18 @@ public class GameManager {
     // 각각의 게임을 구분지어 줄 roundId
     // 한 roundId(팀, 회차가 pk)마다 진행할 수 있는 게임은 한 게임이라 키값으로 관리
     private Integer roundId;
+    // 회차의 몇 번째 도전인지
+    private Integer turn;
     // 게임이 시작되었는지 확인하는 변수
     private boolean isGameStarted;
     // 조력자가 선택한 블럭의 숫자 관리, 객체가 만들어질 때 0으로 초기화
     private int helperCount;
 
-    public GameManager(Integer roundId, RoundService roundService, CalculationService calculationService){
+    public GameManager(Integer roundId, String session, RoundService roundService, CalculationService calculationService){
         this.roundId = roundId;
         this.roundService = roundService;
+        this.session = session;
+        System.out.println(session);
         List<UserRound> userRounds = roundService.findAllRoundByRoundId(roundId);
         players = new LinkedList<>();
         this.calculationService = calculationService;
@@ -68,7 +73,10 @@ public class GameManager {
         req.setAnswer(this.setAnswerNumber());
         req.setNumberBoard(this.setNumberBoard());
 
-        return calculationService.initSave(req);
+        SetBoardRes res = calculationService.initSave(req);
+        res.setSession(this.session);
+        this.turn = res.getTurn();
+        return res;
     }
 
     // 랜덤 정답을 생성
@@ -103,6 +111,7 @@ public class GameManager {
     public SetAnswerRes getAnswer(){
         SetAnswerRes res = new SetAnswerRes();
         res.setAnswer(this.answer);
+        res.setSession(this.session);
         return res;
     }
 
@@ -112,8 +121,9 @@ public class GameManager {
         else this.helperCount--;
         helperRes.setR(req.getR());
         helperRes.setC(req.getC());
+        helperRes.setSession(this.session);
 
-        calculationService.helperLog(req);
+        calculationService.helperLog(req, this.turn);
         return helperRes;
     }
 
@@ -132,11 +142,12 @@ public class GameManager {
         calculationService.helperUpdate(req);
         HelperSubmitRes helperSubmitRes = new HelperSubmitRes();
         helperSubmitRes.setSelectedNums(num);
+        helperSubmitRes.setSession(this.session);
         return helperSubmitRes;
     }
 
     public void actorLog(ActorLogReq req) {
-        calculationService.actorLog(req);
+        calculationService.actorLog(req, this.turn);
     }
 
     // 주어진 String 값으로 계산을 해 답과 비교
@@ -144,7 +155,7 @@ public class GameManager {
         boolean isCorrect = false;
         // req에 들어 있을 numbers 예시
         // [[y, x], [y, x], [y, x]]
-        String heo = req.getNumbers();
+        String heo = req.getSelectedNums();
         String giho = req.getMarks();
 
         int firstY = 2;
@@ -165,7 +176,7 @@ public class GameManager {
             case '/':
                 ans = num[0] / num[1];
                 if(num[0] % num[1] != 1)
-                    return new GuessAnswerRes(false, true, ans);
+                    return new GuessAnswerRes(this.session,false, true, ans);
                 break;
             case '+':
                 ans = num[0] + num[1];
@@ -181,7 +192,7 @@ public class GameManager {
                 break;
             case '/':
                 if(ans%num[2] != 0 )
-                    return new GuessAnswerRes(false, true, ans);
+                    return new GuessAnswerRes(this.session, false, true, ans);
                 ans /= num[2];
                 break;
             case '+':
@@ -194,7 +205,7 @@ public class GameManager {
 
         if(answer == ans) isCorrect =  true;
         calculationService.submitAnswer(req, ans);
-        return new GuessAnswerRes(isCorrect, true, ans);
+        return new GuessAnswerRes(this.session, isCorrect, true, ans);
     }
 
     public int isCalculationGameCompleted(){

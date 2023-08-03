@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ActorAnswerReq {
     private Integer gameId;
-    private String numbers;
+    private String selectedNums;
     private String marks;
 }
