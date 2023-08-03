@@ -1,5 +1,7 @@
 package com.fire4bird.oz.jwt;
 
+import com.fire4bird.oz.jwt.token.key.RefreshToken;
+import com.fire4bird.oz.jwt.token.repository.RefreshTokenRepository;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import com.fire4bird.oz.user.service.CustomUserDetailService;
@@ -39,6 +41,7 @@ public class JwtProvider {
 
     private final UserRepository userRepository;
     private final CustomUserDetailService customUserDetailService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     //키 생성
     private static Key getSigningKey(String secretKey) {
@@ -79,8 +82,16 @@ public class JwtProvider {
     //리프레시 토큰 생성
     public String createRefreshToken(User user) {
         String refreshToken = this.createToken(user, refreshTokenValidTime * 10);
-        user.setRefreshToken(refreshToken);
-        userRepository.save(user);
+
+        //리프레시 토큰이 redis에 저장되는 로직
+        RefreshToken rt = new RefreshToken();
+        rt.setRefreshValue(refreshToken);
+        rt.setUserId(user.getUserId());
+        refreshTokenRepository.save(rt);
+
+//      리프레시 토큰이 mysql entity에 저장되는 로직
+//      user.setRefreshToken(refreshToken);
+//      userRepository.save(user);
 
         return refreshToken;
     }
