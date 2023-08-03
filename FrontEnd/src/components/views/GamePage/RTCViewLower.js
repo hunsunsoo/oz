@@ -1,5 +1,5 @@
 import React from "react";
-import UserVideoComponent from '../../../OpenVidu/UserVideoComponent';
+import UserVideoComponent from './UserVideoComponent';
 
 const RTCViewLower = ({ publisher, subscribers }) => {
   const visibleSubscribers = subscribers.slice(0, 3);
