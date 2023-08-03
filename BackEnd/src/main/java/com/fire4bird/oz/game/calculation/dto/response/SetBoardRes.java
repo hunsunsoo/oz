@@ -9,4 +9,5 @@ public class SetBoardRes {
     private Integer gameId;
     private String numberBoard;
     private int turn;
+    private String session;
 }

@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class HelperSubmitRes {
     int[] selectedNums;
+    private String session;
 }
