@@ -1,8 +1,9 @@
 package com.fire4bird.oz.user.controller;
 
 import com.fire4bird.oz.jwt.JwtProvider;
-import com.fire4bird.oz.jwt.token.key.RefreshToken;
-import com.fire4bird.oz.jwt.token.service.RefreshTokenService;
+import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
+import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
+import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
 import com.fire4bird.oz.user.dto.ResignDto;
@@ -27,6 +28,7 @@ public class UserController {
     private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final BlackListService blackListService;
 
     //유저 회원가입
     @PostMapping("/signup")
@@ -93,9 +95,11 @@ public class UserController {
     //로그아웃
     @PostMapping("/logout")
     public ResponseEntity logoutUser(HttpServletRequest request) {
+        String accessToken = jwtProvider.getAccessToken(request);
         String refreshToken = jwtProvider.getRefreshToken(request);
 
-//        userService.deleteRefreshToken(refreshToken);
+        refreshTokenService.deleteRefreshToken(refreshToken);
+        blackListService.registBlackList(accessToken);
 
         return ResponseEntity.ok("로그아웃 성공");
     }

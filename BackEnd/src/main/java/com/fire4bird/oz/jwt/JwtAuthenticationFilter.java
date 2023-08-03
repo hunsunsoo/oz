@@ -29,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         //엑세스 토큰이 유효한 경우
         if (accessToken != null && jwtProvider.isTokenValid(accessToken)) {
+            jwtProvider.checkBlackList(accessToken);
             log.info("엑세스 토큰 유효");
             setAuthentication(accessToken);
         } else if (refreshToken != null && jwtProvider.isTokenValid(refreshToken)) {
