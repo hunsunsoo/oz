@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   NumberBoard,
   AlphaBoard,
@@ -14,9 +14,6 @@ import {
   OutrodialogueData,
 } from "../../../scripts/Scripts";
 
-// const isStage = props.isStage;
-// const isIndex = props.isIndex;
-
 const characterToClassMap = {
   도로시: "character_dorothy",
   허수아비: "character_scarecrow",
@@ -25,10 +22,28 @@ const characterToClassMap = {
 };
 
 const GameComp = (props) => {
+  // const isStage = props.isStage;
+  // const isIndex = props.isIndex;
+
   const isStage = props.isStage;
   const isIndex = props.isIndex;
-  console.log(props.isIndex);
-  console.log(props.isStage);
+
+  // selectedCells와 setSelectedCells를 useState로 정의합니다.
+  const [selectedCells, setSelectedCells] = useState([]);
+
+  // 클릭 이벤트 처리 함수
+  const handleCellClick = (cellValue) => {
+    // 이미 선택된 칸인지 확인
+    const isCellSelected = selectedCells.includes(cellValue);
+
+    if (isCellSelected) {
+      // 이미 선택된 칸이라면 해당 값을 배열에서 제거
+      setSelectedCells(selectedCells.filter((value) => value !== cellValue));
+    } else {
+      // 새로 선택된 칸이라면 해당 값을 배열에 추가
+      setSelectedCells([...selectedCells, cellValue]);
+    }
+  };
 
   if (isStage === 1 && isIndex == 11) {
     return (
@@ -46,11 +61,20 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 1 && isIndex == 12) {
+    const handleCellClick = (cellValue) => {
+      // 클릭 이벤트 처리 함수
+      // 클릭한 칸의 값을 상태에 추가 또는 제거
+      setSelectedCells((prevSelectedCells) =>
+        prevSelectedCells.includes(cellValue)
+          ? prevSelectedCells.filter((value) => value !== cellValue)
+          : [...prevSelectedCells, cellValue]
+      );
+    };
     return (
       <div className={style.compStyle}>
         <div className={style.backgroundDiv1}>
           <div className={style.BoardStyle}>
-            <AlphaBoard />
+            <AlphaBoard onCellClick={handleCellClick}/>
           </div>
           <img
             src="/questionMark.png"
@@ -60,7 +84,8 @@ const GameComp = (props) => {
           <img
             src="/stage1SubBtn.png"
             alt="stage1SubBtn"
-            className={style.subBtnStyle} // 오타 수정
+            className={style.selectBtn}
+            onClick={props.changeIsIndex}
           />
         </div>
       </div>
@@ -135,7 +160,9 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-    // 스토리 일러스트, 스크립트
+    //////////////////////////////
+    // 스토리 일러스트, 스크립트 //
+    //////////////////////////////
   } else if (isStage === 0 && isIndex <= 2) {
     return (
       <div className={style.compStyle}>
@@ -206,8 +233,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-  }
-  if (isStage === 2 && isIndex === 11) {
+  } else if (isStage === 2 && isIndex === 11) {
     return (
       <div className={style.compStyle}>
         <div className={style["background_4"]}>
