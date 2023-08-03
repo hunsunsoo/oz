@@ -1,28 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { OpenVidu } from 'openvidu-browser';
-import { useLocation } from 'react-router-dom';
-import RTCViewLower from './RTCViewLower';
-import axios from 'axios';
-import Header from '../Header/Header';
-import GamingHeader from '../Header/GamingHeader';
-import RoleSelect from './RoleSelect';
-import PlayGame from './PlayGame';
+import React, { useState, useEffect, useRef } from "react";
+import { OpenVidu } from "openvidu-browser";
+import { useLocation } from "react-router-dom";
+import RTCViewLower from "./RTCViewLower";
+import axios from "axios";
+import Header from "../Header/Header";
+import GamingHeader from "../Header/GamingHeader";
+import RoleSelect from "./RoleSelect";
+import PlayGame from "./PlayGame";
 
 const GamePage = () => {
   // 헤더 컴포넌트 조건부 렌더링 - 게임시작전에는 false, 게임시작 후에는 true
-  const [isGaming, setIsGaming] = useState(false); 
+  const [isGaming, setIsGaming] = useState(false);
 
   // 세션 아이디 추출
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const sessionIdFromURL = params.get('SessionId');
+  const sessionIdFromURL = params.get("SessionId");
 
-  const OPENVIDU_SERVER_URL = 'https://i9b104.p.ssafy.io:8443';
-  const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
+  const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
+  const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
   // RTC를 위한 state
-  const [mySessionId, setMySessionId] = useState(sessionIdFromURL || 'DEFAULT');
-  const [myUserName, setMyUserName] = useState(`Participant ${Math.floor(Math.random() * 100)}`);
+  const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
+  const [myUserName, setMyUserName] = useState(
+    `Participant ${Math.floor(Math.random() * 100)}`
+  );
   const [session, setSession] = useState(undefined);
   const [mainStreamManager, setMainStreamManager] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
@@ -41,7 +43,7 @@ const GamePage = () => {
         joinSessionWithToken(token);
       })
       .catch((error) => {
-        console.error('Error creating token:', error);
+        console.error("Error creating token:", error);
       });
   }, [mySessionId]);
 
@@ -118,15 +120,24 @@ const GamePage = () => {
   const createToken = (mySessionId) => {
     return new Promise((resolve, reject) => {
       const data = {};
-      axios.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${mySessionId}/connection`, data, {
-        headers: {
-          Authorization: `Basic ${btoa(`OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`)}`,
-          'Content-Type': 'application/json',
-        },
-      }).then((res) => {
-        console.log(res.data)
-        resolve(res.data.token);
-      }).catch((error) => reject(error));
+      axios
+        .post(
+          `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${mySessionId}/connection`,
+          data,
+          {
+            headers: {
+              Authorization: `Basic ${btoa(
+                `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`
+              )}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          resolve(res.data.token);
+        })
+        .catch((error) => reject(error));
     });
   };
 
@@ -144,9 +155,9 @@ const GamePage = () => {
     const mySession = OV.initSession();
     setSession(mySession);
 
-    mySession.on('streamCreated', (e) => {
+    mySession.on("streamCreated", (e) => {
       let subscriber = mySession.subscribe(e.stream, undefined);
-      console.log(subscriber)
+      console.log(subscriber);
       setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
     });
 
@@ -172,24 +183,21 @@ const GamePage = () => {
           }
         }
       }
-      console.log(
-        "User " + event.connection.connectionId + " start speaking"
-      );
+      console.log("User " + event.connection.connectionId + " start speaking");
     });
-    
 
-    mySession.on('publisherStopSpeaking', (event) => {
+    mySession.on("publisherStopSpeaking", (event) => {
       const clientData = JSON.parse(event.connection.data).clientData;
-  
+
       if (userRef.current) {
         for (let i = 0; i < userRef.current.children.length; i++) {
           if (clientData === userRef.current.children[i].innerText) {
-            userRef.current.children[i].style.borderStyle = 'none';
+            userRef.current.children[i].style.borderStyle = "none";
           }
         }
       }
-  
-      console.log('User ' + event.connection.connectionId + ' stop speaking');
+
+      console.log("User " + event.connection.connectionId + " stop speaking");
     });
     mySession
       .connect(token, {
@@ -215,20 +223,20 @@ const GamePage = () => {
       .catch((error) => {
         console.log("세션 연결 오류", error.code, error.message);
       });
-    };
+  };
 
   const divStyle = {
-    margin: '0',
-    padding: '0',
-    height: '100vh',
-    overflow: 'hidden'
+    margin: "0",
+    padding: "0",
+    height: "100vh",
+    overflow: "hidden",
   };
 
   return (
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
-      <RoleSelect />
-      {/* <PlayGame /> */}
+      {/* <RoleSelect /> */}
+      <PlayGame />
       <RTCViewLower publisher={publisher} subscribers={subscribers} />
     </div>
   );
