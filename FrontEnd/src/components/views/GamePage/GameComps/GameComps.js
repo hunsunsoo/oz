@@ -53,7 +53,7 @@ const GameComp = (props) => {
             <NumberBoard />
           </div>
           <img
-            src="/questionMark.png"
+            src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
@@ -77,12 +77,12 @@ const GameComp = (props) => {
             <AlphaBoard onCellClick={handleCellClick}/>
           </div>
           <img
-            src="/questionMark.png"
+            src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
           <img
-            src="/stage1SubBtn.png"
+            src="image/tools/stage1SubBtn.png"
             alt="stage1SubBtn"
             className={style.selectBtn}
             onClick={props.changeIsIndex}
@@ -104,13 +104,13 @@ const GameComp = (props) => {
             <AnsBoard />
           </div>
           <img
-            src="/questionMark.png"
+            src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
           <div className={style.ansSubmitBtn}>정답제출</div>
           <div className={style.resetBtn}>리셋</div>
-          <img src="/equal.png" alt="equal" className={style.equal} />
+          <img src="image/tools/equal.png" alt="equal" className={style.equal} />
           <div className={style.rectangleStyle}>36</div>
         </div>
       </div>
@@ -122,11 +122,11 @@ const GameComp = (props) => {
           <div className={style.lionview}>사자가 보는 화면 일러스트</div>
           <div className={style.dist}>열쇠까지의 거리는 3칸입니다.</div>
           <img
-            src="/questionMark.png"
+            src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
-          <img src="/liondir.png" alt="liondir" className={style.liondir} />
+          <img src="image/tools/liondir.png" alt="liondir" className={style.liondir} />
         </div>
       </div>
     );
@@ -138,7 +138,7 @@ const GameComp = (props) => {
             <MiroRed />
           </div>
           <img
-            src="/questionMark.png"
+            src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
@@ -153,7 +153,7 @@ const GameComp = (props) => {
             <MiroGreen />
           </div>
           <img
-            src="/questionMark.png"
+            src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />

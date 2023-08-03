@@ -5,7 +5,7 @@
   }
   .landingpage {
     position: relative; /* 여기에 추가 */
-    background-image: url("../../../../public/backgroud.png");
+    background-image: url("../../../../public/image/backGround/background.png");
     background-size: cover;
     background-repeat: no-repeat; 
     width: 100%;
@@ -15,7 +15,7 @@
   /* 2. 부스러기 */
   .character {
     position: absolute; /* 여기에 추가 */
-    background-image: url("../../../../public/troop.png");
+    background-image: url("../../../../public/image/character/troop.png");
     background-size: contain; /* 이미지를 div 안에 맞게 조절 */
     background-repeat: no-repeat; /* 이미지 반복 없음 */
     width: 300px; /* 캐릭터의 너비 */
@@ -27,7 +27,7 @@
   
   .milestone {
     position: absolute; /* 여기에 추가 */
-    background-image: url("../../../../public/milestone.png");
+    background-image: url("../../../../public/image/tools/milestone.png");
     background-size: contain; /* 이미지를 div 안에 맞게 조절 */
     background-repeat: no-repeat; /* 이미지 반복 없음 */
     width: 200px; /* 캐릭터의 너비 */
@@ -39,7 +39,7 @@
   
   .oz {
     position: absolute; /* 여기에 추가 */
-    background-image: url("../../../../public/oz.png");
+    background-image: url("../../../../public/image/logo/logo.png");
     background-size: contain; /* 이미지를 div 안에 맞게 조절 */
     background-repeat: no-repeat; /* 이미지 반복 없음 */
     width: 300px; /* 캐릭터의 너비 */
@@ -52,7 +52,7 @@
   
   .ozstory {
     position: absolute; /* 여기에 추가 */
-    background-image: url("../../../../public/ozstory.png");
+    background-image: url("../../../../public/image/logo/ozstory.png");
     background-size: contain; /* 이미지를 div 안에 맞게 조절 */
     background-repeat: no-repeat; /* 이미지 반복 없음 */
     width: 400px; /* 캐릭터의 너비 */
