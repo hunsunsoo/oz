@@ -28,13 +28,13 @@ const GamingHeader = () => {
   return (
     <header style={headerStyle}>
       <div>
-        <img src="Oz_logo_removebg.png" alt="Logo" style={logoStyle} />
+        <img src="image/logo/logo.png" alt="Logo" style={logoStyle} />
       </div>
       <div>
         <Clock />
       </div>
       <div style={{height:"100%"}}>
-        <img src="profile_default_test.png" alt="Profile" style={profilePicStyle} />
+        <img src="image/tools/profile_default_test.png" alt="Profile" style={profilePicStyle} />
       </div>
     </header>
   );

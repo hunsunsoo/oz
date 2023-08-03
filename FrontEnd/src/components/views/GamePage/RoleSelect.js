@@ -73,10 +73,10 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition}) => {
   };
 
   const images = [
-    { src: 'roleselect/dorothys.png' },
-    { src: 'roleselect/heosus.png' },
-    { src: 'roleselect/lions.png' },
-    { src: 'roleselect/tws.png' },
+    { src: 'image/roleSelect/dorothys.png' },
+    { src: 'image/roleSelect/heosus.png' },
+    { src: 'image/roleSelect/lions.png' },
+    { src: 'image/roleSelect/tws.png' },
   ];
 
   return (
