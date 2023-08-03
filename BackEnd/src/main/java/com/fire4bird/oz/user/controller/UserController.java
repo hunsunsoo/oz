@@ -6,6 +6,7 @@ import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
 import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
 import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
+import com.fire4bird.oz.user.dto.EmailCodeDto;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
 import com.fire4bird.oz.user.dto.ResignDto;
@@ -117,9 +118,16 @@ public class UserController {
 
         emailCodeService.saveEmailCode(emailCodeMapper.paramToEmailCode(emailCode, Integer.parseInt(userId)));
 
-        return ResponseEntity.ok("인증 코드 전송");
+        return ResponseEntity.ok("인증 코드  전송");
     }
 
 
-    //비밀번호 변경
+    //이메일 인증 코드 체크
+    @PostMapping("/codechek")
+    public ResponseEntity checkMailCode(@RequestBody EmailCodeDto emailCodeDto) {
+        emailCodeService.findEmailCode(emailCodeDto.getEmailCode());
+        emailCodeService.deleteEmailCode(emailCodeDto.getEmailCode());
+
+        return ResponseEntity.ok("이메일 코드 검증 완료");
+    }
 }
