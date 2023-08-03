@@ -1,8 +1,8 @@
 package com.fire4bird.oz.user.controller;
 
 import com.fire4bird.oz.jwt.JwtProvider;
-import com.fire4bird.oz.jwt.token.key.RefreshToken;
-import com.fire4bird.oz.jwt.token.service.RefreshTokenService;
+import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
+import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
 import com.fire4bird.oz.user.dto.ResignDto;

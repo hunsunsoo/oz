@@ -1,7 +1,7 @@
 package com.fire4bird.oz.jwt;
 
-import com.fire4bird.oz.jwt.token.key.RefreshToken;
-import com.fire4bird.oz.jwt.token.repository.RefreshTokenRepository;
+import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
+import com.fire4bird.oz.jwt.refresh.repository.RefreshTokenRepository;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import com.fire4bird.oz.user.service.CustomUserDetailService;

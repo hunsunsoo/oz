@@ -1,4 +1,4 @@
-package com.fire4bird.oz.jwt.token.key;
+package com.fire4bird.oz.jwt.refresh.key;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
