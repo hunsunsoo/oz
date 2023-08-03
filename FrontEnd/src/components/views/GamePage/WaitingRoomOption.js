@@ -8,7 +8,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart }) => {
   };
 
   const WROStyle = {
-    backgroundColor: "red",
+    backgroundColor: "#CABE96",
     height: "20%",
     display: "flex",
   };
@@ -30,7 +30,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart }) => {
   const buttonStyle = {
     padding: "10px 20px",
     fontSize: "30px",
-    backgroundColor: "blue",
+    backgroundColor: "#6C584C",
     color: "white",
     border: "none",
     cursor: "pointer",
