@@ -1,9 +1,9 @@
-package com.fire4bird.oz.jwt.token.service;
+package com.fire4bird.oz.jwt.refresh.service;
 
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
-import com.fire4bird.oz.jwt.token.key.RefreshToken;
-import com.fire4bird.oz.jwt.token.repository.RefreshTokenRepository;
+import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
+import com.fire4bird.oz.jwt.refresh.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,5 +22,10 @@ public class RefreshTokenService {
 
         return findRefresh
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_VALID));
+    }
+
+    //리프레시 토큰 삭제
+    public void deleteRefreshToken(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
     }
 }

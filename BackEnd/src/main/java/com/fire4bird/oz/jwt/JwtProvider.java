@@ -1,9 +1,9 @@
 package com.fire4bird.oz.jwt;
 
-import com.fire4bird.oz.jwt.token.key.RefreshToken;
-import com.fire4bird.oz.jwt.token.repository.RefreshTokenRepository;
+import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
+import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
+import com.fire4bird.oz.jwt.refresh.repository.RefreshTokenRepository;
 import com.fire4bird.oz.user.entity.User;
-import com.fire4bird.oz.user.repository.UserRepository;
 import com.fire4bird.oz.user.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
@@ -39,9 +39,9 @@ public class JwtProvider {
     @Value("${jwt.refresh-token-valid-time}")
     private long refreshTokenValidTime;
 
-    private final UserRepository userRepository;
     private final CustomUserDetailService customUserDetailService;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final BlackListService blackListService;
 
     //키 생성
     private static Key getSigningKey(String secretKey) {
@@ -89,10 +89,6 @@ public class JwtProvider {
         rt.setUserId(user.getUserId());
         refreshTokenRepository.save(rt);
 
-//      리프레시 토큰이 mysql entity에 저장되는 로직
-//      user.setRefreshToken(refreshToken);
-//      userRepository.save(user);
-
         return refreshToken;
     }
 
@@ -137,5 +133,11 @@ public class JwtProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    //블랙리스트 테이블에서 엑세스 토큰 조회
+    // -> 조회될 경우 요청 불가능 -> 이미 로그아웃을 해버린 유저
+    public void checkBlackList(String accessToken) {
+        blackListService.findBlackList(accessToken);
     }
 }
