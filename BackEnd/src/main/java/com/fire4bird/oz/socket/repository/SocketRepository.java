@@ -1,5 +1,8 @@
 package com.fire4bird.oz.socket.repository;
 
+import com.fire4bird.oz.round.dto.Res.RoundStartRes;
+import com.fire4bird.oz.round.entity.UserRound;
+import com.fire4bird.oz.socket.dto.RedisSaveObject;
 import com.fire4bird.oz.socket.service.RedisSubscriber;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -23,7 +26,7 @@ public class SocketRepository {
     @Resource(name = "redisTemplate")
     private HashOperations<String, String, Integer> opsHashSocketRoom;
     @Resource(name = "redisTemplate")
-    private HashOperations<String, String, Integer> manageUserChannel;
+    private HashOperations<String, String, RedisSaveObject> manageUserChannel;
 
     private final RedisMessageListenerContainer redisMessageListener;
     private final RedisSubscriber redisSubscriber;
@@ -45,7 +48,7 @@ public class SocketRepository {
     }
 
     // 특정 소켓방 방장 조회
-    public Integer findRoomById(String rtcSession) {
+    public Integer findOwnerById(String rtcSession) {
         return opsHashSocketRoom.get(SOKET_ROOMS, rtcSession);
     }
 
@@ -54,24 +57,24 @@ public class SocketRepository {
         opsHashSocketRoom.delete(SOKET_ROOMS, rtcSession);
     }
 
-    // 관리방 유저 등록(+역할)
-    public void enterUser(String rtcSession, String userId, Integer role) {
-        manageUserChannel.put(rtcSession, userId, role);
+    // 관리방 유저 등록(+회차)
+    public void enterUser(String rtcSession, String userId, RedisSaveObject round) {
+        manageUserChannel.put(rtcSession, userId, round);
     }
 
     // 관리방 유저 모두 조회
-    public List<Integer> findAllUser(String rtcSession) {
-        return opsHashSocketRoom.values(rtcSession);
+    public List<RedisSaveObject> findAllUser(String rtcSession) {
+        return manageUserChannel.values(rtcSession);
     }
 
-    // 관리방 유저 역할 조회
-    public Integer findRoomById(String rtcSession, Integer role) {
-        return opsHashSocketRoom.get(rtcSession, role);
+    // 관리방 유저 회차 조회
+    public RedisSaveObject findRoundById(String rtcSession, String userId) {
+        return manageUserChannel.get(rtcSession, userId);
     }
 
     // 관리방 유저 삭제
     public void deleteUser(String rtcSession, Integer userId) {
-        opsHashSocketRoom.delete(rtcSession, userId);
+        manageUserChannel.delete(rtcSession, userId);
     }
 
     // channel 생성 : redis에 topic을 만들고 pub/sub 통신을 하기 위해 리스너를 설정한다.

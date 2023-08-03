@@ -13,6 +13,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SocketRoomDto{
 
-    private int owner;
+    private int userId;
     private String rtcSession;
 }
