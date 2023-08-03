@@ -1,6 +1,8 @@
 package com.fire4bird.oz.user.controller;
 
 import com.fire4bird.oz.jwt.JwtProvider;
+import com.fire4bird.oz.jwt.token.key.RefreshToken;
+import com.fire4bird.oz.jwt.token.service.RefreshTokenService;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
 import com.fire4bird.oz.user.dto.ResignDto;
@@ -24,6 +26,7 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     //유저 회원가입
     @PostMapping("/signup")
@@ -56,6 +59,9 @@ public class UserController {
 
         response.setHeader("AccessToken", accessToken);
         response.setHeader("RefreshToken", refreshToken);
+
+        RefreshToken refresh = refreshTokenService.findRefresh(refreshToken);
+        refreshTokenService.valueTest(refresh);
 
         return ResponseEntity.ok("로그인 성공");
     }
