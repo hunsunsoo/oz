@@ -23,4 +23,9 @@ public class RefreshTokenService {
         return findRefresh
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_VALID));
     }
+
+    //리프레시 토큰 삭제
+    public void deleteRefreshToken(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
+    }
 }
