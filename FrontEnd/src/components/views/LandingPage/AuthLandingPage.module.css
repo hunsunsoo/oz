@@ -5,7 +5,7 @@
   }
   .landingpage {
     position: relative; /* 여기에 추가 */
-    background-image: url("../../../../public/backgroud.png");
+    background-image: url("../../../../public/background.png");
     background-size: cover;
     background-repeat: no-repeat; 
     width: 100%;
