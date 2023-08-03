@@ -137,6 +137,6 @@ public class UserController {
 
         userService.updateUser(userMapper.updateUserDtoToUser(updateUserDto));
 
-        return null;
+        return ResponseEntity.ok("유저 정보 변경 완료");
     }
 }
