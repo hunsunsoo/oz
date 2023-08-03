@@ -23,10 +23,4 @@ public class RefreshTokenService {
         return findRefresh
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_VALID));
     }
-
-    //리프레시 토큰 값 추출 테스트
-    public void valueTest(RefreshToken refreshToken) {
-        log.info("리프레시 토큰 값 : {}", refreshToken.getRefreshValue());
-        log.info("유저 id : {}", refreshToken.getUserId());
-    }
 }
