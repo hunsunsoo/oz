@@ -1,9 +1,9 @@
-package com.fire4bird.oz.jwt.token;
+package com.fire4bird.oz.jwt.token.key;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @NoArgsConstructor
@@ -11,8 +11,10 @@ import org.springframework.data.redis.core.RedisHash;
 @Data
 @RedisHash(value = "refreshToken")
 public class RefreshToken {
+    //jpa가 쓰는 id랑 다름
+    //스프링프레임워크.데이터.어노테이션에 있는 id 써야함
     @Id
-    private String userId;
-
     private String refreshValue;
+
+    private int userId;
 }
