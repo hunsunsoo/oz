@@ -70,6 +70,7 @@ export default class RoleSelect extends Component {
       width: '80%',
       height: '80%',
       objectFit: 'contain',
+      filter: 'drop-shadow(30px 10px 4px rgb(0, 0, 0, 0.7))'
     };
 
     return (

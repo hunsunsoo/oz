@@ -1,0 +1,138 @@
+.number-board {
+  display: flex;
+  flex-direction: column;
+}
+  
+.number-row {
+  display: flex;
+}
+  
+.number-cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+  
+/* 짝수 행에 노란색 배경 적용 */
+.number-cell.even {
+  background-color: #ADC178;
+}
+
+/* 홀수 행에 파란색 배경 적용 */
+.number-cell.odd {
+  background-color: #A98467;
+}
+
+
+.alpha-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.alpha-row {
+  display: flex;
+}
+
+.alpha-cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* 짝수 행에 노란색 배경 적용 */
+.alpha-cell.even {
+  background-color: #ADC178;
+}
+
+/* 홀수 행에 파란색 배경 적용 */
+.alpha-cell.odd {
+  background-color: #A98467;
+}
+
+
+.math-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.math-row {
+  display: flex;
+}
+
+.math-cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* 짝수 행에 노란색 배경 적용 */
+.math-cell.even {
+  background-color: #ADC178;
+}
+
+/* 홀수 행에 파란색 배경 적용 */
+.math-cell.odd {
+  background-color: #A98467;
+}
+
+
+
+.ans-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.ans-row {
+  display: flex;
+}
+
+.ans-cell {
+  width: 75px;
+  height: 75px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+/* 짝수 행에 노란색 배경 적용 */
+.ans-cell.even {
+  background-color: #6C584C;
+}
+
+/* 홀수 행에 파란색 배경 적용 */
+.ans-cell.odd {
+  background-color: #ADC178;
+}
+
+.miro-red {
+  display: flex;
+  flex-direction: column;
+}
+
+.miro-red-row {
+  display: flex;
+}
+
+.miro-red-cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
