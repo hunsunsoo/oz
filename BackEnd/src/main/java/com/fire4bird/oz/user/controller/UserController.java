@@ -98,6 +98,7 @@ public class UserController {
         String accessToken = jwtProvider.getAccessToken(request);
         String refreshToken = jwtProvider.getRefreshToken(request);
 
+        refreshTokenService.deleteRefreshToken(refreshToken);
         blackListService.registBlackList(accessToken);
 
         return ResponseEntity.ok("로그아웃 성공");
