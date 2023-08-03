@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NumberBoard, AlphaBoard, MathBoard, AnsBoard, MiroRed, MiroGreen } from "./Board";
 
 const compStyle = { // 실질적인 component부분
