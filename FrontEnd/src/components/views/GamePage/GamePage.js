@@ -5,7 +5,8 @@ import RTCViewLower from './RTCViewLower';
 import axios from 'axios';
 import Header from '../Header/Header';
 import GamingHeader from '../Header/GamingHeader';
-import RoleSelect from '../../RoleSelect';
+import RoleSelect from './RoleSelect';
+import PlayGame from './PlayGame';
 
 const GamePage = () => {
   // 헤더 컴포넌트 조건부 렌더링 - 게임시작전에는 false, 게임시작 후에는 true
@@ -227,6 +228,7 @@ const GamePage = () => {
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
       <RoleSelect />
+      {/* <PlayGame /> */}
       <RTCViewLower publisher={publisher} subscribers={subscribers} />
     </div>
   );
