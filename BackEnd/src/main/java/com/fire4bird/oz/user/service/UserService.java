@@ -2,6 +2,7 @@ package com.fire4bird.oz.user.service;
 
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
+import com.fire4bird.oz.user.dto.MyPageDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -108,5 +109,10 @@ public class UserService {
         if(!matches){
             throw new BusinessLogicException(ExceptionCode.BAD_PARAM);
         }
+    }
+
+    //마이페이지 조회
+    public MyPageDto findMyPage(int userId) {
+        return userRepository.findByUserMyPage(userId);
     }
 }
