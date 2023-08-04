@@ -59,6 +59,22 @@ public class UserService {
 
     }
 
+    //회원 정보 수정
+    public void updateUser(User user) {
+        User findUser = findUser(user.getUserId());
+
+        Optional.ofNullable(user.getName())
+                .ifPresent(findUser::setName);
+
+        Optional.ofNullable(user.getNickname())
+                .ifPresent(findUser::setNickname);
+
+        Optional.ofNullable(user.getPassword())
+                        .ifPresent(password -> findUser.setPassword(passwordEncoder.encode(password)));
+
+        userRepository.save(findUser);
+    }
+
     public User findUser(int userId) {
         Optional<User> findUser = userRepository.findById(userId);
 
