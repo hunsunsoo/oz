@@ -36,6 +36,7 @@ spring:
   freemarker:
     cache: false
 
+
   redis:
     host: i9b104.p.ssafy.io
 #    host: localhost

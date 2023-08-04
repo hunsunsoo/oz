@@ -1,19 +1,18 @@
 package com.fire4bird.oz.socket.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
 @Setter
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocketCreateDto implements Serializable{
+public class SocketRoomDto{
+
+    @NonNull
+    private int userId;
     @NotBlank
     private String rtcSession;
-    @NotBlank
-    private String teamName;
 }
