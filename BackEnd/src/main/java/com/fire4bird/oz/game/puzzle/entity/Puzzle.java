@@ -28,11 +28,11 @@ public class Puzzle {
     private String board;
 
     //정답
-    @Column(length = 10, nullable = false)
+    @Column(length = 30, nullable = false)
     private String answer;
 
     //제출한 답
-    @Column(length = 10)
+    @Column(length = 30)
     private String userAnswer;
 
     //정답 확인

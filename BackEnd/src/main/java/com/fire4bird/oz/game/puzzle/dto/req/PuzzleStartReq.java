@@ -6,9 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PuzzleStartReq {
-    private String userId;
 
-    private Integer rtcSession;
+    private String rtcSession;
 
-    private Integer turn;
+    private int turn;
+
+    private int userId;
 }

@@ -1,65 +1,52 @@
 package com.fire4bird.oz.game.puzzle.service;
 
-import com.fire4bird.oz.game.puzzle.dto.req.PuzzleAnswerReq;
+import com.fire4bird.oz.game.puzzle.dto.PuzzleAnswer;
 import com.fire4bird.oz.game.puzzle.dto.req.PuzzleLogReq;
+import com.fire4bird.oz.game.puzzle.dto.req.PuzzleStartReq;
 import com.fire4bird.oz.game.puzzle.entity.Puzzle;
 import com.fire4bird.oz.game.puzzle.entity.PuzzleLog;
+import com.fire4bird.oz.game.puzzle.manager.PuzzleGameManager;
 import com.fire4bird.oz.game.puzzle.repository.PuzzleLogRepository;
 import com.fire4bird.oz.game.puzzle.repository.PuzzleRepository;
+import com.fire4bird.oz.game.puzzle.repository.PuzzleRepositoryImpl;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.round.repository.RoundRepository;
 import com.fire4bird.oz.socket.dto.RedisSaveObject;
 import com.fire4bird.oz.socket.repository.SocketRepository;
+import com.fire4bird.oz.socket.service.RedisPublisher;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PuzzleService {
     private final PuzzleRepository puzzleRepository;
+    private final PuzzleRepositoryImpl puzzleRepositoryImpl;
     private final PuzzleLogRepository puzzleLogRepository;
     private final SocketRepository socketRepository;
+    private final RedisPublisher redisPublisher;
     private final RoundRepository roundRepository;
-//    private final PuzzleGameManager puzzleGameManager;
-    List<String> row = Arrays.asList("1","2","3","4","5","6","7");
-    List<String> col = Arrays.asList("1","2","3","4","5","6");
-    String[] boadList = new String[6];
-    String[] answer = new String[3];//안보여지는 퍼즐
-    String[] provide = new String[3];//보여지는 퍼즐
+    private PuzzleGameManager puzzleGameManager;
+
+    @PostConstruct
+    public void init(){
+        puzzleGameManager = new PuzzleGameManager(socketRepository, redisPublisher);
+    }
 
     //게임 시작시 뿌려줄 데이터
-    public void gameStart() {
+    public void gameStart(PuzzleStartReq req) {
+        RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
+        Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(RuntimeException::new);
 
-        Collections.shuffle(row);
-        Collections.shuffle(col);
-
-        for(int i=0; i<col.size(); i++)
-            boadList[i] = row.get(i) + col.get(i);
-
-        for(int i=0; i<3; i++){
-            answer[i] = boadList[i];
-            provide[i] = boadList[i+3];
-        }
-
-        Puzzle puzzle = Puzzle.builder().board(String.join(",", boadList)).answer(String.join(",", answer)).turn(1).build();
-        puzzleRepository.save(puzzle);
-//        System.out.println(String.join(",", boadList)+", "+String.join(",", answer)+", "+String.join(",", provide));
-
-//        //유저에따라
-//        startGameDto.setAnswerPuzzle("");//안보여지는 퍼즐
-//        startGameDto.setProvidePuzzle("");//보여지는 퍼즐
-//        return startGameDto;
+        puzzleRepository.save(puzzleGameManager.statGame(req,findRound));
     }
 
     public void gameLog(PuzzleLogReq req){
         RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
-        Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(() -> new RuntimeException());
-
+        Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(RuntimeException::new);
         PuzzleLog puzzleLog = PuzzleLog.builder()
                 .userId(req.getUserId())
                 .isSystem(req.getIsSystem())
@@ -72,13 +59,15 @@ public class PuzzleService {
         puzzleLogRepository.save(puzzleLog);
     }
 
-    public void gameAnswer(PuzzleAnswerReq req){
-//        int check = puzzleGameManager.checkAnswer(req.getUserAnswer());
-//        Puzzle puzzle = Puzzle.builder()
-//                .answer(req.getUserAnswer())
-//                .isCheck(check)
-//                .build();
-//        puzzleRepository.save(puzzle);
-    }
+    public void gameAnswer(PuzzleAnswer req){
+        RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
+        Puzzle puzzle = puzzleRepositoryImpl.maxTurn(obj.getRoundId());
 
+        int check = puzzleGameManager.checkAnswer(req.getUserAnswer(),puzzle.getAnswer());
+        puzzleGameManager.publisher(req.getRtcSession(), "puzzle/data","게임 정답 확인",check);
+
+        puzzle.setAnswer(req.getUserAnswer());
+        puzzle.setIsCheck(check);
+        puzzleRepository.save(puzzle);
+    }
 }

@@ -1,76 +1,137 @@
-//package com.fire4bird.oz.game.puzzle.manager;
-//
-//import com.fire4bird.oz.game.calculation.dto.request.*;
-//import com.fire4bird.oz.game.calculation.dto.response.*;
-//import com.fire4bird.oz.game.calculation.entity.Player;
-//import com.fire4bird.oz.game.puzzle.service.PuzzleService;
-//import com.fire4bird.oz.round.entity.UserRound;
-//import com.fire4bird.oz.round.service.RoundService;
-//import lombok.AllArgsConstructor;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
-//import lombok.extern.slf4j.Slf4j;
-//
-//import java.util.Arrays;
-//import java.util.LinkedList;
-//import java.util.List;
-//import java.util.Random;
-//
-//@Getter
-//@Setter
-//@Slf4j
-//@NoArgsConstructor
-//@AllArgsConstructor
-//// 게임의 시작부터 끝까지의 로직이 담긴 각각의 게임을 관리할 객체
-//public class PuzzleGameManager {
-//    // 해당 게임의 시작부터 끝까지 필요한 정보들 관리
-//    // 필요한 변수들 알아서 설정
-//    // 라운드 정보를 알기 위한 roundService
-//    private RoundService roundService;
-//    // 게임에 대한 모든 데이터를 저장할 puzzleService
-//    private PuzzleService puzzleService;
-//    private String session;
-//    // 게임을 진행 중인 유저와 역할을 저장할 list
-//    private List<Player> players;
-//    // 랜덤으로 설정된 정답과 숫자판 -> 게임 시작 때마다 init
-//    private int answer;
-//    private int[][] numberBoard;
-//    // 각각의 게임을 구분지어 줄 roundId
-//    // 한 roundId(팀, 회차가 pk)마다 진행할 수 있는 게임은 한 게임이라 키값으로 관리
-//    private Integer roundId;
-//    // 회차의 몇 번째 도전인지
-//    private Integer turn;
-//    // 게임이 시작되었는지 확인하는 변수
-//    private boolean isGameStarted;
-//    // 조력자가 선택한 블럭의 숫자 관리, 객체가 만들어질 때 0으로 초기화
-//    private int helperCount;
-//
-////    public PuzzleGameManager(Integer roundId, String session, RoundService roundService, PuzzleService puzzleService){
-////        this.roundId = roundId;
-////        this.roundService = roundService;
-////        this.session = session;
-////        System.out.println(session);
-////        List<UserRound> userRounds = roundService.findAllRoundByRoundId(roundId);
-////        players = new LinkedList<>();
-////        this.puzzleService = puzzleService;
-////        this.helperCount = 0;
-////        this.isGameStarted = true;
-////        this.setRole(userRounds);
-////    }
-//
-//    // 본인에게 맞는 역할을 넣어 주는 메서드
-//    public void setRole(List<UserRound> userRounds){
-//        for(UserRound userRound : userRounds){
-//            if(userRound.getRole() == 3)  // 역할이 허수아비(actor)면 1 조력자면 0
-//                players.add(new Player(userRound.getUser(), 1));
-//            else players.add(new Player(userRound.getUser(), 0));
-//        }
-//    }
-//
-//    public int checkAnswer(String answer){
-//
-//        return -1;
-//    }
-//
-//}
+package com.fire4bird.oz.game.puzzle.manager;
+
+import com.fire4bird.oz.game.puzzle.dto.SendData;
+import com.fire4bird.oz.game.puzzle.dto.req.PuzzleStartReq;
+import com.fire4bird.oz.game.puzzle.entity.Puzzle;
+import com.fire4bird.oz.round.entity.Round;
+import com.fire4bird.oz.socket.dto.SocketMessage;
+import com.fire4bird.oz.socket.repository.SocketRepository;
+import com.fire4bird.oz.socket.service.RedisPublisher;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.*;
+
+
+@Slf4j
+@AllArgsConstructor
+// 게임의 시작부터 끝까지의 로직이 담긴 각각의 게임을 관리할 객체
+public class PuzzleGameManager {
+    private final SocketRepository socketRepository;
+    private final RedisPublisher redisPublisher;
+
+    private Map<Integer, String> board;
+    private List<String> row;
+    private List<String> col;
+    private String[] boardList;
+    private String[] answer;//안보여지는 퍼즐
+    private String[] provide;//보여지는 퍼즐
+
+    public PuzzleGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher){
+        this.socketRepository = socketRepository;
+        this.redisPublisher = redisPublisher;
+        this.board = new HashMap<>();
+        this.row = Arrays.asList("1","2","3","4","5","6","7");
+        this.col = Arrays.asList("1","2","3","4","5","6");
+        this.boardList = new String[6];
+        this.answer = new String[3];//안보여지는 퍼즐
+        this.provide = new String[3];//보여지는 퍼즐
+    }
+
+    public Puzzle statGame(PuzzleStartReq req, Round findRound){
+
+        Collections.shuffle(row);
+        Collections.shuffle(col);
+
+        for(int i=0; i<col.size(); i++) {
+            boardList[i] = row.get(i) + col.get(i);
+            board.put(i+1, boardList[i]);
+        }
+
+        //조력자
+        for(int i=0; i<3; i++){
+            answer[i] = board.get(i+1);
+            provide[i] = board.get(i+3);
+
+            SendData sendData = SendData.builder()
+                    .location(i+3)
+                    .puzzle(provide[i])
+                    .build();
+            rolePublisher(req,i+1,sendData);
+        }
+
+        //문자열로 변환
+        StringBuilder boardStr = new StringBuilder();
+        StringBuilder answerStr = new StringBuilder();
+        for (int i = 1; i < board.size()+1; i++) {
+            boardStr.append(i).append(":").append(board.get(i));
+            if (i < board.size()){
+                boardStr.append(", ");
+                if (i < 4){
+                    answerStr.append(i).append(":").append(board.get(i));
+                    if (i < 3) answerStr.append(", ");
+                }
+            }
+        }
+
+        //양나
+        SendData sendData = SendData.builder()
+                .location(123)
+                .puzzle(String.join(",", provide))
+                .build();
+        rolePublisher(req,4,sendData);
+
+//        log.info(boardStr+", //"+answerStr+", //"+String.join(",", provide));
+
+        return Puzzle.builder()
+                .board(boardStr.toString())
+                .answer(answerStr.toString())
+                .turn(req.getTurn())
+                .round(findRound)
+                .build();
+    }
+
+    public int checkAnswer(String userAnswer, String answer){
+        int check = -1;
+        String[] answers = answer.split(", ");
+        String[] userAnswers = userAnswer.split(", ");
+
+        System.out.println("answer: "+answer+", userAnswer: "+userAnswer);
+
+        for (String part : answers) {
+            String[] timeParts = part.split(":");
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+            System.out.println(hour + ":" + minute);
+        }
+
+        for (String part : userAnswers) {
+            String[] timeParts = part.split(":");
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+            System.out.println(hour + ":" + minute);
+        }
+
+        return check;
+    }
+
+    public void rolePublisher(PuzzleStartReq req, int userRole, SendData data){
+        SocketMessage message = SocketMessage.builder()
+                .rtcSession(req.getRtcSession())
+                .message(userRole+"의 보이는 상형문자 전달")
+                .type("puzzle/start/"+userRole)
+                .data(data)
+                .build();
+        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
+    }
+
+    public void publisher(String rtcSession, String url, String msg, int check){
+        SocketMessage message = SocketMessage.builder()
+                .rtcSession(rtcSession)
+                .message(msg)
+                .type(url)
+                .data(check)
+                .build();
+        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
+    }
+}
