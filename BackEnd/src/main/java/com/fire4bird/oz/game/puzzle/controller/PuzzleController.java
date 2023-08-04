@@ -1,6 +1,6 @@
 package com.fire4bird.oz.game.puzzle.controller;
 
-import com.fire4bird.oz.game.puzzle.dto.PuzzleAnswer;
+import com.fire4bird.oz.game.puzzle.dto.req.PuzzleAnswerReq;
 import com.fire4bird.oz.game.puzzle.dto.req.PuzzleLogReq;
 import com.fire4bird.oz.game.puzzle.dto.req.PuzzleStartReq;
 import com.fire4bird.oz.game.puzzle.service.PuzzleService;
@@ -26,7 +26,7 @@ public class PuzzleController {
     }
 
     @MessageMapping("/puzzle/data")
-    public void puzzleGameData(PuzzleAnswer req) {
+    public void puzzleGameData(PuzzleAnswerReq req) {
         puzzleService.gameAnswer(req);
     }
 

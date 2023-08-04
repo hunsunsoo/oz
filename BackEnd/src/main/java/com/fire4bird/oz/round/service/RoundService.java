@@ -95,6 +95,7 @@ public class RoundService {
                     .round(round.getTeamRound())
                     .teamId(team.getTeamId())
                     .role(roleDTO.getRole())
+                    .userId(user.getUserId())
                     .build();
 
             socketRepository.enterUser(roundDto.getRtcSession(),String.valueOf(user.getUserId()),save);

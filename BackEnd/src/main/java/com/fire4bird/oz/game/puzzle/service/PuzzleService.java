@@ -1,6 +1,6 @@
 package com.fire4bird.oz.game.puzzle.service;
 
-import com.fire4bird.oz.game.puzzle.dto.PuzzleAnswer;
+import com.fire4bird.oz.game.puzzle.dto.req.PuzzleAnswerReq;
 import com.fire4bird.oz.game.puzzle.dto.req.PuzzleLogReq;
 import com.fire4bird.oz.game.puzzle.dto.req.PuzzleStartReq;
 import com.fire4bird.oz.game.puzzle.entity.Puzzle;
@@ -59,14 +59,14 @@ public class PuzzleService {
         puzzleLogRepository.save(puzzleLog);
     }
 
-    public void gameAnswer(PuzzleAnswer req){
+    public void gameAnswer(PuzzleAnswerReq req){
         RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
         Puzzle puzzle = puzzleRepositoryImpl.maxTurn(obj.getRoundId());
 
         int check = puzzleGameManager.checkAnswer(req.getUserAnswer(),puzzle.getAnswer());
         puzzleGameManager.publisher(req.getRtcSession(), "puzzle/data","게임 정답 확인",check);
 
-        puzzle.setAnswer(req.getUserAnswer());
+        puzzle.setUserAnswer(req.getUserAnswer());
         puzzle.setIsCheck(check);
         puzzleRepository.save(puzzle);
     }

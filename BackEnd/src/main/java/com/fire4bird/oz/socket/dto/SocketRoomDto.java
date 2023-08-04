@@ -1,9 +1,7 @@
 package com.fire4bird.oz.socket.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,6 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SocketRoomDto{
 
+    @NonNull
     private int userId;
+    @NotBlank
     private String rtcSession;
 }

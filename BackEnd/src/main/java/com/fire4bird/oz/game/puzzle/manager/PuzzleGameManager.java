@@ -92,24 +92,14 @@ public class PuzzleGameManager {
     }
 
     public int checkAnswer(String userAnswer, String answer){
-        int check = -1;
+        int check = 1;
         String[] answers = answer.split(", ");
         String[] userAnswers = userAnswer.split(", ");
 
-        System.out.println("answer: "+answer+", userAnswer: "+userAnswer);
-
-        for (String part : answers) {
-            String[] timeParts = part.split(":");
-            int hour = Integer.parseInt(timeParts[0]);
-            int minute = Integer.parseInt(timeParts[1]);
-            System.out.println(hour + ":" + minute);
-        }
-
-        for (String part : userAnswers) {
-            String[] timeParts = part.split(":");
-            int hour = Integer.parseInt(timeParts[0]);
-            int minute = Integer.parseInt(timeParts[1]);
-            System.out.println(hour + ":" + minute);
+        for (int i = 0; i < answers.length; i++) {
+            String[] ans = answers[i].split(":");
+            String[] userAns = userAnswers[i].split(":");
+            if(ans[1]!=userAns[1]) check = -1;
         }
 
         return check;

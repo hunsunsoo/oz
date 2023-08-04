@@ -39,19 +39,19 @@ public class SocketController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity findAllRoomUser(@RequestBody SocketRoomDto socketRoomDto) {
-        return new ResponseEntity<>(new CMRespDto<>(1,"소켓방 유저 확인", socketRepository.findAllUser(socketRoomDto.getRtcSession())), HttpStatus.OK);
+    public ResponseEntity findAllRoomUser(@RequestParam String rtcSession) {
+        return new ResponseEntity<>(new CMRespDto<>(1,"소켓방 유저 확인", socketRepository.findAllUser(rtcSession)), HttpStatus.OK);
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity outRoomUser(@RequestParam SocketRoomDto socketRoomDto) {
+    public ResponseEntity outRoomUser(@Valid @RequestBody SocketRoomDto socketRoomDto, BindingResult bindingResult) {
         socketRepository.deleteUser(socketRoomDto.getRtcSession(),socketRoomDto.getUserId());
         return new ResponseEntity<>(new CMRespDto<>(1,"소켓방 유저 나감", null), HttpStatus.OK);
     }
 
     //해당 유저가 갖고 있는 게임 정보(회차, 역할 등)
     @GetMapping("/user")
-    public RedisSaveObject findUserRound(@RequestParam SocketRoomDto socketRoomDto) {
+    public RedisSaveObject findUserRound(@Valid @RequestBody SocketRoomDto socketRoomDto, BindingResult bindingResult) {
         return socketRepository.findRoundById(socketRoomDto.getRtcSession(),String.valueOf(socketRoomDto.getUserId()));
     }
 

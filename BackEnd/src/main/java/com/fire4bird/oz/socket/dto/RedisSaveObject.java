@@ -14,4 +14,5 @@ public class RedisSaveObject implements Serializable {
         private int teamId;
         private int round;
         private int role;
+        private int userId;
 }
