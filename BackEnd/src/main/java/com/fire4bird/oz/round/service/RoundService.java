@@ -65,4 +65,8 @@ public class RoundService {
         }
     }
 
+    public List<UserRound> findAllRoundByRoundId(Integer roundId){
+        return userRoundRepository.findAllByRound_RoundId(roundId);
+    }
+
 }

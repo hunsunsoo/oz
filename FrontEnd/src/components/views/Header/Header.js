@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
   return (
     <header style={headerStyle}>
-      <img src='/Oz_logo_removebg.png' alt="Service Logo" style={logoStyle} />
+      <img src='image/logo/logo.png' alt="Service Logo" style={logoStyle} />
     </header>
   );
 };

@@ -7,6 +7,8 @@ import AuthLandingPage from "./components/views/LandingPage/AuthLandingPage";
 import GamePage from "./components/views/GamePage/GamePage";
 import WithDrawl from "./components/views/WithDrawl/WithDrawl";
 
+import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
+
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/withdrawl" element={<WithDrawl />} />
           <Route path="/game" element={<GamePage />} />
+
+          <Route path="/play" element={<GameComp/>} />
         </Routes>
       </div>
     </BrowserRouter>

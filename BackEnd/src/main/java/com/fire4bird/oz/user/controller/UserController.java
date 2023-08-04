@@ -1,12 +1,19 @@
 package com.fire4bird.oz.user.controller;
 
+import com.fire4bird.oz.emailcode.mapper.EmailCodeMapper;
+import com.fire4bird.oz.emailcode.service.EmailCodeService;
 import com.fire4bird.oz.jwt.JwtProvider;
+import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
+import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
+import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
+import com.fire4bird.oz.user.dto.EmailCodeDto;
 import com.fire4bird.oz.user.dto.LoginDto;
 import com.fire4bird.oz.user.dto.RegistUserDto;
 import com.fire4bird.oz.user.dto.ResignDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +30,11 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final EmailCodeMapper emailCodeMapper;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
+    private final BlackListService blackListService;
+    private final EmailCodeService emailCodeService;
 
     //유저 회원가입
     @PostMapping("/signup")
@@ -40,7 +51,6 @@ public class UserController {
         userService.resignUser(Integer.parseInt(userId), resignDto.getPassword());
 
         return ResponseEntity.ok("회원 탈퇴 완료");
-
     }
 
     //로그인
@@ -63,16 +73,25 @@ public class UserController {
     //엑세스 토큰 재발급
     @PostMapping("/reissue")
     public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
+        //헤더에서 리프레시 토큰 꺼내기
         String refreshToken = jwtProvider.getRefreshToken(request);
 
-        User dbUser = userService.findUser(refreshToken);
+        //레디스에 해당 리프레시 토큰 있나 확인하고 객체 가져오기
+        RefreshToken refresh = refreshTokenService.findRefresh(refreshToken);
 
+        //시큐리티가 들고있던 유저 식별자 가져오기
         String payloadId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        userService.checkUser(dbUser.getUserId(), Integer.parseInt(payloadId));
+        /**
+         * 리프레시가 가지고 있던 유저 식별자
+         * 시큐리티가 가지고 있던 유저 식별자 비교
+         */
+        User user = userService.checkUser(refresh.getUserId(), Integer.parseInt(payloadId));
 
-        String accessToken = jwtProvider.createAccessToken(dbUser);
+        //액세스 토큰 생성
+        String accessToken = jwtProvider.createAccessToken(user);
 
+        //반환
         response.setHeader("AccessToken", accessToken);
 
         return ResponseEntity.ok("엑세스 토큰 재발급 성공");
@@ -81,10 +100,34 @@ public class UserController {
     //로그아웃
     @PostMapping("/logout")
     public ResponseEntity logoutUser(HttpServletRequest request) {
+        String accessToken = jwtProvider.getAccessToken(request);
         String refreshToken = jwtProvider.getRefreshToken(request);
 
-        userService.deleteRefreshToken(refreshToken);
+        refreshTokenService.deleteRefreshToken(refreshToken);
+        blackListService.registBlackList(accessToken);
 
         return ResponseEntity.ok("로그아웃 성공");
+    }
+
+    //이메일 인증
+    @PostMapping("/mail")
+    public ResponseEntity sendMail() throws MessagingException {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        String emailCode = emailCodeService.sendMail(Integer.parseInt(userId));
+
+        emailCodeService.saveEmailCode(emailCodeMapper.paramToEmailCode(emailCode, Integer.parseInt(userId)));
+
+        return ResponseEntity.ok("인증 코드  전송");
+    }
+
+
+    //이메일 인증 코드 체크
+    @PostMapping("/codechek")
+    public ResponseEntity checkMailCode(@RequestBody EmailCodeDto emailCodeDto) {
+        emailCodeService.findEmailCode(emailCodeDto.getEmailCode());
+        emailCodeService.deleteEmailCode(emailCodeDto.getEmailCode());
+
+        return ResponseEntity.ok("이메일 코드 검증 완료");
     }
 }

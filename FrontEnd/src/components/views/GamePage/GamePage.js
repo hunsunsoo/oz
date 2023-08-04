@@ -2,15 +2,19 @@ import React, { useState, useEffect, useRef } from "react";
 import { OpenVidu } from "openvidu-browser";
 import { useLocation } from "react-router-dom";
 import RTCViewLower from "./RTCViewLower";
+import RTCViewCenter from './RTCViewCenter';
 import axios from "axios";
 import Header from "../Header/Header";
 import GamingHeader from "../Header/GamingHeader";
 import RoleSelect from "./RoleSelect";
 import PlayGame from "./PlayGame";
+import WaitingRoomOption from './WaitingRoomOption';
 
 const GamePage = () => {
   // 헤더 컴포넌트 조건부 렌더링 - 게임시작전에는 false, 게임시작 후에는 true
   const [isGaming, setIsGaming] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [middleCon, setMiddleCon] = useState(1);
 
   // 세션 아이디 추출
   const location = useLocation();
@@ -199,6 +203,7 @@ const GamePage = () => {
 
       console.log("User " + event.connection.connectionId + " stop speaking");
     });
+
     mySession
       .connect(token, {
         clientData: myUserName,
@@ -225,6 +230,26 @@ const GamePage = () => {
       });
   };
 
+  const handleGamingStart = (status) => {
+    setIsWaiting(status);
+  };
+
+  const handleMiddleCondition = (status) => {
+    setMiddleCon(status);
+    setIsGaming((prevIsGaming) => !prevIsGaming);
+  };
+
+  let CompMiddleSection;
+
+  switch (middleCon) {
+    case 1:
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition}/>;
+      break;
+    case 2:
+      CompMiddleSection = <PlayGame />;
+      break;
+  }
+
   const divStyle = {
     margin: "0",
     padding: "0",
@@ -235,9 +260,8 @@ const GamePage = () => {
   return (
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
-      {/* <RoleSelect /> */}
-      <PlayGame />
-      <RTCViewLower publisher={publisher} subscribers={subscribers} />
+      {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers}/> }
+      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart}/> }
     </div>
   );
 };
