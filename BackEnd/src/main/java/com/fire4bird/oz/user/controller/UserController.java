@@ -148,12 +148,9 @@ public class UserController {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("유저 아이디 : {}", userId);
 
-        User user = userService.findUser(Integer.parseInt(userId));
-        log.info("user : {}", user);
+        MyPageDto myPage = userService.findMyPage(Integer.parseInt(userId));
 
-        MyPageDto myPageDto = userMapper.userToMyPageDto(user);
-
-        return new ResponseEntity<>(new CMRespDto<>(1, "마이페이지", myPageDto), HttpStatus.OK);
+        return new ResponseEntity<>(new CMRespDto<>(1, "마이페이지", myPage), HttpStatus.OK);
     }
 
 }
