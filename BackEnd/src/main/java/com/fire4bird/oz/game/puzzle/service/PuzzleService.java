@@ -1,14 +1,19 @@
 package com.fire4bird.oz.game.puzzle.service;
 
-import com.fire4bird.oz.game.puzzle.dto.AnswerDto;
-import com.fire4bird.oz.game.puzzle.dto.req.PuzzleLogDto;
+import com.fire4bird.oz.game.puzzle.dto.req.PuzzleAnswerReq;
+import com.fire4bird.oz.game.puzzle.dto.req.PuzzleLogReq;
 import com.fire4bird.oz.game.puzzle.entity.Puzzle;
 import com.fire4bird.oz.game.puzzle.entity.PuzzleLog;
 import com.fire4bird.oz.game.puzzle.repository.PuzzleLogRepository;
 import com.fire4bird.oz.game.puzzle.repository.PuzzleRepository;
+import com.fire4bird.oz.round.entity.Round;
+import com.fire4bird.oz.round.repository.RoundRepository;
+import com.fire4bird.oz.socket.dto.RedisSaveObject;
+import com.fire4bird.oz.socket.repository.SocketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +23,9 @@ import java.util.List;
 public class PuzzleService {
     private final PuzzleRepository puzzleRepository;
     private final PuzzleLogRepository puzzleLogRepository;
+    private final SocketRepository socketRepository;
+    private final RoundRepository roundRepository;
+//    private final PuzzleGameManager puzzleGameManager;
     List<String> row = Arrays.asList("1","2","3","4","5","6","7");
     List<String> col = Arrays.asList("1","2","3","4","5","6");
     String[] boadList = new String[6];
@@ -48,22 +56,29 @@ public class PuzzleService {
 //        return startGameDto;
     }
 
-    public void gameLog(PuzzleLogDto puzzleLogDto){
+    public void gameLog(PuzzleLogReq req){
+        RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
+        Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(() -> new RuntimeException());
+
         PuzzleLog puzzleLog = PuzzleLog.builder()
-                .userId(puzzleLogDto.getUserId())
-                .isSystem(puzzleLogDto.getIsSystem())
-                .logType(puzzleLogDto.getLogType())
-                .message(puzzleLogDto.getMessage())
+                .userId(req.getUserId())
+                .isSystem(req.getIsSystem())
+                .logType(req.getLogType())
+                .message(req.getMessage())
+                .logTime(LocalDateTime.now())
+                .round(findRound)
                 .build();
 
         puzzleLogRepository.save(puzzleLog);
     }
 
-    public void gameAnswer(AnswerDto answerDto){
-        Puzzle puzzle = new Puzzle();
-        puzzle.setUserAnswer(answerDto.getUserAnswer());
-        puzzle.setIsCheck(1);//성공여부
-        puzzleRepository.save(puzzle);
+    public void gameAnswer(PuzzleAnswerReq req){
+//        int check = puzzleGameManager.checkAnswer(req.getUserAnswer());
+//        Puzzle puzzle = Puzzle.builder()
+//                .answer(req.getUserAnswer())
+//                .isCheck(check)
+//                .build();
+//        puzzleRepository.save(puzzle);
     }
 
 }

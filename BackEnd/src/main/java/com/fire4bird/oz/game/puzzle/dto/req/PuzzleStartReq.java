@@ -5,15 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PuzzleStartDto {
+public class PuzzleStartReq {
     private String userId;
 
-    //팀회차일련번호
-    private Integer roundId;
+    private Integer rtcSession;
 
-    //방 세션
-    private Integer roomId;
-
-    //도전횟수
     private Integer turn;
 }
