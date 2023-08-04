@@ -10,7 +10,10 @@ import {
 import style from "./GameComps.module.css";
 import {
   IntrodialogueData,
-  dialogueData,
+  dialogue1Data,
+  dialogue2Data,
+  dialogue3Data,
+  dialogue4Data,
   OutrodialogueData,
 } from "../../../scripts/Scripts";
 
@@ -22,6 +25,10 @@ const characterToClassMap = {
   허수아비: "character_scarecrow",
   사자: "character_lion",
   "양철 나무꾼": "character_tinman",
+};
+const getCharacterClass = (data, index) => {
+  const characterName = data[index].character;
+  return characterToClassMap[characterName];
 };
 
 const GameComp = (props) => {
@@ -149,8 +156,7 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 0 && isIndex <= 14) {
-    const characterName = IntrodialogueData[isIndex].character;
-    const characterImageClass = characterToClassMap[characterName];
+    const characterImageClass = getCharacterClass(IntrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_1"]}>
@@ -177,89 +183,112 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 1 && isIndex <= 2) {
+    const characterImageClass = getCharacterClass(dialogue1Data, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_3"]}>
+          <div className={style[characterImageClass]}></div>
           <div className={style.dialogueData}>
-            {dialogueData[isIndex].character}
+            {dialogue1Data[isIndex].character}
             <br />
-            {dialogueData[isIndex].message}
+            {dialogue1Data[isIndex].message}
           </div>
         </div>
       </div>
     );
   } else if (isStage === 1 && isIndex === 10) {
+    const characterImageClass = getCharacterClass(dialogue1Data, 3);
+    console.log(characterImageClass);
     return (
       <div className={style.compStyle}>
-        <div className={style["background_3"]}></div>
+        <div className={style["background_3"]}>
+          <div className={style[characterImageClass]}></div>
+          <div className={style.dialogue1Data}>
+            {dialogue1Data[3].character}
+            <br />
+            {dialogue1Data[3].message}
+          </div>
+        </div>
       </div>
     );
   } else if (isStage === 2 && isIndex <= 2) {
+    const characterImageClass = getCharacterClass(dialogue2Data, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_4"]}>
-          <div className={style.dialogueData}>
-            {dialogueData[isIndex].character}
+          <div className={style[characterImageClass]}></div>
+          <div className={style.dialogue1Data}>
+            {dialogue2Data[isIndex].character}
             <br />
-            {dialogueData[isIndex].message}
+            {dialogue2Data[isIndex].message}
           </div>
         </div>
       </div>
     );
   }
   if (isStage === 2 && isIndex === 11) {
+    const characterImageClass = getCharacterClass(dialogue2Data, 3);
     return (
       <div className={style.compStyle}>
         <div className={style["background_4"]}>
-          <div className={style.dialogueData}>
-            {dialogueData[isIndex].character}
+          <div className={style[characterImageClass]}></div>
+          <div className={style.dialogue2Data}>
+            {dialogue2Data[3].character}
             <br />
-            {dialogueData[isIndex].message}
+            {dialogue2Data[3].message}
           </div>
         </div>
       </div>
     );
-  } else if (isStage === 3 && isIndex <= 2) {
+  } else if (isStage === 3 && isIndex <= 1) {
+    const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_5"]}>
-          <div className={style.dialogueData}>
-            {dialogueData[isIndex].character}
+          <div className={style[characterImageClass]}></div>
+          <div className={style.dialogue3Data}>
+            {dialogue3Data[isIndex].character}
             <br />
-            {dialogueData[isIndex].message}
+            {dialogue3Data[isIndex].message}
           </div>
         </div>
       </div>
     );
   } else if (isStage === 3 && isIndex === 10) {
+    const characterImageClass = getCharacterClass(dialogue3Data, 2);
     return (
       <div className={style.compStyle}>
         <div className={style["background_5"]}>
+          <div className={style[characterImageClass]}></div>
           <div className={style.dialogueData}>
-            {dialogueData[isIndex].character}
+            {dialogue3Data[2].character}
             <br />
-            {dialogueData[isIndex].message}
+            {dialogue3Data[2].message}
           </div>
         </div>
       </div>
     );
   }
   if (isStage === 4 && isIndex <= 1) {
+    const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_6"]}>
+          <div className={style[characterImageClass]}></div>
           <div className={style.dialogueData}>
-            {dialogueData[isIndex].character}
+            {dialogue4Data[isIndex].character}
             <br />
-            {dialogueData[isIndex].message}
+            {dialogue4Data[isIndex].message}
           </div>
         </div>
       </div>
     );
   } else if (isStage === 5 && isIndex <= 9) {
+    const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_7"]}>
+          <div className={style[characterImageClass]}></div>
           <div className={style.OutrodialogueData}>
             {OutrodialogueData[isIndex].character}
             <br />
@@ -269,9 +298,11 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 5 && isIndex <= 13) {
+    const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
         <div className={style["background_8"]}>
+          <div className={style[characterImageClass]}></div>
           <div className={style.OutrodialogueData}>
             {OutrodialogueData[isIndex].character}
             <br />

@@ -72,6 +72,7 @@ const IntrodialogueData = [
     message:
       "그렇다면, 너희들이 괜찮다면, 나도 함께 가고 싶어. 조그만 용기도 없는 내 삶은 정말 견딜 수 없어",
   },
+
   //4
   {
     index: 12,
@@ -109,7 +110,7 @@ const IntrodialogueData = [
     message: "도로시와 친구들은 소원을 이루기 위해 다시 모험을 떠나게 된다.",
   },
 ];
-const dialogueData = [
+const dialogue1Data = [
   // 1. 사칙연산
   {
     index: 1,
@@ -133,34 +134,36 @@ const dialogueData = [
     character: "허수아비",
     message: "나 이제 뭔가 깨달았어",
   },
-  // 2.
-
+];
+// 2.
+const dialogue2Data = [
   {
-    index: 5,
+    index: 1,
     character: "도로시",
     message:
       "앗 이게 뭐야 미로잖아? 분위기를 보니 함정도 있을 것 같아 무서워..",
   },
 
   {
-    index: 6,
+    index: 2,
     character: "양철 나무꾼",
     message: "여길 어떻게 지나가야 하는거지?? 어어..? 사자야 조심해",
   },
 
   {
-    index: 7,
+    index: 3,
     character: "사자",
     message: "으아아앗",
   },
 
   {
-    index: 8,
+    index: 11,
     character: "사자",
     message:
       "후.. 빠져나왔다... 나 이제 뭐든 할 수 있을 것 같아!!!!  얘들아 이제 곧 마녀의 성이야 서두르자 !!!!",
   },
-  // 3
+];
+const dialogue3Data = [
   {
     index: 9,
     character: "도로시",
@@ -175,11 +178,13 @@ const dialogueData = [
 
   {
     index: 11,
-    character: "나무꾼",
+    character: "양철 나무꾼",
     message:
       ".. 너희가 나를 구해준거니 ? 정말 고마워 너희의 따뜻한 마음에 감동받았어 우리 어서 마녀를 잡으러가자!!!",
   },
-  //4
+];
+//4
+const dialogue4Data = [
   {
     index: 12,
     character: "도로시",
@@ -275,4 +280,11 @@ const OutrodialogueData = [
   },
 ];
 
-export { IntrodialogueData, dialogueData, OutrodialogueData };
+export {
+  IntrodialogueData,
+  dialogue1Data,
+  dialogue2Data,
+  dialogue3Data,
+  dialogue4Data,
+  OutrodialogueData,
+};

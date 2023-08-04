@@ -39,21 +39,23 @@ function LoginPage(props) {
     };
 
     dispatch(loginUser(body)).then((response) => {
-      console.log(response.payload.headers.accesstoken);
-
       if (response.payload.data === "로그인 성공") {
         const Atoken = response.payload.headers.accesstoken;
         setCookies("Atoken", Atoken);
-
-        console.log(cookies);
-
-        alert(cookies.Atoken);
-        // cookies.Atoken 이게 널아니면 로그인중이다 확인가능
         navigate("/authlanding");
 
         // 성공하면  root page(landing page)로 가라
       } else {
-        alert("Error");
+        if (
+          response.payload.payload.error === "해당 회원을 찾을 수 없습니다."
+        ) {
+          alert("해당 회원을 찾을 수 없습니다.");
+        } else if (
+          response.payload.payload.error ===
+          "아이디 혹은 비밀번호가 틀렸습니다."
+        ) {
+          alert("아이디 혹은 비밀번호가 틀렸습니다.");
+        }
       }
     });
 
