@@ -8,6 +8,7 @@ import GamePage from "./components/views/GamePage/GamePage";
 import WithDrawl from "./components/views/WithDrawl/WithDrawl";
 
 import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
+import SocketPage from "./components/views/SocketPage/SocketPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/game" element={<GamePage />} />
 
           <Route path="/play" element={<GameComp/>} />
+          <Route path="/socket" element={<SocketPage />} />
         </Routes>
       </div>
     </BrowserRouter>
