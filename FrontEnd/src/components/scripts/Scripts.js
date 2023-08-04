@@ -6,20 +6,44 @@ const IntrodialogueData = [
   {
     index: 1,
     character: "",
-    message:
-      "산책 중이던 도로시는 갑작스러운 토네이도에, \
-      오즈의 나라로 날아가게 되는데...",
+    message:(
+      <>
+        산책 중이던 도로시는
+        <br />
+        <br />
+        갑작스러운 토네이도에,
+        <br />
+        <br />
+        오즈의 나라로 날아가게 되는데...
+      </>
+    ),
   },
   {
     index: 2,
     character: "",
-    message:
-      "집으로 돌아가기 위해선 위대한 마법사를 만나야한다는 이야기를 들었고",
+    message:(
+      <>
+        집으로 돌아가기 위해선
+        <br />
+        <br />
+        위대한 마법사를 만나야한다는
+        <br />
+        <br />
+        이야기를 들었고
+      </>
+    )
   },
   {
     index: 3,
     character: "",
-    message: "도로시는 길을 헤매다 누군가를 만나게 된다..",
+    message: (
+      <>
+       도로시는 길을 헤매다
+      <br />
+      <br />
+       누군가를 만나게 된다..
+      </>
+    ),
   },
   // 2.
   {
@@ -32,7 +56,7 @@ const IntrodialogueData = [
     index: 5,
     character: "허수아비",
     message:
-      "난 스스로 생각을 하지 못하는 허수아비야. 마법사 오즈가 소원을 이루어 준다고 해서 오즈를 찾아가는 길이야! 근데 어디로 가야 할지 모르겠어… 이게 뭐야 미로잖아? 분위기를 보니 함정도 있을 것 같아 무서워..",
+      "난 스스로 생각을 하지 못하는 허수아비야. 마법사 오즈가 소원을 이루어 준다고 해서 오즈를 찾아가는 길이야! 근데 어디로 가야 할지 모르겠어…",
   },
 
   {
@@ -158,7 +182,7 @@ const dialogue2Data = [
   },
 
   {
-    index: 11,
+    index: 4,
     character: "사자",
     message:
       "후.. 빠져나왔다... 나 이제 뭐든 할 수 있을 것 같아!!!!  얘들아 이제 곧 마녀의 성이야 서두르자 !!!!",
@@ -166,19 +190,26 @@ const dialogue2Data = [
 ];
 const dialogue3Data = [
   {
-    index: 9,
+    index: 1,
     character: "도로시",
     message: "거의 다온 것 같아",
   },
 
   {
-    index: 10,
+    index: 2,
     character: "양철 나무꾼",
     message: "…..쿵",
   },
 
   {
-    index: 11,
+    index: 3,
+    character: "사자",
+    message:
+      "어 양철나무꾼아 무슨일이야 ?? 갑자기 양철나무꾼이 쓰러졌어!",
+  },
+
+  {
+    index: 4,
     character: "양철 나무꾼",
     message:
       ".. 너희가 나를 구해준거니 ? 정말 고마워 너희의 따뜻한 마음에 감동받았어 우리 어서 마녀를 잡으러가자!!!",
@@ -187,13 +218,13 @@ const dialogue3Data = [
 //4
 const dialogue4Data = [
   {
-    index: 12,
+    index: 1,
     character: "도로시",
     message: "여기가 마녀의 성이야!!!",
   },
 
   {
-    index: 13,
+    index: 2,
     character: "모두",
     message:
       "우리 다함께 힘을 합쳐서 마녀를 무찌르자!!!  자 우리의 협동심을 보여줘 볼까 ????",
