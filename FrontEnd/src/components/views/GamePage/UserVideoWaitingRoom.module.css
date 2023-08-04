@@ -1,0 +1,7 @@
+.userVideo{
+    width: 289px;
+    height: 217px;
+    background-color: black;
+    border-radius: 25px;
+    z-index: 2;
+}

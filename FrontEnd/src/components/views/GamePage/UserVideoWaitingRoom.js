@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import style from "./UserVideoWaitingRoom.module.css";
 
 const UserVideoWaitingRoom = ({ streamManager }) => {
   const videoRef = useRef(null);
@@ -20,14 +21,9 @@ const UserVideoWaitingRoom = ({ streamManager }) => {
   return (
     <div>
       {/* 스트림을 표시하는 video 요소 */}
-      <video
+      <video className={style.userVideo}
         ref={videoRef}
         autoPlay
-        style={{
-          width: "290px",
-          height: "250px",
-          backgroundColor: "black",
-        }}
       />
     </div>
   );
