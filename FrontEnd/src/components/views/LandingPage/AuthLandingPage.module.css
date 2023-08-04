@@ -31,9 +31,9 @@
     background-size: contain; /* 이미지를 div 안에 맞게 조절 */
     background-repeat: no-repeat; /* 이미지 반복 없음 */
     width: 200px; /* 캐릭터의 너비 */
-    height: 400px; /* 캐릭터의 높이 */
-    top: 60%;
-    left :80%
+    height: 220px; /* 캐릭터의 높이 */
+    bottom: 1%;
+    right :2%
   
   }
   
@@ -71,8 +71,8 @@
     width: 170px;
     height: 50px;
     position: absolute;
-    top: 61%;
-    left :82%;
+    top: 9%;
+    left :11%;
     cursor: pointer;
   }
   
@@ -83,8 +83,7 @@
     width: 170px;
     height: 50px;
     position: absolute;
-    top: 71%;
-    left :80%;
+    top: 39%;
     cursor: pointer;
   }
   
