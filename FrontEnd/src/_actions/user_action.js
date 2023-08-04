@@ -5,8 +5,18 @@ export function loginUser(dataToSubmit) {
   console.log(dataToSubmit);
   const request = axiosInstance
     .post("/api/users/login", dataToSubmit)
-    .then((response) => response);
-
+    .then((response) => response)
+    .catch((err) => {
+      const errorMessage =
+        err.response && err.response.data && err.response.data.msg
+          ? err.response.data.msg
+          : "로그인 중 오류가 발생했습니다.";
+      // console.log(errorMessage);
+      return {
+        type: LOGIN_USER,
+        payload: { error: errorMessage },
+      };
+    });
   return {
     type: LOGIN_USER,
     payload: request,
