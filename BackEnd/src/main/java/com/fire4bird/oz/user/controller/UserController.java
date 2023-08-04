@@ -1,5 +1,6 @@
 package com.fire4bird.oz.user.controller;
 
+import com.fire4bird.oz.common.CMRespDto;
 import com.fire4bird.oz.emailcode.mapper.EmailCodeMapper;
 import com.fire4bird.oz.emailcode.service.EmailCodeService;
 import com.fire4bird.oz.jwt.JwtProvider;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -118,7 +120,6 @@ public class UserController {
         return ResponseEntity.ok("인증 코드  전송");
     }
 
-
     //이메일 인증 코드 체크
     @PostMapping("/codechek")
     public ResponseEntity checkMailCode(@RequestBody EmailCodeDto emailCodeDto) {
@@ -129,6 +130,7 @@ public class UserController {
     }
 
     //유저 정보 변경
+
     @PutMapping("/update")
     public ResponseEntity updateUser(@RequestBody UpdateUserDto updateUserDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -139,4 +141,19 @@ public class UserController {
 
         return ResponseEntity.ok("유저 정보 변경 완료");
     }
+
+    //유저 마이페이지
+    @GetMapping("/mypage")
+    public ResponseEntity mypage() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("유저 아이디 : {}", userId);
+
+        User user = userService.findUser(Integer.parseInt(userId));
+        log.info("user : {}", user);
+
+        MyPageDto myPageDto = userMapper.userToMyPageDto(user);
+
+        return new ResponseEntity<>(new CMRespDto<>(1, "마이페이지", myPageDto), HttpStatus.OK);
+    }
+
 }
