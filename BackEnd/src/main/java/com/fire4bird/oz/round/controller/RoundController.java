@@ -20,17 +20,18 @@ public class RoundController {
 
     @MessageMapping("/round/start")
     public void roundStart(RoundStartReq req) {
-        SocketMessage msg = new SocketMessage();
-
         //방장이 start 했는지 판별
         int owner = socketRepository.findOwnerById(req.getRtcSession());
         if(owner != req.getUserId())
             return;
 
-        msg.setMessage("모험 시작");
-        msg.setData(roundService.roundSave(req));
-        msg.setRtcSession(req.getRtcSession());
-        msg.setType("round/start");
+        SocketMessage msg = SocketMessage.builder()
+                .message("모험 시작")
+                .data(roundService.roundSave(req))
+                .rtcSession(req.getRtcSession())
+                .type("round/start")
+                .userId(req.getUserId())
+                .build();
         redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), msg);
     }
 
