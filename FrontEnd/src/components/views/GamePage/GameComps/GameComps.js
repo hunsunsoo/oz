@@ -6,6 +6,7 @@ import {
   AnsBoard,
   MiroRed,
   MiroGreen,
+  MiroBlue,
 } from "./Board";
 import style from "./GameComps.module.css";
 import { DndProvider, useDrag } from 'react-dnd';
@@ -38,6 +39,8 @@ const Image = ({ src, alt }) => {
       isDragging: !!monitor.isDragging(),
     }),
   });
+
+  const [isStage, setIsStage] = useState(0);
 
   return (
     <img
@@ -175,6 +178,8 @@ const GameComp = (props) => {
             className={style.liondir}
           />
         </div>
+        {/* 임시버튼임 */}
+        <button onClick={props.changeIsIndex} >(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 12) {
@@ -190,6 +195,7 @@ const GameComp = (props) => {
             className={style.iconStyle}
           />
         </div>
+        <button onClick={props.changeIsIndex} >(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 13) {
@@ -205,6 +211,23 @@ const GameComp = (props) => {
             className={style.iconStyle}
           />
         </div>
+        <button onClick={props.changeIsIndex} >(임시)Next</button>
+      </div>
+    );
+  } else if (isStage === 2 && isIndex == 14) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style.background_G2}>
+          <div className={style.MiroStyle}>
+            <MiroBlue />
+          </div>
+          <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+          />
+        </div>
+        <button onClick={props.changeIsClear} >(임시)Next</button>
       </div>
     );
     // 3스테이지
@@ -399,6 +422,22 @@ const GameComp = (props) => {
         </div>
       </div>
     );
+  } else if (isStage === 2 && isIndex === 21) { // 클리어 후
+    const characterImageClass = getCharacterClass(dialogue2Data, 3);
+    console.log(characterImageClass);
+    return (
+      <div className={style.compStyle}>
+        <div className={style.background_G2}>
+          <div className={style.script}>
+            {dialogue2Data[3].character}
+            <br />
+            <br />
+            {dialogue2Data[3].message}
+          </div>
+          <div className={style[characterImageClass]}></div>
+        </div>
+      </div>
+    );
     // 3스테이지 스토리
   } else if (isStage === 3 && isIndex <= 2) {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
@@ -504,7 +543,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-  } else if (isStage === 5 && isIndex <= 13) {
+  } else if (isStage === 5 && isIndex <= 12) {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
@@ -515,6 +554,16 @@ const GameComp = (props) => {
             <br />
             <br />
             {OutrodialogueData[isIndex].message}
+          </div>
+        </div>
+      </div>
+    );
+  } else if (isStage === 5 && isIndex === 13) {
+    return (
+      <div className={style.compStyle}>
+        <div className={style.background_S6}>
+          <div style={{color: "white"}}>
+            클리어 했습니다
           </div>
         </div>
       </div>

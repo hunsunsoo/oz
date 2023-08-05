@@ -174,4 +174,31 @@ const MiroGreen = () => {
   );
 };
 
-export { NumberBoard, AlphaBoard, MathBoard, AnsBoard, MiroRed, MiroGreen };
+const MiroBlue = () => {
+  const boardData = [
+    [1, 0, 0, 0, 1, 0],
+    [0, 0, 0, 1, 0, 1],
+    [0, 0, 1, 0, 1, 0],
+    [0, 1, 0, 1, 0, 0],
+    [1, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1]
+  ];
+
+  return (
+    <div className="miro-blue">
+      {boardData.map((row, rowIndex) => (
+        <div className="miro-blue-row" key={rowIndex}>
+          {row.map((color, columnIndex) => (
+            <div
+              className={rowIndex % 2 === columnIndex % 2 ? "miro-blue-cell even" : "miro-blue-cell odd"}
+              style={{ backgroundColor: color === 1 ? 'blue' : '#979797' }}
+              key={columnIndex}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export { NumberBoard, AlphaBoard, MathBoard, AnsBoard, MiroRed, MiroGreen, MiroBlue };
