@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
 
-const PlayGame = () => {
+const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
   const [isStage, setIsStage] = useState(0);
   const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 4, 12, 11, 7, 14];
+
+  const handleMiddleCondition = () => {
+    const newStatus = middleCon - 1;
+    onHandleMiddleCondition(newStatus);
+  }
 
   // flow 상의 Next 버튼
   const handleNext = () => {
@@ -18,7 +23,13 @@ const PlayGame = () => {
       setIsStage(isStage + 1);
     }
   };
-  const isButtonActive = isStage >= 1 && isStage <= 4 && isIndex >= 11 && isIndex <= 20;
+  const isButtonActive = 
+  (isStage >= 1 && isStage <= 4 && isIndex >= 10 && isIndex <= 20) || // 기존 조건
+  (isStage === 1 && isIndex === 3) || // isStage가 1이고 isIndex가 3인 조건
+  (isStage === 2 && isIndex === 3) ||
+  (isStage === 3 && isIndex === 3) ||
+  (isStage === 4 && isIndex === 2) ||
+  (isStage === 5 && isIndex === 13); // isStage가 2이고 isIndex가 2인 조건
 
   // index만 증가 따로
   const indexNext = () => {
@@ -45,6 +56,13 @@ const PlayGame = () => {
       setIsIndex(21);
     }
   }
+  
+  
+  // 게임 종료 (팀구성 화면)
+  const resetNext = () => {
+    setIsIndex(0);
+    setIsStage(0);
+  }
 
   useEffect(() => {
     // 10초 후에 숫자판 (일단 3초)
@@ -57,6 +75,13 @@ const PlayGame = () => {
     }
   }, [isStage, isIndex]);
 
+
+  useEffect(() => {
+    // subscribeToSessionID();
+    console.log(sessionId)
+  }, []);
+
+  
   const gamedivStyle = {
     margin: "0",
     padding: "0",
@@ -72,9 +97,9 @@ const PlayGame = () => {
 
   const BtnStyle = {
     position: "absolute",
-    // display: isButtonActive ? "none" : "block",
+    display: isButtonActive ? "none" : "block",
   }
-
+  console.log("PlayGame의 " + sessionId);
   console.log("stage: "+isStage+" index: "+isIndex);
   return (
     <div style={gamedivStyle}>
