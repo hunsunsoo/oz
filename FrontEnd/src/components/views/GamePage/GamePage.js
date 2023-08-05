@@ -3,6 +3,7 @@ import { OpenVidu } from "openvidu-browser";
 import { useLocation } from "react-router-dom";
 import RTCViewLower from "./RTCViewLower";
 import RTCViewCenter from './RTCViewCenter';
+import Stomp from 'stompjs';
 import axios from "axios";
 import Header from "../Header/Header";
 import GamingHeader from "../Header/GamingHeader";
@@ -11,7 +12,7 @@ import PlayGame from "./PlayGame";
 import WaitingRoomOption from './WaitingRoomOption';
 
 const GamePage = () => {
-  // 헤더 컴포넌트 조건부 렌더링 - 게임시작전에는 false, 게임시작 후에는 true
+  // 컴포넌트 조건부 렌더링
   const [isGaming, setIsGaming] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [middleCon, setMiddleCon] = useState(1);
@@ -23,9 +24,12 @@ const GamePage = () => {
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket/room'
+  const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
+
+  const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
 
   // RTC를 위한 state
-  const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
   const [myUserName, setMyUserName] = useState(
     `Participant ${Math.floor(Math.random() * 100)}`
   );
@@ -38,10 +42,17 @@ const GamePage = () => {
   const [isSpeaker, setIsSpeaker] = useState(true);
   const [isChat, setIsChat] = useState(false);
 
+  // Socket을 위한 state
+  const [UserId, setuserId] = useState(1);
+  const [client, setClient] = useState(null);
+  const [isConnect, setIsConnect] = useState(false);
+  const [receivedMessages, setReceivedMessages] = useState([]);
+
   const userRef = useRef(null);
 
   // 페이지 생성시 접속 요청
   useEffect(() => {
+    // RTC
     createToken(mySessionId)
       .then((token) => {
         joinSessionWithToken(token);
@@ -49,7 +60,18 @@ const GamePage = () => {
       .catch((error) => {
         console.error("Error creating token:", error);
       });
+    
+    // Socket
+    createRoom(mySessionId, UserId);
+
   }, [mySessionId]);
+
+  // 연결되면 구독메서드 실행하도록
+  useEffect(() => {
+    if (isConnect) {
+      // subscribeToTopic();
+    }
+  }, [isConnect]);
 
   // 접속 종료 처리
   useEffect(() => {
@@ -230,6 +252,50 @@ const GamePage = () => {
       });
   };
 
+  // 소켓 연결 전 socket room 생성
+  const createRoom = async (mySessionId, userId) => {
+    try {
+      const response = await axios.post(CREATEROOM_SERVER_URL, {
+        rtcSession: mySessionId,
+        userId: userId,
+      });
+
+      if (response.status !== 200) {
+        throw new Error('방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요');
+      }
+      console.log('방 생성에 성공하였습니다. 소켓 연결을 시작합니다.');
+
+      socketConnect(); // 방 생성 성공 후 소켓 연결 시작
+
+    } catch (error) {
+      console.error('Error creating a room:', error);
+    }
+  };
+
+  // WebSocket Server 연결
+  const socketConnect = () => {
+    let newClient = Stomp.client(WEBSOCKET_SERVER_URL);
+    newClient.debug = console.log; // 디버그 메시지 비활성화 null, 활성화 console.log
+
+    // 연결 성공시 구독을 위한 isConnect state 갱신
+    const onConnect = () => {
+      console.log('웹소켓 연결완료');
+      setIsConnect(true);
+    };
+
+    const onError = (error) => {
+      console.error('웹소켓 연결 error:', error);
+    };
+
+    newClient.connect({}, onConnect, onError);
+
+    setClient(newClient);
+
+    return () => {
+      newClient.disconnect();
+    };
+  }
+
   const handleGamingStart = (status) => {
     setIsWaiting(status);
   };
@@ -243,7 +309,7 @@ const GamePage = () => {
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition}/>;
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
       break;
     case 2:
       CompMiddleSection = <PlayGame />;
