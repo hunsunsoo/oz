@@ -7,6 +7,7 @@ import {
   MiroRed,
   MiroGreen,
 } from "./Board";
+import App from "./test";
 import style from "./GameComps.module.css";
 import {
   IntrodialogueData,
@@ -178,6 +179,21 @@ const GameComp = (props) => {
     //////////////////////////////
     // 스토리 일러스트, 스크립트 //
     //////////////////////////////
+  }else if(isStage === 4 && isIndex == 2){
+    return(
+      <div className={style.compStyle}>
+        <div className={style.backgroundDiv4}>
+          <div className={style.drawing}>
+            <App></App>
+          </div>
+          <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+          />
+        </div>
+      </div>
+    );
   } else if (isStage === 0 && isIndex <= 2) {
     return (
       <div className={style.compStyle}>

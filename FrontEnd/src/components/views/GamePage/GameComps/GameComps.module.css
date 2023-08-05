@@ -171,6 +171,21 @@
   margin: -150px 0 0 -150px;
 }
 
+/* 4스테이지 게임 */
+.backgroundDiv4 {
+  width: 100%;
+  height: 90%;
+  background: url('../../../../../public/image/backGround/G4_BG_catchmind.png');
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+}
+
+.drawing{
+  width:70%;
+  height: 100%;
+}
+
 
 /* 대화스크립트창 */
 
