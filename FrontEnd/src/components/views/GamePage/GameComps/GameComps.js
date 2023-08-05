@@ -7,6 +7,7 @@ import {
   MiroRed,
   MiroGreen,
 } from "./Board";
+import App from "./test";
 import style from "./GameComps.module.css";
 import { DndProvider, useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -240,18 +241,18 @@ const GameComp = (props) => {
     );
     // 4스테이지
   } else if (isStage === 4 && isIndex == 11) {
-    return (
+    return(
       <div className={style.compStyle}>
-        <div className={style.background_G4}>
-          <div className={style.word}>수륙챙이</div>
-          <div className={style.stage4SubmitBtn} onClick={props.changeIsClear}>정답제출</div>
-          <div className={style.drawingDiv}> 그림판 </div>
-        </div>
-        <img
+        <div className={style.backgroundDiv4}>
+          <div className={style.drawing}>
+            <App></App>
+          </div>
+          <img
             src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
+        </div>
       </div>
     );
   } else if (isStage === 4 && isIndex == 12) {
