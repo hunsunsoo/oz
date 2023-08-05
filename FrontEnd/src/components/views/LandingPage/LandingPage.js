@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
-import MyButton from "../../tools/MyButton";
+
 function LandingPage() {
   const navigate = useNavigate();
   return (

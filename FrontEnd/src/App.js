@@ -6,8 +6,10 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import AuthLandingPage from "./components/views/LandingPage/AuthLandingPage";
 import GamePage from "./components/views/GamePage/GamePage";
 import WithDrawl from "./components/views/WithDrawl/WithDrawl";
-
+import PasswordChange from "./components/views/PasswordChange/PasswordChange";
+import MyPage from "./components/views/MyPage/MyPage";
 import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
+import KakaoLogin from "./components/views/LoginPage/KakoLogin";
 
 function App() {
   return (
@@ -17,11 +19,15 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/authlanding" element={<AuthLandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/kakaoLogin" element={<KakaoLogin />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/withdrawl" element={<WithDrawl />} />
+          <Route path="/passwordchange" element={<PasswordChange />} />
+          <Route path="/mypage" element={<MyPage />} />
+
           <Route path="/game" element={<GamePage />} />
 
-          <Route path="/play" element={<GameComp/>} />
+          <Route path="/play" element={<GameComp />} />
         </Routes>
       </div>
     </BrowserRouter>

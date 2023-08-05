@@ -57,15 +57,15 @@ function RegisterPage(props) {
     };
 
     dispatch(registerUser(body)).then((response) => {
-      // console.log(response);
+      console.log(response);
       // console.log(response.payload.success);
-      if (response.payload != null) {
-        console.log("a");
+      // console.log(response);
+      if (response.payload === "회원 가입 완료") {
         navigate("/login");
-        console.log("b");
+
         // 성공하면  root page(landing page)로 가라
       } else {
-        alert("Failed to sign up");
+        console.log(response);
       }
     });
 
@@ -94,7 +94,7 @@ function RegisterPage(props) {
               className={style.input}
               type="text"
               value={Name}
-              placeholder="Email"
+              placeholder="Name"
               onChange={onNameHandler}
             />
             <br />
