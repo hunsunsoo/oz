@@ -4,11 +4,15 @@ import { GameComp } from "./GameComps/GameComps";
 const PlayGame = () => {
   const [isStage, setIsStage] = useState(0);
   const [isIndex, setIsIndex] = useState(0);
-  const stageLimits = [16, 11, 12, 11, 7, 14];
+  const stageLimits = [16, 4, 12, 11, 7, 14];
 
+  // flow 상의 Next 버튼
   const handleNext = () => {
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
+    } else if (isIndex == 21) {
+      setIsIndex(0);
+      setIsStage(isStage + 1);
     } else {
       setIsIndex(0);
       setIsStage(isStage + 1);
@@ -16,9 +20,31 @@ const PlayGame = () => {
   };
   const isButtonActive = isStage >= 1 && isStage <= 4 && isIndex >= 11 && isIndex <= 20;
 
+  // index만 증가 따로
   const indexNext = () => {
     setIsIndex(isIndex + 1);
   };
+
+  // stage별 이동 따로
+  const stageNext = () => {
+    setIsIndex(0);
+    setIsStage(isStage + 1);
+  };
+
+  // 게임 시작 (준비완료 됐을때)
+  const readyNext = () => {
+    setIsIndex(11);
+  }
+
+  // 게임 클리어 (마지막 일러스트 보러가자)
+  const stageLast = () => {
+    if (isStage == 4 ){
+      setIsIndex(0);
+      setIsStage(isStage + 1);
+    } else {
+      setIsIndex(21);
+    }
+  }
 
   useEffect(() => {
     // 10초 후에 숫자판 (일단 3초)
@@ -49,11 +75,12 @@ const PlayGame = () => {
     // display: isButtonActive ? "none" : "block",
   }
 
+  console.log("stage: "+isStage+" index: "+isIndex);
   return (
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
         <button style={BtnStyle} onClick={handleNext} >Next</button>
-        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} />
+        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast}/>
       </div>
     </div>
   );
