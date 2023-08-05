@@ -263,10 +263,11 @@ const GameComp = (props) => {
       </div>
     );
     // 4스테이지
-  } else if (isStage === 4 && isIndex == 11) {
+  } else if (isStage === 4 && isIndex === 11) {
     return(
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv4}>
+        <div className={style.background_G4}>
+          <div className={style.word}>수륙챙이</div>
           <div className={style.drawing}>
             <App></App>
           </div>
@@ -276,6 +277,8 @@ const GameComp = (props) => {
             className={style.iconStyle}
           />
         </div>
+        {/* 임시버튼임 */}
+        <button onClick={props.changeIsIndex} >(임시)Next</button>
       </div>
     );
   } else if (isStage === 4 && isIndex == 12) {
@@ -285,6 +288,7 @@ const GameComp = (props) => {
           <div className={style.word}>제시어</div>
           <div className={style.drawingDiv}> 그림판 </div>
         </div>
+        <div className={style.stage4SubmitBtn} onClick={props.changeIsClear}>정답제출</div>
         <img
             src="image/tools/questionMark.png"
             alt="questionMark"
