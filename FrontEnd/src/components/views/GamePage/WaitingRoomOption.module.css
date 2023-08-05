@@ -1,0 +1,48 @@
+.optionButton{
+    font-size: 30px;
+    background-color: #6C584C;
+    color: #c9be96;
+    width: 13%;
+    height: 50%;
+    margin: 1%;
+    margin-right: 4%;
+    border: none;
+    border-radius: 28px;
+    cursor: pointer;
+}
+
+.optionBox{
+    background-color: #CABE96;
+    margin-left: 1%;
+    margin-bottom: 2%;
+    border-radius: 20px;
+    flex: 1 1 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nextBox{
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.nextButton{
+    padding: 10px 20px;
+    font-size: 30px;
+    font-weight: 700;
+    background-color: #6C584C;
+    color: #c9be96;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 10px;
+    margin-left: 7%;
+    height: 57%;
+    width: 56%;
+
+}

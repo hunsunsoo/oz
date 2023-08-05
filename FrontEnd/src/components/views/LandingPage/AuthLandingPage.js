@@ -128,10 +128,10 @@ function AuthLandingPage(props) {
     <div>
       <div className={style.coverPage}>
         <div className={style.landingpage}>
-          <div className={style.character}></div>
+          {/* <div className={style.character}></div> */}
           <div className={style.milestone}></div>
-          <div className={style.oz}></div>
-          <div className={style.ozstory}></div>
+          {/* <div className={style.oz}></div>
+          <div className={style.ozstory}></div> */}
 
           <button onClick={() => logOutHandler()}>LogOut</button>
           <button className="button" onClick={() => navigate(`/withdrawl`)}>

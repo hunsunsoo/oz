@@ -30,6 +30,8 @@ public class GameManager {
     private String session;
     // 게임을 진행 중인 유저와 역할을 저장할 list
     private List<Player> players;
+    // 몇 명 준비됐는지 확인
+    private int readyCount;
     // 랜덤으로 설정된 정답과 숫자판 -> 게임 시작 때마다 init
     private int answer;
     private int[][] numberBoard;
@@ -52,18 +54,32 @@ public class GameManager {
         players = new LinkedList<>();
         this.calculationService = calculationService;
         this.helperCount = 0;
-        this.isGameStarted = true;
+        this.isGameStarted = false;
 
-        this.setRole(userRounds);
+        this.setPlayerState(userRounds);
     }
 
     // 본인에게 맞는 역할을 넣어 주는 메서드
-    public void setRole(List<UserRound> userRounds){
+    public void setPlayerState(List<UserRound> userRounds){
         for(UserRound userRound : userRounds){
+//            players.add(new Player(userRound.getUser(), userRound.getRole()));
             if(userRound.getRole() == 3)  // 역할이 허수아비(actor)면 1 조력자면 0
                 players.add(new Player(userRound.getUser(), 1));
             else players.add(new Player(userRound.getUser(), 0));
         }
+    }
+
+    public boolean startAvailable(int role){
+        if(!players.get(role-1).isReady()){
+            players.get(role-1).setReady(true);
+            readyCount++;
+        }else{
+            players.get(role-1).setReady(false);
+            readyCount--;
+        }
+
+        if(readyCount == 4) this.isGameStarted = true;
+        return this.isGameStarted;
     }
 
     // 게임 setting(만들어진 설정들을 db에 저장)

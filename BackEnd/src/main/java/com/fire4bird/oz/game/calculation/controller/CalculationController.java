@@ -39,22 +39,35 @@ public class CalculationController {
     // 게임 시작
     @MessageMapping("/calculation/start/{roundId}")
     public void gameStart(@DestinationVariable Integer roundId, SessionReq req) throws Exception{
-        gameManagerMap.put(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
-    }
-
-    // 게임에 필요한 보드판 설정 및 받아오기
-    @MessageMapping("/calculation/setboard/{roundId}")
-    public void setGame(@DestinationVariable Integer roundId){
+        gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
         SocketMessage msg = new SocketMessage();
-        SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
+        msg.setType("calculation/start/" + roundId);
+        msg.setRtcSession(req.getSession());
 
-        msg.setType("calculation/setboard/" + roundId);
-        msg.setRtcSession(res.getSession());
-        msg.setMessage("생성된 보드판 공개");
-        msg.setData(res);
+        if(gameManagerMap.get(roundId).startAvailable(req.getRole())){
+            SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
+            msg.setMessage("생성된 보드판 공개");
+            msg.setData(res);
+        }else{
+            msg.setMessage("시작 준비 안 됨");
+        }
 
         redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
     }
+
+//    // 게임에 필요한 보드판 설정 및 받아오기
+//    @MessageMapping("/calculation/setboard/{roundId}")
+//    public void setGame(@DestinationVariable Integer roundId){
+//        SocketMessage msg = new SocketMessage();
+//        SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
+//
+//        msg.setType("calculation/setboard/" + roundId);
+//        msg.setRtcSession(res.getSession());
+//        msg.setMessage("생성된 보드판 공개");
+//        msg.setData(res);
+//
+//        redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
+//    }
 
     // 만들어야 할 정답 받아오기
     @MessageMapping("/calculation/getanswer/{roundId}")

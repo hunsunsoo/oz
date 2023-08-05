@@ -1,24 +1,68 @@
 import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
 
-const PlayGame = () => {
+const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
   const [isStage, setIsStage] = useState(0);
   const [isIndex, setIsIndex] = useState(0);
-  const stageLimits = [16, 11, 12, 11, 7, 14];
+  const stageLimits = [16, 4, 12, 11, 7, 14];
 
+  const handleMiddleCondition = () => {
+    const newStatus = middleCon - 1;
+    onHandleMiddleCondition(newStatus);
+  }
+
+  // flow 상의 Next 버튼
   const handleNext = () => {
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
+    } else if (isIndex == 21) {
+      setIsIndex(0);
+      setIsStage(isStage + 1);
     } else {
       setIsIndex(0);
       setIsStage(isStage + 1);
     }
   };
-  const isButtonActive = isStage >= 1 && isStage <= 4 && isIndex >= 11 && isIndex <= 20;
+  const isButtonActive = 
+  (isStage >= 1 && isStage <= 4 && isIndex >= 10 && isIndex <= 20) || // 기존 조건
+  (isStage === 1 && isIndex === 3) || // isStage가 1이고 isIndex가 3인 조건
+  (isStage === 2 && isIndex === 3) ||
+  (isStage === 3 && isIndex === 3) ||
+  (isStage === 4 && isIndex === 2) ||
+  (isStage === 5 && isIndex === 13); // isStage가 2이고 isIndex가 2인 조건
 
+  // index만 증가 따로
   const indexNext = () => {
     setIsIndex(isIndex + 1);
   };
+
+  // stage별 이동 따로
+  const stageNext = () => {
+    setIsIndex(0);
+    setIsStage(isStage + 1);
+  };
+
+  // 게임 시작 (준비완료 됐을때)
+  const readyNext = () => {
+    setIsIndex(11);
+  }
+
+  // 게임 클리어 (마지막 일러스트 보러가자)
+  const stageLast = () => {
+    if (isStage == 4 ){
+      setIsIndex(0);
+      setIsStage(isStage + 1);
+    } else {
+      setIsIndex(21);
+    }
+  }
+  
+  
+  // 게임 종료 (팀구성 화면)
+  const resetNext = () => {
+    setIsIndex(0);
+    setIsStage(0);
+  }
 
   useEffect(() => {
     // 10초 후에 숫자판 (일단 3초)
@@ -31,6 +75,13 @@ const PlayGame = () => {
     }
   }, [isStage, isIndex]);
 
+
+  useEffect(() => {
+    // subscribeToSessionID();
+    console.log(sessionId)
+  }, []);
+
+  
   const gamedivStyle = {
     margin: "0",
     padding: "0",
@@ -46,14 +97,15 @@ const PlayGame = () => {
 
   const BtnStyle = {
     position: "absolute",
-    // display: isButtonActive ? "none" : "block",
+    display: isButtonActive ? "none" : "block",
   }
-
+  console.log("PlayGame의 " + sessionId);
+  console.log("stage: "+isStage+" index: "+isIndex);
   return (
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
         <button style={BtnStyle} onClick={handleNext} >Next</button>
-        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} />
+        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast}/>
       </div>
     </div>
   );

@@ -9,9 +9,11 @@ import lombok.Setter;
 public class Player {
     private User user;
     private int role;
+    private boolean isReady;
 
     public Player(User user, int role){
         this.user = user;
         this.role = role;
+        this.isReady = false;
     }
 }

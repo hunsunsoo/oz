@@ -1,15 +1,13 @@
 package com.fire4bird.oz.user.controller;
 
+import com.fire4bird.oz.common.CMRespDto;
 import com.fire4bird.oz.emailcode.mapper.EmailCodeMapper;
 import com.fire4bird.oz.emailcode.service.EmailCodeService;
 import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.jwt.blacklist.service.BlackListService;
 import com.fire4bird.oz.jwt.refresh.key.RefreshToken;
 import com.fire4bird.oz.jwt.refresh.service.RefreshTokenService;
-import com.fire4bird.oz.user.dto.EmailCodeDto;
-import com.fire4bird.oz.user.dto.LoginDto;
-import com.fire4bird.oz.user.dto.RegistUserDto;
-import com.fire4bird.oz.user.dto.ResignDto;
+import com.fire4bird.oz.user.dto.*;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.mapper.UserMapper;
 import com.fire4bird.oz.user.service.UserService;
@@ -18,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -39,6 +38,11 @@ public class UserController {
     //유저 회원가입
     @PostMapping("/signup")
     public ResponseEntity registUser(@RequestBody RegistUserDto registUserDto) {
+        log.info("회원가입 요청 들어옴");
+        log.info("이름 : {}",registUserDto.getName());
+        log.info("비밀번호 : {}",registUserDto.getPassword());
+        log.info("닉네임 : {}",registUserDto.getNickname());
+        log.info("이메일 : {}",registUserDto.getEmail());
         userService.registUser(userMapper.registUserToUser(registUserDto), "self");
         return ResponseEntity.ok("회원 가입 완료");
     }
@@ -110,7 +114,7 @@ public class UserController {
     }
 
     //이메일 인증
-    @PostMapping("/mail")
+    @GetMapping("/mail")
     public ResponseEntity sendMail() throws MessagingException {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -121,7 +125,6 @@ public class UserController {
         return ResponseEntity.ok("인증 코드  전송");
     }
 
-
     //이메일 인증 코드 체크
     @PostMapping("/codechek")
     public ResponseEntity checkMailCode(@RequestBody EmailCodeDto emailCodeDto) {
@@ -130,4 +133,29 @@ public class UserController {
 
         return ResponseEntity.ok("이메일 코드 검증 완료");
     }
+
+    //유저 정보 변경
+
+    @PutMapping("/update")
+    public ResponseEntity updateUser(@RequestBody UpdateUserDto updateUserDto) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        updateUserDto.setUserId(Integer.parseInt(userId));
+
+        userService.updateUser(userMapper.updateUserDtoToUser(updateUserDto));
+
+        return ResponseEntity.ok("유저 정보 변경 완료");
+    }
+
+    //유저 마이페이지
+    @GetMapping("/mypage")
+    public ResponseEntity mypage() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("유저 아이디 : {}", userId);
+
+        MyPageDto myPage = userService.findMyPage(Integer.parseInt(userId));
+
+        return new ResponseEntity<>(new CMRespDto<>(1, "마이페이지", myPage), HttpStatus.OK);
+    }
+
 }

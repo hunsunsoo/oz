@@ -17,6 +17,13 @@ configurations {
 	}
 }
 
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.fire4bird.oz.OzApplication' // MainClass는 본인의 애플리케이션에 맞게 수정해야 합니다.
+	}
+}
+
+
 repositories {
 	mavenCentral()
 }
@@ -62,6 +69,6 @@ dependencies {
 
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}

@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class SessionReq {
     private String session;
+    private int role;
 }
