@@ -28,7 +28,7 @@ function App() {
 
           <Route path="/game" element={<GamePage />} />
 
-          <Route path="/play" element={<GameComp />} />
+          <Route path="/play" element={<GameComp/>} />
           <Route path="/socket" element={<SocketPage />} />
         </Routes>
       </div>
