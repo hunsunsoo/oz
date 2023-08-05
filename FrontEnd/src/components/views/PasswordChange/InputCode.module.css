@@ -1,0 +1,23 @@
+.box{
+    width: 500px;
+    height: 300px;
+    background-color: #F0EAD2;
+    border-color: #6C584C;
+    border-width : 5px ;
+    border-style : solid ;
+    border-radius: 25px;
+    padding: 4rem 4rem ;
+    display: grid;
+    /* justify-content: center; 
+      align-items: center;  */
+      box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+    
+    }
+
+
+.form {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
