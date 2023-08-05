@@ -86,7 +86,7 @@ const GameComp = (props) => {
   if (isStage === 1 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv1}>
+        <div className={style.background_G1}>
           <div className={style.BoardStyle}>
             <NumberBoard />
           </div>
@@ -110,7 +110,7 @@ const GameComp = (props) => {
     };
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv1}>
+        <div className={style.background_G1}>
           <div className={style.BoardStyle}>
             <AlphaBoard onCellClick={handleCellClick} />
           </div>
@@ -131,7 +131,7 @@ const GameComp = (props) => {
   } else if (isStage === 1 && isIndex == 13) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv1}>
+        <div className={style.background_G1}>
           <div className={style.BoardStyle2}>
             <AlphaBoard />
           </div>
@@ -161,7 +161,7 @@ const GameComp = (props) => {
   } else if (isStage === 2 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv2}>
+        <div className={style.background_G2}>
           <div className={style.lionview}>사자가 보는 화면 일러스트</div>
           <div className={style.dist}>열쇠까지의 거리는 3칸입니다.</div>
           <img
@@ -180,7 +180,7 @@ const GameComp = (props) => {
   } else if (isStage === 2 && isIndex == 12) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv2}>
+        <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroRed />
           </div>
@@ -195,7 +195,7 @@ const GameComp = (props) => {
   } else if (isStage === 2 && isIndex == 13) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv2}>
+        <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroGreen />
           </div>
@@ -242,7 +242,7 @@ const GameComp = (props) => {
   } else if (isStage === 4 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv4}>
+        <div className={style.background_G4}>
           <div className={style.word}>수륙챙이</div>
           <div className={style.stage4SubmitBtn} onClick={props.changeIsClear}>정답제출</div>
           <div className={style.drawingDiv}> 그림판 </div>
@@ -257,7 +257,7 @@ const GameComp = (props) => {
   } else if (isStage === 4 && isIndex == 12) {
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv4}>
+        <div className={style.background_G4}>
           <div className={style.word}>제시어</div>
           <div className={style.drawingDiv}> 그림판 </div>
         </div>
@@ -272,7 +272,7 @@ const GameComp = (props) => {
   } else if (isStage === 0 && isIndex <= 2) { 
     return (
       <div className={style.compStyle}>
-        <div className={style.background_0}>
+        <div className={style.background_S1}>
           <div className={style.illustration}>
             {IntrodialogueData[isIndex].character}
             <br />
@@ -281,12 +281,11 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-  } else if (isStage === 0 && isIndex <= 14) {
+  } else if (isStage === 0 && isIndex <= 13) {
     const characterImageClass = getCharacterClass(IntrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style.background_1}>
-
+        <div className={style.background_S2}>
           <div className={style.script}>
             {IntrodialogueData[isIndex].character}
             <br />
@@ -300,9 +299,10 @@ const GameComp = (props) => {
   } else if (isStage === 0 && isIndex <= 16) {
     return (
       <div className={style.compStyle}>
-        <div className={style["background_2"]}>
-          <div className={style.IntrodialogueData}>
+        <div className={style.background_S3}>
+          <div className={style.illustration}>
             {IntrodialogueData[isIndex].character}
+            <br />
             <br />
             {IntrodialogueData[isIndex].message}
           </div>
@@ -314,20 +314,21 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue1Data, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style["background_3"]}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.dialogueData}>
+        <div className={style.background_G1}>
+          <div className={style.script}>
             {dialogue1Data[isIndex].character}
+            <br />
             <br />
             {dialogue1Data[isIndex].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
   } else if (isStage === 1 && isIndex == 3) { // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv1}>
+        <div className={style.background_G1}>
           <img 
             src="image/character/troop2.png"
             alt=""
@@ -350,13 +351,14 @@ const GameComp = (props) => {
     console.log(characterImageClass);
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv1}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.dialogue1Data}>
+        <div className={style.background_G1}>
+          <div className={style.script}>
             {dialogue1Data[3].character}
+            <br />
             <br />
             {dialogue1Data[3].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
@@ -365,20 +367,21 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue2Data, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv2}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.dialogue1Data}>
+        <div className={style.background_G2}>
+          <div className={style.script}>
             {dialogue2Data[isIndex].character}
+            <br />
             <br />
             {dialogue2Data[isIndex].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
   } else if (isStage === 2 && isIndex === 3) { // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv2}>
+        <div className={style.background_G2}>
           <img 
             src="image/character/troop2.png"
             alt=""
@@ -401,20 +404,21 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv3}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.dialogue3Data}>
+        <div className={style.background_G3}>
+          <div className={style.script}>
             {dialogue3Data[isIndex].character}
+            <br />
             <br />
             {dialogue3Data[isIndex].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
   } else if (isStage === 3 && isIndex === 3) { // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv3}>
+        <div className={style.background_G3}>
           <img 
             src="image/character/troop2.png"
             alt=""
@@ -437,13 +441,14 @@ const GameComp = (props) => {
     console.log(characterImageClass);
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv3}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.dialogue1Data}>
+        <div className={style.background_G3}>
+          <div className={style.script}>
             {dialogue3Data[3].character}
+            <br />
             <br />
             {dialogue3Data[3].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
@@ -452,20 +457,21 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv4}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.dialogueData}>
+        <div className={style.background_G4}>
+          <div className={style.script}>
             {dialogue4Data[isIndex].character}
+            <br />
             <br />
             {dialogue4Data[isIndex].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
   } else if (isStage === 4 && isIndex === 2) { // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
-        <div className={style.backgroundDiv4}>
+        <div className={style.background_G4}>
           <img 
             src="image/character/troop2.png"
             alt=""
@@ -487,13 +493,14 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style.background_7}>
-          <div className={style[characterImageClass]}></div>
-          <div className={style.OutrodialogueData}>
+        <div className={style.background_S5}>
+          <div className={style.script}>
             {OutrodialogueData[isIndex].character}
+            <br />
             <br />
             {OutrodialogueData[isIndex].message}
           </div>
+          <div className={style[characterImageClass]}></div>
         </div>
       </div>
     );
@@ -501,10 +508,11 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
       <div className={style.compStyle}>
-        <div className={style["background_8"]}>
+        <div className={style.background_S6}>
           <div className={style[characterImageClass]}></div>
-          <div className={style.OutrodialogueData}>
+          <div className={style.illustration}>
             {OutrodialogueData[isIndex].character}
+            <br />
             <br />
             {OutrodialogueData[isIndex].message}
           </div>
