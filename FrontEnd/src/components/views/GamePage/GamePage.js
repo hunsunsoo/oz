@@ -3,6 +3,7 @@ import { OpenVidu } from "openvidu-browser";
 import { useLocation } from "react-router-dom";
 import RTCViewLower from "./RTCViewLower";
 import RTCViewCenter from './RTCViewCenter';
+import Stomp from 'stompjs';
 import axios from "axios";
 import Header from "../Header/Header";
 import GamingHeader from "../Header/GamingHeader";
@@ -68,7 +69,7 @@ const GamePage = () => {
   // 연결되면 구독메서드 실행하도록
   useEffect(() => {
     if (isConnect) {
-      subscribeToTopic();
+      // subscribeToTopic();
     }
   }, [isConnect]);
 
