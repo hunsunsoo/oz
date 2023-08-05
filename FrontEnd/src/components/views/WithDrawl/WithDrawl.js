@@ -21,7 +21,7 @@ const WithDrawl = () => {
     console.log("Request Body:", body);
 
     try {
-      const response = await axiosInstance.delete("/api/users/resign", {
+      const response = await axiosInstance.delete("users/resign", {
         data: body,
         headers: {
           AccessToken: cookies.Atoken,
