@@ -9,8 +9,9 @@ import WithDrawl from "./components/views/WithDrawl/WithDrawl";
 import PasswordChange from "./components/views/PasswordChange/PasswordChange";
 import MyPage from "./components/views/MyPage/MyPage";
 import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
-import KakaoLogin from "./components/views/LoginPage/KakoLogin";
 import SocketPage from "./components/views/SocketPage/SocketPage";
+import KakaoLogin from "./components/views/LoginPage/KakoLogin";
+
 
 function App() {
   return (
