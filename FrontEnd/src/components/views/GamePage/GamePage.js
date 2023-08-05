@@ -309,7 +309,7 @@ const GamePage = () => {
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition}/>;
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
       break;
     case 2:
       CompMiddleSection = <PlayGame />;
