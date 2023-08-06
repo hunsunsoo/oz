@@ -37,7 +37,7 @@ public class Record {
     private LocalDateTime accRecord;
 
     @Column(name = "start_time")
-    private LocalDateTime startTime = LocalDateTime.now();
+    private LocalDateTime startTime;
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
