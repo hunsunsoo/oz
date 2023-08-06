@@ -3,11 +3,13 @@ package com.fire4bird.oz.record.service;
 import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.record.mapper.RecordMapper;
 import com.fire4bird.oz.record.repository.RecordRepository;
-import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.round.service.RoundService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,6 @@ public class RecordService {
     //기록 검색
     public Record findRecord(int roundId, int stageNum) {
         return recordRepository.findByRecord(roundId, stageNum);
-
     }
 
     //기록 저장
@@ -29,15 +30,14 @@ public class RecordService {
         Record findRecord = findRecord(roundId, stageNum);
 
         //기록이 없으면
-        if (findRecord == null) {
-            Round round = roundService.findRound(roundId);
+        findRecord = Optional.ofNullable(findRecord)
+                .orElseGet(() -> recordMapper.toEntity(roundService.findRound(roundId), stageNum, LocalDateTime.now()));
 
-            Record record = recordMapper.toEntity(round, stageNum);
+        //이미 기록이 있으면
+        Optional.of(findRecord)
+                .ifPresent(fr -> fr.setChallengeTurn(fr.getChallengeTurn() + 1));
 
-            record.setChallengeTurn(1);
-            recordRepository.save(record);
-        }
-
+        recordRepository.save(findRecord);
     }
 
 }
