@@ -1,40 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
-const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
-  const images = [
-    { src: 'image/roleSelect/dorothys.png' },
-    { src: 'image/roleSelect/heosus.png' },
-    { src: 'image/roleSelect/lions.png' },
-    { src: 'image/roleSelect/tws.png' },
-  ];
-  // const [selectedImageIndex, setSelectedImageIndex] = useState(null); // 선택된 이미지의 인덱스를 저장하는 상태
-  // const [receivedMessages, setReceivedMessages] = useState(null);
+const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, userId}) => {
+  // 도로시 1, 사자 2, 허수아비 3, 양철 나무꾼 4
+  const [s0, setS0] = useState(-1);
+  const [s1, setS1] = useState(-1);
+  const [s2, setS2] = useState(-1);
+  const [s3, setS3] = useState(-1);
+  const [myRole, setMyRole ] = useState(0);
 
-  const [selectedImages, setSelectedImages] = useState(Array(images.length).fill(false));
-  const [selectedUserIds, setSelectedUserIds] = useState(Array(images.length).fill(null));
-
-  const handleImageSelect = (index, userId) => {
-    const newSelectedImages = [...selectedImages];
-    const newSelectedUserIds = [...selectedUserIds];
-
-    newSelectedImages[index] = !newSelectedImages[index];
-    newSelectedUserIds[index] = newSelectedImages[index] ? userId : null;
-
-    setSelectedImages(newSelectedImages);
-    setSelectedUserIds(newSelectedUserIds);
-  };
-
+  // 조건부 렌더링을위한 콜백함수
   const handleMiddleCondition = () => {
     const newStatus = middleCon + 1;
     onHandleMiddleCondition(newStatus);
   }
 
   useEffect(() => {
-    subscribeToTopic();
+    subscribeToRoleSelect();
     console.log(sessionId)
   }, []);
 
-  const subscribeToTopic = () => {
+  const subscribeToRoleSelect = () => {
     // /sub/socket/role/${sessionId} 경로로 구독 요청
     const subscription = client.subscribe(`/sub/socket/role/${sessionId}`, (message) => {
         console.log('Received message:', message.body);
@@ -44,24 +29,18 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId}) => 
           const resJsondata = JSON.parse(message.body);
       
           // 객체의 속성을 활용하여 처리
-          const type = resJsondata.type;
-          const rtcSession = resJsondata.rtcSession;
-          const userId = resJsondata.userId;
+          const resuserId = resJsondata.userId;
           const role = resJsondata.data.role;
           const state = resJsondata.data.state;
           const saveState = resJsondata.data.saveState;
-      
-          // 여기서부터 data 객체의 정보를 활용하여 필요한 작업 수행
-          console.log('Received message type:', type);
-          console.log('RTC session:', rtcSession);
-          console.log('User ID:', userId);
-          console.log('Role:', role);
-          console.log('State:', state);
-          console.log('Save State:', saveState);
-      
-          // 추가적인 작업 수행
+
+          // 누가 무엇을 골랐는지 상태 저장할 메서드 호출
           if (saveState === 1) {
-            handleImageSelect(role, userId);
+            if (state === 1) {
+              handleSelectRes(role-1, resuserId);
+            } else if (state === -1) {
+              handleCancelRes(role-1, resuserId);
+            }
           } else {
             console.log("서버에 반영이 안되었음")
           }
@@ -75,6 +54,39 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId}) => 
 
   };
 
+  // 선택 상태 저장 갱신
+  const handleSelectRes = (role, resuserId) => {
+    if(role === 0){
+      setS0(resuserId);
+    } else if(role === 1){
+      setS1(resuserId);
+    } else if(role === 2){
+      setS2(resuserId);
+    } else if(role === 3){
+      setS3(resuserId);
+    }
+
+    if (resuserId === userId) {
+      setMyRole(role+1);
+    }
+  };
+  
+  const handleCancelRes = (role, resuserId) => {
+    if(role === 0){
+      setS0(-1);
+    } else if(role === 1){
+      setS1(-1);
+    } else if(role === 2){
+      setS2(-1);
+    } else if(role === 3){
+      setS3(-1);
+    }
+    
+    if (resuserId === userId) {
+      setMyRole(0);
+    }
+  };
+
 
 
   const sendRoleSelect = async (index) => {
@@ -83,17 +95,46 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId}) => 
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
         return;
       }
-      console.log(index)
+      var msgstate = 1;
+      
+      if ( index === 0 ){
+        if( s0 === userId){
+          msgstate = -1;
+        } else if(s0 >= 0){
+          alert("내가 선택한 캐릭터가 아닙니다!")
+          return;
+        }
+      } else if(index === 1){
+        if( s1 === userId){
+          msgstate = -1;
+        } else if(s1 >= 0){
+          alert("내가 선택한 캐릭터가 아닙니다!")
+          return;
+        }
+      } else if(index === 2){
+        if( s2 === userId){
+          msgstate = -1;
+        } else if(s2 >= 0){
+          alert("내가 선택한 캐릭터가 아닙니다!")
+          return;
+        }
+      } else if(index === 3){
+        if( s3 === userId){
+          msgstate = -1;
+        } else if(s3 >= 0){
+          alert("내가 선택한 캐릭터가 아닙니다!")
+          return;
+        }
+      }
 
       const message = {
         "type":"role",
         "rtcSession":`${sessionId}`,
-        "userId":"1",
+        "userId":`${userId}`,
         "message":"",
         "data":{
-            // "role":`${index+1}`,
-            "role":2,
-            "state":1,
+            "role":`${index+1}`,
+            "state":`${msgstate}`,
             "saveState":-1
         }
       };
@@ -148,8 +189,25 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId}) => 
     alignItems: 'center', // 세로 방향 가운데 정렬
   };
 
-  const selectedImageStyle = {
-    border: '3px solid red', // 선택된 이미지의 테두리 스타일
+  const dorothySelected = {
+    border: s0 !== -1 ? '2px solid blue' : 'none',
+    // display: s0 !== -1 ? 'block' : 'none',
+    // backgroundColor: isMySelectedImage(0) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+  };
+  
+  const lionSelected = {
+    border: s1 !== -1 ? '2px solid blue' : 'none',
+    // backgroundColor: isMySelectedImage(1) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+  };
+  
+  const heoSelected = {
+    border: s2 !== -1 ? '2px solid blue' : 'none',
+    // backgroundColor: isMySelectedImage(2) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+  };
+  
+  const twmanSelected = {
+    border: s3 !== -1 ? '2px solid blue' : 'none',
+    // backgroundColor: isMySelectedImage(3) ? 'rgba(255, 0, 0, 0.7)' : 'none',
   };
 
   const imageStyle = {
@@ -164,18 +222,18 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId}) => 
       <div style={rolebox}>
         <div style={box1}>역할 선택</div>
         <div style={box2}>
-          {images.map((image, index) => (
-            <div
-              key={index}
-              style={{
-                ...imgbox,
-                ...(selectedImages[index] ? selectedImageStyle : null), // 선택된 이미지일 때 테두리 스타일 적용
-              }}
-              onClick={() => sendRoleSelect(index)}
-            >
-              <img src={image.src} alt={`Image ${index}`} style={imageStyle} />
-            </div>
-          ))}
+          <div key={0} style={{ ...imgbox, ...dorothySelected }} onClick={() => sendRoleSelect(0)}>
+            <img src='/image/roleSelect/dorothys.png' alt={'Image 0'} style={imageStyle} />
+          </div>
+          <div key={1} style={{ ...imgbox, ...lionSelected }} onClick={() => sendRoleSelect(1)}>
+            <img src='/image/roleSelect/lions.png' alt={'Image 1'} style={imageStyle} />
+          </div>
+          <div key={2} style={{ ...imgbox, ...heoSelected }} onClick={() => sendRoleSelect(2)}>
+            <img src='/image/roleSelect/heosus.png' alt={'Image 2'} style={imageStyle} />
+          </div>
+          <div key={3} style={{ ...imgbox, ...twmanSelected }} onClick={() => sendRoleSelect(3)}>
+            <img src='/image/roleSelect/tws.png' alt={'Image 3'} style={imageStyle} />
+          </div>
         </div>
         <div style={box3}>
           <button onClick={() => handleMiddleCondition()}>선택 완료</button>
