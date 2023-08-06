@@ -21,8 +21,8 @@ public class RecordController {
     //스테이지 시작
     //게임 시작 시간 및 도전 횟수 저장
     @PostMapping("/start")
-    public ResponseEntity test(@RequestBody RecordRegistDto recordRegistDto) {
-        recordService.saveRecord(recordRegistDto.getRoundId(), recordRegistDto.getStageNum());
+    public ResponseEntity startRecordSave(@RequestBody RecordRegistDto recordRegistDto) {
+        recordService.saveStartRecord(recordRegistDto.getRoundId(), recordRegistDto.getStageNum());
 
         return ResponseEntity.ok()
                 .body(new CMRespDto<>(1,"기록 저장 성공",null));
@@ -30,6 +30,12 @@ public class RecordController {
 
     //스테이지 종료
     //게임 종료 시간 및 clear 여부 저장
+    @PostMapping("/end")
+    public ResponseEntity endRecordSave(@RequestBody RecordRegistDto recordRegistDto) {
+        recordService.clearCheck(recordRegistDto.getRoundId(), recordRegistDto.getStageNum(), recordRegistDto.getClear());
 
+        return ResponseEntity.ok()
+                .body(new CMRespDto<>(1,"기록 저장 성공",null));
+    }
 
 }
