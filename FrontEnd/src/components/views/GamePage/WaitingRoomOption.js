@@ -6,6 +6,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+  const SERVER_URL = 'http://localhost:8080/'
 
   const handleGamingStartState = () => {
     if(amIHost == 1) {
@@ -24,7 +25,12 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
                 "참가 인원(4명)이 충족되지 않았습니다. 시작이 불가능합니다."
               );
             } else {
-              alert("당신네 팀이름은???");
+              axios.post(`${SERVER_URL}socket/user?rtcSession=${sessionId}`,{}
+              ).then((response) => {
+                const userIdArray = response.data.data.map(obj => obj.userId);
+                
+              }
+              );
             }
           })
           .catch((error) => {

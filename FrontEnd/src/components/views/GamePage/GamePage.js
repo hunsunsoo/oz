@@ -26,7 +26,7 @@ const GamePage = () => {
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket/room'
+  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket'
   const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
 
   // jwt payload decode
@@ -272,7 +272,7 @@ const GamePage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (mySessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL, {
+      const response = await axios.post(CREATEROOM_SERVER_URL+'/room', {
         rtcSession: mySessionId,
         userId: userId,
       });
@@ -298,6 +298,13 @@ const GamePage = () => {
     const onConnect = () => {
       console.log('웹소켓 연결완료');
       setIsConnect(true);
+      axios.post(CREATEROOM_SERVER_URL+'/session',{
+        "rtcSession": mySessionId,
+        "userId": UserId
+      }).then((response) => {
+        console.log(response.data)
+      }
+      );
     };
 
     const onError = (error) => {
