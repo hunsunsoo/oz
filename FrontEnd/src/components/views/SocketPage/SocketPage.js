@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import Stomp from 'stompjs';
 import axios from "axios";
 
@@ -7,6 +8,18 @@ const SocketPage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const sessionIdFromURL = params.get("SessionId");
+
+  // userId 가져오기 import { useSelector } from 'react-redux';
+  const accessToken = useSelector(
+    (state) => state.user.loginSuccess.headers.accesstoken
+  );
+  var base64Url = accessToken.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  const JsonPayload = JSON.parse(jwtPayload);
+  console.log(JsonPayload)
 
   const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket/room'
   const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
