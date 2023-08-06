@@ -69,7 +69,7 @@ public class GameManager {
         }
     }
 
-    public boolean startAvailable(int role){
+    public GetReadyRes startAvailable(int role){
         if(!players.get(role-1).isReady()){
             players.get(role-1).setReady(true);
             readyCount++;
@@ -77,9 +77,12 @@ public class GameManager {
             players.get(role-1).setReady(false);
             readyCount--;
         }
-
         if(readyCount == 4) this.isGameStarted = true;
-        return this.isGameStarted;
+
+        GetReadyRes res = new GetReadyRes();
+        res.setRole(role);
+        res.setReadyCount(this.readyCount);
+        return res;
     }
 
     // 게임 setting(만들어진 설정들을 db에 저장)

@@ -25,6 +25,7 @@ public class CalculationService {
 
     public SetBoardRes initSave(InitReq req){
          Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
+         System.out.println(findRound.getRoundId());
          Calculation newCalculation = calculationRepository.recentCalculation(findRound);
 
          int calTurn = 1;
