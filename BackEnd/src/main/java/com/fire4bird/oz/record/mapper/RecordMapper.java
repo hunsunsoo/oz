@@ -10,4 +10,6 @@ import java.time.LocalDateTime;
 public interface RecordMapper {
 
     Record toStartEntity(Round round, int stageNum, LocalDateTime startTime, int challengeTurn);
+
+    Record toTotalRecordEntity(Round round, int stageNum, LocalDateTime accRecord);
 }
