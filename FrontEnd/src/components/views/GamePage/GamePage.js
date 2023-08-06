@@ -292,7 +292,7 @@ const GamePage = () => {
   // WebSocket Server 연결
   const socketConnect = () => {
     let newClient = Stomp.client(WEBSOCKET_SERVER_URL);
-    newClient.debug = console.log; // 디버그 메시지 비활성화 null, 활성화 console.log
+    newClient.debug = null; // 디버그 메시지 비활성화 null, 활성화 console.log
 
     // 연결 성공시 구독을 위한 isConnect state 갱신
     const onConnect = () => {
@@ -351,7 +351,7 @@ const GamePage = () => {
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
       {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers}/> }
-      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} /> }
+      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} client={client}/> }
     </div>
   );
 };

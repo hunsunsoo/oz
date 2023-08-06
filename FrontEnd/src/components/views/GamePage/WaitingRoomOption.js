@@ -1,15 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./WaitingRoomOption.module.css";
 import axios from "axios";
 
-const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHost }) => {
+const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHost, client }) => {
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
   const SERVER_URL = 'http://localhost:8080'
 
+  // 대기방에서 팀명 등록 후 역할 선택으로 넘어가기 위한 socket 통신
+  useEffect(() => {
+    subscribeToWaiting();
+  }, [client]);
+
+  // 구독
+  const handleWaiting = () => {
+    const newState = !isWaiting;
+    onGamingStart(newState);
+  }
+
+  const subscribeToWaiting = () => {
+    if (!client || !client.connected) {
+        console.log('구독 실패');
+        return;
+    }
+
+    const subscription = client.subscribe(`/sub/socket/waiting/${sessionId}`, (message) => {
+        console.log('Received message:', message.body);
+        try {
+            handleWaiting();
+        } catch (error) {
+          console.error('Error parsing message body:', error);
+        }
+    });
+  };
+
+  // 유효성 검증 & 팀 등록
   const handleGamingStartState = () => {
+    // 방장인지
     if(amIHost == 1) {
+      // 세션에 연결된 유저 4명인지
       axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`,
             {
               headers: {
@@ -25,43 +55,67 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
                 "참가 인원(4명)이 충족되지 않았습니다. 시작이 불가능합니다."
               );
             } else {
+              // 현재 방에 들어온 사용자들의 userId를 가져오기 위함
               axios.post(`${SERVER_URL}/socket/user?rtcSession=${sessionId}`,{}
               ).then((response) => {
                 const userIdArray = response.data.data.map(obj => obj.userId);
+                // 4명의 사용자들이 등록한 적이 있는 팀인지?
                 axios.post(`${SERVER_URL}/teams/checkteam`,{
                   "users" : userIdArray
                 }
                 ).then((response) => {
-                  console.log(response.data.data);
                   const teamNameDefault = response.data.data.teamName;
                   var teamName;
-                  if (teamNameDefault === null){
+                  if (teamNameDefault == null){
                     teamName = prompt("사용할 팀 이름을 정하세요");
                   } else {
                     teamName = prompt(`해당 4명의 사용자는 기존에 사용하던 팀 명이 있습니다. ${teamNameDefault} 이거 쓰던거 쓰려면 아무것도 입력하지말고 넘기시고 새로 팀만들고싶으면 적으세요 이건나중에 바꿀거에요`, teamNameDefault )
                   }
                   console.log(teamName+"이름으로 팀만들었고 다음페이지로 넘어가는거 만드는중")
+                  // 입력한 이름으로 팀 등록
                   axios.post(`${SERVER_URL}/teams/registteam`, {
                     "users" : userIdArray,
                     "teamName" : `${teamName}`
-                  })
-                  .then(response => {
-                    
-                    console.log(response.data);
+                  }).then(response => {
+                    console.log(response.data.code);
+                    // 팀 등록 완료 후 data code에 의해 RoleSelect 상태로
+                    // 유효성 검증 코드 필요
+                    waitingToRoleSelect();
                   })
                   .catch(error => {
                     console.error(error);
                   });
-                }
-                );
-                })
-              }
-            })
+                });
+              })
+            }
+          })
           .catch((error) => {
             console.log("방 정보를 가져오는데 실패하였습니다.", error);
           });
     } else {
       alert("내가 방장이 아니다.")
+    }
+  };
+
+  // 검증 완료 후 상태 변경 -> 역할 선택으로
+  const waitingToRoleSelect = async () => {
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
+      const message = {
+        "type":"waiting",
+        "rtcSession":`${sessionId}`,
+        "userId":`${userId}`,
+        "message":"",
+        "data":{}
+      };
+  
+      client.send('/pub/socket/waiting', {}, JSON.stringify(message));
+      console.log('메시지 보냈음');
+    } catch (error) {
+      console.log('Error sending message:', error);
     }
   };
 
