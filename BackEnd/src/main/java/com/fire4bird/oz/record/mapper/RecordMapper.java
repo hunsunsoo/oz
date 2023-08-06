@@ -9,5 +9,5 @@ import java.time.LocalDateTime;
 @Mapper(componentModel = "spring")
 public interface RecordMapper {
 
-    Record toEntity(Round round, int stageNum, LocalDateTime startTime);
+    Record toStartEntity(Round round, int stageNum, LocalDateTime startTime, int challengeTurn);
 }
