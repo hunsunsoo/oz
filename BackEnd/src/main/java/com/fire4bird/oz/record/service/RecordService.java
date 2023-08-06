@@ -44,9 +44,11 @@ public class RecordService {
         Record record = saveEndRecord(roundId, stageNum, clear);
 
         if (clear.equals("clear")) {
-             record.setAccRecord(saveClearRecord(roundId, stageNum));
+            saveClearRecord(roundId, stageNum, record);
+        }
 
-            recordRepository.save(record);
+        if (clear.equals("clear") && stageNum == 4) {
+            saveTotalRecord(roundId);
         }
     }
 
@@ -62,11 +64,23 @@ public class RecordService {
         return recordRepository.save(stageRecordCalculation(findRecord));
     }
 
-    //스테이지 종료시 기록 저장 - clear - 테스트 중
-    public LocalDateTime saveClearRecord(int roundId, int stageNum) {
+    //스테이지 종료시 기록 저장 - clear
+    public void saveClearRecord(int roundId, int stageNum, Record record) {
         List<LocalDateTime> findTimeRecord = recordRepository.findByTimeRecord(roundId, stageNum);
 
-        return accRecordCalculation(findTimeRecord);
+        record.setAccRecord(accRecordCalculation(findTimeRecord));
+
+        recordRepository.save(record);
+    }
+
+    //종합 기록 저장
+    public void saveTotalRecord(int roundId) {
+        List<LocalDateTime> clearRecord = recordRepository.findByClearRecord(roundId);
+
+        Record totalRecord = recordMapper
+                .toTotalRecordEntity(roundService.findRound(roundId), 5, accRecordCalculation(clearRecord));
+
+        recordRepository.save(totalRecord);
     }
 
     //종료시간 - 시작 시간
@@ -95,7 +109,6 @@ public class RecordService {
 
             log.info("accRecord : {}", accRecord);
         }
-
         return accRecord;
     }
 }
