@@ -22,6 +22,7 @@ const GamePage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const sessionIdFromURL = params.get("SessionId");
+  const host = params.get("host");
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -40,6 +41,7 @@ const GamePage = () => {
   const JsonPayload = JSON.parse(jwtPayload);
 
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
+  const [amIHost, setAmIHost] = useState(host);
 
   // RTC를 위한 state
   const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
@@ -72,7 +74,12 @@ const GamePage = () => {
       });
     
     // Socket
-    createRoom(mySessionId, UserId);
+    if(amIHost == 0){
+      socketConnect();
+    } else {
+      createRoom(mySessionId, UserId);
+    }
+    
 
   }, [mySessionId]);
 
@@ -337,7 +344,7 @@ const GamePage = () => {
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
       {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers}/> }
-      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart}/> }
+      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} /> }
     </div>
   );
 };
