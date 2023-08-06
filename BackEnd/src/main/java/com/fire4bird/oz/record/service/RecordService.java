@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,19 +26,76 @@ public class RecordService {
         return recordRepository.findByRecord(roundId, stageNum);
     }
 
-    //기록 저장
-    public void saveRecord(int roundId, int stageNum) {
+    //스테이지 시작 시 기록
+    public void saveStartRecord(int roundId, int stageNum) {
         Record findRecord = findRecord(roundId, stageNum);
 
-        //기록이 없으면
-        findRecord = Optional.ofNullable(findRecord)
-                .orElseGet(() -> recordMapper.toEntity(roundService.findRound(roundId), stageNum, LocalDateTime.now()));
+        Record newRecord = recordMapper.toStartEntity(roundService.findRound(roundId), stageNum, LocalDateTime.now(), 1);
 
         //이미 기록이 있으면
-        Optional.of(findRecord)
-                .ifPresent(fr -> fr.setChallengeTurn(fr.getChallengeTurn() + 1));
+        Optional.ofNullable(findRecord)
+                .ifPresent(fr -> newRecord.setChallengeTurn(fr.getChallengeTurn() + 1));
 
-        recordRepository.save(findRecord);
+        recordRepository.save(newRecord);
     }
 
+    //(clear) (fail, error) 분기 및 저장
+    public void clearCheck(int roundId, int stageNum, String clear) {
+        Record record = saveEndRecord(roundId, stageNum, clear);
+
+        if (clear.equals("clear")) {
+             record.setAccRecord(saveClearRecord(roundId, stageNum));
+
+            recordRepository.save(record);
+        }
+    }
+
+    //스테이지 종료 시 기록 저장 - error or false
+    public Record saveEndRecord(int roundId, int stageNum, String clear) {
+        Record findRecord = findRecord(roundId, stageNum);
+        log.info("findRecord : {}", findRecord);
+
+        findRecord.setEndTime(LocalDateTime.now());
+        findRecord.setClear(clear);
+        log.info("findRecord : {}", findRecord);
+
+        return recordRepository.save(stageRecordCalculation(findRecord));
+    }
+
+    //스테이지 종료시 기록 저장 - clear - 테스트 중
+    public LocalDateTime saveClearRecord(int roundId, int stageNum) {
+        List<LocalDateTime> findTimeRecord = recordRepository.findByTimeRecord(roundId, stageNum);
+
+        return accRecordCalculation(findTimeRecord);
+    }
+
+    //종료시간 - 시작 시간
+    public Record stageRecordCalculation(Record findRecord) {
+        LocalDateTime stageRecord = findRecord.getEndTime()
+                .minusSeconds(findRecord.getStartTime().getSecond())
+                .minusMinutes(findRecord.getStartTime().getMinute())
+                .minusHours(findRecord.getStartTime().getHour());
+
+        log.info("newTime : {}", stageRecord);
+
+        findRecord.setStageRecord(stageRecord);
+
+        return findRecord;
+    }
+
+    //clear 시 해당 스테이지 최종 누적 기록
+    public LocalDateTime accRecordCalculation(List<LocalDateTime> recordList) {
+        LocalDateTime accRecord = recordList.get(0);
+
+        for (int i = 1; i < recordList.size(); i++) {
+            accRecord = accRecord
+                    .plusSeconds(recordList.get(i).getSecond())
+                    .plusMinutes(recordList.get(i).getMinute())
+                    .plusHours(recordList.get(i).getHour());
+
+            log.info("accRecord : {}", accRecord);
+        }
+
+        return accRecord;
+    }
 }
