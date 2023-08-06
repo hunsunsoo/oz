@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { OpenVidu } from "openvidu-browser";
 import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import RTCViewLower from "./RTCViewLower";
 import RTCViewCenter from './RTCViewCenter';
 import Stomp from 'stompjs';
@@ -27,12 +28,21 @@ const GamePage = () => {
   const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket/room'
   const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
 
+  // jwt payload decode
+  const accessToken = useSelector(
+    (state) => state.user.loginSuccess.headers.accesstoken
+  );
+  var base64Url = accessToken.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  const JsonPayload = JSON.parse(jwtPayload);
+
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
 
   // RTC를 위한 state
-  const [myUserName, setMyUserName] = useState(
-    `Participant ${Math.floor(Math.random() * 100)}`
-  );
+  const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
   const [session, setSession] = useState(undefined);
   const [mainStreamManager, setMainStreamManager] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
@@ -43,7 +53,7 @@ const GamePage = () => {
   const [isChat, setIsChat] = useState(false);
 
   // Socket을 위한 state
-  const [UserId, setuserId] = useState(1);
+  const [UserId, setuserId] = useState(JsonPayload.userId);
   const [client, setClient] = useState(null);
   const [isConnect, setIsConnect] = useState(false);
   const [receivedMessages, setReceivedMessages] = useState([]);
@@ -309,7 +319,7 @@ const GamePage = () => {
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
       break;
     case 2:
       CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
