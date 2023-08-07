@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -107,4 +108,10 @@ public class RoundService {
         return userRoundRepository.findAllByRound_RoundId(roundId);
     }
 
+    public Round findRound(int roundId) {
+        Optional<Round> findRound = roundRepository.findById(roundId);
+
+       return findRound.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.TEAM_NOT_FOUND));
+    }
 }
