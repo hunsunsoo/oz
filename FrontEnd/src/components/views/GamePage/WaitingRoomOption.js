@@ -8,32 +8,43 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
   const SERVER_URL = 'http://localhost:8080'
 
-  // 대기방에서 팀명 등록 후 역할 선택으로 넘어가기 위한 socket 통신
-  useEffect(() => {
-    setTimeout(subscribeToWaiting(), 300);
-  }, [client]);
-
   // 구독
   const handleWaiting = () => {
     const newState = !isWaiting;
     onGamingStart(newState);
   }
 
-  const subscribeToWaiting = () => {
-    if (!client || !client.connected) {
-        console.log('구독 실패');
-        return;
-    }
-
-    const subscription = client.subscribe(`/sub/socket/waiting/${sessionId}`, (message) => {
-        console.log('Received message:', message.body);
-        try {
-          handleWaiting();
-        } catch (error) {
-          console.error('Error parsing message body:', error);
+  useEffect(() => {
+    const subscribeToWaiting = (maxRetries = 3, retryInterval = 2000) => {
+      let retries = 0;
+  
+      const trySubscribe = () => {
+        if (!client) {
+          if (retries < maxRetries) {
+            retries++;
+            setTimeout(trySubscribe, retryInterval);
+          }
+          return;
         }
-    });
-  };
+  
+        const subscription = client.subscribe(`/sub/socket/waiting/${sessionId}`, (message) => {
+          console.log('Received message:', message.body);
+          try {
+            handleWaiting();
+          } catch (error) {
+            console.error('Error parsing message body:', error);
+          }
+        });
+      };
+  
+      trySubscribe();
+    };
+  
+    setTimeout(() => {
+      subscribeToWaiting();
+    }, 500);
+  }, [client, sessionId]);
+  
 
   // 유효성 검증 & 팀 등록
   const handleGamingStartState = () => {
@@ -72,6 +83,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
                     teamName = prompt(`해당 4명의 사용자는 기존에 사용하던 팀 명이 있습니다. ${teamNameDefault.teamName} 이거 쓰던거 쓰려면 아무것도 입력하지말고 넘기시고 새로 팀만들고싶으면 적으세요 이건나중에 바꿀거에요`, teamNameDefault.teamName )
                   }
                   console.log(teamName+"이름으로 팀만들었고 다음페이지로 넘어가는거 만드는중")
+                  
                   // 입력한 이름으로 팀 등록
                   axios.post(`${SERVER_URL}/teams/registteam`, {
                     "users" : userIdArray,

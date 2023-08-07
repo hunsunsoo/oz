@@ -350,7 +350,7 @@ const GamePage = () => {
   return (
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
-      {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers}/> }
+      {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers} client={client} sessionId={mySessionId} userId={UserId} myNickname={myUserName} /> }
       {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} client={client}/> }
     </div>
   );
