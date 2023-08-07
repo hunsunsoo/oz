@@ -20,6 +20,7 @@ import {
   dialogue4Data,
   OutrodialogueData,
 } from "../../../scripts/Scripts";
+import { client } from "stompjs";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -60,9 +61,6 @@ const Image = ({ src, alt }) => {
 };
 
 const GameComp = (props) => {
-  // const isStage = props.isStage;
-  // const isIndex = props.isIndex;
-
   const isStage = props.isStage;
   const isIndex = props.isIndex;
   const client = props.client;
@@ -78,13 +76,23 @@ const GameComp = (props) => {
   const [isStartBtnActive, setIsStartBtnActive] = useState(true); // 예시 값으로 true 설정
   // => 4명이 준비하면 true로 바꿔줄 값
   const host = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+
+  const [boardData, setBoardData] = useState([
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ']
+  ]);
   
   // socket
   // 1스테이지 게임 준비
   const subscribeToStage1Select = () => {
-    console.log("dorothyState: "+dorothyState);
+    console.log("1스테이지 ready 페이지 소켓연결");
     // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
-    const subscription = client.subscribe(`/sub/socket/calculation/start/${roundId}`, (message) => {
+    const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
+    const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}}`, (message) => {
       console.log('Received message:', message.body);
 
       try {
@@ -101,12 +109,10 @@ const GameComp = (props) => {
       }
 
     });
-
-    client.send(`/pub/calculation/start/${roundId}`)
   }
 
   const sendStage1Ready = () => {
-    // /pub/calculation/start/{roundId} 경로로 메시지 전송
+    // /pub/calculation/ready/{roundId} 경로로 메시지 전송
     try {
       if (!client) {
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
@@ -114,14 +120,11 @@ const GameComp = (props) => {
       }
 
       const message = {
-        "roundId" : roundId,
-        "role": myRole,
         "session": "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe",
-        teamId: myTeamId,
+        "role": myRole,
       };
 
-      client.send(`/pub/calculation/start/${roundId}`, {}, JSON.stringify(message));
-      console.log('메시지 보냈음');
+      client.send(`/pub/calculation/ready/${roundId}`, {}, JSON.stringify(message));
 
       // 역할군 state 변경
       if (myRole === 1) {
@@ -156,6 +159,7 @@ const GameComp = (props) => {
 
 // 1스테이지 게임 시작
 const sendStage1Start = () => {
+  console.log("게임시작버튼 누름");
   // /pub/calculation/setboard/{roundId} 경로로 메시지 전송
   try {
     if (!client) {
@@ -163,9 +167,8 @@ const sendStage1Start = () => {
       return;
     }
 
-    client.send(`/pub/calculation/setboard/${roundId}`);
-    console.log('메시지 보냈음');
-
+    client.send(`/pub/calculation/start/${roundId}`);
+    props.changeIsReady();
     
   } catch (error) {
     console.log('Error sending message:', error);
@@ -173,8 +176,10 @@ const sendStage1Start = () => {
 };
 
 const subscribeToStage1Start = () => {
-  // /sub/socket/calculation/setboard/{roundId} 경로로 구독 요청
-  const subscription = client.subscribe(`/sub/socket/calculation/setboard/${roundId}`, (message) => {
+  // /sub/socket/calculation/start/{roundId} 경로로 구독 요청
+  console.log("보드판 제공을 위한 소켓 연결");
+  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
+  const subscription = client.subscribe(`/sub/socket/calculation/start/${roundId}/${sessionId}`, (message) => {
     console.log('Received message:', message.body);
 
     try {
@@ -184,19 +189,39 @@ const subscribeToStage1Start = () => {
       // 객체의 속성을 활용하여 처리
       const resRole = resJsondata.role;
       const numberBoardArray = resJsondata.data.numberBoard;
+      console.log("a  "+numberBoardArray);
+
+      setBoardData(numberBoardArray);
+
+      //////////////////////////////////////////////
+      // const qwe123 = {
+      //   "data": [
+      //     [11, 12, 13, 14, 15, 16],
+      //     [17, 18, 19, 10, 11, 12],
+      //     [3, 4, 5, 6, 7, 8],
+      //     [9, 0, 1, 2, 3, 4],
+      //     [25, 26, 27, 28, 29, 30],
+      //     [31, 32, 33, 34, 35, 36]
+      //   ]
+      // };
+      // const numqwe123 = qwe123.data;
+      // console.log(numqwe123);
+      // console.log(boardData);
+      // setBoardData(numqwe123);
+            
+      //////////////////////////////////////////////
       
       // 숫자판을 String으로 가져오니까 쪼개서 넣어야함
-      const boardData = numberBoardArray.map(row => row.map(value => value));
+      // const newBoardData = numberBoardArray.map(row => row.map(value => value));
+      // setBoardData(newBoardData);
 
-      console.log(boardData);
-
+      // console.log(newBoardData);
+      
     } catch (error) {
       console.error('Error parsing message body:', error);
     }
 
   });
-
-  client.send(`/pub/calculation/start/${roundId}`)
 }
 
 
@@ -221,15 +246,20 @@ const subscribeToStage1Start = () => {
     }
   };
 
+  useEffect(() => {
+    subscribeToStage1Select();
+    subscribeToStage1Start();
+  }, []);
+
+
   // 게임 part
   // 1스테이지
   if (isStage === 1 && isIndex == 11) {
-    subscribeToStage1Start();
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
           <div className={style.BoardStyle}>
-            <NumberBoard />
+            <NumberBoard boardData={boardData} />
           </div>
           <img
             src="image/tools/questionMark.png"
@@ -491,7 +521,6 @@ const subscribeToStage1Start = () => {
       </div>
     );
   } else if (isStage === 1 && isIndex == 3) { // ready 화면 + 방법설명
-    subscribeToStage1Select();
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
@@ -504,7 +533,7 @@ const subscribeToStage1Start = () => {
             게임 방법 넣을 part
           </div>
           {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
-          <div className={style.readyBtn} onClick={() => sendStage1Ready}>
+          <div className={style.readyBtn} onClick={sendStage1Ready}>
             준비 완료
           </div>
           <div className={style.howToPlayBtn}>
