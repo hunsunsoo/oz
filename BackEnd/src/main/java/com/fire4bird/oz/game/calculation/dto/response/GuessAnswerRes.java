@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class GuessAnswerRes {
     private String session;
+    private int[] nums;
     private final boolean isCorrect;
     private final boolean isGameEnd;
     private final int number;
