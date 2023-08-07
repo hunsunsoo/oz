@@ -22,6 +22,7 @@ public interface RankMapper {
         AtomicLong rank = new AtomicLong(1);
 
         return tupleList.stream()
+//                .limit(10) 10번만 순회 진행
                 .map(tuple -> {
                     TotalRankDto totalRankDto = new TotalRankDto();
 
