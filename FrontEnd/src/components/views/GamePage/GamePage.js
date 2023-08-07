@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { OpenVidu } from "openvidu-browser";
 import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import RTCViewLower from "./RTCViewLower";
 import RTCViewCenter from './RTCViewCenter';
 import Stomp from 'stompjs';
@@ -21,18 +22,29 @@ const GamePage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const sessionIdFromURL = params.get("SessionId");
+  const host = params.get("host");
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket/room'
+  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket'
   const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
 
+  // jwt payload decode
+  const accessToken = useSelector(
+    (state) => state.user.loginSuccess.headers.accesstoken
+  );
+  var base64Url = accessToken.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  const JsonPayload = JSON.parse(jwtPayload);
+
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
+  const [amIHost, setAmIHost] = useState(host);
 
   // RTC를 위한 state
-  const [myUserName, setMyUserName] = useState(
-    `Participant ${Math.floor(Math.random() * 100)}`
-  );
+  const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
   const [session, setSession] = useState(undefined);
   const [mainStreamManager, setMainStreamManager] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
@@ -43,7 +55,7 @@ const GamePage = () => {
   const [isChat, setIsChat] = useState(false);
 
   // Socket을 위한 state
-  const [UserId, setuserId] = useState(1);
+  const [UserId, setuserId] = useState(JsonPayload.userId);
   const [client, setClient] = useState(null);
   const [isConnect, setIsConnect] = useState(false);
   const [receivedMessages, setReceivedMessages] = useState([]);
@@ -62,7 +74,12 @@ const GamePage = () => {
       });
     
     // Socket
-    createRoom(mySessionId, UserId);
+    if(amIHost == 0){
+      socketConnect();
+    } else {
+      createRoom(mySessionId, UserId);
+    }
+    
 
   }, [mySessionId]);
 
@@ -255,7 +272,7 @@ const GamePage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (mySessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL, {
+      const response = await axios.post(CREATEROOM_SERVER_URL+'/room', {
         rtcSession: mySessionId,
         userId: userId,
       });
@@ -275,12 +292,19 @@ const GamePage = () => {
   // WebSocket Server 연결
   const socketConnect = () => {
     let newClient = Stomp.client(WEBSOCKET_SERVER_URL);
-    newClient.debug = console.log; // 디버그 메시지 비활성화 null, 활성화 console.log
+    newClient.debug = null; // 디버그 메시지 비활성화 null, 활성화 console.log
 
     // 연결 성공시 구독을 위한 isConnect state 갱신
     const onConnect = () => {
       console.log('웹소켓 연결완료');
       setIsConnect(true);
+      axios.post(CREATEROOM_SERVER_URL+'/session',{
+        "rtcSession": mySessionId,
+        "userId": UserId
+      }).then((response) => {
+        console.log(response.data)
+      }
+      );
     };
 
     const onError = (error) => {
@@ -309,7 +333,7 @@ const GamePage = () => {
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
       break;
     case 2:
       CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
@@ -327,7 +351,7 @@ const GamePage = () => {
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
       {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers}/> }
-      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart}/> }
+      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} client={client}/> }
     </div>
   );
 };

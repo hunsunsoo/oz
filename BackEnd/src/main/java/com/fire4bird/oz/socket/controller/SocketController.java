@@ -55,4 +55,18 @@ public class SocketController {
         return socketRepository.findRoundById(socketRoomDto.getRtcSession(),String.valueOf(socketRoomDto.getUserId()));
     }
 
+    @PostMapping("/session")
+    public ResponseEntity joinSessionUser(@Valid @RequestBody SocketRoomDto socketRoomDto) {
+        RedisSaveObject save = RedisSaveObject.builder()
+                .roundId(0)
+                .round(0)
+                .teamId(0)
+                .role(0)
+                .userId(socketRoomDto.getUserId())
+                .build();
+
+        socketRepository.enterUser(socketRoomDto.getRtcSession(),String.valueOf(socketRoomDto.getUserId()),save);
+        return new ResponseEntity<>(new CMRespDto<>(1,"유저 등록", null), HttpStatus.OK);
+    }
+
 }

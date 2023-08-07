@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 import style from "./LoginPage.module.css";
-import MyButton from "../../tools/MyButton";
 import { useCookies } from "react-cookie";
+import axiosInstance from "../../../_actions/axiosInstance";
+import { REST_API_KEY, REDIRECT_URI } from "./KakaoLoginData";
 function LoginPage(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,7 +42,9 @@ function LoginPage(props) {
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.data === "로그인 성공") {
         const Atoken = response.payload.headers.accesstoken;
+        const Rtoken = response.payload.headers.refreshtoken;
         setCookies("Atoken", Atoken);
+        setCookies("Rtoken", Rtoken);
         navigate("/authlanding");
 
         // 성공하면  root page(landing page)로 가라
@@ -54,12 +57,17 @@ function LoginPage(props) {
           response.payload.payload.error ===
           "아이디 혹은 비밀번호가 틀렸습니다."
         ) {
-          alert("아이디 혹은 비밀번호가 틀렸습니다.");
+          alert("해당 회원을 찾을 수 없습니다.");
         }
       }
     });
 
     // Axios.post("/api/users/login", body).then((response) => {});
+  };
+  //  카카오 로그인 구현
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+  const handleKakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
@@ -135,6 +143,9 @@ function LoginPage(props) {
               회원가입
             </button>
           </form>
+          <button className={style.button} onClick={handleKakaoLogin}>
+            카카오 로그인
+          </button>
         </div>
       </div>
     </div>
