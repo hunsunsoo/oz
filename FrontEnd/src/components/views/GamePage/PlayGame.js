@@ -15,7 +15,7 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
   const handleNext = () => {
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
-    } else if (isIndex == 21) {
+    } else if (isIndex === 21) {
       setIsIndex(0);
       setIsStage(isStage + 1);
     } else {
@@ -49,14 +49,13 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
 
   // 게임 클리어 (마지막 일러스트 보러가자)
   const stageLast = () => {
-    if (isStage == 4 ){
+    if (isStage === 4 ){
       setIsIndex(0);
       setIsStage(isStage + 1);
     } else {
       setIsIndex(21);
     }
   }
-  
   
   // 게임 종료 (팀구성 화면)
   const resetNext = () => {
@@ -99,13 +98,12 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
     position: "absolute",
     display: isButtonActive ? "none" : "block",
   }
-  console.log("PlayGame의 " + sessionId);
   console.log("stage: "+isStage+" index: "+isIndex);
   return (
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
         <button style={BtnStyle} onClick={handleNext} >Next</button>
-        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast}/>
+        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast} middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={sessionId}/>
       </div>
     </div>
   );
