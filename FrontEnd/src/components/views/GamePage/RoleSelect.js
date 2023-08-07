@@ -15,8 +15,8 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
   }
 
   useEffect(() => {
-    subscribeToRoleSelect();
-    console.log(sessionId)
+    setTimeout(subscribeToRoleSelect(), 200);
+    setTimeout(subscribeSelectComplete(),300);
   }, []);
 
   const subscribeToRoleSelect = () => {
@@ -50,8 +50,18 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
 
     });
 
-    // 언마운트 시 구독 해제 처리 필요할지?
+  };
 
+  const subscribeSelectComplete = () => {
+    const subscription1 = client.subscribe(`/sub/socket/round/start/${sessionId}`, (message) => {
+        console.log('Received message:', message.body);
+        try {
+          handleMiddleCondition();
+        } catch (error) {
+          console.error('Error parsing message body:', error);
+        }
+
+    });
   };
 
   // 선택 상태 저장 갱신
@@ -140,6 +150,42 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
       };
 
       client.send('/pub/socket/role', {}, JSON.stringify(message));
+      console.log('메시지 보냈음');
+    } catch (error) {
+      console.log('Error sending message:', error);
+    }
+  };
+
+  const handleSelectComplete = () => {
+    if(s0 === -1 || s1 === -1 || s2 === -1 || s3 === -1){
+      alert("아직 역할 선택을 하지 않은 인원이 있습니다!")
+    } else {
+      sendSelectComplete();
+    }
+  }
+
+  const sendSelectComplete = async () => {
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
+
+      const userRoleArray = [
+        { "userId": s0, "role": 1 },
+        { "userId": s1, "role": 2 },
+        { "userId": s2, "role": 3 },
+        { "userId": s3, "role": 4 }
+      ];
+    
+      const message = {
+        "userRole": userRoleArray,
+        "teamName": `${localStorage.getItem('TeamName')}`,
+        "rtcSession":`${sessionId}`,
+        "userId":`${userId}`,
+      };
+      console.log(message)
+      client.send('/pub/round/start', {}, JSON.stringify(message));
       console.log('메시지 보냈음');
     } catch (error) {
       console.log('Error sending message:', error);
@@ -236,7 +282,8 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
           </div>
         </div>
         <div style={box3}>
-          <button onClick={() => handleMiddleCondition()}>선택 완료</button>
+          <button onClick={() => handleMiddleCondition()}>로컬개발용 그냥넘기기</button>
+          <button onClick={() => handleSelectComplete()}>역할선택완료</button>
         </div>
       </div>
     </div>

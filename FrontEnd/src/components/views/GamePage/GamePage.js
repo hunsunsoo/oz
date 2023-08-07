@@ -14,7 +14,7 @@ import WaitingRoomOption from './WaitingRoomOption';
 
 const GamePage = () => {
   // 컴포넌트 조건부 렌더링
-  const [isGaming, setIsGaming] = useState(false);
+  const [isGaming, setIsGaming] = useState(true);
   const [isWaiting, setIsWaiting] = useState(false);
   const [middleCon, setMiddleCon] = useState(1);
 
@@ -350,7 +350,7 @@ const GamePage = () => {
   return (
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
-      {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers}/> }
+      {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers} client={client} sessionId={mySessionId} userId={UserId} myNickname={myUserName} /> }
       {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} client={client}/> }
     </div>
   );

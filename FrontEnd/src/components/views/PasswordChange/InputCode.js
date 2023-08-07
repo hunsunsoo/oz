@@ -61,13 +61,31 @@ const InputCode = ({ setIsAuthSuccess }) => {
   return (
     <div>
       <div className={style.box}>
-        <form onSubmit={onSubmitEmailHandler}>
-          <input type="email" value={email} onChange={onEmailHandler}></input>
-          <button>이메일제출</button>
+        <form className={style.form} onSubmit={onSubmitEmailHandler}>
+          <div className={style.inputbox}>
+            <input
+              className={style.input}
+              type="email"
+              value={email}
+              onChange={onEmailHandler}
+              placeholder="Email"
+            ></input>
+          </div>
+          <br></br>
+          <button className={style.button}>이메일제출</button>
         </form>
-        <form onSubmit={onSubmitCodeHandler}>
-          <input type="text" value={code} onChange={onCodeHandler}></input>
-          <button>인증번호제출</button>
+        <form className={style.form} onSubmit={onSubmitCodeHandler}>
+          <div className={style.inputbox}>
+            <input
+              className={style.input}
+              type="text"
+              value={code}
+              onChange={onCodeHandler}
+              placeholder="인증번호"
+            ></input>
+          </div>
+          <br></br>
+          <button className={style.button}>인증번호제출</button>
         </form>
       </div>
     </div>

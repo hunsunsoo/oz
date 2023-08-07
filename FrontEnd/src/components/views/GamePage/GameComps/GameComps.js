@@ -10,8 +10,8 @@ import {
 } from "./Board";
 import App from "./test";
 import style from "./GameComps.module.css";
-import { DndProvider, useDrag } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider, useDrag } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   IntrodialogueData,
   dialogue1Data,
@@ -21,7 +21,7 @@ import {
   OutrodialogueData,
 } from "../../../scripts/Scripts";
 import { client } from "stompjs";
-import {Dnd,Sub} from "./Dnd";
+import Dnd from "./Dnd";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -36,9 +36,9 @@ const getCharacterClass = (data, index) => {
 
 const Image = ({ src, alt }) => {
   const [{ isDragging }, drag] = useDrag({
-    type: 'image',
+    type: "image",
     item: { src, alt },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
@@ -50,12 +50,12 @@ const Image = ({ src, alt }) => {
       alt={alt}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        cursor: 'move',
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        maxWidth: '100%',
-        maxHeight: '100%',
+        cursor: "move",
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        maxWidth: "100%",
+        maxHeight: "100%",
       }}
     />
   );
@@ -318,7 +318,9 @@ const subscribeToStage1Start = () => {
             alt="questionMark"
             className={style.iconStyle}
           />
-          <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div>
+          <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>
+            정답제출
+          </div>
           <div className={style.resetBtn}>리셋</div>
           <img
             src="image/tools/equal.png"
@@ -348,7 +350,7 @@ const subscribeToStage1Start = () => {
           />
         </div>
         {/* 임시버튼임 */}
-        <button onClick={props.changeIsIndex} >(임시)Next</button>
+        <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 12) {
@@ -364,7 +366,7 @@ const subscribeToStage1Start = () => {
             className={style.iconStyle}
           />
         </div>
-        <button onClick={props.changeIsIndex} >(임시)Next</button>
+        <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 13) {
@@ -380,7 +382,7 @@ const subscribeToStage1Start = () => {
             className={style.iconStyle}
           />
         </div>
-        <button onClick={props.changeIsIndex} >(임시)Next</button>
+        <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 14) {
@@ -396,7 +398,7 @@ const subscribeToStage1Start = () => {
             className={style.iconStyle}
           />
         </div>
-        <button onClick={props.changeIsClear} >(임시)Next</button>
+        <button onClick={props.changeIsClear}>(임시)Next</button>
       </div>
     );
     // 3스테이지
@@ -439,9 +441,10 @@ const subscribeToStage1Start = () => {
     //     <div className={style.stage3SelectBtn} onClick={props.changeIsClear}>선택완료</div>
     //   </div>
     // );
+
     // 4스테이지
   } else if (isStage === 4 && isIndex === 11) {
-    return(
+    return (
       <div className={style.compStyle}>
         <div className={style.background_G4}>
           <div className={style.word}>수륙챙이</div>
@@ -455,7 +458,7 @@ const subscribeToStage1Start = () => {
           />
         </div>
         {/* 임시버튼임 */}
-        <button onClick={props.changeIsIndex} >(임시)Next</button>
+        <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 4 && isIndex == 12) {
@@ -465,16 +468,18 @@ const subscribeToStage1Start = () => {
           <div className={style.word}>제시어</div>
           <div className={style.drawingDiv}> 그림판 </div>
         </div>
-        <div className={style.stage4SubmitBtn} onClick={props.changeIsClear}>정답제출</div>
+        <div className={style.stage4SubmitBtn} onClick={props.changeIsClear}>
+          정답제출
+        </div>
         <img
-            src="image/tools/questionMark.png"
-            alt="questionMark"
-            className={style.iconStyle}
-          />
+          src="image/tools/questionMark.png"
+          alt="questionMark"
+          className={style.iconStyle}
+        />
       </div>
     );
     // 인트로 스토리
-  } else if (isStage === 0 && isIndex <= 2) { 
+  } else if (isStage === 0 && isIndex <= 2) {
     return (
       <div className={style.compStyle}>
         <div className={style.background_S1}>
@@ -530,38 +535,26 @@ const subscribeToStage1Start = () => {
         </div>
       </div>
     );
-  } else if (isStage === 1 && isIndex == 3) { // ready 화면 + 방법설명
+  } else if (isStage === 1 && isIndex == 3) {
+    // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
-          <img 
+          <img
             src="image/character/troop2.png"
             alt=""
             className={style.troop2}
           />
-          <div className={style.howToPlayImg}>
-            게임 방법 넣을 part
-          </div>
-          {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
-          <div className={style.readyBtn} onClick={sendStage1Ready}>
+          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+          <div className={style.readyBtn} onClick={props.changeIsReady}>
             준비 완료
           </div>
-          <div className={style.howToPlayBtn}>
-            게임 방법
-          </div>
-          <div className={style.startBtn} style={{ display: isStartBtnActive && host === 1 ? 'flex' : 'none', }} onClick={sendStage1Start}>
-            게임 시작
-          </div>
-          <img
-            src="image/tools/checkMarker.png"
-            className={style.checkDorothy}
-            style={{ display: dorothyState === 1 ? 'block' : 'none' }}
-          >
-          </img>
+          <div className={style.howToPlayBtn}>게임 방법</div>
         </div>
       </div>
     );
-  } else if (isStage === 1 && isIndex === 21) { // 클리어 후
+  } else if (isStage === 1 && isIndex === 21) {
+    // 클리어 후
     const characterImageClass = getCharacterClass(dialogue1Data, 3);
     console.log(characterImageClass);
     return (
@@ -593,28 +586,26 @@ const subscribeToStage1Start = () => {
         </div>
       </div>
     );
-  } else if (isStage === 2 && isIndex === 3) { // ready 화면 + 방법설명
+  } else if (isStage === 2 && isIndex === 3) {
+    // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
         <div className={style.background_G2}>
-          <img 
+          <img
             src="image/character/troop2.png"
             alt=""
             className={style.troop2}
           />
-          <div className={style.howToPlayImg}>
-            게임 방법 넣을 part
-          </div>
+          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
           <div className={style.readyBtn} onClick={props.changeIsReady}>
             준비 완료
           </div>
-          <div className={style.howToPlayBtn}>
-            게임 방법
-          </div>
+          <div className={style.howToPlayBtn}>게임 방법</div>
         </div>
       </div>
     );
-  } else if (isStage === 2 && isIndex === 21) { // 클리어 후
+  } else if (isStage === 2 && isIndex === 21) {
+    // 클리어 후
     const characterImageClass = getCharacterClass(dialogue2Data, 3);
     console.log(characterImageClass);
     return (
@@ -646,28 +637,26 @@ const subscribeToStage1Start = () => {
         </div>
       </div>
     );
-  } else if (isStage === 3 && isIndex === 3) { // ready 화면 + 방법설명
+  } else if (isStage === 3 && isIndex === 3) {
+    // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
         <div className={style.background_G3}>
-          <img 
+          <img
             src="image/character/troop2.png"
             alt=""
             className={style.troop2}
           />
-          <div className={style.howToPlayImg}>
-            게임 방법 넣을 part
-          </div>
+          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
           <div className={style.readyBtn} onClick={props.changeIsReady}>
             준비 완료
           </div>
-          <div className={style.howToPlayBtn}>
-            게임 방법
-          </div>
+          <div className={style.howToPlayBtn}>게임 방법</div>
         </div>
       </div>
     );
-  } else if (isStage === 3 && isIndex === 21) { // 클리어 후
+  } else if (isStage === 3 && isIndex === 21) {
+    // 클리어 후
     const characterImageClass = getCharacterClass(dialogue3Data, 3);
     console.log(characterImageClass);
     return (
@@ -699,24 +688,21 @@ const subscribeToStage1Start = () => {
         </div>
       </div>
     );
-  } else if (isStage === 4 && isIndex === 2) { // ready 화면 + 방법설명
+  } else if (isStage === 4 && isIndex === 2) {
+    // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
         <div className={style.background_G4}>
-          <img 
+          <img
             src="image/character/troop2.png"
             alt=""
             className={style.troop2}
           />
-          <div className={style.howToPlayImg}>
-            게임 방법 넣을 part
-          </div>
+          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
           <div className={style.readyBtn} onClick={props.changeIsReady}>
             준비 완료
           </div>
-          <div className={style.howToPlayBtn}>
-            게임 방법
-          </div>
+          <div className={style.howToPlayBtn}>게임 방법</div>
         </div>
       </div>
     );
@@ -754,9 +740,7 @@ const subscribeToStage1Start = () => {
     return (
       <div className={style.compStyle}>
         <div className={style.background_S6}>
-          <div style={{color: "white"}}>
-            클리어 했습니다
-          </div>
+          <div style={{ color: "white" }}>클리어 했습니다</div>
         </div>
       </div>
     );
