@@ -3,10 +3,16 @@ spring:
     active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i9b104.p.ssafy.io:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
-    username: fire4bird
-    password: fire4bird
-
+#   배포된 db
+#    url: jdbc:mysql://i9b104.p.ssafy.io:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
+#    username: fire4bird
+#    password: fire4bird
+#    배포 db 쓰려면 여기까지 3줄 주석 제거
+#   로컬 db
+    url: jdbc:mysql://localhost:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
+    username: ssafy
+    password: ssafy
+#   여기 3줄이 로컬 db
   jpa:
     properties:
       hibernate:
@@ -49,7 +55,7 @@ jwt:
 
 kakao:
   client-id: 581ca2cce261061e9424b527fdadf174
-  redirect-uri: http://localhost:8080/api/oauth/kakao
+  redirect-uri: http://localhost:3000/kakaoLogin
   token-url: https://kauth.kakao.com/oauth/token
   info-url: https://kapi.kakao.com/v2/user/me
 
