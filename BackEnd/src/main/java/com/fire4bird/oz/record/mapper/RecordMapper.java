@@ -11,5 +11,5 @@ public interface RecordMapper {
 
     Record toStartEntity(Round round, int stageNum, LocalDateTime startTime, int challengeTurn);
 
-    Record toTotalRecordEntity(Round round, int stageNum, LocalDateTime accRecord);
+    Record toTotalRecordEntity(Round round, int stageNum, LocalDateTime accRecord,String clear);
 }

@@ -78,7 +78,7 @@ public class RecordService {
         List<LocalDateTime> clearRecord = recordRepository.findByClearRecord(roundId);
 
         Record totalRecord = recordMapper
-                .toTotalRecordEntity(roundService.findRound(roundId), 5, accRecordCalculation(clearRecord));
+                .toTotalRecordEntity(roundService.findRound(roundId), 5, accRecordCalculation(clearRecord),"clear");
 
         recordRepository.save(totalRecord);
     }
