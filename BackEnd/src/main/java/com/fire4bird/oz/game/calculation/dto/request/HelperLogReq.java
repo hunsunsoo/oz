@@ -9,6 +9,5 @@ public class HelperLogReq {
     private Integer roundId;
     private Integer userId;
     private int isSelected;
-    private int r;
-    private int c;
+    private char value;
 }
