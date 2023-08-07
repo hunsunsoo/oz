@@ -46,7 +46,6 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     @Override
     public List<LocalDateTime> findByClearRecord(int roundId) {
 
-
         return jpaQueryFactory
                 .select(record.accRecord)
                 .from(record)
@@ -94,6 +93,16 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
 
         for (Tuple tuple : findMyRank) {
             log.info("tuple : {}", tuple);
+
+            Long test = jpaQueryFactory
+                    .select(record.accRecord.count())
+                    .from(record)
+                    .where(record.accRecord.lt(tuple.get(record.accRecord)),
+                            record.stageNum.eq(stageNum))
+                    .fetchOne();
+
+            log.info("test : {}", test);
+            log.info("1더하면 ? : {}", test + 1);
         }
 
     }
