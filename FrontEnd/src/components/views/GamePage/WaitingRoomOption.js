@@ -10,7 +10,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
 
   // 대기방에서 팀명 등록 후 역할 선택으로 넘어가기 위한 socket 통신
   useEffect(() => {
-    subscribeToWaiting();
+    setTimeout(subscribeToWaiting(), 300);
   }, [client]);
 
   // 구독
