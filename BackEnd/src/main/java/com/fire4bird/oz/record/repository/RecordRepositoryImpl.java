@@ -1,6 +1,7 @@
 package com.fire4bird.oz.record.repository;
 
 import com.fire4bird.oz.record.entity.Record;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static com.fire4bird.oz.record.entity.QRecord.record;
 import static com.fire4bird.oz.round.entity.QRound.round;
+import static com.fire4bird.oz.team.entity.QTeam.team;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -40,12 +42,33 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
 
     @Override
     public List<LocalDateTime> findByClearRecord(int roundId) {
+
+
         return jpaQueryFactory
                 .select(record.accRecord)
                 .from(record)
                 .join(record.round, round).on(round.roundId.eq(roundId))
                 .where(record.clear.eq("clear"),
                         record.accRecord.isNotNull())
+                .fetch();
+    }
+
+    @Override
+    public List<Tuple> findTotalRank(int stageNum) {
+        String clear = "clear";
+
+        return jpaQueryFactory
+                .select(
+                        record.accRecord.hour(),
+                        record.accRecord.minute(),
+                        record.accRecord.second(),
+                        team.teamName)
+                .from(record)
+                .join(record.round, round)
+                .join(round.team, team)
+                .where(record.stageNum.eq(stageNum),
+                        record.clear.eq(clear))
+                .orderBy(record.accRecord.asc())
                 .fetch();
     }
 }
