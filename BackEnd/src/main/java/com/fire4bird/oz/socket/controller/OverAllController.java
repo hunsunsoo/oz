@@ -57,4 +57,17 @@ public class OverAllController {
 
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
     }
+
+    @MessageMapping("/socket/chat")
+    public void waitingChat(SocketMessage message) {
+        SocketMessage msg = SocketMessage.builder()
+                .message(message.getMessage())
+                .data(message.getData())
+                .rtcSession(message.getRtcSession())
+                .type("chat")
+                .userId(message.getUserId())
+                .build();
+
+        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
+    }
 }
