@@ -28,7 +28,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
     const subscription = client.subscribe(`/sub/socket/waiting/${sessionId}`, (message) => {
         console.log('Received message:', message.body);
         try {
-            handleWaiting();
+          handleWaiting();
         } catch (error) {
           console.error('Error parsing message body:', error);
         }
@@ -77,7 +77,8 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
                     "users" : userIdArray,
                     "teamName" : `${teamName}`
                   }).then(response => {
-                    console.log(response.data.code);
+                    localStorage.setItem("TeamName", response.data.data.teamName);
+                    
                     // 팀 등록 완료 후 data code에 의해 RoleSelect 상태로
                     // 유효성 검증 코드 필요
                     waitingToRoleSelect();
