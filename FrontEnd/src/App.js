@@ -6,7 +6,7 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import AuthLandingPage from "./components/views/LandingPage/AuthLandingPage";
 import GamePage from "./components/views/GamePage/GamePage";
 import WithDrawl from "./components/views/WithDrawl/WithDrawl";
-
+import RankPage from "./components/views/RankPage/RankPage";
 import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
 import SocketPage from "./components/views/SocketPage/SocketPage";
 
@@ -21,7 +21,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/withdrawl" element={<WithDrawl />} />
           <Route path="/game" element={<GamePage />} />
-
+          <Route path="/rank" element={<RankPage />} />
           <Route path="/play" element={<GameComp/>} />
           <Route path="/socket" element={<SocketPage />} />
         </Routes>
