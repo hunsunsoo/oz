@@ -1,8 +1,6 @@
 package com.fire4bird.oz.record.repository;
 
 import com.fire4bird.oz.record.entity.Record;
-import com.fire4bird.oz.round.entity.QUserRound;
-import com.fire4bird.oz.user.entity.QUser;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import static com.fire4bird.oz.round.entity.QRound.round;
 import static com.fire4bird.oz.round.entity.QUserRound.userRound;
 import static com.fire4bird.oz.team.entity.QTeam.team;
 import static com.fire4bird.oz.user.entity.QUser.user;
+import static com.querydsl.jpa.JPAExpressions.select;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -77,11 +76,25 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     }
 
     @Override
-    public void findToMyRank(int stageNum, int userId) {
-//        jpaQueryFactory
-//                .select()
-//                .from(record)
-//                .join(userRound.user, user).on(user.userId.eq(userId))
+    public void findMyRank(int stageNum, int userId) {
+        String clear = "clear";
+
+        List<Tuple> findMyRank = jpaQueryFactory
+                .select(record.accRecord,
+                        round.team.teamName)
+                .from(record)
+                .where(record.round.roundId.in(
+                                select(userRound.round.roundId)
+                                        .from(userRound)
+                                        .join(userRound.user, user).on(user.userId.eq(userId))),
+                        record.stageNum.eq(stageNum),
+                        record.clear.eq(clear))
+                .orderBy(record.accRecord.asc())
+                .fetch();
+
+        for (Tuple tuple : findMyRank) {
+            log.info("tuple : {}", tuple);
+        }
 
     }
 }
