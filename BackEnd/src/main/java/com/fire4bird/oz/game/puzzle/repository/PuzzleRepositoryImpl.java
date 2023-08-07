@@ -14,17 +14,16 @@ public class PuzzleRepositoryImpl implements PuzzleRepositoryCustom {
     //퍼즐의 turn이 제일 높은 회차 찾기
     @Override
     public Puzzle maxTurn(int roundId) {
-
-        Integer maxTurn = jpaQueryFactory
-                .select(puzzle.turn.max())
-                .from(puzzle)
-                .where(puzzle.round.roundId.eq(roundId))
-                .fetchOne();
-
         Puzzle puzzles = jpaQueryFactory
                 .selectFrom(puzzle)
                 .where(puzzle.round.roundId.eq(roundId)
-                        .and(puzzle.turn.eq(maxTurn)))
+                        .and(puzzle.turn.eq(
+                                jpaQueryFactory
+                                        .select(puzzle.turn.max())
+                                        .from(puzzle)
+                                        .where(puzzle.round.roundId.eq(roundId))
+                                        .fetchOne()
+                        )))
                 .fetchOne();
         return puzzles;
     }
