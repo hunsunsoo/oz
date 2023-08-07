@@ -1,0 +1,163 @@
+.rankPage{
+    background-color: #DDE5B6;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rankDiv{
+    width: 80%;
+    height: 75%;
+    border: 5px solid #65584c;
+    background-color: #F0EAD2;
+    border-radius: 30px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.myRankingContainer{
+    width: 35%;
+    height: 90%;
+    position: absolute;
+    justify-content: center;
+    display: flex;
+    background-color: white;
+    bottom: 0;
+}
+
+.image{
+    width: 50%;
+    height: 15%;
+    position:absolute;
+    background-color: black;
+    top:2%;
+}
+
+.myTeamBlock{
+    width: 40%;
+    height: 12%;
+    position: absolute;
+    background-color: #65584c;
+    border-radius: 15px;
+    color: #F0EAD2;
+    top: 17%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    font-size: large;
+    font-weight: 600;
+}
+.allRankingContainer{
+    width: 60%;
+    height: 90%;
+    position: absolute;
+    justify-content: center;
+    display: flex;
+    background-color: white;
+    bottom: 0;
+    right: 0;
+}
+
+.allTeamBlock{
+    width: 40%;
+    height: 12%;
+    position: absolute;
+    background-color: #65584c;
+    border-radius: 15px;
+    color: #F0EAD2;
+    top: 17%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    font-size: large;
+    font-weight: 600;
+}
+
+body {
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    background: linear-gradient(45deg, #49a09d, #5f2c82);
+    font-family: sans-serif;
+    font-weight: 100;
+  }
+  
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  body {
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    background: linear-gradient(45deg, #49a09d, #5f2c82);
+    font-family: sans-serif;
+    font-weight: 100;
+  }
+  
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  table {
+    width: 800px;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
+  
+  th,
+  td {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.2);
+    color: black;
+  }
+  
+  th {
+    text-align: left;
+  }
+  
+  thead {
+    th {
+      background-color: #55608f;
+    }
+  }
+  
+  tbody {
+    tr {
+      &:hover {
+        background-color: black;
+      }
+    }
+    td {
+      position: relative;
+      &:hover {
+        &:before {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: -9999px;
+          bottom: -9999px;
+          background-color: rgba(255,255,255,0.2);
+          z-index: -1;
+        }
+      }
+    }
+}
