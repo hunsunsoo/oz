@@ -20,7 +20,8 @@ public class CalculationRepositoryImpl implements CalculationRepositoryCustom {
                         jpaQueryFactory
                                 .select(QCalculation.calculation.turn.max())
                                 .from(QCalculation.calculation)
-                                .where(QCalculation.calculation.round.eq(round))))
+                                .where(QCalculation.calculation.round.eq(round)))
+                .and(QCalculation.calculation.round.eq(round)))
                 .from(QCalculation.calculation)
                 .fetchOne();
 

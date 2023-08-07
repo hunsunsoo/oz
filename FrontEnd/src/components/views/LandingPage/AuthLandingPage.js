@@ -55,7 +55,7 @@ function AuthLandingPage(props) {
         })
         .then((res) => {
           resolve(res.data.id);
-          navigate({ pathname: "/game", search: `?SessionId=${res.data.id}` });
+          navigate({ pathname: "/game", search: `?SessionId=${res.data.id}&host=1`});
         })
         .catch((res) => {
           let error = Object.assign({}, res);
@@ -116,7 +116,7 @@ function AuthLandingPage(props) {
             "방에 최대 참가 인원(4명)을 초과하였습니다. 입장이 불가능합니다."
           );
         } else {
-          navigate({ pathname: "/game", search: `?SessionId=${mySessionId}` });
+          navigate({ pathname: "/game", search: `?SessionId=${mySessionId}&host=0`});
         }
       })
       .catch((error) => {

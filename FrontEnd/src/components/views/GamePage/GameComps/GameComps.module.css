@@ -56,6 +56,27 @@
   color:#F0EAD2;
   border-Radius: 20px;
 }
+.startBtn {
+  position: absolute;
+  top: 52%;
+  right: 7%;
+  width: 130px;
+  height: 60px;
+  background-Color: #A98467;
+  align-Items: center;
+  justify-Content: center;
+  font-Size: 24px;
+  font-Weight: bold;
+  color:#F0EAD2;
+  border-Radius: 20px;
+}
+.checkDorothy{
+  position: absolute;
+  top: 34%;
+  left: 40%;
+  width: 130px;
+  height: 60px;
+}
 
   /* 1스테이지 게임 */
 .BoardStyle {

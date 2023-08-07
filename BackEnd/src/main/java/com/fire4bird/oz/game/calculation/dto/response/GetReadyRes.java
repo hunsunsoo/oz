@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class HelperSubmitRes {
-    String[][] selectedNums;
-    private String session;
+public class GetReadyRes {
+    private int role;
+    private int readyCount;
 }

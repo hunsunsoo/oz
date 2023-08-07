@@ -40,4 +40,34 @@ public class OverAllController {
         }
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
     }
+
+    @MessageMapping("/socket/waiting")
+    public void waitingNext(SocketMessage message) {
+        int owner = socketRepository.findOwnerById(message.getRtcSession());
+        if(owner != message.getUserId())
+            return;
+
+        SocketMessage msg = SocketMessage.builder()
+                .message("모험 시작")
+                .data(1)
+                .rtcSession(message.getRtcSession())
+                .type("/waiting")
+                .userId(message.getUserId())
+                .build();
+
+        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
+    }
+
+    @MessageMapping("/socket/chat")
+    public void waitingChat(SocketMessage message) {
+        SocketMessage msg = SocketMessage.builder()
+                .message(message.getMessage())
+                .data(message.getData())
+                .rtcSession(message.getRtcSession())
+                .type("chat")
+                .userId(message.getUserId())
+                .build();
+
+        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
+    }
 }

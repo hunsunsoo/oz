@@ -37,37 +37,33 @@ public class CalculationController {
     }
 
     // 게임 시작
-    @MessageMapping("/calculation/start/{roundId}")
+    @MessageMapping("/calculation/ready/{roundId}")
     public void gameStart(@DestinationVariable Integer roundId, SessionReq req) throws Exception{
         gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
         SocketMessage msg = new SocketMessage();
-        msg.setType("calculation/start/" + roundId);
+        msg.setType("calculation/ready/" + roundId);
         msg.setRtcSession(req.getSession());
 
-        if(gameManagerMap.get(roundId).startAvailable(req.getRole())){
-            SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
-            msg.setMessage("생성된 보드판 공개");
-            msg.setData(res);
-        }else{
-            msg.setMessage("시작 준비 안 됨");
-        }
+        msg.setMessage("준비 상태 반환");
+        msg.setData(gameManagerMap.get(roundId).startAvailable(req.getRole()));
 
         redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
     }
 
-//    // 게임에 필요한 보드판 설정 및 받아오기
-//    @MessageMapping("/calculation/setboard/{roundId}")
-//    public void setGame(@DestinationVariable Integer roundId){
-//        SocketMessage msg = new SocketMessage();
-//        SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
-//
-//        msg.setType("calculation/setboard/" + roundId);
-//        msg.setRtcSession(res.getSession());
-//        msg.setMessage("생성된 보드판 공개");
-//        msg.setData(res);
-//
-//        redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
-//    }
+    // 게임에 필요한 보드판 설정 및 받아오기
+    @MessageMapping("/calculation/start/{roundId}")
+    public void setGame(@DestinationVariable Integer roundId){
+        SocketMessage msg = new SocketMessage();
+        SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
+
+        System.out.println(res.getSession());
+        msg.setType("calculation/start/" + roundId);
+        msg.setRtcSession(res.getSession());
+        msg.setMessage("생성된 보드판 공개");
+        msg.setData(res);
+
+        redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
+    }
 
     // 만들어야 할 정답 받아오기
     @MessageMapping("/calculation/getanswer/{roundId}")
@@ -115,9 +111,15 @@ public class CalculationController {
     }
 
     // 허수아비 행동 로그 입력
-    @MessageMapping("/calculation/actorLog/{roundId}")
+    @MessageMapping("/calculation/actorlog/{roundId}")
     public void actorLog(@DestinationVariable Integer roundId, ActorLogReq req){
         gameManagerMap.get(roundId).actorLog(req);
+    }
+
+    // 허수아비 리셋 버튼 로그
+    @MessageMapping("/calculation/resetanswer/{roundId}")
+    public void actorReset(@DestinationVariable Integer roundId, ActorResetReq req){
+        gameManagerMap.get(roundId).actorReset(req);
     }
 
     // 정답을 입력하면 게임 종료

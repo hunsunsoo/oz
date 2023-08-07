@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   NumberBoard,
   AlphaBoard,
@@ -41,8 +41,6 @@ const Image = ({ src, alt }) => {
     }),
   });
 
-  const [isStage, setIsStage] = useState(0);
-
   return (
     <img
       ref={drag}
@@ -62,11 +60,173 @@ const Image = ({ src, alt }) => {
 };
 
 const GameComp = (props) => {
-  // const isStage = props.isStage;
-  // const isIndex = props.isIndex;
-
   const isStage = props.isStage;
   const isIndex = props.isIndex;
+  const client = props.client;
+  const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  const myTeamId = 1;
+
+  const [dorothyState, setDorothyState] = useState(0);
+  const [lionState, setLionState] = useState(0);
+  const [heosuState, setHeosuState] = useState(0);
+  const [twState, setTwState] = useState(0);
+
+  const [isStartBtnActive, setIsStartBtnActive] = useState(true); // 예시 값으로 true 설정
+  // => 4명이 준비하면 true로 바꿔줄 값
+  const host = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+
+  const [boardData, setBoardData] = useState([
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ']
+  ]);
+  
+  // socket
+  // 1스테이지 게임 준비
+  const subscribeToStage1Select = () => {
+    console.log("1스테이지 ready 페이지 소켓연결");
+    // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
+    const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
+    const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}}`, (message) => {
+      console.log('Received message:', message.body);
+
+      try {
+        // JSON 문자열을 JavaScript 객체로 변환
+        const resJsondata = JSON.parse(message.body);
+    
+        // 객체의 속성을 활용하여 처리
+        const resRole = resJsondata.role;
+
+        console.log(resRole);
+
+      } catch (error) {
+        console.error('Error parsing message body:', error);
+      }
+
+    });
+  }
+
+  const sendStage1Ready = () => {
+    // /pub/calculation/ready/{roundId} 경로로 메시지 전송
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
+
+      const message = {
+        "session": "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe",
+        "role": myRole,
+      };
+
+      client.send(`/pub/calculation/ready/${roundId}`, {}, JSON.stringify(message));
+
+      // 역할군 state 변경
+      if (myRole === 1) {
+        if (dorothyState === 0) {
+          setDorothyState(1);
+        } else {
+          setDorothyState(0);
+        }
+      } else if (myRole === 2) {
+        if (lionState === 0) {
+          setLionState(1);
+        } else {
+          setLionState(0);
+        }
+      } else if (myRole === 3) {
+        if (heosuState === 0) {
+          setHeosuState(1);
+        } else {
+          setHeosuState(0);
+        }
+      } else if (myRole === 4) {
+        if (twState === 0) {
+          setTwState(1);
+        } else {
+          setTwState(0);
+        }
+      }
+    } catch (error) {
+      console.log('Error sending message:', error);
+    }
+  };
+
+// 1스테이지 게임 시작
+const sendStage1Start = () => {
+  console.log("게임시작버튼 누름");
+  // /pub/calculation/setboard/{roundId} 경로로 메시지 전송
+  try {
+    if (!client) {
+      console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+      return;
+    }
+
+    client.send(`/pub/calculation/start/${roundId}`);
+    props.changeIsReady();
+    
+  } catch (error) {
+    console.log('Error sending message:', error);
+  }
+};
+
+const subscribeToStage1Start = () => {
+  // /sub/socket/calculation/start/{roundId} 경로로 구독 요청
+  console.log("보드판 제공을 위한 소켓 연결");
+  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
+  const subscription = client.subscribe(`/sub/socket/calculation/start/${roundId}/${sessionId}`, (message) => {
+    console.log('Received message:', message.body);
+
+    try {
+      // JSON 문자열을 JavaScript 객체로 변환
+      const resJsondata = JSON.parse(message.body);
+  
+      // 객체의 속성을 활용하여 처리
+      const resRole = resJsondata.role;
+      const numberBoardArray = resJsondata.data.numberBoard;
+      console.log("a  "+numberBoardArray);
+
+      setBoardData(numberBoardArray);
+
+      //////////////////////////////////////////////
+      // const qwe123 = {
+      //   "data": [
+      //     [11, 12, 13, 14, 15, 16],
+      //     [17, 18, 19, 10, 11, 12],
+      //     [3, 4, 5, 6, 7, 8],
+      //     [9, 0, 1, 2, 3, 4],
+      //     [25, 26, 27, 28, 29, 30],
+      //     [31, 32, 33, 34, 35, 36]
+      //   ]
+      // };
+      // const numqwe123 = qwe123.data;
+      // console.log(numqwe123);
+      // console.log(boardData);
+      // setBoardData(numqwe123);
+            
+      //////////////////////////////////////////////
+      
+      // 숫자판을 String으로 가져오니까 쪼개서 넣어야함
+      // const newBoardData = numberBoardArray.map(row => row.map(value => value));
+      // setBoardData(newBoardData);
+
+      // console.log(newBoardData);
+      
+    } catch (error) {
+      console.error('Error parsing message body:', error);
+    }
+
+  });
+}
+
+
+
+
+
 
   // selectedCells와 setSelectedCells를 useState로 정의합니다.
   const [selectedCells, setSelectedCells] = useState([]);
@@ -85,6 +245,12 @@ const GameComp = (props) => {
     }
   };
 
+  useEffect(() => {
+    subscribeToStage1Select();
+    subscribeToStage1Start();
+  }, []);
+
+
   // 게임 part
   // 1스테이지
   if (isStage === 1 && isIndex == 11) {
@@ -92,7 +258,7 @@ const GameComp = (props) => {
       <div className={style.compStyle}>
         <div className={style.background_G1}>
           <div className={style.BoardStyle}>
-            <NumberBoard />
+            <NumberBoard boardData={boardData} />
           </div>
           <img
             src="image/tools/questionMark.png"
