@@ -10,7 +10,8 @@ const KakoLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
-
+  //이전에 로그인 페이지에서 이동 후 -> 내가 지정해준 카카오 리다이렉트 페이지로 이동
+  // 그렇기에 use effect를 통해서 페이지 옮기자 마자 바로 리덕스/axios 처리해준다.
   useEffect(() => {
     const fetchKakaoUser = async () => {
       await dispatch(kakaoLoginUser(code)).then((response) => {
