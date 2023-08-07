@@ -18,4 +18,8 @@ public class RankService {
     public List<Tuple> findTotalRank(int stageNum) {
         return recordRepository.findTotalRank(stageNum);
     }
+
+    public void test(int stageNum){
+        recordRepository.findMyRank(stageNum,1);
+    }
 }
