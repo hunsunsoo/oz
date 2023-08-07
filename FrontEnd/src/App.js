@@ -11,29 +11,31 @@ import MyPage from "./components/views/MyPage/MyPage";
 import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
 import SocketPage from "./components/views/SocketPage/SocketPage";
 import KakaoLogin from "./components/views/LoginPage/KakoLogin";
-
-
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/authlanding" element={<AuthLandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/kakaoLogin" element={<KakaoLogin />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/withdrawl" element={<WithDrawl />} />
-          <Route path="/passwordchange" element={<PasswordChange />} />
-          <Route path="/mypage" element={<MyPage />} />
+    <DndProvider backend={HTML5Backend}>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/authlanding" element={<AuthLandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/kakaoLogin" element={<KakaoLogin />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/withdrawl" element={<WithDrawl />} />
+            <Route path="/passwordchange" element={<PasswordChange />} />
+            <Route path="/mypage" element={<MyPage />} />
 
-          <Route path="/game" element={<GamePage />} />
+            <Route path="/game" element={<GamePage />} />
 
-          <Route path="/play" element={<GameComp/>} />
-          <Route path="/socket" element={<SocketPage />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+            <Route path="/play" element={<GameComp />} />
+            <Route path="/socket" element={<SocketPage />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </DndProvider>
   );
 }
 

@@ -191,6 +191,9 @@
   flex: 0 0 70%;
   max-width: 70%;
   height: 100%;
+  background-image: url("../../../../../public/image/game/puzzleGame/puzzleGameBgHeart.JPG");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .puzzleRight {
   flex: 0 0 30%;

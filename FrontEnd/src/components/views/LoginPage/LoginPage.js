@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
+import { setGameUserInfo } from "../../../_actions/game_actions";
 import { useNavigate } from "react-router-dom";
 import style from "./LoginPage.module.css";
 import { useCookies } from "react-cookie";
@@ -38,7 +39,7 @@ function LoginPage(props) {
       email: Email,
       password: Password,
     };
-
+    dispatch(setGameUserInfo({ role: "hi" }));
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.data === "로그인 성공") {
         const Atoken = response.payload.headers.accesstoken;
@@ -49,6 +50,7 @@ function LoginPage(props) {
 
         // 성공하면  root page(landing page)로 가라
       } else {
+        // 실패시
         if (
           response.payload.payload.error === "해당 회원을 찾을 수 없습니다."
         ) {
@@ -61,10 +63,8 @@ function LoginPage(props) {
         }
       }
     });
-
-    // Axios.post("/api/users/login", body).then((response) => {});
   };
-  //  카카오 로그인 구현
+  //  카카오 로그인 구현(카카오에 로그인 하게 해주는 통신 페이지로 이동)
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
@@ -72,37 +72,12 @@ function LoginPage(props) {
 
   return (
     <div className={style.loginpage}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "100vh",
-        }}
-      >
+      <div className={style.standard}>
         <div className={style.box}>
-          <form
-            className="form"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignitems: "center",
-              justifyContent: "center",
-            }}
-            onSubmit={onSubmitHandler}
-          >
-            <div
-              style={{
-                display: "flex",
-                border: "none",
-                borderBottom: "3px solid #6C584C",
-                outline: "none",
-              }}
-            >
+          <form className={style.form} onSubmit={onSubmitHandler}>
+            <div className={style.inputbox}>
               <div style={{ float: "left", width: "30px" }}></div>
               <input
-                style={{ float: "left" }}
                 placeholder="Email"
                 className={style.input}
                 type="email"
@@ -115,14 +90,7 @@ function LoginPage(props) {
                그 지정한 값을 받아온다. */}
             <br />
             <br />
-            <div
-              style={{
-                display: "flex",
-                border: "none",
-                borderBottom: "3px solid #6C584C",
-                outline: "none",
-              }}
-            >
+            <div className={style.inputbox}>
               <input
                 className={style.input}
                 placeholder="Password"
@@ -143,9 +111,11 @@ function LoginPage(props) {
               회원가입
             </button>
           </form>
-          <button className={style.button} onClick={handleKakaoLogin}>
-            카카오 로그인
-          </button>
+          <br />
+          <button
+            className={style.kakaobutton}
+            onClick={handleKakaoLogin}
+          ></button>
         </div>
       </div>
     </div>
