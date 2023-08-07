@@ -1,6 +1,7 @@
 package com.fire4bird.oz.record.repository;
 
 import com.fire4bird.oz.record.entity.Record;
+import com.querydsl.core.Tuple;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,4 +16,7 @@ public interface RecordRepositoryCustom {
 
     //해당 회차의 1 ~ 4의 클리어기록 조회
     List<LocalDateTime> findByClearRecord(int roundId);
+
+    //스테이지 별 랭킹 기록
+    List<Tuple> findTotalRank(int stageNum);
 }
