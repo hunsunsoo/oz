@@ -42,6 +42,7 @@ public class GameManager {
     private Integer turn;
     // 게임이 시작되었는지 확인하는 변수
     private boolean isGameStarted;
+    private boolean isBoardMaked;
     // 조력자가 선택한 블럭의 숫자 관리, 객체가 만들어질 때 0으로 초기화
     private int helperCount;
 
@@ -55,6 +56,7 @@ public class GameManager {
         this.calculationService = calculationService;
         this.helperCount = 0;
         this.isGameStarted = false;
+        this.isBoardMaked = false;
 
         this.setPlayerState(userRounds);
     }
@@ -87,14 +89,24 @@ public class GameManager {
 
     // 게임 setting(만들어진 설정들을 db에 저장)
     public SetBoardRes setGame(Integer roundId){
-        InitReq req = new InitReq();
-        req.setRoundId(roundId);
-        req.setAnswer(this.setAnswerNumber());
-        req.setNumberBoard(this.setNumberBoard());
+        SetBoardRes res = new SetBoardRes();
+        if(!this.isBoardMaked){
+            this.isBoardMaked = true;
+            InitReq req = new InitReq();
+            req.setRoundId(roundId);
+            req.setAnswer(this.setAnswerNumber());
+            req.setNumberBoard(this.setNumberBoard());
 
-        SetBoardRes res = calculationService.initSave(req);
-        res.setSession(this.session);
-        this.turn = res.getTurn();
+            res = calculationService.initSave(req);
+            res.setNumberBoard(this.numberBoard);
+            res.setSession(this.session);
+            this.turn = res.getTurn();
+        }else{
+            res.setTurn(this.turn);
+            res.setNumberBoard(this.numberBoard);
+            res.setSession(this.session);
+        }
+
         return res;
     }
 
@@ -149,24 +161,38 @@ public class GameManager {
     public HelperSubmitRes helperSubmit(HelperSubmitReq req) {
         // [[y, x], [y, x], [y, x], [y, x], [y, x], [y, x]]
         String selected = req.getSelectedNums();
+        String[][] middleBoard = {{"A", "B", "C", "D", "E", "F"},
+                {"G", "H", "I", "J", "K", "L"},
+                {"M", "N", "O", "P", "Q", "R"},
+                {"S", "T", "U", "V", "W", "X"},
+                {"Y", "Z", "a", "b", "c", "d"},
+                {"e", "f", "g", "h", "i", "j"}};
+
         int firstY = 2;
         int firstX = 5;
         int[] num = new int[6];
         for(int i = 0; i<6; i++){
-            num[i] = numberBoard[selected.charAt(firstY)-'0'][selected.charAt(firstX)-'0'];
+            int r = selected.charAt(firstY)-'0';
+            int c = selected.charAt(firstX)-'0';
+            num[i] = numberBoard[r][c];
+            middleBoard[r][c] = Integer.toString(num[i]);
             firstY += 8;
             firstX += 8;
         }
 
         calculationService.helperUpdate(req);
         HelperSubmitRes helperSubmitRes = new HelperSubmitRes();
-        helperSubmitRes.setSelectedNums(num);
+        helperSubmitRes.setSelectedNums(middleBoard);
         helperSubmitRes.setSession(this.session);
         return helperSubmitRes;
     }
 
     public void actorLog(ActorLogReq req) {
         calculationService.actorLog(req, this.turn);
+    }
+
+    public void actorReset(ActorResetReq req) {
+        calculationService.acotrReset(req, this.turn);
     }
 
     // 주어진 String 값으로 계산을 해 답과 비교
@@ -227,7 +253,5 @@ public class GameManager {
         return new GuessAnswerRes(this.session, isCorrect, true, ans);
     }
 
-    public int isCalculationGameCompleted(){
-        return 0;
-    }
+
 }

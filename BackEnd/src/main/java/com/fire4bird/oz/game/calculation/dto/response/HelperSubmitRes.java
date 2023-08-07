@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HelperSubmitRes {
-    int[] selectedNums;
+    String[][] selectedNums;
     private String session;
 }
