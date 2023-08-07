@@ -14,7 +14,7 @@ import WaitingRoomOption from './WaitingRoomOption';
 
 const GamePage = () => {
   // 컴포넌트 조건부 렌더링
-  const [isGaming, setIsGaming] = useState(false);
+  const [isGaming, setIsGaming] = useState(true);
   const [isWaiting, setIsWaiting] = useState(false);
   const [middleCon, setMiddleCon] = useState(1);
 
