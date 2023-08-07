@@ -7,6 +7,5 @@ import lombok.Setter;
 @Setter
 public class HelperRes {
     private String session;
-    int r;
-    int c;
+    private char value;
 }

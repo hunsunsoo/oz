@@ -8,6 +8,5 @@ import lombok.Setter;
 public class ActorLogReq {
     private Integer roundId;
     private Integer userId;
-    private int r;
-    private int c;
+    private char value;
 }

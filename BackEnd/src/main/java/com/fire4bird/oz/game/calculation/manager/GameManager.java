@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 @Setter
@@ -35,6 +36,7 @@ public class GameManager {
     // 랜덤으로 설정된 정답과 숫자판 -> 게임 시작 때마다 init
     private int answer;
     private int[][] numberBoard;
+    private Map<Character, Point> boardMap;
     // 각각의 게임을 구분지어 줄 roundId
     // 한 roundId(팀, 회차가 pk)마다 진행할 수 있는 게임은 한 게임이라 키값으로 관리
     private Integer roundId;
@@ -57,6 +59,7 @@ public class GameManager {
         this.helperCount = 0;
         this.isGameStarted = false;
         this.isBoardMaked = false;
+        this.boardMap = new ConcurrentHashMap<>();
 
         this.setPlayerState(userRounds);
     }
@@ -117,10 +120,26 @@ public class GameManager {
         return answer;
     }
 
+    static class Point{
+        int r, c, value;
+
+        public Point(int r, int c, int value){
+            this.r = r;
+            this.c = c;
+            this.value = value;
+        }
+    }
     // 랜덤 숫자판 생성
     public String setNumberBoard(){
         numberBoard = new int[6][6];
         List<Integer> number = new LinkedList<>();
+        char[][] middleBoard = {{'A', 'B', 'C', 'D', 'E', 'F'},
+                {'G', 'H', 'I', 'J', 'K', 'L'},
+                {'M', 'N', 'O', 'P', 'Q', 'R'},
+                {'S', 'T', 'U', 'V', 'W', 'X'},
+                {'Y', 'Z', 'a', 'b', 'c', 'd'},
+                {'e', 'f', 'g', 'h', 'i', 'j'}};
+
         for(int i = 0; i<36; i++){
             number.add(i%12 + 1);
         }
@@ -131,6 +150,7 @@ public class GameManager {
             for(int j = 0; j<6; j++){
                 int x = random.nextInt(index--);
                 numberBoard[i][j] = number.get(x);
+                boardMap.put(middleBoard[i][j], new Point(i, j, numberBoard[i][j]));
                 number.remove(x);
             }
             boards[i] = Arrays.toString(numberBoard[i]);
@@ -150,17 +170,19 @@ public class GameManager {
         HelperRes helperRes = new HelperRes();
         if(req.getIsSelected() == 1) this.helperCount++;
         else this.helperCount--;
-        helperRes.setR(req.getR());
-        helperRes.setC(req.getC());
+        helperRes.setValue(req.getValue());
         helperRes.setSession(this.session);
 
-        calculationService.helperLog(req, this.turn);
+        int[] temp= new int[2];
+        temp[0] = boardMap.get(req.getValue()).r;
+        temp[1] = boardMap.get(req.getValue()).c;
+        calculationService.helperLog(req, this.turn, Arrays.toString(temp));
         return helperRes;
     }
 
     public HelperSubmitRes helperSubmit(HelperSubmitReq req) {
-        // [[y, x], [y, x], [y, x], [y, x], [y, x], [y, x]]
-        String selected = req.getSelectedNums();
+        // ['a', 'B', 'C', 'D', 'E', 'i']
+        char[] selected = req.getSelectedNums();
         String[][] middleBoard = {{"A", "B", "C", "D", "E", "F"},
                 {"G", "H", "I", "J", "K", "L"},
                 {"M", "N", "O", "P", "Q", "R"},
@@ -168,19 +190,16 @@ public class GameManager {
                 {"Y", "Z", "a", "b", "c", "d"},
                 {"e", "f", "g", "h", "i", "j"}};
 
-        int firstY = 2;
-        int firstX = 5;
-        int[] num = new int[6];
+        String[] log = new String[6];
         for(int i = 0; i<6; i++){
-            int r = selected.charAt(firstY)-'0';
-            int c = selected.charAt(firstX)-'0';
-            num[i] = numberBoard[r][c];
-            middleBoard[r][c] = Integer.toString(num[i]);
-            firstY += 8;
-            firstX += 8;
+            int[] temp= new int[2];
+            temp[0] = boardMap.get(selected[i]).r;
+            temp[1] = boardMap.get(selected[i]).c;
+            middleBoard[temp[0]][temp[1]] = Integer.toString(boardMap.get(selected[i]).value);
+            log[i] = Arrays.toString(temp);
         }
 
-        calculationService.helperUpdate(req);
+        calculationService.helperUpdate(req, Arrays.toString(log));
         HelperSubmitRes helperSubmitRes = new HelperSubmitRes();
         helperSubmitRes.setSelectedNums(middleBoard);
         helperSubmitRes.setSession(this.session);
@@ -188,7 +207,10 @@ public class GameManager {
     }
 
     public void actorLog(ActorLogReq req) {
-        calculationService.actorLog(req, this.turn);
+        int[] temp= new int[2];
+        temp[0] = boardMap.get(req.getValue()).r;
+        temp[1] = boardMap.get(req.getValue()).c;
+        calculationService.actorLog(req, this.turn, Arrays.toString(temp));
     }
 
     public void actorReset(ActorResetReq req) {
@@ -199,22 +221,25 @@ public class GameManager {
     public GuessAnswerRes guessAnswer(ActorAnswerReq req){
         boolean isCorrect = false;
         // req에 들어 있을 numbers 예시
-        // [[y, x], [y, x], [y, x]]
-        String heo = req.getSelectedNums();
-        String giho = req.getMarks();
+        // ['a', 'A', 'G']
+        // ['+', '*']
 
-        int firstY = 2;
-        int firstX = 5;
         int[] num = new int[3];
+        String[] log = new String[3];
         for(int i = 0; i<3; i++){
-            num[i] = numberBoard[heo.charAt(firstY)-'0'][heo.charAt(firstX)-'0'];
-            System.out.println("허수 숫자 " + (i+1) + ": " + numberBoard[heo.charAt(firstY)-'0'][heo.charAt(firstX)-'0']);
-            firstY += 8;
-            firstX += 8;
+            num[i] = boardMap.get(req.getSelectedNums()[i]).value;
+            int[] temp = new int[2];
+            temp[0] = boardMap.get(req.getSelectedNums()[i]).r;
+            temp[1] = boardMap.get(req.getSelectedNums()[i]).c;
+            log[i] = Arrays.toString(temp);
         }
+
+        num[0] = boardMap.get(req.getSelectedNums()[0]).value;
+        num[1] = boardMap.get(req.getSelectedNums()[1]).value;
+        num[2] = boardMap.get(req.getSelectedNums()[2]).value;
         int ans = 0;
 
-        switch(giho.charAt(1)){
+        switch(req.getMarks()[0]){
             case '*':
                 ans = num[0] * num[1];
                 break;
@@ -231,7 +256,7 @@ public class GameManager {
                 break;
         }
 
-        switch(giho.charAt(4)){
+        switch(req.getMarks()[1]){
             case '*':
                 ans *= num[2];
                 break;
@@ -249,7 +274,7 @@ public class GameManager {
         }
 
         if(answer == ans) isCorrect =  true;
-        calculationService.submitAnswer(req, ans);
+        calculationService.submitAnswer(req, ans, Arrays.toString(log));
         return new GuessAnswerRes(this.session, isCorrect, true, ans);
     }
 
