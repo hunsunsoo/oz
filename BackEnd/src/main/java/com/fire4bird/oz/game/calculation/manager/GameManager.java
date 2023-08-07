@@ -246,7 +246,7 @@ public class GameManager {
             case '/':
                 ans = num[0] / num[1];
                 if(num[0] % num[1] != 1)
-                    return new GuessAnswerRes(this.session,false, true, ans);
+                    return new GuessAnswerRes(this.session, num, false, true, ans);
                 break;
             case '+':
                 ans = num[0] + num[1];
@@ -262,7 +262,7 @@ public class GameManager {
                 break;
             case '/':
                 if(ans%num[2] != 0 )
-                    return new GuessAnswerRes(this.session, false, true, ans);
+                    return new GuessAnswerRes(this.session, num, false, true, ans);
                 ans /= num[2];
                 break;
             case '+':
@@ -275,7 +275,7 @@ public class GameManager {
 
         if(answer == ans) isCorrect =  true;
         calculationService.submitAnswer(req, ans, Arrays.toString(log));
-        return new GuessAnswerRes(this.session, isCorrect, true, ans);
+        return new GuessAnswerRes(this.session, num, isCorrect, true, ans);
     }
 
 
