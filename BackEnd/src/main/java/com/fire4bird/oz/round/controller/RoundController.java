@@ -1,42 +1,38 @@
 package com.fire4bird.oz.round.controller;
 
-import com.fire4bird.oz.error.BusinessLogicException;
-import com.fire4bird.oz.error.ExceptionCode;
-import com.fire4bird.oz.common.CMRespDto;
-import com.fire4bird.oz.round.dto.RoundDto;
+import com.fire4bird.oz.round.dto.Req.RoundStartReq;
 import com.fire4bird.oz.round.service.RoundService;
-import jakarta.validation.Valid;
+import com.fire4bird.oz.socket.dto.SocketMessage;
+import com.fire4bird.oz.socket.repository.SocketRepository;
+import com.fire4bird.oz.socket.service.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/round")
 public class RoundController {
-
+    private final RedisPublisher redisPublisher;
+    private final SocketRepository socketRepository;
     private final RoundService roundService;
 
-    @PostMapping("/start")
-    public ResponseEntity roundStart(@Valid @RequestBody RoundDto roundDto, BindingResult bindingResult ) {
+    @MessageMapping("/round/start")
+    public void roundStart(RoundStartReq req) {
         //방장이 start 했는지 판별
-        for (RoundDto.RoleDTO roleList : roundDto.getUserRole()){
-            if(!roleList.getUserId().equals(roundDto.getUserId()))
-                continue;
+        int owner = socketRepository.findOwnerById(req.getRtcSession());
+        if(owner != req.getUserId())
+            return;
 
-            if(roleList.getRole()!=1)
-                throw new BusinessLogicException(ExceptionCode.FORBIDDEN_OWNER);
-        }
-
-        roundService.roundSave(roundDto);
-        return new ResponseEntity<>(new CMRespDto<>(1,"모험 시작", null), HttpStatus.OK);
+        SocketMessage msg = SocketMessage.builder()
+                .message("모험 시작")
+                .data(roundService.roundSave(req))
+                .rtcSession(req.getRtcSession())
+                .type("round/start")
+                .userId(req.getUserId())
+                .build();
+        redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), msg);
     }
 
 }

@@ -14,12 +14,13 @@ public class RoundRepositoryImpl implements RoundRepositoryCustom {
     //팀의 회차가 제일 높은 Round 찾기
     @Override
     public Round recentRound(Team team) {
-        Round ans = jpaQueryFactory
+        return jpaQueryFactory
                 .select(round)
-                .where(round.teamRound.eq(jpaQueryFactory.select(round.teamRound.max()).from(round).where(round.team.eq(team))))
+                .where(round.teamRound.eq(jpaQueryFactory
+                        .select(round.teamRound.max())
+                        .from(round)
+                        .where(round.team.eq(team))))
                 .from(round)
                 .fetchOne();
-
-        return ans;
     }
 }
