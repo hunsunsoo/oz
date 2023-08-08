@@ -1,6 +1,8 @@
 package com.fire4bird.oz.game.puzzle.repository;
 
 
+import com.fire4bird.oz.game.calculation.entity.Calculation;
+import com.fire4bird.oz.game.calculation.entity.QCalculation;
 import com.fire4bird.oz.game.puzzle.entity.Puzzle;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepositoryCustom {
     @Override
     public Puzzle maxTurn(int roundId) {
         Puzzle puzzles = jpaQueryFactory
-                .selectFrom(puzzle)
+                .select(puzzle)
                 .where(puzzle.round.roundId.eq(roundId)
                         .and(puzzle.turn.eq(
                                 jpaQueryFactory
@@ -24,6 +26,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepositoryCustom {
                                         .where(puzzle.round.roundId.eq(roundId))
                                         .fetchOne()
                         )))
+                .from(puzzle)
                 .fetchOne();
         return puzzles;
     }

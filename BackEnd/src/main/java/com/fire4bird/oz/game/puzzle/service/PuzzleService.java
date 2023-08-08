@@ -45,6 +45,9 @@ public class PuzzleService {
 
     //게임 시작시 뿌려줄 데이터
     public void gameStart(PuzzleStartReq req) {
+        int owner = socketRepository.findOwnerById(req.getRtcSession());
+        if(req.getUserId()!=owner) return;
+
         RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
         Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(RuntimeException::new);
         Puzzle puzzle = puzzleGameManager.statGame(req, findRound, 1);
@@ -90,11 +93,12 @@ public class PuzzleService {
         RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(),String.valueOf(req.getUserId()));
         Puzzle puzzle = puzzleRepository.maxTurn(obj.getRoundId());
 
-        int check = puzzleGameManager.checkAnswer(req.getUserAnswer(),puzzle.getAnswer());
+        int check = -1;
+        if(req.getUserAnswer().equals(puzzle.getAnswer())) check = 1;
         puzzleGameManager.publisher(req.getRtcSession(), "puzzle/data","게임 정답 확인",check);
 
         //type 4: 게임 정답 제출 로그
-        userLog(req.getRtcSession(),req.getUserId(),0,4, req.getUserAnswer()+" 제출, 정답 여부: "+ check);
+        userLog(req.getRtcSession(),req.getUserId(),0,4, req.getUserAnswer()+ check);
 
         puzzle.setUserAnswer(req.getUserAnswer());
         puzzle.setIsCheck(check);
