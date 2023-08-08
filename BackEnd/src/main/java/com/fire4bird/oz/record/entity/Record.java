@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -28,13 +29,13 @@ public class Record {
 
     //해당 현재 row 종료시간 - 시작시간
     @Column(name = "stage_record")
-    private LocalDateTime stageRecord;
+    private LocalTime stageRecord;
 
     //클리어가 되었을 때 기록되는 누적기록
     //같은 데이터 모든 스테이지 기록을 더함
     //-> 클리어가 되었을 때 누적기록에 save
     @Column(name = "acc_record")
-    private LocalDateTime accRecord;
+    private LocalTime accRecord;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
