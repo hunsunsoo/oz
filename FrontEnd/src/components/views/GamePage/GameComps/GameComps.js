@@ -34,9 +34,9 @@ const getCharacterClass = (data, index) => {
 
 const Image = ({ src, alt }) => {
   const [{ isDragging }, drag] = useDrag({
-    type: 'image',
+    type: "image",
     item: { src, alt },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
@@ -48,12 +48,12 @@ const Image = ({ src, alt }) => {
       alt={alt}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        cursor: 'move',
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        maxWidth: '100%',
-        maxHeight: '100%',
+        cursor: "move",
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        maxWidth: "100%",
+        maxHeight: "100%",
       }}
     />
   );
