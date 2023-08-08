@@ -44,6 +44,21 @@ const AlphaBoard = ( {onCellClick} ) => {
     onCellClick(selectedCells);
   };
 
+  // const [selectedCells, setSelectedCells] = useState([]);
+
+  // const handleClick = (row, col) => {
+  //   const cellValue = boardData[row][col];
+  //   const isCellSelected = selectedCells.includes(cellValue);
+
+  //   if (isCellSelected) {
+  //     setSelectedCells(selectedCells.filter((value) => value !== cellValue));
+  //   } else {
+  //     setSelectedCells([...selectedCells, cellValue]);
+  //   }
+
+  //   onCellClick(selectedCells);
+  // };
+
   return (
     <div className="alpha-board">
       {boardData.map((row, rowIndex) => (
