@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.fire4bird.oz.record.entity.QRecord.record;
@@ -70,15 +71,17 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .join(round.team, team)
                 .where(record.stageNum.eq(stageNum),
                         record.clear.eq(clear))
-                .orderBy(record.accRecord.asc())
+                .orderBy(record.accRecord.hour().asc(),
+                        record.accRecord.minute().asc(),
+                        record.accRecord.second().asc())
                 .fetch();
     }
 
     @Override
-    public void findMyRank(int stageNum, int userId) {
+    public List<Tuple> findMyRank(int stageNum, int userId) {
         String clear = "clear";
 
-        List<Tuple> findMyRank = jpaQueryFactory
+        return jpaQueryFactory
                 .select(record.accRecord,
                         round.team.teamName)
                 .from(record)
@@ -89,21 +92,24 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         record.stageNum.eq(stageNum),
                         record.clear.eq(clear))
                 .orderBy(record.accRecord.asc())
+                .limit(3)
                 .fetch();
+    }
 
+    //몇 등인지 반환
+    @Override
+    public List<Long> getRankNum(List<Tuple> findMyRank, int stageNum) {
+        List<Long> rankList = new ArrayList<>();
         for (Tuple tuple : findMyRank) {
-            log.info("tuple : {}", tuple);
-
-            Long test = jpaQueryFactory
+            Long count = jpaQueryFactory
                     .select(record.accRecord.count())
                     .from(record)
                     .where(record.accRecord.lt(tuple.get(record.accRecord)),
                             record.stageNum.eq(stageNum))
                     .fetchOne();
-
-            log.info("test : {}", test);
-            log.info("1더하면 ? : {}", test + 1);
+            rankList.add(count + 1);
         }
 
+        return rankList;
     }
 }
