@@ -76,6 +76,7 @@
   left: 40%;
   width: 130px;
   height: 60px;
+  z-index: 100;
 }
 
   /* 1스테이지 게임 */
