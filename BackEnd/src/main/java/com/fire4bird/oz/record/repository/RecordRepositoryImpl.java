@@ -1,19 +1,24 @@
 package com.fire4bird.oz.record.repository;
 
 import com.fire4bird.oz.record.entity.Record;
+import com.fire4bird.oz.round.entity.Round;
+import com.fire4bird.oz.team.entity.UserTeam;
+import com.fire4bird.oz.user.entity.User;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.fire4bird.oz.record.entity.QRecord.record;
 import static com.fire4bird.oz.round.entity.QRound.round;
 import static com.fire4bird.oz.round.entity.QUserRound.userRound;
 import static com.fire4bird.oz.team.entity.QTeam.team;
+import static com.fire4bird.oz.team.entity.QUserTeam.userTeam;
 import static com.fire4bird.oz.user.entity.QUser.user;
 import static com.querydsl.jpa.JPAExpressions.select;
 
@@ -22,6 +27,15 @@ import static com.querydsl.jpa.JPAExpressions.select;
 public class RecordRepositoryImpl implements RecordRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    @Override
+    public Optional<UserTeam> validUserToRound(User user, Round round) {
+        return Optional.ofNullable(jpaQueryFactory
+                .selectFrom(userTeam)
+                .where(userTeam.team.eq(round.getTeam()),
+                        userTeam.user.eq(user))
+                .fetchOne());
+    }
 
     @Override
     public Record findByRecord(int roundId, int stageNum) {
@@ -35,7 +49,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     }
 
     @Override
-    public List<LocalDateTime> findByTimeRecord(int roundId, int stageNum) {
+    public List<LocalTime> findByTimeRecord(int roundId, int stageNum) {
         return jpaQueryFactory
                 .select(record.stageRecord)
                 .from(record)
@@ -45,7 +59,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     }
 
     @Override
-    public List<LocalDateTime> findByClearRecord(int roundId) {
+    public List<LocalTime> findByClearRecord(int roundId) {
 
         return jpaQueryFactory
                 .select(record.accRecord)
@@ -71,9 +85,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .join(round.team, team)
                 .where(record.stageNum.eq(stageNum),
                         record.clear.eq(clear))
-                .orderBy(record.accRecord.hour().asc(),
-                        record.accRecord.minute().asc(),
-                        record.accRecord.second().asc())
+                .orderBy(record.accRecord.asc())
                 .fetch();
     }
 
