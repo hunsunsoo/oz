@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
-
+import style from "./RegisterPage.module.css";
 function RegisterPage(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,15 +57,15 @@ function RegisterPage(props) {
     };
 
     dispatch(registerUser(body)).then((response) => {
-      // console.log(response);
+      console.log(response);
       // console.log(response.payload.success);
-      if (response.payload != null) {
-        console.log("a");
+      // console.log(response);
+      if (response.payload === "회원 가입 완료") {
         navigate("/login");
-        console.log("b");
+
         // 성공하면  root page(landing page)로 가라
       } else {
-        alert("Failed to sign up");
+        console.log(response);
       }
     });
 
@@ -75,40 +75,69 @@ function RegisterPage(props) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
-      <form
-        style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={onSubmitHandler}
+    <div className={style.registerPage}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100vh",
+        }}
       >
-        <label>Name</label>
-        <input type="text" value={Name} onChange={onNameHandler} />
-        <label>nickname</label>
-        <input type="text" value={NickName} onChange={onNickNameHandler} />
-        <label>Email</label>
-        <input type="email" value={Email} onChange={onEmailHandler} />
-
-        {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
+        <div className={style.box}>
+          <form
+            style={{ display: "flex", flexDirection: "column" }}
+            onSubmit={onSubmitHandler}
+          >
+            <input
+              className={style.input}
+              type="text"
+              value={Name}
+              placeholder="Name"
+              onChange={onNameHandler}
+            />
+            <br />
+            <input
+              className={style.input}
+              type="text"
+              value={NickName}
+              placeholder="NickName"
+              onChange={onNickNameHandler}
+            />
+            <br />
+            <input
+              className={style.input}
+              type="email"
+              value={Email}
+              placeholder="Email"
+              onChange={onEmailHandler}
+            />
+            <br />
+            {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
                그 지정한 값을 받아온다. */}
 
-        <label>Password</label>
-        <input type="password" value={Password} onChange={onPasswordHandler} />
-        <br />
-        <label>ConfirmPassword</label>
-        <input
-          type="password"
-          value={ConfirmPassword}
-          onChange={onConfirmPassword}
-        />
-        <button>회원가입</button>
-      </form>
+            <input
+              type="password"
+              value={Password}
+              placeholder="Password"
+              onChange={onPasswordHandler}
+              className={style.input}
+            />
+            <br />
+
+            <input
+              type="password"
+              value={ConfirmPassword}
+              onChange={onConfirmPassword}
+              placeholder="ConfirmPassword"
+              className={style.input}
+            />
+            <br />
+            <button className={style.button}>회원가입</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

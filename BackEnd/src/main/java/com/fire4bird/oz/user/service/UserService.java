@@ -2,6 +2,7 @@ package com.fire4bird.oz.user.service;
 
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
+import com.fire4bird.oz.user.dto.MyPageDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,22 @@ public class UserService {
 
     }
 
+    //회원 정보 수정
+    public void updateUser(User user) {
+        User findUser = findUser(user.getUserId());
+
+        Optional.ofNullable(user.getName())
+                .ifPresent(findUser::setName);
+
+        Optional.ofNullable(user.getNickname())
+                .ifPresent(findUser::setNickname);
+
+        Optional.ofNullable(user.getPassword())
+                        .ifPresent(password -> findUser.setPassword(passwordEncoder.encode(password)));
+
+        userRepository.save(findUser);
+    }
+
     public User findUser(int userId) {
         Optional<User> findUser = userRepository.findById(userId);
 
@@ -66,17 +83,12 @@ public class UserService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
-    //리프레시 토큰으로 유저 조회
-    public User findUser(String refreshToken) {
-        Optional<User> findUser = userRepository.findByRefreshToken(refreshToken);
 
-        return findUser
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-    }
-
-    //db조회 사용자 = 토큰 payload 사용자 동일한지 확인
-    public void checkUser(int dbUserId, int payloadId) {
-        if(dbUserId == payloadId) return;
+    //리프레시 유저 식별자 = 토큰 payload 사용자 동일한지 확인
+    public User checkUser(int refreshUserId, int payloadId) {
+        if(refreshUserId == payloadId){
+            return findUser(refreshUserId);
+        }
 
         throw new BusinessLogicException(ExceptionCode.TOKEN_NOT_VALID);
     }
@@ -99,12 +111,8 @@ public class UserService {
         }
     }
 
-    //리프레시 토큰 제거
-    public void deleteRefreshToken(String refreshToken) {
-        User findUser = findUser(refreshToken);
-
-        findUser.setRefreshToken(null);
-
-        userRepository.save(findUser);
+    //마이페이지 조회
+    public MyPageDto findMyPage(int userId) {
+        return userRepository.findByUserMyPage(userId);
     }
 }

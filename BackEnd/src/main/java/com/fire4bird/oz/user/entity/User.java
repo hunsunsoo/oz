@@ -49,9 +49,6 @@ public class User implements UserDetails {
     @Column(name = "out_date")
     private LocalDateTime outDate;
 
-    @Column(name = "refresh_token", length = 300)
-    private String refreshToken;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
