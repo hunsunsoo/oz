@@ -1,14 +1,21 @@
 package com.fire4bird.oz.record.service;
 
+import com.fire4bird.oz.error.BusinessLogicException;
+import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.record.mapper.RecordMapper;
 import com.fire4bird.oz.record.repository.RecordRepository;
+import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.round.service.RoundService;
+import com.fire4bird.oz.team.entity.UserTeam;
+import com.fire4bird.oz.user.entity.User;
+import com.fire4bird.oz.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +25,21 @@ import java.util.Optional;
 public class RecordService {
 
     private final RecordRepository recordRepository;
+    private final UserService userService;
     private final RoundService roundService;
     private final RecordMapper recordMapper;
+
+    //유저와 라운드id의 관계가 유효한 지 확인
+    public void validUserAndRound(int userId, int roundId) {
+        User user = userService.findUser(userId);
+        Round round = roundService.findRound(roundId);
+
+        Optional<UserTeam> findUserTeam = recordRepository.validUserToRound(user, round);
+
+        //요창 유저가 이상한 라운드id로 요청 보내면 throw
+        findUserTeam
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BAD_REQUEST));
+    }
 
     //기록 검색
     public Record findRecord(int roundId, int stageNum) {
@@ -66,7 +86,7 @@ public class RecordService {
 
     //스테이지 종료시 기록 저장 - clear
     public void saveClearRecord(int roundId, int stageNum, Record record) {
-        List<LocalDateTime> findTimeRecord = recordRepository.findByTimeRecord(roundId, stageNum);
+        List<LocalTime> findTimeRecord = recordRepository.findByTimeRecord(roundId, stageNum);
 
         record.setAccRecord(accRecordCalculation(findTimeRecord));
 
@@ -75,10 +95,10 @@ public class RecordService {
 
     //종합 기록 저장
     public void saveTotalRecord(int roundId) {
-        List<LocalDateTime> clearRecord = recordRepository.findByClearRecord(roundId);
+        List<LocalTime> clearRecord = findClearRecord(roundId);
 
         Record totalRecord = recordMapper
-                .toTotalRecordEntity(roundService.findRound(roundId), 5, accRecordCalculation(clearRecord),"clear");
+                .toTotalRecordEntity(roundService.findRound(roundId), 5, accRecordCalculation(clearRecord), "clear");
 
         recordRepository.save(totalRecord);
     }
@@ -92,14 +112,26 @@ public class RecordService {
 
         log.info("newTime : {}", stageRecord);
 
-        findRecord.setStageRecord(stageRecord);
+        findRecord.setStageRecord(stageRecord.toLocalTime());
 
         return findRecord;
     }
 
+    //클리어 계산을 위한 이전 기록 4개 긁어옴
+    public List<LocalTime> findClearRecord(int roundId) {
+        List<LocalTime> clearRecord = recordRepository.findByClearRecord(roundId);
+
+        //해당 부분 리스트 사이즈 4가 아니면 예외 처리 진행
+        if(clearRecord.size() != 4){
+            throw new BusinessLogicException(ExceptionCode.BAD_REQUEST);
+        }
+
+        return clearRecord;
+    }
+
     //clear 시 해당 스테이지 최종 누적 기록
-    public LocalDateTime accRecordCalculation(List<LocalDateTime> recordList) {
-        LocalDateTime accRecord = recordList.get(0);
+    public LocalTime accRecordCalculation(List<LocalTime> recordList) {
+        LocalTime accRecord = recordList.get(0);
 
         for (int i = 1; i < recordList.size(); i++) {
             accRecord = accRecord
