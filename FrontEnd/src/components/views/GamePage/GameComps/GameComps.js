@@ -65,12 +65,13 @@ const GameComp = (props) => {
   const client = props.client;
   const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
   const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
-  const myTeamId = 1;
+  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
 
   const [dorothyState, setDorothyState] = useState(0);
   const [lionState, setLionState] = useState(0);
   const [heosuState, setHeosuState] = useState(0);
   const [twState, setTwState] = useState(0);
+  const [gameId, setGameId] = useState(0);
 
   const [isStartBtnActive, setIsStartBtnActive] = useState(true); // 예시 값으로 true 설정
   // => 4명이 준비하면 true로 바꿔줄 값
@@ -90,7 +91,6 @@ const GameComp = (props) => {
   const subscribeToStage1Select = () => {
     console.log("1스테이지 ready 페이지 소켓연결");
     // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
-    const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
     const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}}`, (message) => {
       console.log('Received message:', message.body);
 
@@ -117,14 +117,17 @@ const GameComp = (props) => {
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
         return;
       }
-
+      
       const message = {
         "session": "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe",
         "role": myRole,
       };
-
+      
       client.send(`/pub/calculation/ready/${roundId}`, {}, JSON.stringify(message));
-
+      console.log("준비완료 누름");
+      console.log(message);
+      console.log(dorothyState);
+      
       // 역할군 state 변경
       if (myRole === 1) {
         if (dorothyState === 0) {
@@ -156,79 +159,114 @@ const GameComp = (props) => {
     }
   };
 
-// 1스테이지 게임 시작
-const sendStage1Start = () => {
-  console.log("게임시작버튼 누름");
-  // /pub/calculation/setboard/{roundId} 경로로 메시지 전송
-  try {
-    if (!client) {
-      console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
-      return;
-    }
-
-    client.send(`/pub/calculation/start/${roundId}`);
-    props.changeIsReady();
-    
-  } catch (error) {
-    console.log('Error sending message:', error);
-  }
-};
-
-const subscribeToStage1Start = () => {
-  // /sub/socket/calculation/start/{roundId} 경로로 구독 요청
-  console.log("보드판 제공을 위한 소켓 연결");
-  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
-  const subscription = client.subscribe(`/sub/socket/calculation/start/${roundId}/${sessionId}`, (message) => {
-    console.log('Received message:', message.body);
-
+  // 1스테이지 게임 시작
+  const sendStage1Start = () => {
+    console.log("게임시작버튼 누름");
+    // /pub/calculation/start/{roundId} 경로로 메시지 전송
     try {
-      // JSON 문자열을 JavaScript 객체로 변환
-      const resJsondata = JSON.parse(message.body);
-  
-      // 객체의 속성을 활용하여 처리
-      const resRole = resJsondata.role;
-      const numberBoardArray = resJsondata.data.numberBoard;
-      console.log("a  "+numberBoardArray);
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
 
-      setBoardData(numberBoardArray);
-
-      //////////////////////////////////////////////
-      // const qwe123 = {
-      //   "data": [
-      //     [11, 12, 13, 14, 15, 16],
-      //     [17, 18, 19, 10, 11, 12],
-      //     [3, 4, 5, 6, 7, 8],
-      //     [9, 0, 1, 2, 3, 4],
-      //     [25, 26, 27, 28, 29, 30],
-      //     [31, 32, 33, 34, 35, 36]
-      //   ]
-      // };
-      // const numqwe123 = qwe123.data;
-      // console.log(numqwe123);
-      // console.log(boardData);
-      // setBoardData(numqwe123);
-            
-      //////////////////////////////////////////////
-      
-      // 숫자판을 String으로 가져오니까 쪼개서 넣어야함
-      // const newBoardData = numberBoardArray.map(row => row.map(value => value));
-      // setBoardData(newBoardData);
-
-      // console.log(newBoardData);
+      client.send(`/pub/calculation/start/${roundId}`);
+      props.changeIsReady();
       
     } catch (error) {
-      console.error('Error parsing message body:', error);
+      console.log('Error sending message:', error);
     }
+  };
 
-  });
-}
+  const subscribeToStage1Start = () => {
+    // /sub/socket/calculation/start/{roundId}/{sessionId} 경로로 구독 요청
+    const subscription = client.subscribe(`/sub/socket/calculation/start/${roundId}/${sessionId}`, (message) => {
+      console.log('Received message:', message.body);
+      console.log("보드판 제공을 위한 소켓 연결");
+
+      try {
+        // JSON 문자열을 JavaScript 객체로 변환
+        const resJsondata = JSON.parse(message.body);
+    
+        // 객체의 속성을 활용하여 처리
+        const resRole = resJsondata.role;
+        const resGameId = resJsondata.data.gameId;
+        setGameId(resGameId);
+        const numberBoardArray = resJsondata.data.numberBoard;
+
+        setBoardData(numberBoardArray);
+        console.log("a " + numberBoardArray);
+        
+      } catch (error) {
+        console.error('Error parsing message body:', error);
+      }
+    });
+  }
+
+  // 1스테이지 조력자 선택 숫자 전달
+  const sendStage1SelectCells = () => {
+    console.log("조력자 선택완료 누름");
+    // /pub/calculation/helpersubmit/{roundId} 경로로 메시지 전송
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
 
 
+      const message = {
+        "gameId": gameId,
+        "selectedNums": selectedCells[selectedCells.length - 1],
+      };
+
+      console.log(selectedCells[selectedCells.length - 1]);
+      
+      client.send(`/pub/calculation/helpersubmit/${roundId}`, {}, JSON.stringify(message));
+      props.changeIsIndex();
+      
+    } catch (error) {
+      console.log('Error sending message:', error);
+    }
+  }
+
+  const subscribeToStage1SelectCells = (maxRetries = 3, retryInterval = 2000) => {
+    console.log("조력자 숫자판 받기");
+    
+    let retries = 0;
+    
+    const trySubscribe = () => {
+      if (!client) {
+        if (retries < maxRetries) {
+          retries++;
+          setTimeout(trySubscribe, retryInterval);
+        }
+        return;
+      }
+
+      // /sub/socket/calculation/helpersubmit/{roundId} 경로로 구독 요청
+      const subscription = client.subscribe(`/sub/socket/calculation/helpersubmit/${roundId}`, (message) => {
+        console.log('Received message:', message.body);
+        console.log("조력자 숫자 제출을 위한 소켓 연결");
+    
+        try {
+          // JSON 문자열을 JavaScript 객체로 변환
+          const resJsondata = JSON.parse(message.body);
+      
+          // 객체의 속성을 활용하여 처리
+          const selectedNumsArray = resJsondata.data.selectedNums;
+          console.log("숫자+알파벳 배열: "+selectedNumsArray)
+    
+          setBoardData(selectedNumsArray);
+          console.log("바뀐 배열 " + boardData);
+          
+        } catch (error) {
+          console.error('Error parsing message body:', error);
+        }
+      });
+    }
+  }
 
 
-
-
-  // selectedCells와 setSelectedCells를 useState로 정의합니다.
+  // // selectedCells와 setSelectedCells를 useState로 정의합니다.
   const [selectedCells, setSelectedCells] = useState([]);
 
   // 클릭 이벤트 처리 함수
@@ -238,16 +276,22 @@ const subscribeToStage1Start = () => {
 
     if (isCellSelected) {
       // 이미 선택된 칸이라면 해당 값을 배열에서 제거
-      setSelectedCells(selectedCells.filter((value) => value !== cellValue));
+      const updatedCells = selectedCells.filter((value) => value !== cellValue);
+      setSelectedCells(updatedCells);
+
     } else {
       // 새로 선택된 칸이라면 해당 값을 배열에 추가
-      setSelectedCells([...selectedCells, cellValue]);
+      const updatedCells = [...selectedCells, cellValue];
+      setSelectedCells(updatedCells);
     }
   };
+
+  
 
   useEffect(() => {
     subscribeToStage1Select();
     subscribeToStage1Start();
+    subscribeToStage1SelectCells();
   }, []);
 
 
@@ -269,15 +313,8 @@ const subscribeToStage1Start = () => {
       </div>
     );
   } else if (isStage === 1 && isIndex == 12) {
-    const handleCellClick = (cellValue) => {
-      // 클릭 이벤트 처리 함수
-      // 클릭한 칸의 값을 상태에 추가 또는 제거
-      setSelectedCells((prevSelectedCells) =>
-        prevSelectedCells.includes(cellValue)
-          ? prevSelectedCells.filter((value) => value !== cellValue)
-          : [...prevSelectedCells, cellValue]
-      );
-    };
+    console.log(selectedCells[selectedCells.length - 1]);
+
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
@@ -293,7 +330,7 @@ const subscribeToStage1Start = () => {
             src="image/tools/stage1SubBtn.png"
             alt="stage1SubBtn"
             className={style.selectBtn}
-            onClick={props.changeIsIndex}
+            onClick={sendStage1SelectCells}
           />
         </div>
       </div>
@@ -303,7 +340,8 @@ const subscribeToStage1Start = () => {
       <div className={style.compStyle}>
         <div className={style.background_G1}>
           <div className={style.BoardStyle2}>
-            <AlphaBoard />
+            {/* <AlphaBoard /> */}
+            <NumberBoard boardData={boardData} />
           </div>
           <div className={style.MathBoardStyle}>
             <MathBoard />
@@ -316,9 +354,7 @@ const subscribeToStage1Start = () => {
             alt="questionMark"
             className={style.iconStyle}
           />
-          <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>
-            정답제출
-          </div>
+          <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div>
           <div className={style.resetBtn}>리셋</div>
           <img
             src="image/tools/equal.png"
@@ -525,21 +561,34 @@ const subscribeToStage1Start = () => {
         </div>
       </div>
     );
-  } else if (isStage === 1 && isIndex == 3) {
-    // ready 화면 + 방법설명
+  } else if (isStage === 1 && isIndex == 3) { // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
-          <img
+          <img 
             src="image/character/troop2.png"
             alt=""
             className={style.troop2}
           />
-          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-          <div className={style.readyBtn} onClick={props.changeIsReady}>
+          <div className={style.howToPlayImg}>
+            게임 방법 넣을 part
+          </div>
+          {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
+          <div className={style.readyBtn} onClick={sendStage1Ready}>
             준비 완료
           </div>
-          <div className={style.howToPlayBtn}>게임 방법</div>
+          <div className={style.howToPlayBtn}>
+            게임 방법
+          </div>
+          <div className={style.startBtn} style={{ display: isStartBtnActive && host === 1 ? 'flex' : 'none', }} onClick={sendStage1Start}>
+            게임 시작
+          </div>
+          <img
+            src="image/tools/checkmarker.png"
+            className={style.checkDorothy}
+            style={{ display: dorothyState === 1 ? 'block' : 'none' }}
+          >
+          </img>
         </div>
       </div>
     );
