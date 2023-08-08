@@ -21,5 +21,8 @@ public interface RecordRepositoryCustom {
     List<Tuple> findTotalRank(int stageNum);
 
     //해당 유저 스테이지 별 기록 - limit(3)
-    void findMyRank(int stageNum, int userId);
+    List<Tuple> findMyRank (int stageNum, int userId);
+
+    //유저 스테이지 별 기록 랭크 숫자 세팅
+    List<Long> getRankNum(List<Tuple> findMyRank, int stageNum);
 }
