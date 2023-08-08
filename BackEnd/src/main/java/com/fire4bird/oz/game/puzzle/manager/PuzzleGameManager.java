@@ -27,18 +27,45 @@ public class PuzzleGameManager {
     private String[] answer;//안보여지는 퍼즐
     private String[] provide;//보여지는 퍼즐
 
+    private Map<String, int[]> ready;
+
     public PuzzleGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher){
         this.socketRepository = socketRepository;
         this.redisPublisher = redisPublisher;
         this.board = new HashMap<>();
-        this.row = Arrays.asList("1","2","3","4","5","6","7");
+        this.ready = new HashMap<>();
+        this.row = Arrays.asList("1","2","3","4","5","6");
         this.col = Arrays.asList("1","2","3","4","5","6");
         this.boardList = new String[6];
         this.answer = new String[3];//안보여지는 퍼즐
         this.provide = new String[3];//보여지는 퍼즐
     }
 
-    public Puzzle statGame(PuzzleStartReq req, Round findRound){
+    public void checkReady(int role, String rtcSession, int state){
+        int check = 1;
+
+        if (ready.containsKey(rtcSession)) {
+            int[] roles = ready.get(rtcSession);
+            roles[role-1] = state;
+            ready.replace(rtcSession, roles);
+        } else {
+            int[] newRoles = new int[4];
+            newRoles[role-1] = state;
+            ready.put(rtcSession, newRoles);
+        }
+
+        int[] roles = ready.get(rtcSession);
+        for(int people : roles){
+            if (people == 0) {
+                check = -1;
+                break;
+            }
+        }
+
+        publisher(rtcSession, "puzzle/ready","게임 준비 확인",check);
+    }
+
+    public Puzzle statGame(PuzzleStartReq req, Round findRound, int turn){
 
         Collections.shuffle(row);
         Collections.shuffle(col);
@@ -86,7 +113,7 @@ public class PuzzleGameManager {
         return Puzzle.builder()
                 .board(boardStr.toString())
                 .answer(answerStr.toString())
-                .turn(req.getTurn())
+                .turn(turn)
                 .round(findRound)
                 .build();
     }
@@ -99,7 +126,10 @@ public class PuzzleGameManager {
         for (int i = 0; i < answers.length; i++) {
             String[] ans = answers[i].split(":");
             String[] userAns = userAnswers[i].split(":");
-            if(ans[1]!=userAns[1]) check = -1;
+            if (!Objects.equals(ans[1], userAns[1])) {
+                check = -1;
+                break;
+            }
         }
 
         return check;

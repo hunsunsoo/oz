@@ -20,7 +20,9 @@ import {
   dialogue4Data,
   OutrodialogueData,
 } from "../../../scripts/Scripts";
-import Dnd from "./Dnd";
+import { client } from "stompjs";
+import { Sub, Dnd } from "./Puzzle";
+
 const characterToClassMap = {
   도로시: "character_dorothy",
   허수아비: "character_scarecrow",
@@ -59,13 +61,33 @@ const Image = ({ src, alt }) => {
   );
 };
 
+let state = 0;
+function sendPuzzleReadyData(client, session, role) {
+  if (state == 0)
+    state = 1;
+  else 
+    state = 0;
+
+  const message = {
+      "rtcSession" : session,
+      "role": role,
+      "state": state,
+  };
+
+  console.log("퍼즐게임 준비: " + state+", role: " + role);
+  client.send(`/pub/puzzle/ready`, {}, JSON.stringify(message));
+}
+
 const GameComp = (props) => {
   const isStage = props.isStage;
   const isIndex = props.isIndex;
   const client = props.client;
   const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
   const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
-  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe";
+  const myTeamId = 1;
+  const session = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
+  const userId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+
 
   const [dorothyState, setDorothyState] = useState(0);
   const [lionState, setLionState] = useState(0);
@@ -437,37 +459,52 @@ const GameComp = (props) => {
     );
     // 3스테이지
   } else if (isStage === 3 && isIndex == 11) {
-    return (
-      <Dnd />
+      <div className={style.compStyle}>
+        <div className={style.background_G3}>
+          <Sub client={client} myRole={myRole} session={session} userId={userId} />
+          {/* <Dnd props={props} client={client} myRole={myRole} session={session} userId={userId}/> */}
+            <img
+              src="image/character/troop2.png"
+              alt=""
+              className={style.troop2}
+            />
+            <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+            <div className={style.readyBtn} onClick={() => sendPuzzleReadyData(client, session, myRole)}>
+              준비 완료
+            </div>
+          <div className={style.howToPlayBtn}>게임 방법</div>
+        </div>
+      </div>
+    // return (
+    //   <div className={style.compStyle}>
+    //     <div className={style.container}>
+    //       <div className={style.puzzleLeft}>
+    //         <img src="/image/game/puzzleGame/puzzleGameBgHeart.JPG" alt="" className={style.puzzleImage} />
+    //       </div>
+    //       <DndProvider backend={HTML5Backend}>
+    //         <div className={style.puzzleRight}>
+    //           {Array.from({ length: 6 }, (_, row) =>
+    //             Array.from({ length: 6 }, (_, col) => (
+    //               <div key={row * 6 + col} className={style.gridImage}>
+    //                 <Image
+    //                   src={`/image/game/puzzleGame/puzzlePiece/${(row + 1) * 10 + (col + 1)}.png`} // 이미지 파일의 경로를 동적으로 생성
+    //                   alt={`Image ${row * 6 + col + 1}`}
+    //                 />
+    //               </div>
+    //             ))
+    //           )}
+    //         </div>
+    //       </DndProvider>
+    //     </div>
+    //     <img
+    //         src="image/tools/questionMark.png"
+    //         alt="questionMark"
+    //         className={style.iconStyle}
+    //       />
+    //     <div className={style.stage3SelectBtn} onClick={props.changeIsClear}>선택완료</div>
+    //   </div>
+    // );
 
-      // <div className={style.compStyle}>
-      //   <div className={style.container}>
-      //     <div className={style.puzzleLeft}>
-      //       <img src="/image/game/puzzleGame/puzzleGameBgHeart.JPG" alt="" className={style.puzzleImage} />
-      //     </div>
-      //     <DndProvider backend={HTML5Backend}>
-      //       <div className={style.puzzleRight}>
-      //         {Array.from({ length: 6 }, (_, row) =>
-      //           Array.from({ length: 6 }, (_, col) => (
-      //             <div key={row * 6 + col} className={style.gridImage}>
-      //               <Image
-      //                 src={`/image/game/puzzleGame/puzzlePiece/${(row + 1) * 10 + (col + 1)}.png`} // 이미지 파일의 경로를 동적으로 생성
-      //                 alt={`Image ${row * 6 + col + 1}`}
-      //               />
-      //             </div>
-      //           ))
-      //         )}
-      //       </div>
-      //     </DndProvider>
-      //   </div>
-      //   <img
-      //       src="image/tools/questionMark.png"
-      //       alt="questionMark"
-      //       className={style.iconStyle}
-      //     />
-      //   <div className={style.stage3SelectBtn} onClick={props.changeIsClear}>선택완료</div>
-      // </div>
-    );
     // 4스테이지
   } else if (isStage === 4 && isIndex === 11) {
     return (
