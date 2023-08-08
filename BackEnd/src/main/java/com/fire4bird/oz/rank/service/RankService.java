@@ -23,7 +23,7 @@ public class RankService {
     }
 
     public List<MyRankDto> findMyRank(int stageNum,int userId){
-        List<Tuple> myRank = recordRepository.findMyRank(stageNum, 1);
+        List<Tuple> myRank = recordRepository.findMyRank(stageNum, userId);
         List<Long> rankNum = recordRepository.getRankNum(myRank, stageNum);
 
         log.info("myRank size : {}", myRank.size());
