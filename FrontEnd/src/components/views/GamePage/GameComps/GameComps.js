@@ -21,7 +21,7 @@ import {
   OutrodialogueData,
 } from "../../../scripts/Scripts";
 import { client } from "stompjs";
-import Dnd from "./Dnd";
+import { Sub, Dnd } from "./Puzzle";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -61,6 +61,23 @@ const Image = ({ src, alt }) => {
   );
 };
 
+let state = 0;
+function sendPuzzleReadyData(client, session, role) {
+  if (state == 0)
+    state = 1;
+  else 
+    state = 0;
+
+  const message = {
+      "rtcSession" : session,
+      "role": role,
+      "state": state,
+  };
+
+  console.log("퍼즐게임 준비: " + state+", role: " + role);
+  client.send(`/pub/puzzle/ready`, {}, JSON.stringify(message));
+}
+
 const GameComp = (props) => {
   const isStage = props.isStage;
   const isIndex = props.isIndex;
@@ -68,6 +85,8 @@ const GameComp = (props) => {
   const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
   const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
   const myTeamId = 1;
+  const session = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
+  const userId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
 
   const [dorothyState, setDorothyState] = useState(0);
   const [lionState, setLionState] = useState(0);
@@ -403,15 +422,22 @@ const subscribeToStage1Start = () => {
     );
     // 3스테이지
   } else if (isStage === 3 && isIndex == 11) {
-      //somyeong
-      const session = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
-      const userId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
-      return(
-        <div>
-          <Sub client={client} myRole={myRole} myTeamId={myTeamId} session={session} userId={userId}/>
-          <Dnd props={props} client={client} myRole={myRole} session={session} userId={userId}/>
+      <div className={style.compStyle}>
+        <div className={style.background_G3}>
+          <Sub client={client} myRole={myRole} session={session} userId={userId} />
+          {/* <Dnd props={props} client={client} myRole={myRole} session={session} userId={userId}/> */}
+            <img
+              src="image/character/troop2.png"
+              alt=""
+              className={style.troop2}
+            />
+            <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+            <div className={style.readyBtn} onClick={() => sendPuzzleReadyData(client, session, myRole)}>
+              준비 완료
+            </div>
+          <div className={style.howToPlayBtn}>게임 방법</div>
         </div>
-      );
+      </div>
     // return (
     //   <div className={style.compStyle}>
     //     <div className={style.container}>
