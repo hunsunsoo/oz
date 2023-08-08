@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class InitReq {
-    private Integer roundId;
+    private int roundId;
     private int answer;
     private String numberBoard;
 }

@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ActorResetReq {
-    private Integer roundId;
-    private Integer userId;
+    private int roundId;
+    private int userId;
 }

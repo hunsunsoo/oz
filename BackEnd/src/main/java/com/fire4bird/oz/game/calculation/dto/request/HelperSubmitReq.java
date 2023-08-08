@@ -6,6 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class HelperSubmitReq {
-    private Integer gameId;
+    private int gameId;
     private char[] selectedNums;
 }
