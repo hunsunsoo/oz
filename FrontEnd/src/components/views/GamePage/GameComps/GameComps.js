@@ -85,7 +85,7 @@ const GameComp = (props) => {
   const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
   const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
   const myTeamId = 1;
-  const session = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
+  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
   const userId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
 
 
@@ -233,7 +233,6 @@ const GameComp = (props) => {
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
         return;
       }
-
 
       const message = {
         "gameId": gameId,
@@ -461,7 +460,7 @@ const GameComp = (props) => {
   } else if (isStage === 3 && isIndex == 11) {
       <div className={style.compStyle}>
         <div className={style.background_G3}>
-          <Sub client={client} myRole={myRole} session={session} userId={userId} />
+          <Sub client={client} myRole={myRole} sessionId={sessionId} userId={userId} />
           {/* <Dnd props={props} client={client} myRole={myRole} session={session} userId={userId}/> */}
             <img
               src="image/character/troop2.png"
@@ -469,7 +468,7 @@ const GameComp = (props) => {
               className={style.troop2}
             />
             <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-            <div className={style.readyBtn} onClick={() => sendPuzzleReadyData(client, session, myRole)}>
+            <div className={style.readyBtn} onClick={() => sendPuzzleReadyData(client, sessionId, myRole)}>
               준비 완료
             </div>
           <div className={style.howToPlayBtn}>게임 방법</div>
