@@ -31,7 +31,9 @@ public class RankController {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         List<TotalRankDto> totalRankList = rankMapper.toTotalRankDtoList(rankService.findTotalRank(stageNum));
+
         List<MyRankDto> myRankList = rankService.findMyRank(stageNum, Integer.parseInt(userId));
+
         RankResponseDto rankResponseDto = rankMapper.toRankResponseDto(totalRankList, myRankList);
         return ResponseEntity
                 .ok()

@@ -24,7 +24,7 @@ public interface RankMapper {
         AtomicLong rank = new AtomicLong(1);
 
         return tupleList.stream()
-//                .limit(10) 10번만 순회 진행
+                .limit(10)// 10번만 순회 진행
                 .map(tuple -> {
                     TotalRankDto totalRankDto = new TotalRankDto();
 
@@ -44,7 +44,7 @@ public interface RankMapper {
 
         return myRank.stream()
                 .map(tuple -> {
-                    LocalTime localTime = tuple.get(record.accRecord).toLocalTime();
+                    LocalTime localTime = tuple.get(record.accRecord);
 
                     MyRankDto myRankDto = new MyRankDto();
                     myRankDto.setRank(rankNum.get((int) idx.getAndIncrement()));
