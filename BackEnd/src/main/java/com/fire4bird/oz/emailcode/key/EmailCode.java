@@ -14,5 +14,5 @@ public class EmailCode {
     @Id
     private String emailCode;
 
-    private int userId;
+    private String email;
 }
