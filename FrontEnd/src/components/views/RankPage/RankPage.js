@@ -3,90 +3,6 @@ import { useSelector } from "react-redux";
 import style from "./RankPage.module.css";
 import axiosInstance from "../../../_actions/axiosInstance";
 
-const dummyRanking = [
-    {
-        rank: 1,
-        stage: 1,
-        teamName: "불사조",
-        time: "30분 13초"
-    },
-    {
-        rank: 2,
-        stage: 2,
-        teamName: "불사조",
-        time: "10분 13초"
-    },
-    {
-        rank: 3,
-        stage: 3,
-        teamName: "불사조",
-        time: "8분 13초"
-    },
-    {
-        rank: 4,
-        stage: 1,
-        teamName: "불사조1",
-        time: "30분 15초"
-    },
-    {
-        rank: 5,
-        stage: 1,
-        teamName: "불사조2",
-        time: "30분 29초"
-    },
-    {
-        rank: 6,
-        stage: 1,
-        teamName: "불사조2",
-        time: "30분 29초"
-    },
-    {
-        rank: 7,
-        stage: 1,
-        teamName: "불사조2",
-        time: "30분 29초"
-    },
-    {
-        rank: 8,
-        stage: 1,
-        teamName: "불사조2",
-        time: "30분 29초"
-    },
-    {
-        rank: 9,
-        stage: 1,
-        teamName: "불사조2",
-        time: "30분 29초"
-    },
-    {
-        rank: 10,
-        stage: 1,
-        teamName: "불사조2",
-        time: "30분 30초"
-    }
-];
-
-const dummyMyRanking = [
-    {
-        rank: 1,
-        stage: 1,
-        teamName: "불사조",
-        time: "30분 13초"
-    },
-    {
-        rank: 2,
-        stage: 2,
-        teamName: "불사조",
-        time: "10분 13초"
-    },
-    {
-        rank: 3,
-        stage: 3,
-        teamName: "불사조",
-        time: "8분 13초"
-    }
-]
-
 function MyRanking({myRankList}) {
     const [rankList, setRankList] = useState([]);
 
@@ -115,7 +31,7 @@ function MyRanking({myRankList}) {
                             rankList.map((item) => {
                                 console.log(item);
                                 return (
-                                    <tr className={style.allRankBody} key={item.rank}>
+                                    <tr className={style.allRankBody} key={item.rankId}>
                                         <td >{item.rank}</td>
                                         <td >{item.teamName}</td>
                                         <td >{item.time}</td>
@@ -168,7 +84,7 @@ function AllRank({allRankList}){
                                 rankList.map((item) => {
                                     console.log(item);
                                     return (
-                                        <tr className={style.allRankBody} key={item.rank}>
+                                        <tr className={style.allRankBody} key={item.rankId}>
                                             <td >{item.rank <= 3 ? (
                                                     <img className={style.rankImage} src={process.env.PUBLIC_URL +`/image/rank/award_${item.rank}.png`} alt={`${item.rank}`} />
                                                 ) : (
@@ -191,8 +107,8 @@ function AllRank({allRankList}){
 
 function RankPage(){
     const [selectedStage, setSelectedStage] = useState(5);
-    const [myRankList, setMyRankList] = useState(dummyMyRanking);
-    const [allRankList, setAllRankList] = useState(dummyRanking);
+    const [myRankList, setMyRankList] = useState([]);
+    const [allRankList, setAllRankList] = useState([]);
 
     const handleButtonClick = (stage) => {
         setSelectedStage(stage); // 선택한 랭크 정보를 상태로 설정
@@ -210,8 +126,8 @@ function RankPage(){
             },
         })
         .then((response) => {
-            setAllRankList(response.data.data.totalRankList || dummyRanking);
-            setMyRankList(response.data.data.myRankDtoList || dummyMyRanking);
+            setAllRankList(response.data.data.totalRankList || []);
+            setMyRankList(response.data.data.myRankDtoList || []);
         })
     }, [selectedStage]);
 
