@@ -28,11 +28,6 @@ public class RecordService {
     private final UserService userService;
     private final RoundService roundService;
     private final RecordMapper recordMapper;
-
-    //도전 진행 시
-    //해당 라운드 해당 스테이지에 이미 클리어 기록이 있는 경우 도전 불가
-    //종료되지 않은 기록이 있는 경우 도전 불가
-    // -> 클리어 기록은 없어야하며,
     
     //유저와 라운드id의 관계가 유효한 지 확인
     public void validUserAndRound(int userId, int roundId) {
@@ -51,7 +46,9 @@ public class RecordService {
         return recordRepository.findByRecord(roundId, stageNum);
     }
 
-    //스테이지 시작 시 기록
+    //스테이지 도전 시 기록
+    //해당 회차, 해당 라운드 clear 기록이 있으면 도전 불가
+    //해당 회차, 해당 라운드에 종료되지 않은 기록이 있으면 도전 불가
     public void saveStartRecord(int roundId, int stageNum) {
         Record findRecord = findRecord(roundId, stageNum);
 
