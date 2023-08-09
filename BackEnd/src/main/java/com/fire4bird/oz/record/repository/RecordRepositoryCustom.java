@@ -4,7 +4,6 @@ import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.team.entity.UserTeam;
 import com.fire4bird.oz.user.entity.User;
-import com.querydsl.core.Tuple;
 
 import java.time.LocalTime;
 import java.util.List;
