@@ -129,9 +129,17 @@ function AuthLandingPage(props) {
       <div className={style.coverPage}>
         <div className={style.landingpage}>
           {/* <div className={style.character}></div> */}
-          <div className={style.milestone}></div>
-          {/* <div className={style.oz}></div>
-          <div className={style.ozstory}></div> */}
+          <div className={style.milestone}>
+            <button
+              className={style.gotologin}
+              onClick={() => navigate(`/mypage`)}
+            >
+            마이페이지</button>
+            <button
+              className={style.gotosignup}
+              onClick={() => navigate(`/register`)}
+            >회원가입</button>
+          </div>
 
           <button onClick={() => logOutHandler()}>LogOut</button>
           <button className="button" onClick={() => navigate(`/withdrawl`)}>

@@ -97,6 +97,27 @@ export function registerUser(dataToSubmit) {
   };
 }
 
+export function emailAvailable(dataToSubmit){
+  const request = async () => {
+    try {
+      const response = await axiosInstance.post("/users/mail", dataToSubmit);
+      console.log(response.data);
+
+      return response;
+    } catch (error) {
+      return{
+        type: "EMAIL_CHECK",
+        payload: {error: "올바르지 않은 이메일입니다"},
+      };
+    }
+  };
+
+  return{
+    type: "EMAIL_CHECK",
+    payload: request(),
+  };
+}
+
 // export function auth() {
 //   const request = axiosInstance
 //     .get("/api/users/auth")

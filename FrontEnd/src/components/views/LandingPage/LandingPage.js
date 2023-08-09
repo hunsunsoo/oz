@@ -7,18 +7,16 @@ function LandingPage() {
   return (
     <div className={style.coverPage}>
       <div className={style.landingpage}>
-        {/* <div className={style.character}></div> */}
         <div className={style.milestone}>
-        {/* <div className={style.oz}></div> */}
-        {/* <div className={style.ozstory}></div> */}
         <button
           className={style.gotologin}
           onClick={() => navigate(`/login`)}
-        />
+        >
+        로그인</button>
         <button
           className={style.gotosignup}
           onClick={() => navigate(`/register`)}
-        />
+        >회원가입</button>
         </div>
       </div>
     </div>

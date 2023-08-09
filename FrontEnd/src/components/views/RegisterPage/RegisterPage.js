@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../../_actions/user_action";
+import { registerUser, emailAvailable } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 import style from "./RegisterPage.module.css";
 function RegisterPage(props) {
@@ -18,6 +18,16 @@ function RegisterPage(props) {
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
   };
+
+  const onSubmitEmailHandler = async (e) => {
+    e.preventDefault();
+    await dispatch(emailAvailable(Email).then((response) => {
+      if(response.payload.status === 200){
+        alert(response.payload.data);
+      }else alert(response.payload.error);
+    }));
+  };
+
   const onNameHandler = (event) => {
     setName(event.currentTarget.value);
   };
@@ -86,56 +96,77 @@ function RegisterPage(props) {
         }}
       >
         <div className={style.box}>
-          <form
-            style={{ display: "flex", flexDirection: "column" }}
-            onSubmit={onSubmitHandler}
-          >
-            <input
-              className={style.input}
+          <div className={style.logo}>
+            <img className={style.logoImage} 
+            src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
+            onClick={() => navigate(`/`)}></img>
+          </div>
+          <div className={style.allBox}>
+
+            <div className={style.topBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="text"
               value={Name}
               placeholder="Name"
-              onChange={onNameHandler}
-            />
-            <br />
-            <input
-              className={style.input}
+              onChange={onNameHandler}>
+              </input>
+            </div>
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="text"
               value={NickName}
               placeholder="NickName"
-              onChange={onNickNameHandler}
-            />
-            <br />
-            <input
-              className={style.input}
+              onChange={onNickNameHandler}>
+              </input>
+            </div>
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.emailZone}
               type="email"
               value={Email}
               placeholder="Email"
-              onChange={onEmailHandler}
-            />
-            <br />
-            {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
-               그 지정한 값을 받아온다. */}
+              onChange={onEmailHandler}>
+              </input>
+              <div className={style.emailButtonZone}>
+                <button className={style.emailButton}
+                onClick={onSubmitEmailHandler}>인증</button>
+              </div>
+            </div>
 
-            <input
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="password"
               value={Password}
               placeholder="Password"
-              onChange={onPasswordHandler}
-              className={style.input}
-            />
-            <br />
+              onChange={onPasswordHandler}>
+              </input>
+            </div>
 
-            <input
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="password"
               value={ConfirmPassword}
               onChange={onConfirmPassword}
-              placeholder="ConfirmPassword"
-              className={style.input}
-            />
-            <br />
-            <button className={style.button}>회원가입</button>
-          </form>
+              placeholder="ConfirmPassword">
+              </input>
+            </div>
+
+            <div className={style.registDiv}>
+              <button className={style.registButton}
+                onClick={onSubmitHandler}>회원 등록하기</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

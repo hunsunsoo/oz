@@ -6,9 +6,12 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import AuthLandingPage from "./components/views/LandingPage/AuthLandingPage";
 import GamePage from "./components/views/GamePage/GamePage";
 import WithDrawl from "./components/views/WithDrawl/WithDrawl";
-
+import PasswordChange from "./components/views/PasswordChange/PasswordChange";
+import MyPage from "./components/views/MyPage/MyPage";
 import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
 import SocketPage from "./components/views/SocketPage/SocketPage";
+import KakaoLogin from "./components/views/LoginPage/KakoLogin";
+import RankPage from "./components/views/RankPage/RankPage";
 
 function App() {
   return (
@@ -23,7 +26,6 @@ function App() {
           <Route path="/withdrawl" element={<WithDrawl />} />
           <Route path="/passwordchange" element={<PasswordChange />} />
           <Route path="/mypage" element={<MyPage />} />
-
           <Route path="/game" element={<GamePage />} />
           <Route path="/rank" element={<RankPage />} />
           <Route path="/play" element={<GameComp/>} />
