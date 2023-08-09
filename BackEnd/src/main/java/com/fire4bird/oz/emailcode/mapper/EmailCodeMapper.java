@@ -5,5 +5,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface EmailCodeMapper {
-    EmailCode paramToEmailCode(String emailCode, int userId);
+    EmailCode paramToEmailCode(String emailCode, String email);
 }
