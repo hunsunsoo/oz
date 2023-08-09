@@ -28,6 +28,8 @@ public class RecordService {
     private final UserService userService;
     private final RoundService roundService;
     private final RecordMapper recordMapper;
+    
+    //해당 라운드 해당 스테이지에 이미 클리어 기록이 있는 경우 도전 불가
 
     //유저와 라운드id의 관계가 유효한 지 확인
     public void validUserAndRound(int userId, int roundId) {
@@ -36,7 +38,7 @@ public class RecordService {
 
         Optional<UserTeam> findUserTeam = recordRepository.validUserToRound(user, round);
 
-        //요창 유저가 이상한 라운드id로 요청 보내면 throw
+        //요청 유저가 이상한 라운드id로 요청 보내면 throw
         findUserTeam
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BAD_REQUEST));
     }
@@ -76,6 +78,9 @@ public class RecordService {
     public Record saveEndRecord(int roundId, int stageNum, String clear) {
         Record findRecord = findRecord(roundId, stageNum);
         log.info("findRecord : {}", findRecord);
+        //조회 기록이 없으면 도전 기록이 없음
+        //여기서 예외처리 해야함
+
 
         findRecord.setEndTime(LocalDateTime.now());
         findRecord.setClear(clear);
