@@ -134,8 +134,11 @@ public class UserController {
 
     //로그인 전 후 비밀번호 변경
     @PutMapping("/update/password")
-    public ResponseEntity updatePassword(@RequestBody UpdatePassword updatePassword) {
-        userService.updatePassword(updatePassword);
+    public ResponseEntity updatePassword(@RequestBody UpdatePassword updatePassword,
+                                         HttpServletRequest request) {
+        String accessToken = jwtProvider.getAccessToken(request);
+
+        userService.loginCheck(updatePassword, accessToken);
 
         return ResponseEntity.ok("비밀번호 변경 완료");
     }
