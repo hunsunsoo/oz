@@ -4,7 +4,6 @@ import com.fire4bird.oz.emailcode.key.EmailCode;
 import com.fire4bird.oz.emailcode.repository.EmailCodeRepository;
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
-import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -39,7 +38,7 @@ public class EmailCodeService {
     }
 
     //레디스에 있는 인증 코드 삭제
-    public void deleteEmailCode(String emailCode ) {
+    public void deleteEmailCode(String emailCode) {
         emailCodeRepository.deleteById(emailCode);
     }
 
@@ -69,9 +68,7 @@ public class EmailCodeService {
 
 
     //메일 전송
-    public String sendMail(int userId) throws MessagingException {
-        User user = userService.findUser(userId);
-
+    public String sendMail(String email) throws MessagingException {
         log.info("메일 전송 메서드 진입");
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -79,7 +76,7 @@ public class EmailCodeService {
         String key = createCode();
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-        mimeMessageHelper.setTo(user.getEmail());
+        mimeMessageHelper.setTo(email);
         mimeMessageHelper.setSubject("oz 이메일 인증코드 입니다.");
         mimeMessageHelper.setText("인증코드는 : " + key + "입니다.");
         javaMailSender.send(mimeMessage);
