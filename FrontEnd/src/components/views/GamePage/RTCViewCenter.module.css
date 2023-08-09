@@ -53,3 +53,23 @@
     z-index: 0;
     border-radius: 25px;
 }
+
+.chatInput {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* 원하는 간격으로 조절 */
+  }
+  
+.chatInput input {
+flex: 1;
+margin-right: 5px;
+}
+
+.chatMessages {
+    height: 90%;
+    overflow-y: auto;
+}
+
+.Msng{
+    font-weight: bold;
+}

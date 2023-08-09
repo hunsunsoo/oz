@@ -12,7 +12,8 @@ import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
 import SocketPage from "./components/views/SocketPage/SocketPage";
 import KakaoLogin from "./components/views/LoginPage/KakoLogin";
 import RankPage from "./components/views/RankPage/RankPage";
-
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 function App() {
   return (
     <BrowserRouter>

@@ -38,13 +38,18 @@ const InputPassword = () => {
     <div>
       <div>
         <div className={style.box}>
-          <form onSubmit={onSubmitPasswordHandler}>
-            <input
-              type="password"
-              value={password}
-              onChange={onPasswordHandler}
-            ></input>
-            <button>비밀번호제출</button>
+          <form className={style.form} onSubmit={onSubmitPasswordHandler}>
+            <div className={style.inputbox}>
+              <input
+                className={style.input}
+                type="password"
+                value={password}
+                onChange={onPasswordHandler}
+                placeholder="변경할 비밀번호를 입력하세요"
+              ></input>
+            </div>
+            <br></br>
+            <button className={style.button}>비밀번호제출</button>
           </form>
         </div>
       </div>

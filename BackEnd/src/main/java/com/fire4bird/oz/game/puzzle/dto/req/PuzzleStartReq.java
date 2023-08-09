@@ -9,7 +9,5 @@ public class PuzzleStartReq {
 
     private String rtcSession;
 
-    private int turn;
-
     private int userId;
 }
