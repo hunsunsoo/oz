@@ -28,9 +28,12 @@ public class RecordService {
     private final UserService userService;
     private final RoundService roundService;
     private final RecordMapper recordMapper;
-    
-    //해당 라운드 해당 스테이지에 이미 클리어 기록이 있는 경우 도전 불가
 
+    //도전 진행 시
+    //해당 라운드 해당 스테이지에 이미 클리어 기록이 있는 경우 도전 불가
+    //종료되지 않은 기록이 있는 경우 도전 불가
+    // -> 클리어 기록은 없어야하며,
+    
     //유저와 라운드id의 관계가 유효한 지 확인
     public void validUserAndRound(int userId, int roundId) {
         User user = userService.findUser(userId);
@@ -80,7 +83,8 @@ public class RecordService {
         log.info("findRecord : {}", findRecord);
         //조회 기록이 없으면 도전 기록이 없음
         //여기서 예외처리 해야함
-
+        Optional.ofNullable(findRecord)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_CHALLENGE_RECORD));
 
         findRecord.setEndTime(LocalDateTime.now());
         findRecord.setClear(clear);
