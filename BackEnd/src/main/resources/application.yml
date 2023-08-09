@@ -45,7 +45,7 @@ spring:
 
 jwt:
   secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
-  access-token-valid-time: 60000
+  access-token-valid-time: 600000
   refresh-token-valid-time: 60000
 
 kakao:
