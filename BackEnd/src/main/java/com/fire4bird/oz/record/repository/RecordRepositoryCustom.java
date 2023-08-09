@@ -32,4 +32,8 @@ public interface RecordRepositoryCustom {
 
     //유저 스테이지 별 기록 랭크 숫자 세팅
     List<Long> getRankNum(List<Tuple> findMyRank, int stageNum);
+
+    //해당 라운드, 스테이지에 이미 클리어 기록이 있는 경우 도전 불가
+
+    //해당 라운드, 스테이지에
 }

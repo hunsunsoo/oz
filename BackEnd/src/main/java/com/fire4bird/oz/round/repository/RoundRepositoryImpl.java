@@ -17,9 +17,10 @@ public class RoundRepositoryImpl implements RoundRepositoryCustom {
         return jpaQueryFactory
                 .select(round)
                 .where(round.teamRound.eq(jpaQueryFactory
-                        .select(round.teamRound.max())
-                        .from(round)
-                        .where(round.team.eq(team))))
+                                .select(round.teamRound.max())
+                                .from(round)
+                                .where(round.team.eq(team)))
+                        .and(round.team.eq(team)))
                 .from(round)
                 .fetchOne();
     }

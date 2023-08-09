@@ -28,7 +28,7 @@ public class RecordService {
     private final UserService userService;
     private final RoundService roundService;
     private final RecordMapper recordMapper;
-
+    
     //유저와 라운드id의 관계가 유효한 지 확인
     public void validUserAndRound(int userId, int roundId) {
         User user = userService.findUser(userId);
@@ -36,7 +36,7 @@ public class RecordService {
 
         Optional<UserTeam> findUserTeam = recordRepository.validUserToRound(user, round);
 
-        //요창 유저가 이상한 라운드id로 요청 보내면 throw
+        //요청 유저가 이상한 라운드id로 요청 보내면 throw
         findUserTeam
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BAD_REQUEST));
     }
@@ -46,7 +46,9 @@ public class RecordService {
         return recordRepository.findByRecord(roundId, stageNum);
     }
 
-    //스테이지 시작 시 기록
+    //스테이지 도전 시 기록
+    //해당 회차, 해당 라운드 clear 기록이 있으면 도전 불가
+    //해당 회차, 해당 라운드에 종료되지 않은 기록이 있으면 도전 불가
     public void saveStartRecord(int roundId, int stageNum) {
         Record findRecord = findRecord(roundId, stageNum);
 
@@ -76,6 +78,10 @@ public class RecordService {
     public Record saveEndRecord(int roundId, int stageNum, String clear) {
         Record findRecord = findRecord(roundId, stageNum);
         log.info("findRecord : {}", findRecord);
+        //조회 기록이 없으면 도전 기록이 없음
+        //여기서 예외처리 해야함
+        Optional.ofNullable(findRecord)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_CHALLENGE_RECORD));
 
         findRecord.setEndTime(LocalDateTime.now());
         findRecord.setClear(clear);
