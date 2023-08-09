@@ -6,6 +6,7 @@ import com.fire4bird.oz.rank.dto.TotalRankDto;
 import com.querydsl.core.Tuple;
 import org.mapstruct.Mapper;
 
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -58,5 +59,32 @@ public interface RankMapper {
                     return myRankDto;
                 }).collect(Collectors.toList());
 
+    }
+
+    List<TotalRankDto> totalRankListToList(List<Object[]> totalRankList);
+
+    default TotalRankDto objectToToTalRankDto(Object[] objects) {
+        Time sqlTime = (Time) objects[2];
+        LocalTime localTime = sqlTime.toLocalTime();
+
+        return TotalRankDto.builder()
+                .rank((long) objects[0])
+                .teamName(String.valueOf(objects[1]))
+                .time(localTime.getHour() + "시간 " +
+                        localTime.getMinute() + "분 " +
+                        localTime.getSecond() + "초").build();
+    }
+
+    List<MyRankDto> myRankListToList(List<Object[]> myRankList);
+
+    default MyRankDto objectToMyRankDto(Object[] objects) {
+        LocalTime localTime = LocalTime.parse((String) objects[2]);
+
+        return MyRankDto.builder()
+                .rank((long) objects[0])
+                .teamName(String.valueOf(objects[1]))
+                .time(localTime.getHour() + "시간 " +
+                        localTime.getMinute() + "분 " +
+                        localTime.getSecond() + "초").build();
     }
 }
