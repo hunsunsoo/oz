@@ -3,6 +3,7 @@ package com.fire4bird.oz.user.service;
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.user.dto.MyPageDto;
+import com.fire4bird.oz.user.dto.UpdateUserDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +61,9 @@ public class UserService {
 
     }
 
+    //로그인이 되었을 때
     //회원 정보 수정
-    public void updateUser(User user) {
+    public void updateUser(UpdateUserDto user) {
         User findUser = findUser(user.getUserId());
 
         Optional.ofNullable(user.getName())
@@ -71,7 +73,10 @@ public class UserService {
                 .ifPresent(findUser::setNickname);
 
         Optional.ofNullable(user.getPassword())
-                        .ifPresent(password -> findUser.setPassword(passwordEncoder.encode(password)));
+                        .ifPresent(password -> {
+                            checkPassword(password,findUser);
+                            findUser.setPassword(passwordEncoder.encode(user.getNewPassword()));
+                        });
 
         userRepository.save(findUser);
     }

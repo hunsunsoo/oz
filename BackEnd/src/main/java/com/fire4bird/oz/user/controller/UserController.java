@@ -135,14 +135,13 @@ public class UserController {
     }
 
     //유저 정보 변경
-
     @PutMapping("/update")
     public ResponseEntity updateUser(@RequestBody UpdateUserDto updateUserDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         updateUserDto.setUserId(Integer.parseInt(userId));
 
-        userService.updateUser(userMapper.updateUserDtoToUser(updateUserDto));
+        userService.updateUser(updateUserDto);
 
         return ResponseEntity.ok("유저 정보 변경 완료");
     }
