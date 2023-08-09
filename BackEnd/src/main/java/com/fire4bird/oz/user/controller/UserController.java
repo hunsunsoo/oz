@@ -39,10 +39,10 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity registUser(@RequestBody RegistUserDto registUserDto) {
         log.info("회원가입 요청 들어옴");
-        log.info("이름 : {}",registUserDto.getName());
-        log.info("비밀번호 : {}",registUserDto.getPassword());
-        log.info("닉네임 : {}",registUserDto.getNickname());
-        log.info("이메일 : {}",registUserDto.getEmail());
+        log.info("이름 : {}", registUserDto.getName());
+        log.info("비밀번호 : {}", registUserDto.getPassword());
+        log.info("닉네임 : {}", registUserDto.getNickname());
+        log.info("이메일 : {}", registUserDto.getEmail());
         userService.registUser(userMapper.registUserToUser(registUserDto), "self");
         return ResponseEntity.ok("회원 가입 완료");
     }
@@ -114,13 +114,11 @@ public class UserController {
     }
 
     //이메일 인증
-    @GetMapping("/mail")
-    public ResponseEntity sendMail() throws MessagingException {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+    @PostMapping("/mail")
+    public ResponseEntity sendMail(@RequestBody EmailCodeDto emailCodeDto) throws MessagingException {
+        String emailCode = emailCodeService.sendMail(emailCodeDto.getEmail());
 
-        String emailCode = emailCodeService.sendMail(Integer.parseInt(userId));
-
-        emailCodeService.saveEmailCode(emailCodeMapper.paramToEmailCode(emailCode, Integer.parseInt(userId)));
+        emailCodeService.saveEmailCode(emailCodeMapper.paramToEmailCode(emailCode, emailCodeDto.getEmailCode()));
 
         return ResponseEntity.ok("인증 코드  전송");
     }
@@ -134,7 +132,16 @@ public class UserController {
         return ResponseEntity.ok("이메일 코드 검증 완료");
     }
 
+    //로그인 전 후 비밀번호 변경
+    @PutMapping("/update/password")
+    public ResponseEntity updatePassword(@RequestBody UpdatePassword updatePassword) {
+        userService.updatePassword(updatePassword);
+
+        return ResponseEntity.ok("비밀번호 변경 완료");
+    }
+
     //유저 정보 변경
+    //비밀번호 변경 불가
     @PutMapping("/update")
     public ResponseEntity updateUser(@RequestBody UpdateUserDto updateUserDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
