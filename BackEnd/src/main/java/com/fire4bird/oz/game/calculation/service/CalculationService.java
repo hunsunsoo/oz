@@ -46,17 +46,16 @@ public class CalculationService {
          SetBoardRes setBoardRes = new SetBoardRes();
          setBoardRes.setGameId(newCalculation.getGameId());
          setBoardRes.setTurn(newCalculation.getTurn());
-         setBoardRes.setNumberBoard(newCalculation.getNumberBoard());
 
          return setBoardRes;
     }
 
     // 로그에 저장됨
-    public void helperLog(HelperLogReq req, int turn) {
+    public void helperLog(HelperLogReq req, int turn, String logs) {
         Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
         String msg;
-        if(req.getIsSelected() == 1) msg = "조력자: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택하셨습니다.";
-        else msg = "조력자: [" + req.getR() + ", " + req.getC() + "] 좌표를 취소하셨습니다.";
+        if(req.getIsSelected() == 1) msg = "조력자: " + logs + " 좌표를 선택하셨습니다.";
+        else msg = "조력자: " + logs + " 좌표를 취소하셨습니다.";
 
         CalculationLog log = CalculationLog.builder()
                 .round(findRound)
@@ -71,27 +70,44 @@ public class CalculationService {
         calculationLogRepository.save(log);
     }
 
-    public void helperUpdate(HelperSubmitReq req) {
+    public void helperUpdate(HelperSubmitReq req, String selectedNums) {
         Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
-        findCalculation.setAidSelectNum(req.getSelectedNums());
+        findCalculation.setAidSelectNum(selectedNums);
 
         calculationRepository.save(findCalculation);
     }
 
-    public void submitAnswer(ActorAnswerReq req, int answer){
+    public void submitAnswer(ActorAnswerReq req, int answer, String log){
         Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
 
-        findCalculation.setActorSelectNum(req.getSelectedNums());
-        findCalculation.setSelectOp(req.getMarks());
+        findCalculation.setActorSelectNum(log);
+        findCalculation.setSelectOp(req.getMarks().toString());
         findCalculation.setSubmitAnswer(answer);
 
         calculationRepository.save(findCalculation);
     }
 
 
-    public void actorLog(ActorLogReq req, int turn) {
+    public void actorLog(ActorLogReq req, int turn, String logs) {
         Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
-        String msg = "허수아비: [" + req.getR() + ", " + req.getC() + "] 좌표를 선택했습니다";
+        String msg = "허수아비: " + logs + " 좌표를 선택했습니다";
+
+        CalculationLog log = CalculationLog.builder()
+                .round(findRound)
+                .userId(req.getUserId())
+                .isSystem((byte) 0)
+                .logType(2)
+                .message(msg)
+                .logTime(LocalDateTime.now())
+                .turn(turn)
+                .build();
+
+        calculationLogRepository.save(log);
+    }
+
+    public void acotrReset(ActorResetReq req, Integer turn) {
+        Round findRound = roundRepository.findById(req.getRoundId()).orElseThrow(() -> new RuntimeException());
+        String msg = "허수아비: 리셋 버튼을 누르셨습니다";
 
         CalculationLog log = CalculationLog.builder()
                 .round(findRound)

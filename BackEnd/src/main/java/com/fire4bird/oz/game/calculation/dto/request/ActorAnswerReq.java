@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ActorAnswerReq {
-    private Integer gameId;
-    private String selectedNums;
-    private String marks;
+    private int gameId;
+    private char[] selectedNums;
+    private char[] marks;
 }

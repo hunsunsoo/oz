@@ -6,8 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ActorLogReq {
-    private Integer roundId;
-    private Integer userId;
-    private int r;
-    private int c;
+    private int roundId;
+    private int userId;
+    private char value;
 }

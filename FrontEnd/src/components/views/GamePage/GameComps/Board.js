@@ -1,16 +1,7 @@
 import React, {useState} from "react";
 import "./Board.css"; // 별도의 CSS 파일을 import 합니다.
 
-const NumberBoard = () => {
-  const boardData = [
-    [1, 2, 3, 4, 5, 6],
-    [7, 8, 9, 10, 11, 12],
-    [13, 14, 15, 16, 17, 18],
-    [19, 20, 21, 22, 23, 24],
-    [25, 26, 27, 28, 29, 30],
-    [31, 32, 33, 34, 35, 36]
-  ];
-
+const NumberBoard = ({ boardData }) => {
   return (
     <div className="number-board">
       {boardData.map((row, rowIndex) => (
@@ -52,6 +43,21 @@ const AlphaBoard = ( {onCellClick} ) => {
 
     onCellClick(selectedCells);
   };
+
+  // const [selectedCells, setSelectedCells] = useState([]);
+
+  // const handleClick = (row, col) => {
+  //   const cellValue = boardData[row][col];
+  //   const isCellSelected = selectedCells.includes(cellValue);
+
+  //   if (isCellSelected) {
+  //     setSelectedCells(selectedCells.filter((value) => value !== cellValue));
+  //   } else {
+  //     setSelectedCells([...selectedCells, cellValue]);
+  //   }
+
+  //   onCellClick(selectedCells);
+  // };
 
   return (
     <div className="alpha-board">

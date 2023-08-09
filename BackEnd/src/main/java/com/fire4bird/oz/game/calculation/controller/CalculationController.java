@@ -111,9 +111,15 @@ public class CalculationController {
     }
 
     // 허수아비 행동 로그 입력
-    @MessageMapping("/calculation/actorLog/{roundId}")
+    @MessageMapping("/calculation/actorlog/{roundId}")
     public void actorLog(@DestinationVariable Integer roundId, ActorLogReq req){
         gameManagerMap.get(roundId).actorLog(req);
+    }
+
+    // 허수아비 리셋 버튼 로그
+    @MessageMapping("/calculation/resetanswer/{roundId}")
+    public void actorReset(@DestinationVariable Integer roundId, ActorResetReq req){
+        gameManagerMap.get(roundId).actorReset(req);
     }
 
     // 정답을 입력하면 게임 종료
