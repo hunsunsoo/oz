@@ -3,6 +3,7 @@ package com.fire4bird.oz.user.service;
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.user.dto.MyPageDto;
+import com.fire4bird.oz.user.dto.UpdatePassword;
 import com.fire4bird.oz.user.dto.UpdateUserDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
@@ -79,6 +80,17 @@ public class UserService {
                         });
 
         userRepository.save(findUser);
+    }
+
+    //로그인 전 비밀번호 변경 로직
+    public void updatePassword(UpdatePassword updatePassword) {
+        User user = findUser(updatePassword.getEmail(), "self");
+
+        checkPassword(updatePassword.getPassword(), user);
+
+        user.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+
+        userRepository.save(user);
     }
 
     public User findUser(int userId) {
