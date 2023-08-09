@@ -49,6 +49,8 @@ public class RecordService {
     //스테이지 도전 시 기록
     //해당 회차, 해당 라운드 clear 기록이 있으면 도전 불가
     //해당 회차, 해당 라운드에 종료되지 않은 기록이 있으면 도전 불가
+    //기록이 없을 수 있음 -> 정상
+    //
     public void saveStartRecord(int roundId, int stageNum) {
         Record findRecord = findRecord(roundId, stageNum);
 
