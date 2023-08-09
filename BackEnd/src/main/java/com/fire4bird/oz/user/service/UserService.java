@@ -2,12 +2,14 @@ package com.fire4bird.oz.user.service;
 
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
+import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.user.dto.MyPageDto;
 import com.fire4bird.oz.user.dto.UpdatePassword;
 import com.fire4bird.oz.user.dto.UpdateUserDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     //유저 회원가입
     public User registUser(User user, String provider) {
@@ -50,7 +54,6 @@ public class UserService {
         checkPassword(password, user);
 
         return user;
-
     }
 
     //회원 조회
@@ -73,13 +76,31 @@ public class UserService {
         Optional.ofNullable(user.getNickname())
                 .ifPresent(findUser::setNickname);
 
-        Optional.ofNullable(user.getPassword())
-                        .ifPresent(password -> {
-                            checkPassword(password,findUser);
-                            findUser.setPassword(passwordEncoder.encode(user.getNewPassword()));
-                        });
-
         userRepository.save(findUser);
+    }
+
+    public void loginCheck(UpdatePassword updatePassword, String accessToken) {
+        if (accessToken == null) {
+            log.info("로그인 전");
+            updatePassword(updatePassword);
+        }
+        else {
+            log.info("로그인 후");
+            int userId = Integer.parseInt(jwtProvider.getUserId(accessToken));
+
+            updatePassword2(updatePassword, userId);
+        }
+    }
+
+    //로그인 후 비밀번호 변경 로직
+    public void updatePassword2(UpdatePassword updatePassword, int userId) {
+        User findUser = findUser(userId);
+
+        Optional.ofNullable(updatePassword.getPassword())
+                .ifPresent(password -> {
+                    checkPassword(password,findUser);
+                    findUser.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+                });
     }
 
     //로그인 전 비밀번호 변경 로직
