@@ -39,4 +39,17 @@ public class RankController {
                 .ok()
                 .body(new CMRespDto<>(1, stageNum + "스테이지 조회결과", rankResponseDto));
     }
+
+    @GetMapping("/test/{stage-num}")
+    public ResponseEntity test(@PathVariable("stage-num") int stageNum) {
+        List<Object[]> test = rankService.test(stageNum);
+
+        List<TotalRankDto> totalRankDtos = rankMapper.totalRankListToList(test);
+
+        RankResponseDto rankResponseDto = rankMapper.toRankResponseDto(totalRankDtos, null);
+
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(1, stageNum + "스테이지 조회결과", rankResponseDto));
+    }
 }

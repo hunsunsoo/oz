@@ -31,4 +31,8 @@ public class RankService {
 
         return rankMapper.toMyRankDto(myRank, rankNum);
     }
+
+    public List<Object[]> test(int stageNum) {
+        return recordRepository.findTotalRankTest(stageNum);
+    }
 }
