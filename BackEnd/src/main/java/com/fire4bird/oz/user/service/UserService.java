@@ -107,8 +107,6 @@ public class UserService {
     public void updatePassword(UpdatePassword updatePassword) {
         User user = findUser(updatePassword.getEmail(), "self");
 
-        checkPassword(updatePassword.getPassword(), user);
-
         user.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
 
         userRepository.save(user);
