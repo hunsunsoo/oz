@@ -33,6 +33,10 @@ const AlphaBoard = ( {onCellClick} ) => {
   const [selectedCells, setSelectedCells] = useState([]);
 
   const handleClick = (cellValue) => {
+    if (selectedCells.length >= 6) {
+      // 이미 6개의 셀이 선택된 경우 더 이상 선택하지 않음
+      return;
+    }
     const isCellSelected = selectedCells.includes(cellValue);
 
     if (isCellSelected) {
@@ -107,9 +111,7 @@ const MathBoard = () => {
     );
   };
 
-const AnsBoard = () => {
-  const tableData = ['K', '+', 'J', '-', 'H'];
-
+const AnsBoard = ({tableData}) => {
   return (
     <div className="ans-board">
       <div className="ans-row">
