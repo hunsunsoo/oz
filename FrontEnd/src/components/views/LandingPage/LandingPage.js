@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import style from "./LandingPage.module.css";
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { useEffect } from 'react';
 import axiosInstance from "../../../_actions/axiosInstance";
+import MakeRoomModal from "./MakeRoomModal";
 import {persistor} from '../../../store'
 
 function LandingPage() {
@@ -13,6 +13,7 @@ function LandingPage() {
   const dispatch = useDispatch();
   const [accessToken, setAccessToken] = useState(null);
   const [cookies, setCookies] = useCookies(); // 쿠키와 설정 함수, 삭제 함수 추출
+  const [isVisibledModal, setIsVisibledModal] = useState(false);
 
   const reduxAccessToken = useSelector(
     (state) => state.user.loginSuccess?.headers?.accesstoken
@@ -54,28 +55,57 @@ function LandingPage() {
   console.log(cookies);
 };
 
+const showModal = () => {
+  setIsVisibledModal(true);
+};
+
+
   return (
     <div className={style.coverPage}>
       <div className={style.landingpage}>
-
-        {accessToken && (
-          <button onClick={() => logOutHandler()}>LogOut</button>
-        )}
         <div className={style.dorothy}></div>
-        <div className={style.rankingZone}
-          onClick={() => navigate(`/rank`)}
-        ></div>
-        <div className={style.milestone}>
-        <button
-          className={style.gotologin}
-          onClick={() => navigate(`/login`)}
-        >
-        로그인</button>
-        <button
-          className={style.gotosignup}
-          onClick={() => navigate(`/register`)}
-        >회원가입</button>
-        </div>
+        {accessToken && (
+          <div className={style.rankingZone}
+            onClick={() => navigate(`/rank`)}
+          ></div>
+        )}
+
+        {accessToken ? (
+          <div className={style.afterLoginMilestoneDiv}>
+            <div className={style.afterLoginMilestone}></div>
+              <button
+                className={style.goToMypage}
+                onClick={() => navigate(`/mypage`)}
+              >마이페이지</button>
+              <button
+                className={style.makeRoom}
+                onClick={showModal}
+              >게임 시작</button>
+              <button
+                className={style.logout}
+                onClick={() => logOutHandler()}
+              >로그아웃</button>
+            </div>
+          ) : (
+            <div className={style.milestone}>
+            <button
+              className={style.gotologin}
+              onClick={() => navigate(`/login`)}
+            >
+            로그인</button>
+            <button
+              className={style.gotosignup}
+              onClick={() => navigate(`/register`)}
+            >회원가입</button>
+            </div>
+          )
+        }
+
+        {isVisibledModal && (
+          <MakeRoomModal setIsVisibledModal={setIsVisibledModal} />
+        )}
+        
+        
       </div>
     </div>
   );
