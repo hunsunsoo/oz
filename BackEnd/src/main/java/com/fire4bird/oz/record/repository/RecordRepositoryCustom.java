@@ -4,7 +4,6 @@ import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.team.entity.UserTeam;
 import com.fire4bird.oz.user.entity.User;
-import com.querydsl.core.Tuple;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -24,12 +23,7 @@ public interface RecordRepositoryCustom {
     //해당 회차의 1 ~ 4의 클리어기록 조회
     List<LocalTime> findByClearRecord(int roundId);
 
-    //스테이지 별 랭킹 기록
-    List<Tuple> findTotalRank(int stageNum);
+    //해당 라운드, 스테이지에 이미 클리어 기록이 있는 경우 도전 불가
 
-    //해당 유저 스테이지 별 기록 - limit(3)
-    List<Tuple> findMyRank (int stageNum, int userId);
-
-    //유저 스테이지 별 기록 랭크 숫자 세팅
-    List<Long> getRankNum(List<Tuple> findMyRank, int stageNum);
+    //해당 라운드, 스테이지에
 }

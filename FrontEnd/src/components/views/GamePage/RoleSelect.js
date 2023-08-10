@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { setGameUserInfo } from "../../../_actions/game_actions";
+import { useSelector } from "react-redux";
 
 const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, userId}) => {
   // 도로시 1, 사자 2, 허수아비 3, 양철 나무꾼 4
@@ -7,6 +10,11 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
   const [s2, setS2] = useState(-1);
   const [s3, setS3] = useState(-1);
   const [myRole, setMyRole ] = useState(0);
+  const dispatch = useDispatch();
+
+  const myRoleRDX = useSelector(
+     (state) => state.gameUserReducer.gameUsers.myRole
+  );
 
   // 조건부 렌더링을위한 콜백함수
   const handleMiddleCondition = () => {
@@ -78,6 +86,7 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
 
     if (resuserId === userId) {
       setMyRole(role+1);
+      dispatch(setGameUserInfo({ myRole: role+1 }));
     }
   };
   
@@ -94,6 +103,7 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
     
     if (resuserId === userId) {
       setMyRole(0);
+      dispatch(setGameUserInfo({ myRole: null }));
     }
   };
 
