@@ -94,6 +94,8 @@ const GameComp = (props) => {
   const [heosuState, setHeosuState] = useState(0);
   const [twState, setTwState] = useState(0);
   const [gameId, setGameId] = useState(0);
+  const [turn, setTurn] = useState(1);
+  const [resAnswer, setResAnswer] = useState(0);
 
   const [isStartBtnActive, setIsStartBtnActive] = useState(true); // 예시 값으로 true 설정
   // => 4명이 준비하면 true로 바꿔줄 값
@@ -108,14 +110,19 @@ const GameComp = (props) => {
     [' ', ' ', ' ', ' ', ' ', ' ']
   ]);
   
-  // socket
-  // 1스테이지 게임 준비
-  const subscribeToStage1Select = () => {
-    console.log("1스테이지 ready 페이지 소켓연결");
-    // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
-    const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}}`, (message) => {
-      console.log('Received message:', message.body);
+  // 정답 받을 보드
+  const [tableData, setTableData] = useState([
+    [' ',' ',' ',' ',' ']
+  ])
 
+  // socket
+  // 1스테이지 준비 구독 sub
+  const subscribeToStage1Ready = () => {
+    console.log("1스테이지 ready 페이지 소켓연결1");
+    // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
+    const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}`, (message) => {
+      console.log('Received message:', message.body);
+      
       try {
         // JSON 문자열을 JavaScript 객체로 변환
         const resJsondata = JSON.parse(message.body);
@@ -123,7 +130,32 @@ const GameComp = (props) => {
         // 객체의 속성을 활용하여 처리
         const resRole = resJsondata.role;
 
-        console.log(resRole);
+        // 응답에 의한 처리들 (역할군 state 변경)
+        if (myRole === 1) {
+          if (dorothyState === 0) {
+            setDorothyState(1);
+          } else {
+            setDorothyState(0);
+          }
+        } else if (myRole === 2) {
+          if (lionState === 0) {
+            setLionState(1);
+          } else {
+            setLionState(0);
+          }
+        } else if (myRole === 3) {
+          if (heosuState === 0) {
+            setHeosuState(1);
+          } else {
+            setHeosuState(0);
+          }
+        } else if (myRole === 4) {
+          if (twState === 0) {
+            setTwState(1);
+          } else {
+            setTwState(0);
+          }
+        }
 
       } catch (error) {
         console.error('Error parsing message body:', error);
@@ -132,6 +164,7 @@ const GameComp = (props) => {
     });
   }
 
+  // 1스테이지 게임 준비 버튼 pub
   const sendStage1Ready = () => {
     // /pub/calculation/ready/{roundId} 경로로 메시지 전송
     try {
@@ -147,58 +180,13 @@ const GameComp = (props) => {
       
       client.send(`/pub/calculation/ready/${roundId}`, {}, JSON.stringify(message));
       console.log("준비완료 누름");
-      console.log(message);
-      console.log(dorothyState);
-      
-      // 역할군 state 변경
-      if (myRole === 1) {
-        if (dorothyState === 0) {
-          setDorothyState(1);
-        } else {
-          setDorothyState(0);
-        }
-      } else if (myRole === 2) {
-        if (lionState === 0) {
-          setLionState(1);
-        } else {
-          setLionState(0);
-        }
-      } else if (myRole === 3) {
-        if (heosuState === 0) {
-          setHeosuState(1);
-        } else {
-          setHeosuState(0);
-        }
-      } else if (myRole === 4) {
-        if (twState === 0) {
-          setTwState(1);
-        } else {
-          setTwState(0);
-        }
-      }
-    } catch (error) {
-      console.log('Error sending message:', error);
-    }
-  };
-
-  // 1스테이지 게임 시작
-  const sendStage1Start = () => {
-    console.log("게임시작버튼 누름");
-    // /pub/calculation/start/{roundId} 경로로 메시지 전송
-    try {
-      if (!client) {
-        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
-        return;
-      }
-
-      client.send(`/pub/calculation/start/${roundId}`);
-      props.changeIsReady();
       
     } catch (error) {
       console.log('Error sending message:', error);
     }
   };
 
+  // 1스테이지 게임 시작 sub
   const subscribeToStage1Start = () => {
     // /sub/socket/calculation/start/{roundId}/{sessionId} 경로로 구독 요청
     const subscription = client.subscribe(`/sub/socket/calculation/start/${roundId}/${sessionId}`, (message) => {
@@ -210,13 +198,18 @@ const GameComp = (props) => {
         const resJsondata = JSON.parse(message.body);
     
         // 객체의 속성을 활용하여 처리
-        const resRole = resJsondata.role;
         const resGameId = resJsondata.data.gameId;
-        setGameId(resGameId);
+        const resTurn = resJsondata.data.turn;
         const numberBoardArray = resJsondata.data.numberBoard;
-
+        
+        setGameId(resGameId);
+        console.log("받아온 gameId는? : " + resGameId);
+        console.log("바꾼 gameId는? : " + gameId);
+        setTurn(resTurn);
         setBoardData(numberBoardArray);
-        console.log("a " + numberBoardArray);
+        console.log(boardData);
+        
+        props.changeIsReady();
         
       } catch (error) {
         console.error('Error parsing message body:', error);
@@ -224,7 +217,53 @@ const GameComp = (props) => {
     });
   }
 
-  // 1스테이지 조력자 선택 숫자 전달
+  // 1스테이지 게임시작 버튼 누름 pub
+  const sendStage1Start = () => {
+    console.log("게임시작버튼 누름");
+    // /pub/calculation/start/{roundId} 경로로 메시지 전송
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
+
+      client.send(`/pub/calculation/start/${roundId}`);
+      console.log("게임시작버튼 누름 -> 넘어감");
+      
+      props.changeIsReady();
+      
+    } catch (error) {
+      console.log('Error sending message:', error);
+    }
+  };
+
+  // 알파벳 선택하는게 실시간으로 보이는 pub sub 필요
+
+  // 1스테이지 알파벳 선택 sub
+  const subscribeToStage1SelectCells = () => {
+    // /sub/socket/calculation/helpersubmit/{roundId} 경로로 구독 요청
+    client.subscribe(`/sub/socket/calculation/helpersubmit/${roundId}/${sessionId}`, (message) => {
+      console.log('Received message:', message.body);
+      console.log("조력자 숫자 제출을 위한 소켓 연결");
+
+      try {
+        // JSON 문자열을 JavaScript 객체로 변환
+        const resJsondata = JSON.parse(message.body);
+    
+        // 객체의 속성을 활용하여 처리
+        const selectedNumsArray = resJsondata.data.selectedNums;
+        setBoardData(selectedNumsArray);
+        console("배열: "+selectedNumsArray);
+        console.log(boardData);
+
+        
+      } catch (error) {
+        console.error('Error parsing message body:', error);
+      }
+    });
+  }
+
+  // 1스테이지 알파벳 선택 pub
   const sendStage1SelectCells = () => {
     console.log("조력자 선택완료 누름");
     // /pub/calculation/helpersubmit/{roundId} 경로로 메시지 전송
@@ -235,13 +274,18 @@ const GameComp = (props) => {
       }
 
       const message = {
+        // "gameId": gameId
         "gameId": gameId,
         "selectedNums": selectedCells[selectedCells.length - 1],
       };
 
-      console.log(selectedCells[selectedCells.length - 1]);
-      
+      console.log("gameId : " + gameId);
+      console.log("turn : " + turn);
+
       client.send(`/pub/calculation/helpersubmit/${roundId}`, {}, JSON.stringify(message));
+      console.log("조력자 선택완료 누름 -> 넘어감");
+      sendStage1GetAnswer(); // 문제도 같이 띄워야함
+      
       props.changeIsIndex();
       
     } catch (error) {
@@ -249,71 +293,183 @@ const GameComp = (props) => {
     }
   }
 
-  const subscribeToStage1SelectCells = (maxRetries = 3, retryInterval = 2000) => {
-    console.log("조력자 숫자판 받기");
+  // 1스테이지 문제 공개 sub
+  const subscribeToStage1GetAnswer = () => {
+    // /sub/socket/calculation/getanswer/{roundId}/{sessionId} 경로로 구독 요청
+    client.subscribe(`/sub/socket/calculation/getanswer/${roundId}/${sessionId}`, (message) => {
+      console.log('Received message:', message.body);
+      console.log("문제가 뭘까요?");
+
+      try {
+        // JSON 문자열을 JavaScript 객체로 변환
+        const resJsondata = JSON.parse(message.body);
     
-    let retries = 0;
-    
-    const trySubscribe = () => {
+        // 객체의 속성을 활용하여 처리
+        const resAnswer = resJsondata.data.answer;
+
+        setResAnswer(resAnswer);
+        // props.changeIsIndex();
+        
+      } catch (error) {
+        console.error('Error parsing message body:', error);
+      }
+    });
+  }
+
+  // 1스테이지 문제 공개 pub
+  const sendStage1GetAnswer = () => {
+    // /pub/calculation/getanswer/{roundId} 경로로 메시지 전송
+    try {
       if (!client) {
-        if (retries < maxRetries) {
-          retries++;
-          setTimeout(trySubscribe, retryInterval);
-        }
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
         return;
       }
 
-      // /sub/socket/calculation/helpersubmit/{roundId} 경로로 구독 요청
-      const subscription = client.subscribe(`/sub/socket/calculation/helpersubmit/${roundId}`, (message) => {
-        console.log('Received message:', message.body);
-        console.log("조력자 숫자 제출을 위한 소켓 연결");
-    
-        try {
-          // JSON 문자열을 JavaScript 객체로 변환
-          const resJsondata = JSON.parse(message.body);
+      client.send(`/pub/calculation/getanswer/${roundId}`);
+      console.log("정답을 받아왔음");
       
-          // 객체의 속성을 활용하여 처리
-          const selectedNumsArray = resJsondata.data.selectedNums;
-          console.log("숫자+알파벳 배열: "+selectedNumsArray)
+    } catch (error) {
+      console.log('Error sending message:', error);
+    }
+  };
+
+  // 1스테이지 정답 선택 sub
+  const subscribeToStage1SelectAns = () => {
+    // /sub/socket/calculation/submitanswer/{roundId}/{sessionId} 경로로 구독 요청
+    client.subscribe(`/sub/socket/calculation/submitanswer/${roundId}/${sessionId}`, (message) => {
+      console.log('Received message:', message.body);
+      console.log("허수아비 정답 제출을 위한 소켓 연결");
+
+      try {
+        // JSON 문자열을 JavaScript 객체로 변환
+        const resJsondata = JSON.parse(message.body);
     
-          setBoardData(selectedNumsArray);
-          console.log("바뀐 배열 " + boardData);
-          
-        } catch (error) {
-          console.error('Error parsing message body:', error);
-        }
-      });
+        // 객체의 속성을 활용하여 처리
+        const selectednumber = resJsondata.data.number;
+
+        // 정답 맞는지 체크 해야함
+        // @@@@@@@@@@@@@@@@@@@@@@
+        
+        
+      } catch (error) {
+        console.error('Error parsing message body:', error);
+      }
+    });
+  }
+
+  // 1스테이지 정답 선택 pub
+  const sendStage1SelectAns = () => {
+    console.log("허수아비 정답제출 누름");
+    // /pub/calculation/submitanswer/{roundId} 경로로 메시지 전송
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
+
+      const message = {
+        // "gameId": gameId
+        "gameId": turn,
+        "selectedNums": selectedAns[selectedAns.length - 1],
+        "marks": selectedMarks[selectedMarks.length - 1]
+      };
+
+      console.log(gameId);
+      console.log(selectedCells[selectedCells.length - 1]);
+
+      client.send(`/pub/calculation/submitanswer/${roundId}`, {}, JSON.stringify(message));
+      console.log("조력자 선택완료 누름 -> 넘어감");
+      props.changeIsIndex();
+      
+    } catch (error) {
+      console.log('Error sending message:', error);
     }
   }
 
 
+  // 조력자가 선택하는 알파벳 보드 배열로 저장하고 있을거야
   // // selectedCells와 setSelectedCells를 useState로 정의합니다.
   const [selectedCells, setSelectedCells] = useState([]);
-
   // 클릭 이벤트 처리 함수
   const handleCellClick = (cellValue) => {
     // 이미 선택된 칸인지 확인
     const isCellSelected = selectedCells.includes(cellValue);
+    // 이미 선택된 값이 6개인 경우 더이상 선택하지 않음
+    if (isCellSelected.length >= 6) {
+      return;
+    }
 
+    // 이미 선택된 칸이라면 해당 값을 배열에서 제거
+    // if (isCellSelected) {
+    //   const updatedCells = selectedCells.filter((value) => value !== cellValue);
+    //   setSelectedCells(updatedCells);
+    // } else {// 새로 선택된 칸이라면 해당 값을 배열에 추가      
+    //   const updatedCells = [...selectedCells, cellValue];
+    //   setSelectedCells(updatedCells);
+    // }
     if (isCellSelected) {
+      setSelectedCells(selectedCells.filter((value) => value !== cellValue));
+    } else {
+      setSelectedCells([...selectedCells, cellValue]);
+    }
+  };
+
+  // 허수아비가 선택하는 정답 보드 배열로 저장하고 있을거야
+  // // selectedAns와 setSelecteAns를 useState로 정의합니다.
+  const [selectedAns, setSelectedAns] = useState([]);
+  // 클릭 이벤트 처리 함수
+  const handleAnsClick = (AnsValue) => {
+    // 이미 선택된 칸인지 확인
+    const isAnsSelected = selectedAns.includes(AnsValue);
+    if (selectedAns.length >= 3) {
+      // 이미 선택된 값이 3개인 경우 더이상 선택하지 않음
+      return;
+    }
+
+    if (isAnsSelected) {
       // 이미 선택된 칸이라면 해당 값을 배열에서 제거
-      const updatedCells = selectedCells.filter((value) => value !== cellValue);
-      setSelectedCells(updatedCells);
+      const updatedAns = selectedAns.filter((value) => value !== AnsValue);
+      setSelectedAns(updatedAns);
 
     } else {
       // 새로 선택된 칸이라면 해당 값을 배열에 추가
-      const updatedCells = [...selectedCells, cellValue];
-      setSelectedCells(updatedCells);
+      const updatedAns = [...selectedAns, AnsValue];
+      setSelectedAns(updatedAns);
+    }
+  };
+  // // selectedMarks와 setSelecteMarks를 useState로 정의합니다.
+  const [selectedMarks, setSelectedMarks] = useState([]);
+
+  // 클릭 이벤트 처리 함수
+  const handleMarksClick = (MarksValue) => {
+    // 이미 선택된 칸인지 확인
+    const isMarksSelected = selectedMarks.includes(MarksValue);
+    if (selectedMarks.length >= 2) {
+      // 이미 선택된 값이 2개인 경우 더이상 선택하지 않음
+      return;
+    }
+
+    if (isMarksSelected) {
+      // 이미 선택된 칸이라면 해당 값을 배열에서 제거
+      const updatedMarks = selectedMarks.filter((value) => value !== MarksValue);
+      setSelectedMarks(updatedMarks);
+
+    } else {
+      // 새로 선택된 칸이라면 해당 값을 배열에 추가
+      const updatedMarks = [...selectedMarks, MarksValue];
+      setSelectedMarks(updatedMarks);
     }
   };
 
   
 
   useEffect(() => {
-    subscribeToStage1Select();
+    subscribeToStage1Ready();
     subscribeToStage1Start();
     subscribeToStage1SelectCells();
-  }, []);
+    subscribeToStage1SelectAns();
+    subscribeToStage1GetAnswer();
+  }, [client]);
 
 
   // 게임 part
@@ -334,8 +490,6 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 1 && isIndex == 12) {
-    console.log(selectedCells[selectedCells.length - 1]);
-
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
@@ -362,27 +516,28 @@ const GameComp = (props) => {
         <div className={style.background_G1}>
           <div className={style.BoardStyle2}>
             {/* <AlphaBoard /> */}
-            <NumberBoard boardData={boardData} />
+            <NumberBoard boardData={boardData} onClick={handleAnsClick}/>
           </div>
           <div className={style.MathBoardStyle}>
-            <MathBoard />
+            <MathBoard onclick={handleMarksClick}/>
           </div>
           <div className={style.AnsBoardStyle}>
-            <AnsBoard />
+            <AnsBoard tableData={tableData}/>
           </div>
           <img
             src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
           />
-          <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div>
+          {/* <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div> */}
+          <div className={style.ansSubmitBtn} onClick={sendStage1SelectAns}>정답제출</div>
           <div className={style.resetBtn}>리셋</div>
           <img
             src="image/tools/equal.png"
             alt="equal"
             className={style.equal}
           />
-          <div className={style.rectangleStyle}>36</div>
+          <div className={style.rectangleStyle}>{resAnswer}</div>
         </div>
       </div>
     );
