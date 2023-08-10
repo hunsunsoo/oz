@@ -4,9 +4,6 @@ import {
   AlphaBoard,
   MathBoard,
   AnsBoard,
-  MiroRed,
-  MiroGreen,
-  MiroBlue,
 } from "./Board";
 import App from "./test";
 import style from "./GameComps.module.css";
@@ -22,6 +19,7 @@ import {
 } from "../../../scripts/Scripts";
 import { client } from "stompjs";
 import { Sub, Dnd } from "./Puzzle";
+import TrapGame from "./TrapGame/TrapGame";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -545,15 +543,17 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-    // 2스테이지
+    // 2스테이지 게임시작
   } else if (isStage === 2 && isIndex == 11) {
     return (
-      <div></div>
+      <div className={style.compStyle}>
+        <TrapGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} />
+      </div>
     );
   } else if (isStage === 2 && isIndex == 12) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
+        {/* <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroRed />
           </div>
@@ -562,14 +562,14 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
+        </div> */}
         <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 13) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
+        {/* <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroGreen />
           </div>
@@ -578,14 +578,14 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
+        </div> */}
         <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 14) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
+        {/* <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroBlue />
           </div>
@@ -594,7 +594,7 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
+        </div> */}
         <button onClick={props.changeIsClear}>(임시)Next</button>
       </div>
     );
