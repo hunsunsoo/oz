@@ -104,11 +104,13 @@ function MyPage(props) {
 
             <div className={style.registDiv}>
               <button className={style.Button}
-                onClick={onSubmitHandler}>회원 등록하기</button>
+                onClick={onSubmitHandler}>정보 수정하기</button>
             </div>
             <div className={style.changeDiv}>
-              <button className={style.Button}
+              <button className={style.divideButton}
                 onClick={() => navigate("/passwordchange")}>비밀번호 변경</button>
+                <button className={style.divideButton}
+                onClick={() => navigate("/withdrawl")}>회원 탈퇴</button>
             </div>
           </div>
           </div>

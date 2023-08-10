@@ -10,6 +10,22 @@
     height: 100vh;
 }
 
+.box{
+    width: 30%;
+    height: 50%;
+    background-color: #F0EAD2;
+    border-color: #6C584C;
+    border-width : 5px ;
+    border-style : solid ;
+    border-radius: 25px;
+    padding: 4rem 4rem ;
+    display: grid;
+    /* justify-content: center; 
+      align-items: center;  */
+      box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+    
+}
+
 .logo{
     position: absolute;
     left: 45%;
@@ -61,15 +77,12 @@
 .registDiv{
     margin-top: 5%;
     height: 30%;
-    position: relative;
     justify-content: center;
 }
 
 .changeDiv{
     margin-top: 4%;
     height: 30%;
-    position: relative;
-    justify-content: center;
 }
 
 .Button{
@@ -86,18 +99,17 @@
     margin-left: 5%;
 }
 
-.box{
-    width: 30%;
-    height: 50%;
-    background-color: #F0EAD2;
-    border-color: #6C584C;
-    border-width : 5px ;
-    border-style : solid ;
-    border-radius: 25px;
-    padding: 4rem 4rem ;
-    display: grid;
-    /* justify-content: center; 
-      align-items: center;  */
-      box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
-    
-    }
+.divideButton{
+    background-color: #6C584C;
+    border-radius: 15px;
+    width: 42%;
+    height: 100%;
+    color: #F0EAD2;
+    cursor: pointer;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    font-size: large;
+    font-weight: bold;
+    margin-left: 5%;
+    display: inline-block;
+}
