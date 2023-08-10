@@ -124,3 +124,51 @@
 .gotologin:hover + .milestone { /* 버튼에 마우스가 올라갔을 때 마일스톤에 적용될 스타일 */
   transform: scale(1.7); /* 크기를 10% 늘림 */
 }
+
+.rankingZone{
+  position: absolute;
+  right: 15%;
+  top: 6%;
+  height: 13%;
+  width: 7%;
+  background-image: url("../../../../public/image/button/starButton.png");
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  animation: upDown 2s linear infinite;
+}
+
+.rankingZone:hover{
+  transform: scale(1.1);
+}
+
+@keyframes upDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.dorothy{
+  position: absolute;
+  left: 20%;
+  bottom: 12%;
+  height: 22%;
+  width: 8%;
+  background-image: url("../../../../public/image/character/dorothy.png");
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  animation: rotateMotion 2s linear infinite;
+}
+
+@keyframes rotateMotion {
+  0%, 100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg); /* 5도만큼 회전 */
+  }
+}
