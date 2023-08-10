@@ -1,11 +1,13 @@
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../../_actions/user_action";
+import axiosInstance from "../../../_actions/axiosInstance";
 import style from "./AuthLandingPage.module.css";
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import {persistor} from "../../../store";
+
 function AuthLandingPage(props) {
   const [cookies, setCookies] = useCookies(); // 쿠키와 설정 함수, 삭제 함수 추출
   const navigate = useNavigate();
@@ -23,12 +25,30 @@ function AuthLandingPage(props) {
     (state) => state.user.loginSuccess?.headers?.refreshtoken
   );
   const logOutHandler = () => {
-    dispatch(logoutUser(accessToken, refreshtoken));
+      axiosInstance
+      .post(
+        "users/logout",
+        {},
+        {
+          headers: {
+            AccessToken: accessToken,
+            Refreshtoken: refreshtoken,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        return response;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    persistor.purge();
     setCookies("Atoken", "", { expires: new Date() }); // "token" 쿠키 삭제
     setCookies("Rtoken", "", { expires: new Date() }); // "token" 쿠키 삭제
     console.log(cookies);
     navigate("/");
-    window.location.reload();
     console.log(cookies);
   };
 

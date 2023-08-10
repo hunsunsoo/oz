@@ -12,6 +12,7 @@ import { GameComp } from "./components/views/GamePage/GameComps/GameComps";
 import SocketPage from "./components/views/SocketPage/SocketPage";
 import KakaoLogin from "./components/views/LoginPage/KakoLogin";
 import RankPage from "./components/views/RankPage/RankPage";
+import FindPwPage from "./components/views/LoginPage/FindPwPage";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/authlanding" element={<AuthLandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/kakaoLogin" element={<KakaoLogin />} />
+          <Route path="/findpw" element={<FindPwPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/withdrawl" element={<WithDrawl />} />
           <Route path="/passwordchange" element={<PasswordChange />} />
