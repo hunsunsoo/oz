@@ -86,6 +86,8 @@ public class UserService {
         }
         else {
             log.info("로그인 후");
+            log.info("accessToken : {}", accessToken);
+            log.info("updatePassword :{}", updatePassword);
             int userId = Integer.parseInt(jwtProvider.getUserId(accessToken));
 
             updatePassword2(updatePassword, userId);
@@ -95,12 +97,15 @@ public class UserService {
     //로그인 후 비밀번호 변경 로직
     public void updatePassword2(UpdatePassword updatePassword, int userId) {
         User findUser = findUser(userId);
+        log.info("findUser :{}", findUser);
 
         Optional.ofNullable(updatePassword.getPassword())
                 .ifPresent(password -> {
                     checkPassword(password,findUser);
                     findUser.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
                 });
+
+        userRepository.save(findUser);
     }
 
     //로그인 전 비밀번호 변경 로직
@@ -143,7 +148,7 @@ public class UserService {
         boolean matches = passwordEncoder.matches(password, user.getPassword());
 
         if(!matches){
-            throw new BusinessLogicException(ExceptionCode.BAD_PARAM);
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_VALID);
         }
     }
 
