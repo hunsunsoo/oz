@@ -3,17 +3,11 @@ package com.fire4bird.oz.error.record;
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
 import com.fire4bird.oz.record.entity.Record;
-import com.fire4bird.oz.record.repository.RecordRepository;
-import com.fire4bird.oz.round.entity.Round;
-import com.fire4bird.oz.round.service.RoundService;
-import com.fire4bird.oz.team.entity.UserTeam;
-import com.fire4bird.oz.user.entity.User;
-import com.fire4bird.oz.user.service.UserService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class RecordError {
