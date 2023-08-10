@@ -3,18 +3,16 @@ package com.fire4bird.oz.team.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "team")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Table(name = "team", indexes = @Index(name = "idx_team_name",columnList = "team_name"))
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
