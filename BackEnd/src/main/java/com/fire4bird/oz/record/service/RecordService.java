@@ -2,6 +2,7 @@ package com.fire4bird.oz.record.service;
 
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
+import com.fire4bird.oz.error.record.RecordError;
 import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.record.mapper.RecordMapper;
 import com.fire4bird.oz.record.repository.RecordRepository;
@@ -28,46 +29,18 @@ public class RecordService {
     private final UserService userService;
     private final RoundService roundService;
     private final RecordMapper recordMapper;
-
-    //유저와 라운드id의 관계가 유효한 지 확인
-    public void validUserAndRound(int userId, int roundId) {
-        User user = userService.findUser(userId);
-        Round round = roundService.findRound(roundId);
-
-        Optional<UserTeam> findUserTeam = recordRepository.validUserToRound(user, round);
-
-        //요청 유저가 이상한 라운드id로 요청 보내면 throw
-        findUserTeam
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BAD_REQUEST));
-    }
+    private final RecordError recordError;
 
     //기록 검색
     public Record findRecord(int roundId, int stageNum) {
         return recordRepository.findByRecord(roundId, stageNum);
     }
 
-
-    //스테이지 도전 시 기록
-    //해당 회차, 해당 라운드 clear 기록이 있으면 도전 불가
-    //해당 회차, 해당 라운드에 종료되지 않은 기록이 있으면 도전 불가
-    //기록이 없을 수 있음 -> 정상
-
-    //유효성 검사
-    public void validRecord(Record findRecord) {
-        if (findRecord != null) {
-            String clear = findRecord.getClear();
-
-            if (clear == null || !clear.equals("false")) {
-                throw new BusinessLogicException(ExceptionCode.BAD_REQUEST);
-            }
-        }
-    }
-
     public void saveStartRecord(int roundId, int stageNum) {
         Record findRecord = findRecord(roundId, stageNum);
         log.info("findRecord : {}", findRecord);
 
-        validRecord(findRecord);
+        recordError.startRecordValid(findRecord);
 
         Record newRecord = recordMapper.toStartEntity(roundService.findRound(roundId), stageNum, LocalDateTime.now(), 1);
 
@@ -95,10 +68,10 @@ public class RecordService {
     public Record saveEndRecord(int roundId, int stageNum, String clear) {
         Record findRecord = findRecord(roundId, stageNum);
         log.info("findRecord : {}", findRecord);
+
         //조회 기록이 없으면 도전 기록이 없음
-        //여기서 예외처리 해야함
-        Optional.ofNullable(findRecord)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_CHALLENGE_RECORD));
+        recordError.endRecordValid(findRecord);
+//        endRecordValid(findRecord);
 
         findRecord.setEndTime(LocalDateTime.now());
         findRecord.setClear(clear);
@@ -106,6 +79,7 @@ public class RecordService {
 
         return recordRepository.save(stageRecordCalculation(findRecord));
     }
+
 
     //스테이지 종료시 기록 저장 - clear
     public void saveClearRecord(int roundId, int stageNum, Record record) {
@@ -165,5 +139,19 @@ public class RecordService {
             log.info("accRecord : {}", accRecord);
         }
         return accRecord;
+    }
+
+    //유효성 검사 부분
+
+    //유저와 라운드id의 관계가 유효한 지 확인
+    public void validUserAndRound(int userId, int roundId) {
+        User user = userService.findUser(userId);
+        Round round = roundService.findRound(roundId);
+
+        Optional<UserTeam> findUserTeam = recordRepository.validUserToRound(user, round);
+
+        //요청 유저가 이상한 라운드id로 요청 보내면 throw
+        findUserTeam
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BAD_REQUEST));
     }
 }
