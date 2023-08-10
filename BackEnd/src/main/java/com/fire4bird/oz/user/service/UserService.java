@@ -143,7 +143,7 @@ public class UserService {
         boolean matches = passwordEncoder.matches(password, user.getPassword());
 
         if(!matches){
-            throw new BusinessLogicException(ExceptionCode.BAD_PARAM);
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_VALID);
         }
     }
 
