@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { registerUser, emailAvailable } from "../../../_actions/user_action";
+import { registerUser } from "../../../_actions/user_action";
+import axiosInstance from "../../../_actions/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import style from "./RegisterPage.module.css";
 function RegisterPage(props) {
@@ -11,6 +12,9 @@ function RegisterPage(props) {
   const [NickName, setNickName] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [Code, setEmailCode] = useState("");
+  const [State, setState] = useState(false);
+  const [IsAuthSuccess, setIsAuthSuccess] = useState(false);
 
   // usestate: const [state, setstate] = useState(initialState) 자동완성.
   // initialState : = placeholder
@@ -21,11 +25,40 @@ function RegisterPage(props) {
 
   const onSubmitEmailHandler = async (e) => {
     e.preventDefault();
-    await dispatch(emailAvailable(Email).then((response) => {
-      if(response.payload.status === 200){
-        alert(response.payload.data);
-      }else alert(response.payload.error);
-    }));
+    try {
+      console.log(Email);
+      const response = await axiosInstance.post("/users/mail", {
+        email: Email,
+      });
+      console.log(response.data);
+      if (response.status === 200) {
+        alert(response.data);
+        setState(true);
+      }
+    } catch (error) {
+      alert("올바르지 않은 이메일입니다");
+    }
+  };
+
+  const onEmailCodeHandler = (event) => {
+    setEmailCode(event.currentTarget.value);
+  };
+
+  const onSubmitCodeHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("users/codechek", {
+        emailCode: Code,
+      });
+
+      if (response.status === 200) {
+        alert(response.data);
+        setIsAuthSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.msg);
+    }
   };
 
   const onNameHandler = (event) => {
@@ -45,7 +78,7 @@ function RegisterPage(props) {
     event.preventDefault();
 
     if (Password !== ConfirmPassword) {
-      return alert("비밀번호 확인은 같아야합니다.");
+      return alert("비밀번호가 다릅니다");
     } else if (Name.length === 0) {
       return alert("이름을 입력하세요");
     } else if (NickName.length === 0) {
@@ -54,6 +87,8 @@ function RegisterPage(props) {
       return alert("이메일 입력하세요");
     } else if (Password.length === 0) {
       return alert("비밀번호를 입력하세요");
+    } else if (!IsAuthSuccess){
+      return alert("이메일 인증이 필요합니다");
     }
 
     console.log("Email", Email);
@@ -136,9 +171,26 @@ function RegisterPage(props) {
               </input>
               <div className={style.emailButtonZone}>
                 <button className={style.emailButton}
-                onClick={onSubmitEmailHandler}>인증</button>
+                onClick={onSubmitEmailHandler}>전송</button>
               </div>
             </div>
+
+            {State && (
+              <div className={style.codeBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.codeZone}
+              type="text"
+              value={Code}
+              placeholder="Code"
+              onChange={onEmailCodeHandler}>
+              </input>
+              <div className={style.codeButtonZone}>
+                <button className={style.emailButton}
+                onClick={onSubmitCodeHandler}>인증</button>
+              </div>
+            </div>
+            )}
 
             <div className={style.bottomBox}>
               <div className={style.frontZone}>
