@@ -10,11 +10,10 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "team")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Table(name = "team", indexes = @Index(name = "idx_team_name",columnList = "team_name"))
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
