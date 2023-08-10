@@ -33,9 +33,10 @@ public class RecordService {
 
     //기록 검색
     public Record findRecord(int roundId, int stageNum) {
-        return recordRepository.findByRecord(roundId, stageNum);
+        return recordRepository.findByRecord(roundId, stageNum,null);
     }
-
+    
+    //스테이지 시작 시 기록 저장
     public void saveStartRecord(int roundId, int stageNum) {
         Record findRecord = findRecord(roundId, stageNum);
         log.info("findRecord : {}", findRecord);
@@ -71,7 +72,6 @@ public class RecordService {
 
         //조회 기록이 없으면 도전 기록이 없음
         recordError.endRecordValid(findRecord);
-//        endRecordValid(findRecord);
 
         findRecord.setEndTime(LocalDateTime.now());
         findRecord.setClear(clear);
