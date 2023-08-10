@@ -51,7 +51,7 @@ function LoginPage(props) {
         const Rtoken = response.payload.headers.refreshtoken;
         setCookies("Atoken", Atoken);
         setCookies("Rtoken", Rtoken);
-        navigate("/authlanding");
+        navigate("/");
 
         // 성공하면  root page(landing page)로 가라
       } else {
@@ -128,7 +128,7 @@ function LoginPage(props) {
               </button>
               <button
                 className={style.findPwButton}
-                onClick={() => navigate(`/register`)}
+                onClick={() => navigate(`/findpw`)}
               >
                 비밀번호 찾기
               </button>
