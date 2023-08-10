@@ -1,6 +1,7 @@
 package com.fire4bird.oz.record.controller;
 
 import com.fire4bird.oz.common.CMRespDto;
+import com.fire4bird.oz.error.record.RecordError;
 import com.fire4bird.oz.record.dto.RecordRegistDto;
 import com.fire4bird.oz.record.service.RecordService;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class RecordController {
     private final RecordService recordService;
+    private final RecordError recordError;
 
     //스테이지 시작
     //게임 시작 시간 및 도전 횟수 저장
     @PostMapping("/start")
     public ResponseEntity startRecordSave(@RequestBody RecordRegistDto recordRegistDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        recordError.stageNumValid(recordRegistDto.getStageNum());
 
         recordService.validUserAndRound(Integer.parseInt(userId), recordRegistDto.getRoundId());
 
@@ -38,6 +42,8 @@ public class RecordController {
     @PostMapping("/end")
     public ResponseEntity endRecordSave(@RequestBody RecordRegistDto recordRegistDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        recordError.stageNumValid(recordRegistDto.getStageNum());
 
         recordService.validUserAndRound(Integer.parseInt(userId), recordRegistDto.getRoundId());
 

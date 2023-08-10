@@ -41,4 +41,11 @@ public class RecordError {
                     throw new BusinessLogicException(ExceptionCode.NO_CHALLENGE_RECORD);
                 });
     }
+
+    //스테이지 번호 유효성 검사
+    public void stageNumValid(int stageNum) {
+        if (stageNum < 1 || stageNum > 4) {
+            throw new BusinessLogicException(ExceptionCode.STAGE_NUM_NOT_VALID);
+        }
+    }
 }

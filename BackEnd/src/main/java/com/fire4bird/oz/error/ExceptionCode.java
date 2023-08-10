@@ -22,7 +22,7 @@ public enum ExceptionCode {
 
     /** 기록 **/
     BAD_REQUEST(HttpStatus.BAD_REQUEST.value(), "잘 못 된 요청입니다."),
-
+    STAGE_NUM_NOT_VALID(HttpStatus.BAD_REQUEST.value(), "잘 못 된 스테이지 번호입니다."),
     NO_CHALLENGE_RECORD(HttpStatus.BAD_REQUEST.value(), "도전 기록이 없습니다.");
     @Getter
     private final int status;
