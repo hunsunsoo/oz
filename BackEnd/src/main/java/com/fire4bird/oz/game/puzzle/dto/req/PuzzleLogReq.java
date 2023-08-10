@@ -1,8 +1,9 @@
 package com.fire4bird.oz.game.puzzle.dto.req;
 
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class PuzzleLogReq {
     private int userId;
     private String message;

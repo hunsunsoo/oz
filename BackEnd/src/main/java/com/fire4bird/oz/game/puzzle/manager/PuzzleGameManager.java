@@ -3,11 +3,13 @@ package com.fire4bird.oz.game.puzzle.manager;
 import com.fire4bird.oz.game.puzzle.dto.SendData;
 import com.fire4bird.oz.game.puzzle.dto.req.PuzzleStartReq;
 import com.fire4bird.oz.game.puzzle.entity.Puzzle;
+import com.fire4bird.oz.game.puzzle.mapper.PuzzleMapper;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.socket.dto.SocketMessage;
 import com.fire4bird.oz.socket.repository.SocketRepository;
 import com.fire4bird.oz.socket.service.RedisPublisher;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -19,6 +21,7 @@ import java.util.*;
 public class PuzzleGameManager {
     private final SocketRepository socketRepository;
     private final RedisPublisher redisPublisher;
+    private final PuzzleMapper puzzleMapper;
 
     private Map<Integer, String> board;
     private List<String> row;
@@ -27,42 +30,16 @@ public class PuzzleGameManager {
     private String[] answer;//안보여지는 퍼즐
     private String[] provide;//보여지는 퍼즐
 
-    private Map<String, int[]> ready;
-
-    public PuzzleGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher){
+    public PuzzleGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher, PuzzleMapper puzzleMapper){
         this.socketRepository = socketRepository;
         this.redisPublisher = redisPublisher;
+        this.puzzleMapper = puzzleMapper;
         this.board = new HashMap<>();
-        this.ready = new HashMap<>();
         this.row = Arrays.asList("1","2","3","4","5","6");
         this.col = Arrays.asList("1","2","3","4","5","6");
         this.boardList = new String[7];
         this.answer = new String[3];//안보여지는 퍼즐
         this.provide = new String[3];//보여지는 퍼즐
-    }
-
-    public void checkReady(int role, String rtcSession, int state){
-        int check = 1;
-
-        if (ready.containsKey(rtcSession)) {
-            int[] roles = ready.get(rtcSession);
-            roles[role-1] = state;
-            ready.replace(rtcSession, roles);
-        } else {
-            int[] newRoles = new int[4];
-            newRoles[role-1] = state;
-            ready.put(rtcSession, newRoles);
-        }
-
-        int[] roles = ready.get(rtcSession);
-        for(int people : roles){
-            if (people == 0) {
-                check = -1;
-                break;
-            }
-        }
-
-        publisher(rtcSession, "puzzle/ready","게임 준비 확인",check);
     }
 
     public Puzzle statGame(PuzzleStartReq req, Round findRound, int turn){
@@ -80,20 +57,14 @@ public class PuzzleGameManager {
             answer[i] = board.get(2 * i + 2);   // 홀수 인덱스 값을 할당
         }
 
-        //양나
-        SendData sendData2 = SendData.builder()
-                .location(135)
-                .puzzle(String.join(",", provide))
-                .build();
-        rolePublisher(req,4,sendData2);
+        //양철나무꾼 보드판
+        SendData sendData1 = puzzleMapper.sendData(135,String.join(",", provide));
+        publisher(req.getRtcSession(),"puzzle/start/"+4,"양철나무꾼의 보이는 상형문자 전달",sendData1);
 
-        //조력자
+        //조력자 보드판
         for(int i=0; i<3; i++) {
-            SendData sendData = SendData.builder()
-                    .location(246)
-                    .puzzle(String.join(",", answer))
-                    .build();
-            rolePublisher(req, i + 1, sendData);
+            SendData sendData2 = puzzleMapper.sendData(246,String.join(",", answer));
+            publisher(req.getRtcSession(),"puzzle/start/"+(i + 1),"조력자의 보이는 상형문자 전달", sendData2);
         }
 
         //정답 저장. 문자열로 변환
@@ -105,55 +76,19 @@ public class PuzzleGameManager {
                 boardStr.append(", ");
                 if (i % 2 == 0) {
                     answerStr.append(i).append(":").append(board.get(i));
-                    if (i < 6) answerStr.append(", ");
+                    if (i < 5) answerStr.append(", ");
                 }
             }
         }
 
 //        log.info(boardStr+", //"+answerStr+", //"+String.join(",", provide)+", //"+String.join(",", answer));
 
-        return Puzzle.builder()
-                .board(boardStr.toString())
-                .answer(answerStr.toString())
-                .turn(turn)
-                .round(findRound)
-                .build();
+        return puzzleMapper.sendPuzzle(findRound,boardStr.toString(),answerStr.toString(),turn);
     }
 
-//    public int checkAnswer(String userAnswer, String answer){
-//        int check = 1;
-//        String[] answers = answer.split(", ");
-//        String[] userAnswers = userAnswer.split(", ");
-//
-//        for (int i = 0; i < answers.length; i++) {
-//            String[] ans = answers[i].split(":");
-//            String[] userAns = userAnswers[i].split(":");
-//            if (!Objects.equals(ans[1], userAns[1])) {
-//                check = -1;
-//                break;
-//            }
-//        }
-//
-//        return check;
-//    }
+    public void publisher(String rtcSession, String type, String msg, Object data){
+        SocketMessage message = puzzleMapper.sendSocketMessage(type, rtcSession, msg, data);
 
-    public void rolePublisher(PuzzleStartReq req, int userRole, SendData data){
-        SocketMessage message = SocketMessage.builder()
-                .rtcSession(req.getRtcSession())
-                .message(userRole+"의 보이는 상형문자 전달")
-                .type("puzzle/start/"+userRole)
-                .data(data)
-                .build();
-        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
-    }
-
-    public void publisher(String rtcSession, String url, String msg, int check){
-        SocketMessage message = SocketMessage.builder()
-                .rtcSession(rtcSession)
-                .message(msg)
-                .type(url)
-                .data(check)
-                .build();
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
     }
 }

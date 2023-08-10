@@ -16,24 +16,20 @@ import org.springframework.stereotype.Controller;
 public class PuzzleController {
     private final PuzzleService puzzleService;
 
-    @MessageMapping("/puzzle/ready")
-    public void gameReady(PuzzleReadyReq req) {
-        puzzleService.gameReady(req);
-    }
-
     @MessageMapping("/puzzle/start")
     public void gameStart(PuzzleStartReq req) {
         puzzleService.gameStart(req);
     }
 
     @MessageMapping("/puzzle/reset")
-    public void gameReady(PuzzleStartReq req) {
-        puzzleService.gameReset(req);
+    public void gameReset(PuzzleStartReq req) {
+        puzzleService.gameRetry(req);
     }
 
     @MessageMapping("/puzzle/log")
     public void puzzleGameLog(PuzzleLogReq req) {
-        puzzleService.gameLog(req);
+        //type 3: 정답자 행동 로그 저장
+        puzzleService.saveLog(req.getRtcSession(),req.getUserId(),0,3, req.getMessage());
     }
 
     @MessageMapping("/puzzle/data")
