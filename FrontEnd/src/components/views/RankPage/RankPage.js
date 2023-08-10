@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import style from "./RankPage.module.css";
 import axiosInstance from "../../../_actions/axiosInstance";
 
@@ -106,6 +107,7 @@ function AllRank({allRankList}){
 }
 
 function RankPage(){
+    const navigate = useNavigate();
     const [selectedStage, setSelectedStage] = useState(5);
     const [myRankList, setMyRankList] = useState([]);
     const [allRankList, setAllRankList] = useState([]);
@@ -136,6 +138,10 @@ function RankPage(){
 
     return(
         <div className={style.rankPage}>
+            <button className={style.closeInputBox}
+                onClick={() => navigate(`/`)}
+                ><i class="fi fi-rr-left"></i>
+            </button>
             <div className={style.buttonZone}>
                 <button
                 className={`${style.buttonNoneClick} ${selectedStage === 5 ? style.buttonClick : ''}`}
