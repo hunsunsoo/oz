@@ -150,7 +150,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
       <div className={style.nextBox}>
         {/* Right Pane Content */}
         {/* <button className={style.nextButton} onClick={handleGamingStartState}> */}
-        <button className={style.nextButton} onClick={handleWaiting}>
+        <button className={style.nextButton} onClick={waitingToRoleSelect}>
           모험시작
         </button>
         <button className={style.nextButton}>나가기</button>

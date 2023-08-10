@@ -81,12 +81,16 @@ function sendPuzzleReadyData(client, session, role) {
 const GameComp = (props) => {
   const isStage = props.isStage;
   const isIndex = props.isIndex;
+
   const client = props.client;
   const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
-  const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  const userId = props.userId;
+  const myRole = props.myRole;
+  const sessionId = props.sessionId;
   const myTeamId = 1;
-  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
-  const userId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  // const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
+
+  const indexSet = props.indexSet
 
 
   const [dorothyState, setDorothyState] = useState(0);
@@ -544,24 +548,7 @@ const GameComp = (props) => {
     // 2스테이지
   } else if (isStage === 2 && isIndex == 11) {
     return (
-      <div className={style.compStyle}>
-        <div className={style.background_G2}>
-          <div className={style.lionview}>사자가 보는 화면 일러스트</div>
-          <div className={style.dist}>열쇠까지의 거리는 3칸입니다.</div>
-          <img
-            src="image/tools/questionMark.png"
-            alt="questionMark"
-            className={style.iconStyle}
-          />
-          <img
-            src="image/tools/liondir.png"
-            alt="liondir"
-            className={style.liondir}
-          />
-        </div>
-        {/* 임시버튼임 */}
-        <button onClick={props.changeIsIndex}>(임시)Next</button>
-      </div>
+      <div></div>
     );
   } else if (isStage === 2 && isIndex == 12) {
     return (

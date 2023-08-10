@@ -14,7 +14,7 @@ import WaitingRoomOption from './WaitingRoomOption';
 
 const GamePage = () => {
   // 컴포넌트 조건부 렌더링
-  const [isGaming, setIsGaming] = useState(true);
+  const [isGaming, setIsGaming] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [middleCon, setMiddleCon] = useState(1);
 
@@ -42,6 +42,7 @@ const GamePage = () => {
 
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
   const [amIHost, setAmIHost] = useState(host);
+  const [myRole, setMyRole] = useState(0);
 
   // RTC를 위한 state
   const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
@@ -79,8 +80,6 @@ const GamePage = () => {
     } else {
       createRoom(mySessionId, UserId);
     }
-    
-
   }, [mySessionId]);
 
   // 연결되면 구독메서드 실행하도록
@@ -329,14 +328,18 @@ const GamePage = () => {
     setIsGaming((prevIsGaming) => !prevIsGaming);
   };
 
+  const handleMyRole = (status) => {
+    setMyRole(status);
+  };
+
   let CompMiddleSection;
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMyRole={handleMyRole} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
       break;
     case 2:
-      CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
+      CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} myRole={myRole} userId={JsonPayload.userId} />;
       break;
   }
 
