@@ -27,7 +27,7 @@ public class RecordController {
     public ResponseEntity startRecordSave(@RequestBody RecordRegistDto recordRegistDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        recordError.stageNumValid(recordRegistDto.getStageNum());
+        recordError.stageNumValid(recordRegistDto.getStageNum(), recordRegistDto.getRoundId());
 
         recordService.validUserAndRound(Integer.parseInt(userId), recordRegistDto.getRoundId());
 
@@ -43,7 +43,7 @@ public class RecordController {
     public ResponseEntity endRecordSave(@RequestBody RecordRegistDto recordRegistDto) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        recordError.stageNumValid(recordRegistDto.getStageNum());
+        recordError.stageNumValid(recordRegistDto.getStageNum(), recordRegistDto.getRoundId());
 
         recordService.validUserAndRound(Integer.parseInt(userId), recordRegistDto.getRoundId());
 
