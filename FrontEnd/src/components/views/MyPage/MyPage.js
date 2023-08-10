@@ -60,53 +60,59 @@ function MyPage(props) {
 
   return (
     <div className={style.myPage}>
-      <div className={style.standard}>
         <div className={style.box}>
-          <form className={style.form} onSubmit={onSubmitHandler}>
-            <div className={style.inputbox}>
-              {/* <label>Name</label> */}
-              <input
-                className={style.input}
-                type="text"
-                value={Name}
-                onChange={onNameHandler}
-              />
-            </div>
-            <br />
-            <div className={style.inputbox}>
-              {/* <label>Nickname</label> */}
-              <input
-                className={style.input}
-                type="text"
-                value={NickName}
-                onChange={onNickNameHandler}
-              />
-            </div>
-            <br />
-            <div className={style.inputbox}>
-              {/* <label>Email</label> */}
+          <div className={style.logo}>
+              <img className={style.logoImage} 
+              src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
+              onClick={() => navigate(`/`)}></img>
+          </div>
+          <div className={style.allBox}>
 
-              <input
-                className={style.input}
-                type="email"
-                value={Email}
-                onChange={onEmailHandler}
-              />
+            <div className={style.topBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
+              type="email"
+              value={Email}
+              placeholder="Email"
+              disabled
+              >
+              </input>
             </div>
-            <br />
-            <button className={style.button} type="submit">
-              회원수정
-            </button>
-          </form>
-          <button
-            className={style.button}
-            onClick={() => navigate("/passwordchange")}
-          >
-            비밀번호 수정
-          </button>
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
+              type="text"
+              value={Name}
+              placeholder="Name"
+              onChange={onNameHandler}>
+              </input>
+            </div>
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
+              type="text"
+              value={NickName}
+              placeholder="NickName"
+              onChange={onNickNameHandler}>
+              </input>
+            </div>
+
+            <div className={style.registDiv}>
+              <button className={style.Button}
+                onClick={onSubmitHandler}>회원 등록하기</button>
+            </div>
+            <div className={style.changeDiv}>
+              <button className={style.Button}
+                onClick={() => navigate("/passwordchange")}>비밀번호 변경</button>
+            </div>
+          </div>
+          </div>
         </div>
-      </div>
-    </div>
   );
 }
 

@@ -1,6 +1,8 @@
 
 .myPage{
-    background-color: #DDE5B6;
+    background-image: url('../../../../public/image/backGround/backgroundUser.png');
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,9 +10,85 @@
     height: 100vh;
 }
 
+.logo{
+    position: absolute;
+    left: 45%;
+    top: 17%;
+}
+
+.logoImage{
+    width: 17%;
+    cursor: pointer;
+}
+
+.allBox{
+    position: relative;
+    margin-top: 15%;
+    height: 50%;
+}
+
+.topBox{
+    display: flex;
+    height: 25%;
+    border-bottom: 5px solid #6C584C;
+}
+
+.bottomBox{
+    margin-top: 3%;
+    display: flex;
+    height: 25%;
+    border-bottom: 5px solid #6C584C;
+}
+
+
+.frontZone{
+    height: 100%;
+    width: 15%;
+}
+
+.inputZone{
+    padding-left: 3%;
+    background: transparent;
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 85%;
+    font-size: x-large;
+    font-weight: bold;
+    color: #6C584C;
+}
+
+.registDiv{
+    margin-top: 5%;
+    height: 30%;
+    position: relative;
+    justify-content: center;
+}
+
+.changeDiv{
+    margin-top: 4%;
+    height: 30%;
+    position: relative;
+    justify-content: center;
+}
+
+.Button{
+    background-color: #6C584C;
+    border-radius: 15px;
+    width: 90%;
+    height: 100%;
+    color: #F0EAD2;
+    cursor: pointer;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: 5%;
+}
+
 .box{
-    width: 500px;
-    height: 300px;
+    width: 30%;
+    height: 50%;
     background-color: #F0EAD2;
     border-color: #6C584C;
     border-width : 5px ;
@@ -23,44 +101,3 @@
       box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
     
     }
-.form{
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 'alignitems'에서 오타를 수정함 */
-    justify-content: center;
-}
-/* 
-.form{
-    display: flex;
-    flex-Direction: column;
-} */
-/* input 창위에 한겹 더있음  */
-.inputbox {
-    display: flex;
-    border: none;
-    border-bottom: 3px solid #6C584C;
-    outline: none;
-    width: 90%;
-    }
-
-.input{
-    background: transparent;  
-    border: none; /* 기존 테두리 제거 */
-    outline: none; /* 포커스 시 외곽선 제거 */
-    height: 30px;
-    font-size: larger;
-    font-weight: 500;
-    float: left;
-}
-.button {
-    background-color: #6C584C;
-    border: none;
-    border-radius: 25px;
-    width: 300px;
-    height: 30px;
-    margin-left: 40%;
-    color: white;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
-    cursor: pointer;
-  }
-  
