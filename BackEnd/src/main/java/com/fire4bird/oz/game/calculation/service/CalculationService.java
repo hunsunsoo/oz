@@ -70,15 +70,15 @@ public class CalculationService {
         calculationLogRepository.save(log);
     }
 
-    public void helperUpdate(HelperSubmitReq req, String selectedNums) {
-        Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
+    public void helperUpdate(HelperSubmitReq req, String selectedNums, int gameId) {
+        Calculation findCalculation = calculationRepository.findById(gameId).orElseThrow(() -> new RuntimeException());
         findCalculation.setAidSelectNum(selectedNums);
 
         calculationRepository.save(findCalculation);
     }
 
-    public void submitAnswer(ActorAnswerReq req, int answer, String log){
-        Calculation findCalculation = calculationRepository.findById(req.getGameId()).orElseThrow(() -> new RuntimeException());
+    public void submitAnswer(ActorAnswerReq req, int answer, String log, int gameId){
+        Calculation findCalculation = calculationRepository.findById(gameId).orElseThrow(() -> new RuntimeException());
 
         findCalculation.setActorSelectNum(log);
         findCalculation.setSelectOp(req.getMarks().toString());
