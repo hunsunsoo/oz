@@ -54,7 +54,8 @@ const SocketPage = () => {
         throw new Error('방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요');
       }
       console.log('방 생성에 성공하였습니다. 소켓 연결을 시작합니다.');
-
+      
+      console.log('url : ', WEBSOCKET_SERVER_URL);
       socketConnect(); // 방 생성 성공 후 소켓 연결 시작
 
     } catch (error) {
