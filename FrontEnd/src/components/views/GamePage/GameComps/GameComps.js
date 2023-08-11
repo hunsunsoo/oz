@@ -183,52 +183,52 @@ const GameComp = (props) => {
 
   // socket
   // 1스테이지 준비 구독 sub
-  const subscribeToStage1Ready = () => {
-    console.log("1스테이지 ready 페이지 소켓연결1");
-    // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
-    const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}`, (message) => {
-      console.log('Received message:', message.body);
+  // const subscribeToStage1Ready = () => {
+  //   console.log("1스테이지 ready 페이지 소켓연결1");
+  //   // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
+  //   const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}`, (message) => {
+  //     console.log('Received message:', message.body);
       
-      try {
-        // JSON 문자열을 JavaScript 객체로 변환
-        const resJsondata = JSON.parse(message.body);
+  //     try {
+  //       // JSON 문자열을 JavaScript 객체로 변환
+  //       const resJsondata = JSON.parse(message.body);
     
-        // 객체의 속성을 활용하여 처리
-        const resRole = resJsondata.role;
+  //       // 객체의 속성을 활용하여 처리
+  //       const resRole = resJsondata.role;
 
-        // 응답에 의한 처리들 (역할군 state 변경)
-        if (myRole === 1) {
-          if (dorothyState === 0) {
-            setDorothyState(1);
-          } else {
-            setDorothyState(0);
-          }
-        } else if (myRole === 2) {
-          if (lionState === 0) {
-            setLionState(1);
-          } else {
-            setLionState(0);
-          }
-        } else if (myRole === 3) {
-          if (heosuState === 0) {
-            setHeosuState(1);
-          } else {
-            setHeosuState(0);
-          }
-        } else if (myRole === 4) {
-          if (twState === 0) {
-            setTwState(1);
-          } else {
-            setTwState(0);
-          }
-        }
+  //       // 응답에 의한 처리들 (역할군 state 변경)
+  //       if (myRole === 1) {
+  //         if (dorothyState === 0) {
+  //           setDorothyState(1);
+  //         } else {
+  //           setDorothyState(0);
+  //         }
+  //       } else if (myRole === 2) {
+  //         if (lionState === 0) {
+  //           setLionState(1);
+  //         } else {
+  //           setLionState(0);
+  //         }
+  //       } else if (myRole === 3) {
+  //         if (heosuState === 0) {
+  //           setHeosuState(1);
+  //         } else {
+  //           setHeosuState(0);
+  //         }
+  //       } else if (myRole === 4) {
+  //         if (twState === 0) {
+  //           setTwState(1);
+  //         } else {
+  //           setTwState(0);
+  //         }
+  //       }
 
-      } catch (error) {
-        console.error('Error parsing message body:', error);
-      }
+  //     } catch (error) {
+  //       console.error('Error parsing message body:', error);
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
   // 1스테이지 게임 준비 버튼 pub
   const sendStage1Ready = () => {
@@ -530,7 +530,7 @@ const GameComp = (props) => {
   
 
   useEffect(() => {
-    subscribeToStage1Ready();
+    // subscribeToStage1Ready();
     subscribeToStage1Start();
     subscribeToStage1SelectCells();
     subscribeToStage1SelectAns();

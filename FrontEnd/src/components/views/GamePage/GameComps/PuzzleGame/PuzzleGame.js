@@ -19,6 +19,8 @@ const PuzzleGame = ({client, sessionId, myRole, handleindexSet}) => {
   const JsonPayload = JSON.parse(jwtPayload);
   const [myUserId, setuserId] = useState(JsonPayload.userId);
 
+  const [turn, setTurn] = useState(0);
+
   // 게임 시작 데이터
   const [startData, setStartData] = useState(null);
 
@@ -78,8 +80,9 @@ const PuzzleGame = ({client, sessionId, myRole, handleindexSet}) => {
               alert("성공입니다! 다음 게임으로 넘어갑니다.")
               // 다음 페이지는
               handleindexSet(21);
-            } else if(resJson.data === 0){
+            } else if(resJson.data === -1){
               alert("실패입니다! 게임이 다시 시작됩니다 준비화면으로 돌아갑니다.");
+              setTurn(turn+1)
               handleGamingStart(false);
             }
             
@@ -94,6 +97,14 @@ const PuzzleGame = ({client, sessionId, myRole, handleindexSet}) => {
     subscribeToPuzzleResult();
   }, [client, sessionId]);
 
+  const handlerGameStartOrReset = () => {
+    if(turn === 0){
+      puzzleGameStartPublisher();
+    } else{
+      puzzleGameResetPublisher();
+    }
+  }
+
   // 게임시작 publisher
   const puzzleGameStartPublisher = async () => {
     try {
@@ -107,6 +118,26 @@ const PuzzleGame = ({client, sessionId, myRole, handleindexSet}) => {
         "userId":`${myUserId}`
       };
       client.send('/pub/puzzle/start', {}, JSON.stringify(message));
+      console.log(message)
+    } catch (error) {
+      console.log('Error sending message:', error);
+    }
+  };
+
+  // 리셋 publisher
+  const puzzleGameResetPublisher = async () => {
+    try {
+      if (!client) {
+        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        return;
+      }
+          
+      const message = {
+        "rtcSession" : sessionId,
+        "userId": myUserId
+    };
+
+    client.send(`/pub/puzzle/reset`, {}, JSON.stringify(message));
       console.log(message)
     } catch (error) {
       console.log('Error sending message:', error);
@@ -131,7 +162,7 @@ const PuzzleGame = ({client, sessionId, myRole, handleindexSet}) => {
   return (
     <div style={{height:'100%'}}>
       {/* {isStart ? TrapGameRenderingState : <TrapReady isStart={isStart} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} />} */}
-      {isStart ? PuzzleGameRenderingState : <PuzzleReady isStart={isStart} onHandleStart={puzzleGameStartPublisher} client={client} sessionId={sessionId} /> }
+      {isStart ? PuzzleGameRenderingState : <PuzzleReady isStart={isStart} onHandleStart={handlerGameStartOrReset} client={client} sessionId={sessionId} /> }
     </div>
   );
 
