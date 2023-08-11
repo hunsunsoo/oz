@@ -57,7 +57,7 @@ public class GameManager {
         players = new LinkedList<>();
         this.calculationService = calculationService;
         this.helperCount = 0;
-        this.isGameStarted = false;
+        this.isGameStarted = true;
         this.isBoardMaked = false;
         this.boardMap = new ConcurrentHashMap<>();
 

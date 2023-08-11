@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
-import { setGameUserInfo } from "../../../_actions/game_actions";
 import { useNavigate } from "react-router-dom";
 import style from "./LoginPage.module.css";
 import { useCookies } from "react-cookie";
@@ -28,6 +27,12 @@ function LoginPage(props) {
   // cookies
   const [cookies, setCookies] = useCookies();
 
+  const enterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onSubmitHandler(event);
+    }
+  };
+
   //3. 데이터 리덕스 전달 순서 (body를 디스패치로 던진다. -> actions 에서 처리 -> userreducer에서 저장
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -39,18 +44,17 @@ function LoginPage(props) {
       email: Email,
       password: Password,
     };
-    dispatch(setGameUserInfo({ role: "hi" }));
+
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.data === "로그인 성공") {
         const Atoken = response.payload.headers.accesstoken;
         const Rtoken = response.payload.headers.refreshtoken;
         setCookies("Atoken", Atoken);
         setCookies("Rtoken", Rtoken);
-        navigate("/authlanding");
+        navigate("/");
 
         // 성공하면  root page(landing page)로 가라
       } else {
-        // 실패시
         if (
           response.payload.payload.error === "해당 회원을 찾을 수 없습니다."
         ) {
@@ -63,59 +67,82 @@ function LoginPage(props) {
         }
       }
     });
+
+    // Axios.post("/api/users/login", body).then((response) => {});
   };
-  //  카카오 로그인 구현(카카오에 로그인 하게 해주는 통신 페이지로 이동)
+  //  카카오 로그인 구현
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
-    <div className={style.loginpage}>
-      <div className={style.standard}>
+    <div className={style.loginpage}
+    onKeyDown={enterKeyPress}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
         <div className={style.box}>
-          <form className={style.form} onSubmit={onSubmitHandler}>
-            <div className={style.inputbox}>
-              <div style={{ float: "left", width: "30px" }}></div>
-              <input
-                placeholder="Email"
-                className={style.input}
-                type="email"
-                value={Email}
-                onChange={onEmailHandler}
-              />
+          <div className={style.logo}>
+            <img className={style.logoImage} 
+            src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
+            onClick={() => navigate(`/`)}></img>
+          </div>
+          <div className={style.allBox}>
+            <div className={style.idBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
+              placeholder="Email"
+              type="email"
+              value={Email}
+              onChange={onEmailHandler}>
+              </input>
             </div>
-
-            {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
-               그 지정한 값을 받아온다. */}
-            <br />
-            <br />
-            <div className={style.inputbox}>
-              <input
-                className={style.input}
-                placeholder="Password"
-                type="password"
-                value={Password}
-                onChange={onPasswordHandler}
-              />
+            <div className={style.pwBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
+              placeholder="Password"
+              type="password"
+              value={Password}
+              onChange={onPasswordHandler}>
+              </input>
             </div>
-            <br />
-            <br />
-
-            <button className={style.button}>Login</button>
-            <br />
-            <button
-              className={style.button}
-              onClick={() => navigate(`/register`)}
-            >
-              회원가입
-            </button>
-          </form>
-          <br />
-          <button
-            className={style.kakaobutton}
-            onClick={handleKakaoLogin}
-          ></button>
+            <div className={style.loginDiv}>
+              <button className={style.loginButton}
+                onClick={onSubmitHandler}>로그인</button>
+            </div>
+            <div className={style.etcDiv}>
+              <button
+                className={style.registerButton}
+                onClick={() => navigate(`/register`)}
+              >
+                회원가입
+              </button>
+              <button
+                className={style.findPwButton}
+                onClick={() => navigate(`/findpw`)}
+              >
+                비밀번호 찾기
+              </button>
+            </div>
+            <div className={style.lineDiv}>
+              <div className={style.line}></div>
+              <div className={style.lineText}>또는</div>
+              <div className={style.line}></div>
+            </div>
+            <div className={style.loginDiv}>
+              <button className={style.kakaoButton} onClick={handleKakaoLogin}>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
