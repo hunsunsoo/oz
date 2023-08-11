@@ -1,9 +1,11 @@
 package com.fire4bird.oz.game.trap.repository;
 
+import com.fire4bird.oz.game.puzzle.entity.Puzzle;
 import com.fire4bird.oz.game.trap.entity.Trap;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import static com.fire4bird.oz.game.puzzle.entity.QPuzzle.puzzle;
 import static com.fire4bird.oz.game.trap.entity.QTrap.trap;
 
 @RequiredArgsConstructor
@@ -13,17 +15,31 @@ public class TrapRepositoryImpl implements TrapRepositoryCustom{
 
     @Override
     public Trap maxTurn(int roundId) {
-        Integer maxTurn = jpaQueryFactory
-                .select(trap.turn.max())
+        Trap targetTrap = jpaQueryFactory
+                .select(trap)
+                .where(trap.round.roundId.eq(roundId)
+                        .and(trap.turn.eq(
+                                jpaQueryFactory
+                                        .select(trap.turn.max())
+                                        .from(trap)
+                                        .where(trap.round.roundId.eq(roundId))
+                                        .fetchOne()
+                        )))
                 .from(trap)
-                .where(trap.round.roundId.eq(roundId))
                 .fetchOne();
 
-        Trap targetTrap = jpaQueryFactory
-                .selectFrom(trap)
-                .where(trap.round.roundId.eq(roundId).and(trap.turn.eq(maxTurn)))
-                .fetchOne();
 
         return targetTrap;
+    }
+
+    @Override
+    public long countTurn(int roundId) {
+        long count = jpaQueryFactory
+                .select(trap)
+                .from(trap)
+                .where(trap.round.roundId.eq(roundId))
+                .fetchCount();
+
+        return count;
     }
 }
