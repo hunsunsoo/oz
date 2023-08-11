@@ -3,7 +3,6 @@ import style from "./WaitingRoomOption.module.css";
 import axios from "axios";
 
 const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHost, client }) => {
-
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
   const SERVER_URL = 'http://localhost:8080'
@@ -44,6 +43,18 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
       subscribeToWaiting();
     }, 500);
   }, [client, sessionId]);
+
+  const copySessionId = () => {
+    if (sessionId) {
+      navigator.clipboard.writeText(sessionId)
+        .then(() => {
+          alert('초대코드 복사 완료!');
+        })
+        .catch((error) => {
+          console.error('에러! session ID:', error);
+        });
+    }
+  };
   
 
   // 유효성 검증 & 팀 등록
@@ -145,7 +156,8 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
         <button className={style.optionButton}><i class="fi fi-rr-microphone"></i></button>
         <button className={style.optionButton}><i class="fi fi-rr-video-camera-alt"></i></button>
         <button className={style.optionButton}><i class="fi fi-rr-settings"></i></button>
-        <button className={style.optionButton}><i class="fi fi-rr-envelope-plus"></i></button>
+        <button className={style.optionButton}
+        onClick={copySessionId}><i class="fi fi-rr-envelope-plus"></i></button>
       </div>
       <div className={style.nextBox}>
         {/* Right Pane Content */}
