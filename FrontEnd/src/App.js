@@ -20,7 +20,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          {/* <Route path="/" element={<LandingPage />} />
           <Route path="/authlanding" element={<AuthLandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/kakaoLogin" element={<KakaoLogin />} />
@@ -31,7 +31,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/rank" element={<RankPage />} />
-          <Route path="/play" element={<GameComp/>} />
+          <Route path="/play" element={<GameComp/>} /> */}
           <Route path="/socket" element={<SocketPage />} />
         </Routes>
       </div>
