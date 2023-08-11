@@ -1,8 +1,6 @@
 package com.fire4bird.oz.game.puzzle.repository;
 
 
-import com.fire4bird.oz.game.calculation.entity.Calculation;
-import com.fire4bird.oz.game.calculation.entity.QCalculation;
 import com.fire4bird.oz.game.puzzle.entity.Puzzle;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

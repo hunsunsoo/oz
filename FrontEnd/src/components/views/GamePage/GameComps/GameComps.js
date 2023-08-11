@@ -4,9 +4,6 @@ import {
   AlphaBoard,
   MathBoard,
   AnsBoard,
-  MiroRed,
-  MiroGreen,
-  MiroBlue,
 } from "./Board";
 import App from "./test";
 import style from "./GameComps.module.css";
@@ -22,6 +19,8 @@ import {
 } from "../../../scripts/Scripts";
 import { client } from "stompjs";
 import { Sub, Dnd } from "./Puzzle";
+import TrapGame from "./TrapGame/TrapGame";
+import PuzzleGame from "./PuzzleGame/PuzzleGame";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -81,18 +80,85 @@ function sendPuzzleReadyData(client, session, role) {
 const GameComp = (props) => {
   const isStage = props.isStage;
   const isIndex = props.isIndex;
+
   const client = props.client;
   const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
-  const myRole = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  const userId = props.userId;
+  const myRole = props.myRole;
+  const sessionId = props.sessionId;
   const myTeamId = 1;
-  const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
-  const userId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  // const sessionId = "9e648d2d-5e2e-42b3-82fc-b8bef8111cbe"; // 일단 임시, 나중에 리덕스로 가져올거임
+
+  const indexSet = props.indexSet
 
 
+  // 각 4역할의 상태
+  // 0: default / 1:1번게임 준비상태 / 2:2번게임 준비상태 / 3:3번게임 준비상태 /4:4번게임 준비상태
   const [dorothyState, setDorothyState] = useState(0);
   const [lionState, setLionState] = useState(0);
   const [heosuState, setHeosuState] = useState(0);
-  const [twState, setTwState] = useState(0);
+  const [twmState, setTwmState] = useState(0);
+
+  useEffect(() => {
+    const subscribeToGameReady = () => {
+      const trySubscribe = () => {
+        if (!client) {
+          console.log("게임 준비 구독 연결 실패")
+        }
+        console.log("게임 준비 구독 연결중")
+        const subscription = client.subscribe(`/sub/socket/ready/${sessionId}`, (resMessage) => {
+          console.log('Received message:', resMessage.body);
+          
+          try {
+            const resJson = JSON.parse(resMessage.body);
+            const role = resJson.data.role;
+            const readyState = resJson.data.state;
+            const readyType = resJson.data.type;
+
+
+            // 누가 무엇을 골랐는지 상태 저장할 메서드 호출
+            if (readyType === 1) {
+              handleReadyRole(role, readyState);
+            } else if (readyType === -1) {
+              handleCancelReady(role, readyState);
+            } 
+
+          } catch (error) {
+            console.error('Error parsing message body:', error);
+          }
+    
+        });
+      };
+      trySubscribe();
+    };
+    subscribeToGameReady();
+  }, [client, sessionId]);
+
+  // 선택 상태 저장 갱신
+  const handleReadyRole = (role, readyState) => {
+    if(role === 1){
+      setDorothyState(readyState);
+    } else if(role === 2){
+      setLionState(readyState);
+    } else if(role === 3){
+      setHeosuState(readyState);
+    } else if(role === 4){
+      setTwmState(readyState);
+    }
+  };
+
+  const handleCancelReady = (role, readyState) => {
+    if(role === 1){
+      setDorothyState(0);
+    } else if(role === 2){
+      setLionState(0);
+    } else if(role === 3){
+      setHeosuState(0);
+    } else if(role === 4){
+      setTwmState(0);
+    }
+  };
+  
   const [gameId, setGameId] = useState(0);
   const [turn, setTurn] = useState(1);
   const [resAnswer, setResAnswer] = useState(0);
@@ -117,52 +183,52 @@ const GameComp = (props) => {
 
   // socket
   // 1스테이지 준비 구독 sub
-  const subscribeToStage1Ready = () => {
-    console.log("1스테이지 ready 페이지 소켓연결1");
-    // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
-    const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}`, (message) => {
-      console.log('Received message:', message.body);
+  // const subscribeToStage1Ready = () => {
+  //   console.log("1스테이지 ready 페이지 소켓연결1");
+  //   // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
+  //   const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}`, (message) => {
+  //     console.log('Received message:', message.body);
       
-      try {
-        // JSON 문자열을 JavaScript 객체로 변환
-        const resJsondata = JSON.parse(message.body);
+  //     try {
+  //       // JSON 문자열을 JavaScript 객체로 변환
+  //       const resJsondata = JSON.parse(message.body);
     
-        // 객체의 속성을 활용하여 처리
-        const resRole = resJsondata.role;
+  //       // 객체의 속성을 활용하여 처리
+  //       const resRole = resJsondata.role;
 
-        // 응답에 의한 처리들 (역할군 state 변경)
-        if (myRole === 1) {
-          if (dorothyState === 0) {
-            setDorothyState(1);
-          } else {
-            setDorothyState(0);
-          }
-        } else if (myRole === 2) {
-          if (lionState === 0) {
-            setLionState(1);
-          } else {
-            setLionState(0);
-          }
-        } else if (myRole === 3) {
-          if (heosuState === 0) {
-            setHeosuState(1);
-          } else {
-            setHeosuState(0);
-          }
-        } else if (myRole === 4) {
-          if (twState === 0) {
-            setTwState(1);
-          } else {
-            setTwState(0);
-          }
-        }
+  //       // 응답에 의한 처리들 (역할군 state 변경)
+  //       if (myRole === 1) {
+  //         if (dorothyState === 0) {
+  //           setDorothyState(1);
+  //         } else {
+  //           setDorothyState(0);
+  //         }
+  //       } else if (myRole === 2) {
+  //         if (lionState === 0) {
+  //           setLionState(1);
+  //         } else {
+  //           setLionState(0);
+  //         }
+  //       } else if (myRole === 3) {
+  //         if (heosuState === 0) {
+  //           setHeosuState(1);
+  //         } else {
+  //           setHeosuState(0);
+  //         }
+  //       } else if (myRole === 4) {
+  //         if (twState === 0) {
+  //           setTwState(1);
+  //         } else {
+  //           setTwState(0);
+  //         }
+  //       }
 
-      } catch (error) {
-        console.error('Error parsing message body:', error);
-      }
+  //     } catch (error) {
+  //       console.error('Error parsing message body:', error);
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
   // 1스테이지 게임 준비 버튼 pub
   const sendStage1Ready = () => {
@@ -464,7 +530,7 @@ const GameComp = (props) => {
   
 
   useEffect(() => {
-    subscribeToStage1Ready();
+    // subscribeToStage1Ready();
     subscribeToStage1Start();
     subscribeToStage1SelectCells();
     subscribeToStage1SelectAns();
@@ -541,32 +607,17 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-    // 2스테이지
+    // 2스테이지 게임시작
   } else if (isStage === 2 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
-          <div className={style.lionview}>사자가 보는 화면 일러스트</div>
-          <div className={style.dist}>열쇠까지의 거리는 3칸입니다.</div>
-          <img
-            src="image/tools/questionMark.png"
-            alt="questionMark"
-            className={style.iconStyle}
-          />
-          <img
-            src="image/tools/liondir.png"
-            alt="liondir"
-            className={style.liondir}
-          />
-        </div>
-        {/* 임시버튼임 */}
-        <button onClick={props.changeIsIndex}>(임시)Next</button>
+        <TrapGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} />
       </div>
     );
   } else if (isStage === 2 && isIndex == 12) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
+        {/* <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroRed />
           </div>
@@ -575,14 +626,14 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
+        </div> */}
         <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 13) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
+        {/* <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroGreen />
           </div>
@@ -591,14 +642,14 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
+        </div> */}
         <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
   } else if (isStage === 2 && isIndex == 14) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
+        {/* <div className={style.background_G2}>
           <div className={style.MiroStyle}>
             <MiroBlue />
           </div>
@@ -607,28 +658,33 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
+        </div> */}
         <button onClick={props.changeIsClear}>(임시)Next</button>
       </div>
     );
     // 3스테이지
   } else if (isStage === 3 && isIndex == 11) {
+    return (
       <div className={style.compStyle}>
-        <div className={style.background_G3}>
-          <Sub client={client} myRole={myRole} sessionId={sessionId} userId={userId} />
-          {/* <Dnd props={props} client={client} myRole={myRole} session={session} userId={userId}/> */}
-            <img
-              src="image/character/troop2.png"
-              alt=""
-              className={style.troop2}
-            />
-            <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-            <div className={style.readyBtn} onClick={() => sendPuzzleReadyData(client, sessionId, myRole)}>
-              준비 완료
-            </div>
-          <div className={style.howToPlayBtn}>게임 방법</div>
-        </div>
+        <PuzzleGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} />
       </div>
+    );
+      // <div className={style.compStyle}>
+      //   <div className={style.background_G3}>
+      //     <Sub client={client} myRole={myRole} sessionId={sessionId} userId={userId} />
+      //     {/* <Dnd props={props} client={client} myRole={myRole} session={session} userId={userId}/> */}
+      //       <img
+      //         src="image/character/troop2.png"
+      //         alt=""
+      //         className={style.troop2}
+      //       />
+      //       <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+      //       <div className={style.readyBtn} onClick={() => sendPuzzleReadyData(client, sessionId, myRole)}>
+      //         준비 완료
+      //       </div>
+      //     <div className={style.howToPlayBtn}>게임 방법</div>
+      //   </div>
+      // </div>
     // return (
     //   <div className={style.compStyle}>
     //     <div className={style.container}>
@@ -871,7 +927,7 @@ const GameComp = (props) => {
     // ready 화면 + 방법설명
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G3}>
+        {/* <div className={style.background_G3}>
           <img
             src="image/character/troop2.png"
             alt=""
@@ -882,7 +938,7 @@ const GameComp = (props) => {
             준비 완료
           </div>
           <div className={style.howToPlayBtn}>게임 방법</div>
-        </div>
+        </div> */}
       </div>
     );
   } else if (isStage === 3 && isIndex === 21) {
