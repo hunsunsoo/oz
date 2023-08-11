@@ -7,6 +7,9 @@ spring:
     url: jdbc:mysql://i9b104.p.ssafy.io:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
     username: fire4bird
     password: fire4bird
+    # url: jdbc:mysql://localhost:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
+    # username: root
+    # password: ssafy
 
   jpa:
     properties:
@@ -45,7 +48,7 @@ spring:
 
 jwt:
   secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
-  access-token-valid-time: 60000
+  access-token-valid-time: 600000
   refresh-token-valid-time: 60000
 
 kakao:

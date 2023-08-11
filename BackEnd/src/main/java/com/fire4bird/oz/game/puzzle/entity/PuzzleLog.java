@@ -20,29 +20,30 @@ public class PuzzleLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gameId;
+    private Integer logId;
 
     @JoinColumn(name = "roundId")
     @ManyToOne
     private Round round;
 
-    //행위자가 유저인경우
+    //행위자의 일련 번호
+    @Column(nullable = false)
     private Integer userId;
 
     //시스템 메시지:1, 유저:0
-    private Integer isSystem;
+    @Column(nullable = false)
+    private int isSystem;
 
     //로그 유형
-    @Column(length = 10)
-    private Integer logType;
+    @Column(length = 10, nullable = false)
+    private int logType;
 
     //로그 메시지
-    @Column(length = 300)
+    @Column(length = 300, nullable = false)
     private String message;
 
     //로그 생성 시간
     @CreatedDate
-    @Column(name = "join_date")
     private LocalDateTime logTime = LocalDateTime.now();
 
 }

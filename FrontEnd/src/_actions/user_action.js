@@ -60,23 +60,24 @@ export function kakaoLoginUser(dataToSubmit) {
   };
 }
 export function logoutUser(accessToken, refreshtoken) {
-  const request = axiosInstance
-    .post("users/login", {
-      header: {
+  axiosInstance
+  .post(
+    "users/logout",
+    {},
+    {
+      headers: {
         AccessToken: accessToken,
         Refreshtoken: refreshtoken,
       },
-    })
-    .then((response) => {
-      console.log(response);
-      return response;
-    })
-    .catch((err) => {
-      const errorMessage =
-        err.response && err.response.data && err.response.data.msg
-          ? err.response.data.msg
-          : "로그인 중 오류가 발생했습니다.";
-    });
+    }
+  )
+  .then((response) => {
+    console.log(response);
+    return response;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
   return {
     type: LOGOUT_USER,
@@ -94,6 +95,27 @@ export function registerUser(dataToSubmit) {
   return {
     type: "REGISTER_USER",
     payload: request,
+  };
+}
+
+export function emailAvailable(dataToSubmit){
+  const request = async () => {
+    try {
+      const response = await axiosInstance.post("/users/mail", dataToSubmit);
+      console.log(response.data);
+
+      return response;
+    } catch (error) {
+      return{
+        type: "EMAIL_CHECK",
+        payload: {error: "올바르지 않은 이메일입니다"},
+      };
+    }
+  };
+
+  return{
+    type: "EMAIL_CHECK",
+    payload: request(),
   };
 }
 

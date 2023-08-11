@@ -14,7 +14,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "record")
+@Table(name = "record",indexes =
+        @Index(name = "idx_stagenum",columnList = "stage_num"))
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

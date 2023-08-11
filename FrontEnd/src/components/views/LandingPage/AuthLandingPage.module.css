@@ -27,13 +27,13 @@
   
   .milestone {
     position: absolute; /* 여기에 추가 */
-    background-image: url("../../../../public/image/tools/milestone.png");
+    background-image: url("../../../../public/image/button/그림1.png");
     background-size: contain; /* 이미지를 div 안에 맞게 조절 */
     background-repeat: no-repeat; /* 이미지 반복 없음 */
     width: 200px; /* 캐릭터의 너비 */
     height: 220px; /* 캐릭터의 높이 */
     bottom: 1%;
-    right :2%
+    right :-2%
   
   }
   
@@ -65,26 +65,59 @@
   /* 3. 버튼 */
   
   .gotologin {
-    background: transparent;  
+    background-image: url("../../../../public/image/button/rightArrowButton.png");
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
     border: none; 
     /* 테두리 제거 */
-    width: 170px;
-    height: 50px;
+  
+    transform: rotate(0deg);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  
+    font-size: large;
+    font-weight: bold;
+    color: #F0EAD2;
+  
+    width: 90%;
+    height: 30%;
     position: absolute;
     top: 9%;
-    left :11%;
+    left :-18%;
     cursor: pointer;
   }
   
+  .gotologin:hover{
+    transform: rotate(-5deg);
+  }
+  
   .gotosignup {
-    background: transparent;  
+    background-image: url("../../../../public/image/button/leftArrowButton.png");
+    background-size: cover;
+    background-position: center;
+    background-color: transparent; 
     border: none; 
     /* 테두리 제거 */
-    width: 170px;
-    height: 50px;
+  
+    transform: rotate(0deg);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  
+    font-size: large;
+    font-weight: bold;
+    color: #F0EAD2;
+  
+    width: 90%;
+    height: 30%;
     position: absolute;
     top: 39%;
+    right: 40%;
     cursor: pointer;
+  }
+  
+  .gotosignup:hover{
+    transform: rotate(-5deg);
   }
   
   .gotologin:hover + .milestone { /* 버튼에 마우스가 올라갔을 때 마일스톤에 적용될 스타일 */

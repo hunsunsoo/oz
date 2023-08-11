@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, userId}) => {
+const RoleSelect = ({middleCon, onHandleMyRole, onHandleMiddleCondition, client, sessionId, userId}) => {
   // 도로시 1, 사자 2, 허수아비 3, 양철 나무꾼 4
   const [s0, setS0] = useState(-1);
   const [s1, setS1] = useState(-1);
@@ -78,6 +78,7 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
 
     if (resuserId === userId) {
       setMyRole(role+1);
+      onHandleMyRole(role+1); // props 전달용
     }
   };
   
@@ -94,6 +95,7 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
     
     if (resuserId === userId) {
       setMyRole(0);
+      onHandleMyRole(0);  // props 전달용
     }
   };
 

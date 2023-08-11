@@ -1,8 +1,9 @@
 package com.fire4bird.oz.user.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class EmailCodeDto {
-    public String emailCode;
+    private String email;
+    private String emailCode;
 }

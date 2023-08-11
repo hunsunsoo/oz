@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HelperLogReq {
-    private Integer roundId;
-    private Integer userId;
+    private int roundId;
+    private int userId;
     private int isSelected;
     private char value;
 }

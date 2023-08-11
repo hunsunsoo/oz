@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import UserVideoWaitingRoom from './UserVideoWaitingRoom';
 import style from "./RTCViewCenter.module.css";
+import { SERVER_URL } from "../../../_actions/urls";
 
 const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNickname }) => {
   const visibleSubscribers = subscribers.slice(0, 3);
   const emptySlots = 3 - visibleSubscribers.length;
-
-  const SERVER_URL = 'http://localhost:8080'
 
   useEffect(() => {
     const subscribeToChating = (maxRetries = 3, retryInterval = 2000) => {
@@ -73,25 +72,33 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
   };
 
   const sendMessageOnSocket = async () => {
-    try {
-      if (!client) {
-        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
-        return;
-      }
-      const message = {
-        "type":"chat",
-        "rtcSession":`${sessionId}`,
-        "userId":`${userId}`,
-        "message":`${inputMessage}`,
-        "data":{
-          "nickname": `${myNickname}`
+    if(inputMessage.trim() !== ""){
+      try {
+        if (!client) {
+          console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+          return;
         }
-      };
-  
-      client.send('/pub/socket/chat', {}, JSON.stringify(message));
-      setInputMessage("");
-    } catch (error) {
-      console.log('Error sending message:', error);
+        const message = {
+          "type":"chat",
+          "rtcSession":`${sessionId}`,
+          "userId":`${userId}`,
+          "message":`${inputMessage}`,
+          "data":{
+            "nickname": `${myNickname}`
+          }
+        };
+    
+        client.send('/pub/socket/chat', {}, JSON.stringify(message));
+        setInputMessage("");
+      } catch (error) {
+        console.log('Error sending message:', error);
+      }
+    }
+  };
+
+  const enterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      sendMessageOnSocket(event);
     }
   };
 
@@ -141,8 +148,11 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="채팅을 입력하세요..."
+                  onKeyDown={enterKeyPress}
                   />
-                  <button onClick={sendMessageOnSocket}>전송</button>
+                  <button onClick={sendMessageOnSocket}>
+                    <i class="fi fi-rr-paper-plane"></i>
+                  </button>
               </div>
           </div>
       </div>

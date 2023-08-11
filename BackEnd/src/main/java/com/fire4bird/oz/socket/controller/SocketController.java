@@ -64,7 +64,7 @@ public class SocketController {
                 .role(0)
                 .userId(socketRoomDto.getUserId())
                 .build();
-
+        socketRepository.createChannel(socketRoomDto.getRtcSession());
         socketRepository.enterUser(socketRoomDto.getRtcSession(),String.valueOf(socketRoomDto.getUserId()),save);
         return new ResponseEntity<>(new CMRespDto<>(1,"유저 등록", null), HttpStatus.OK);
     }

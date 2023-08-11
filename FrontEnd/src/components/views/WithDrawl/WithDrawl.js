@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../_actions/user_action";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../../_actions/axiosInstance";
+import style from "./WithDrawl.module.css";
 
 const WithDrawl = () => {
   const [cookies, setCookies] = useCookies();
@@ -40,18 +41,31 @@ const WithDrawl = () => {
   };
 
   return (
-    <div>
-      <form
-        className="form"
-        style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={withdrawlHandler}
-      >
-        <input type="password" value={password} onChange={onPasswordHandler} />
-        <br />
-        <button>회원탈퇴</button>
-
-        <br />
-      </form>
+    <div className={style.WithDrawl}>
+      <div className={style.box}>
+        <div className={style.logo}>
+              <img className={style.logoImage} 
+              src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
+              onClick={() => navigate(`/`)}></img>
+        </div>
+        <div className={style.allBox}>
+          <div className={style.topBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
+              type="password"
+              value={password}
+              placeholder="현재 비밀번호를 입력해 주세요"
+              onChange={onPasswordHandler}
+              >
+              </input>
+            </div>
+        </div>
+        <div className={style.deleteDiv}>
+              <button className={style.Button}
+                onClick={withdrawlHandler}>회원 탈퇴</button>
+        </div>
+      </div>
     </div>
   );
 };

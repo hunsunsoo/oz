@@ -1,11 +1,10 @@
 package com.fire4bird.oz.game.puzzle.dto.req;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-// 게임 생성 데이터, 정답 데이터
-@Getter
-@Setter
+@Data
 public class PuzzleAnswerReq {
 
     private String rtcSession;

@@ -1,0 +1,146 @@
+.modalBox{
+    position: absolute;
+    background-color: #F0EAD2;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 50%;
+    border: 5px solid #6C584C;
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+}
+
+.firstDiv{
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    bottom: 0;
+    left: 5%;
+}
+
+.makeRoomButton{
+    border: 5px solid #6C584C;
+    color: #F0EAD2;
+    font-size: xx-large;
+    font-weight: bold;
+    background-color: #6C584C;
+    border-radius: 20px;
+    width: 40%;
+    height: 60%;
+    position: absolute;
+    bottom: 20%;
+    left: 5%;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+.makeRoomButton:hover{
+    border: 5px solid #6C584C;
+    color: #6C584C;
+    background-color: transparent;
+}
+
+.inRoomButton{
+    border: 5px solid #6C584C;
+    color: #F0EAD2;
+    font-size: xx-large;
+    font-weight: bold;
+    background-color: #6C584C;
+    border-radius: 20px;
+    width: 40%;
+    height: 60%;
+    position: absolute;
+    bottom: 20%;
+    right: 5%;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+.inRoomButton:hover{
+    border: 5px solid #6C584C;
+    color: #6C584C;
+    background-color: transparent;
+}
+
+.closeButton{
+    position: absolute;
+    cursor: pointer;
+    right: 3%;
+    top: 3%;
+    width: 7%;
+    height: 10%;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 3px solid #6C584C;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.sessionInput{
+    position: absolute;
+    background-color: transparent;
+    border: 5px solid #6C584C;
+    border-radius: 15px;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: large;
+    padding: 0 3%;
+    width: 70%;
+    height: 15%;
+    top: 40%;
+    left: 10%;
+}
+
+.sessionInput:focus{
+    outline: none;
+}
+
+.comeButton{
+    border: 5px solid #6C584C;
+    color: #F0EAD2;
+    font-size: large;
+    font-weight: bold;
+    background-color: #6C584C;
+    border-radius: 20px;
+    position: absolute;
+    width: 20%;
+    height: 15%;
+    bottom: 26%;
+    right: 13%;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+}
+
+.comeButton:hover{
+    border: 5px solid #6C584C;
+    color: #6C584C;
+    background-color: transparent;
+}
+
+.closeInputBox{
+    position: absolute;
+    cursor: pointer;
+    left: 3%;
+    top: 3%;
+    width: 7%;
+    height: 10%;
+    background-color: transparent;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: xxx-large;
+    border: none;
+}
+
+.labelDiv{
+    position: absolute;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: x-large;
+    left: 25%;
+    top: -3%;
+}
+
+

@@ -36,27 +36,28 @@ public class CalculationController {
         gameManagerMap = new ConcurrentHashMap<>();
     }
 
-    // 게임 시작
-    @MessageMapping("/calculation/ready/{roundId}")
-    public void gameStart(@DestinationVariable Integer roundId, SessionReq req) throws Exception{
-        gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
-        SocketMessage msg = new SocketMessage();
-        msg.setType("calculation/ready/" + roundId);
-        msg.setRtcSession(req.getSession());
+//    // 게임 시작
+//    @MessageMapping("/calculation/ready/{roundId}")
+//    public void gameStart(@DestinationVariable Integer roundId, SessionReq req) throws Exception{
+//        gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
+//        SocketMessage msg = new SocketMessage();
+//        msg.setType("calculation/ready/" + roundId);
+//        msg.setRtcSession(req.getSession());
+//
+//        msg.setMessage("준비 상태 반환");
+//        msg.setData(gameManagerMap.get(roundId).startAvailable(req.getRole()));
+//
+//        redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
+//    }
 
-        msg.setMessage("준비 상태 반환");
-        msg.setData(gameManagerMap.get(roundId).startAvailable(req.getRole()));
-
-        redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
-    }
-
-    // 게임에 필요한 보드판 설정 및 받아오기
+    // 게임 시작을 하면 필요한 보드판 설정 및 받아오기
     @MessageMapping("/calculation/start/{roundId}")
-    public void setGame(@DestinationVariable Integer roundId){
+    public void setGame(@DestinationVariable Integer roundId, SessionReq req){
+        gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
+
         SocketMessage msg = new SocketMessage();
         SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
 
-        System.out.println(res.getSession());
         msg.setType("calculation/start/" + roundId);
         msg.setRtcSession(res.getSession());
         msg.setMessage("생성된 보드판 공개");

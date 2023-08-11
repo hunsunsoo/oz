@@ -3,38 +3,41 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import Stomp from 'stompjs';
 import axios from "axios";
+import { SERVER_URL, WEBSOCKET_SERVER_URL } from '../../../_actions/urls';
 
 const SocketPage = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const sessionIdFromURL = params.get("SessionId");
+  // const location = useLocation();
+  // const params = new URLSearchParams(location.search);
+  // const sessionIdFromURL = params.get("SessionId");
 
   // userId 가져오기 import { useSelector } from 'react-redux';
-  const accessToken = useSelector(
-    (state) => state.user.loginSuccess.headers.accesstoken
-  );
-  var base64Url = accessToken.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-  const JsonPayload = JSON.parse(jwtPayload);
-  console.log(JsonPayload)
+  // const accessToken = useSelector(
+  //   (state) => state.user.loginSuccess.headers.accesstoken
+  // );
+  // var base64Url = accessToken.split('.')[1];
+  // var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  // var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+  //     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  // }).join(''));
+  // const JsonPayload = JSON.parse(jwtPayload);
+  // console.log(JsonPayload)
 
-  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket/room'
-  const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
+  // const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
+  // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/api/ws';
+  // const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket/room'
+  // const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
   // params.SessionId  로컬개발용 ?SessionId=9e648d2d-5e2e-42b3-82fc-b8bef8111cbe
   // const SessionId = '9e648d2d-5e2e-42b3-82fc-b8bef8111cbe'; 
 
-  const [SessionId, setSessionId] = useState(sessionIdFromURL || "DEFAULT");
+  const [SessionId, setSessionId] = useState("zzzzzzzzpleasezzzz");
   const [UserId, setuserId] = useState(1);
   const [client, setClient] = useState(null);
   const [isConnect, setIsConnect] = useState(false);
   const [receivedMessages, setReceivedMessages] = useState([]);
 
   useEffect(() => {
-    const sessionIdFromURL = params.get("SessionId");
-    setSessionId(sessionIdFromURL || "DEFAULT");
+    // const sessionIdFromURL = params.get("SessionId");
+    // setSessionId(sessionIdFromURL || "DEFAULT");
 
     createRoom(SessionId, UserId);
   }, []);
@@ -42,7 +45,7 @@ const SocketPage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (sessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL, {
+      const response = await axios.post(SERVER_URL+'socket/room', {
         rtcSession: sessionId,
         userId: userId,
       });
@@ -51,7 +54,8 @@ const SocketPage = () => {
         throw new Error('방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요');
       }
       console.log('방 생성에 성공하였습니다. 소켓 연결을 시작합니다.');
-
+      
+      console.log('url : ', WEBSOCKET_SERVER_URL);
       socketConnect(); // 방 생성 성공 후 소켓 연결 시작
 
     } catch (error) {

@@ -2,10 +2,14 @@ package com.fire4bird.oz.user.service;
 
 import com.fire4bird.oz.error.BusinessLogicException;
 import com.fire4bird.oz.error.ExceptionCode;
+import com.fire4bird.oz.jwt.JwtProvider;
 import com.fire4bird.oz.user.dto.MyPageDto;
+import com.fire4bird.oz.user.dto.UpdatePassword;
+import com.fire4bird.oz.user.dto.UpdateUserDto;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +18,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     //유저 회원가입
     public User registUser(User user, String provider) {
@@ -48,7 +54,6 @@ public class UserService {
         checkPassword(password, user);
 
         return user;
-
     }
 
     //회원 조회
@@ -60,8 +65,9 @@ public class UserService {
 
     }
 
+    //로그인이 되었을 때
     //회원 정보 수정
-    public void updateUser(User user) {
+    public void updateUser(UpdateUserDto user) {
         User findUser = findUser(user.getUserId());
 
         Optional.ofNullable(user.getName())
@@ -70,10 +76,45 @@ public class UserService {
         Optional.ofNullable(user.getNickname())
                 .ifPresent(findUser::setNickname);
 
-        Optional.ofNullable(user.getPassword())
-                        .ifPresent(password -> findUser.setPassword(passwordEncoder.encode(password)));
+        userRepository.save(findUser);
+    }
+
+    public void loginCheck(UpdatePassword updatePassword, String accessToken) {
+        if (accessToken == null) {
+            log.info("로그인 전");
+            updatePassword(updatePassword);
+        }
+        else {
+            log.info("로그인 후");
+            log.info("accessToken : {}", accessToken);
+            log.info("updatePassword :{}", updatePassword);
+            int userId = Integer.parseInt(jwtProvider.getUserId(accessToken));
+
+            updatePassword2(updatePassword, userId);
+        }
+    }
+
+    //로그인 후 비밀번호 변경 로직
+    public void updatePassword2(UpdatePassword updatePassword, int userId) {
+        User findUser = findUser(userId);
+        log.info("findUser :{}", findUser);
+
+        Optional.ofNullable(updatePassword.getPassword())
+                .ifPresent(password -> {
+                    checkPassword(password,findUser);
+                    findUser.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+                });
 
         userRepository.save(findUser);
+    }
+
+    //로그인 전 비밀번호 변경 로직
+    public void updatePassword(UpdatePassword updatePassword) {
+        User user = findUser(updatePassword.getEmail(), "self");
+
+        user.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+
+        userRepository.save(user);
     }
 
     public User findUser(int userId) {
@@ -107,7 +148,7 @@ public class UserService {
         boolean matches = passwordEncoder.matches(password, user.getPassword());
 
         if(!matches){
-            throw new BusinessLogicException(ExceptionCode.BAD_PARAM);
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_VALID);
         }
     }
 

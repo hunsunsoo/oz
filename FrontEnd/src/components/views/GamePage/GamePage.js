@@ -11,10 +11,11 @@ import GamingHeader from "../Header/GamingHeader";
 import RoleSelect from "./RoleSelect";
 import PlayGame from "./PlayGame";
 import WaitingRoomOption from './WaitingRoomOption';
+import { OPENVIDU_SERVER_URL, OPENVIDU_SERVER_SECRET, SERVER_URL, WEBSOCKET_SERVER_URL } from "../../../_actions/urls";
 
 const GamePage = () => {
   // 컴포넌트 조건부 렌더링
-  const [isGaming, setIsGaming] = useState(true);
+  const [isGaming, setIsGaming] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [middleCon, setMiddleCon] = useState(1);
 
@@ -23,11 +24,6 @@ const GamePage = () => {
   const params = new URLSearchParams(location.search);
   const sessionIdFromURL = params.get("SessionId");
   const host = params.get("host");
-
-  const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
-  const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket'
-  const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
 
   // jwt payload decode
   const accessToken = useSelector(
@@ -42,6 +38,7 @@ const GamePage = () => {
 
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
   const [amIHost, setAmIHost] = useState(host);
+  const [myRole, setMyRole] = useState(0);
 
   // RTC를 위한 state
   const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
@@ -79,8 +76,6 @@ const GamePage = () => {
     } else {
       createRoom(mySessionId, UserId);
     }
-    
-
   }, [mySessionId]);
 
   // 연결되면 구독메서드 실행하도록
@@ -272,7 +267,7 @@ const GamePage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (mySessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL+'/room', {
+      const response = await axios.post(SERVER_URL+'/socket/room', {
         rtcSession: mySessionId,
         userId: userId,
       });
@@ -298,7 +293,7 @@ const GamePage = () => {
     const onConnect = () => {
       console.log('웹소켓 연결완료');
       setIsConnect(true);
-      axios.post(CREATEROOM_SERVER_URL+'/session',{
+      axios.post(SERVER_URL+'/socket/session',{
         "rtcSession": mySessionId,
         "userId": UserId
       }).then((response) => {
@@ -329,14 +324,18 @@ const GamePage = () => {
     setIsGaming((prevIsGaming) => !prevIsGaming);
   };
 
+  const handleMyRole = (status) => {
+    setMyRole(status);
+  };
+
   let CompMiddleSection;
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
+      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMyRole={handleMyRole} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
       break;
     case 2:
-      CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} />;
+      CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} myRole={myRole} userId={JsonPayload.userId} />;
       break;
   }
 
