@@ -36,7 +36,8 @@ public class TrapService {
     public void gameStart(TrapStartReq req){
         RedisSaveObject obj = socketRepository.findRoundById(req.getRtcSession(), String.valueOf(req.getUserId()));
         Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(RuntimeException::new);
-        trapRepository.save(trapGameManager.startGame(req, findRound));
+        long turn = trapRepositoryImpl.countTurn(obj.getRoundId());
+        trapRepository.save(trapGameManager.startGame(req, findRound, (int)turn+1));
     }
 
     public void lionMove(LionMoveReq req){
@@ -47,7 +48,7 @@ public class TrapService {
         int curLocY = Integer.parseInt(trap.getCurrentLocation().split(" ")[1]);
         String curDir = trap.getCurrentDirection();
         byte hasKey = trap.getHasKey();
-        String nextDir = "";
+        String nextDir = curDir;
 
         if(req.getMoving().equals("Go")){   // 사자가 이동했을때
             // 이동
@@ -108,7 +109,7 @@ public class TrapService {
                 }
             }
 
-            trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey));
+            trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, nextDir, hasKey));
         }
 
         trap.setHasKey(hasKey);
