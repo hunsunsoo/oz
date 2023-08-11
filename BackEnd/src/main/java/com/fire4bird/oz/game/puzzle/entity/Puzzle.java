@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "puzzle_game")
@@ -17,7 +18,7 @@ public class Puzzle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gameId;
+    private int gameId;
 
     @JoinColumn(name = "roundId")
     @ManyToOne
@@ -37,9 +38,10 @@ public class Puzzle {
 
     //정답 확인
     @Column
-    private Integer isCheck;
+    private int isCheck;
 
     //도전횟수
     @Column(nullable = false)
-    private Integer turn;
+    @ColumnDefault("1")
+    private int turn;
 }

@@ -17,12 +17,12 @@ public class Round {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roundId;
+    private int roundId;
 
     @JoinColumn(name = "team_id")
     @ManyToOne
     private Team team;
 
-    private Integer teamRound;
+    private int teamRound;
 
 }
