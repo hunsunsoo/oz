@@ -20,7 +20,7 @@ public class PuzzleLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gameId;
+    private Integer logId;
 
     @JoinColumn(name = "roundId")
     @ManyToOne
@@ -44,7 +44,6 @@ public class PuzzleLog {
 
     //로그 생성 시간
     @CreatedDate
-    @Column(name = "join_date")
     private LocalDateTime logTime = LocalDateTime.now();
 
 }
