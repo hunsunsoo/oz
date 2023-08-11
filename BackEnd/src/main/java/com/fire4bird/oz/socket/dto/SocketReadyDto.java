@@ -14,8 +14,9 @@ public class SocketReadyDto implements Serializable {
     private String type;
     private String rtcSession;
     private Integer userId;
-    private String message;
+    private Integer role;
     private Integer stage;
     private Integer state;
+    private String message;
 
 }

@@ -78,6 +78,7 @@ public class OverAllController {
                 .type("ready")
                 .rtcSession(req.getRtcSession())
                 .userId(req.getUserId())
+                .role(req.getRole())
                 .message(req.getMessage())
                 .stage(req.getStage())
                 .state(req.getState())
