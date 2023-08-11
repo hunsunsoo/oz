@@ -21,7 +21,7 @@ public class testController {
     public void drawing(DrawReq req){
         SocketMessage msg = new SocketMessage();
 
-        msg.setType("socket/draw");
+        msg.setType("draw");
         msg.setRtcSession(req.getSessionId());
         msg.setMessage("그림 그리기 좌표 send 테스트");
         msg.setData(req);

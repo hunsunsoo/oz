@@ -55,7 +55,7 @@ function TimeBar({ duration, onRoleChange }) {
   );
 }
 
-export default function App() {
+export default function App({client, sessionId}) {
   // useRef
   const canvasRef = useRef(null);
   // getCtx
@@ -86,25 +86,65 @@ export default function App() {
     setGetCtx(ctx);
   }, []);
 
+  useEffect(() => {
+  const subscribeDrawing = () => {
+    const trySubscribe = () => {
+      if (!client) {
+        console.log("구독 연결 실패")
+        return;
+      }
+      console.log("구독 연결중")
+
+      const subscription = client.subscribe(`/sub/socket/draw/${sessionId}`, (message) => {
+        const receivedData = JSON.parse(message.body); 
+
+        if (receivedData.type === 'draw' && receivedData.rtcSession === sessionId) {
+          
+          const { x, y, width, color } = receivedData.data;
+          getCtx.strokeStyle = color;
+          getCtx.lineWidth = width;
+          // getCtx.lineTo(x, y);
+          // getCtx.stroke();
+          // getCtx.beginPath();
+          // getCtx.moveTo(x, y);
+        }
+      });
+
+      return subscription;
+    };
+
+    const subscription = trySubscribe();
+
+    // 컴포넌트가 언마운트될 때 구독 해제
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
+  };
+
+  subscribeDrawing();
+}, [client, sessionId]);
+
   
   const penEvent = () =>{
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       getCtx.strokeStyle = "#6C584C";
       getCtx.lineWidth = 2.5;
-    }
+    // }
   };
 
   const eraseEvent = () =>{
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       getCtx.strokeStyle = "#f0ead2";
       getCtx.lineWidth = 25;
-    }
+    // }
   }
 
   const broomEvent = () =>{
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       getCtx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    }
+    // }
   }
 
   const drawFn = e => {
@@ -112,15 +152,25 @@ export default function App() {
     const mouseX = e.nativeEvent.offsetX;
     const mouseY = e.nativeEvent.offsetY;
     // drawing
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       if (!painting) {
           getCtx.beginPath();
           getCtx.moveTo(mouseX, mouseY);
       } else {
           getCtx.lineTo(mouseX, mouseY);
           getCtx.stroke();
+
+              // 그림 그리는 정보를 생성하여 소켓을 통해 서버로 전송
+          const drawingInfo = {
+            sessionId: sessionId,
+            x: mouseX,
+            y: mouseY,
+            width: getCtx.lineWidth,
+            color: getCtx.strokeStyle,
+          };
+          client.send(`/pub/socket/draw`, {}, JSON.stringify(drawingInfo));
       }
-    }
+    // }
   }
 
   return (

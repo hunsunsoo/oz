@@ -722,7 +722,7 @@ const GameComp = (props) => {
         <div className={style.background_G4}>
           <div className={style.word}>수륙챙이</div>
           <div className={style.drawing}>
-            <App></App>
+            <App client={client} sessionId={sessionId}/>
           </div>
           <img
             src="image/tools/questionMark.png"

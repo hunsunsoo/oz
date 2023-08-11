@@ -21,10 +21,10 @@ const SocketPage = () => {
   // const JsonPayload = JSON.parse(jwtPayload);
   // console.log(JsonPayload)
 
-  // const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
-  // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
-  const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket/room'
-  const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
+  const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
+  const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/api/ws';
+  // const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket/room'
+  // const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
   // params.SessionId  로컬개발용 ?SessionId=9e648d2d-5e2e-42b3-82fc-b8bef8111cbe
   // const SessionId = '9e648d2d-5e2e-42b3-82fc-b8bef8111cbe'; 
 

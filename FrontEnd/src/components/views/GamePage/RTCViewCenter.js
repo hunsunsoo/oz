@@ -129,7 +129,7 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
               ))}
               {[...Array(emptySlots)].map((_, i) => (
                   <div className={style.videoBox} >
-                      <div className={style.nickBox}><p>닉네임</p></div>
+                      <div className={style.nickBox}><p></p></div>
                       <div className={style.emptySlot}></div>
                   </div>
                   
