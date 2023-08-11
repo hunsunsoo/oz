@@ -7,15 +7,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import {persistor} from "../../../store";
+import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from "../../../_actions/urls";
 
 function AuthLandingPage(props) {
   const [cookies, setCookies] = useCookies(); // 쿠키와 설정 함수, 삭제 함수 추출
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mySessionId, setMySessionId] = useState("");
-
-  const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
-  const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
   // logout
   const accessToken = useSelector(

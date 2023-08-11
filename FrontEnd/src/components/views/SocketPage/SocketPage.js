@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import Stomp from 'stompjs';
 import axios from "axios";
+import { SERVER_URL, WEBSOCKET_SERVER_URL } from '../../../_actions/urls';
 
 const SocketPage = () => {
   // const location = useLocation();
@@ -21,8 +22,8 @@ const SocketPage = () => {
   // const JsonPayload = JSON.parse(jwtPayload);
   // console.log(JsonPayload)
 
-  const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
-  const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/api/ws';
+  // const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
+  // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/api/ws';
   // const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket/room'
   // const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
   // params.SessionId  로컬개발용 ?SessionId=9e648d2d-5e2e-42b3-82fc-b8bef8111cbe
@@ -44,7 +45,7 @@ const SocketPage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (sessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL, {
+      const response = await axios.post(SERVER_URL+'socket/room', {
         rtcSession: sessionId,
         userId: userId,
       });

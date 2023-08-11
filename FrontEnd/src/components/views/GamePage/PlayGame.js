@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
 
 const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole, userId}) => {
-  const [isStage, setIsStage] = useState(4);
+  const [isStage, setIsStage] = useState(3);
   const [isIndex, setIsIndex] = useState(11);
   const stageLimits = [16, 4, 12, 11, 7, 14];
 

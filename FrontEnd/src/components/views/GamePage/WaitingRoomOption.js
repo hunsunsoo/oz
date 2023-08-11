@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import style from "./WaitingRoomOption.module.css";
 import axios from "axios";
+import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL, SERVER_URL } from "../../../_actions/urls";
 
 const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHost, client }) => {
-  const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
-  const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-  const SERVER_URL = 'http://localhost:8080'
-
   // 구독
   const handleWaiting = () => {
     const newState = !isWaiting;
@@ -55,7 +52,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
         });
     }
   };
-  
+
 
   // 유효성 검증 & 팀 등록
   const handleGamingStartState = () => {

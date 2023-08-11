@@ -11,6 +11,7 @@ import GamingHeader from "../Header/GamingHeader";
 import RoleSelect from "./RoleSelect";
 import PlayGame from "./PlayGame";
 import WaitingRoomOption from './WaitingRoomOption';
+import { OPENVIDU_SERVER_URL, OPENVIDU_SERVER_SECRET, SERVER_URL, WEBSOCKET_SERVER_URL } from "../../../_actions/urls";
 
 const GamePage = () => {
   // 컴포넌트 조건부 렌더링
@@ -23,13 +24,6 @@ const GamePage = () => {
   const params = new URLSearchParams(location.search);
   const sessionIdFromURL = params.get("SessionId");
   const host = params.get("host");
-
-  const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
-  const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-  const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket'
-  const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/api/ws';
-  // const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket'
-  // const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
 
   // jwt payload decode
   const accessToken = useSelector(
@@ -273,7 +267,7 @@ const GamePage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (mySessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL+'/room', {
+      const response = await axios.post(SERVER_URL+'/socket/room', {
         rtcSession: mySessionId,
         userId: userId,
       });
@@ -299,7 +293,7 @@ const GamePage = () => {
     const onConnect = () => {
       console.log('웹소켓 연결완료');
       setIsConnect(true);
-      axios.post(CREATEROOM_SERVER_URL+'/session',{
+      axios.post(SERVER_URL+'/socket/session',{
         "rtcSession": mySessionId,
         "userId": UserId
       }).then((response) => {
