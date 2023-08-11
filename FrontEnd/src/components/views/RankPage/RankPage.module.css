@@ -1,5 +1,7 @@
 .rankPage{
-    background-color: #DDE5B6;
+    background-image: url('../../../../public/image/backGround/backgroundUser.png');
+    background-size: cover;
+    background-position: center;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -36,6 +38,7 @@
   border: none;
   font-size: xx-large;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .buttonClick{
@@ -49,6 +52,7 @@
   border: 4px solid #65584c;
   font-size: xx-large;
   font-weight: bold;
+  cursor: default;
 }
 
 .line{
@@ -172,85 +176,16 @@
   background-color: #65584c; /* 스크롤바 호버 시 색상 변경 */
 }
 
-/* body {
-    height: 100%;
-  }
-  
-  body {
-    margin: 0;
-    background: linear-gradient(45deg, #49a09d, #5f2c82);
-    font-family: sans-serif;
-    font-weight: 100;
-  }
-  
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  body {
-    height: 100%;
-  }
-  
-  body {
-    margin: 0;
-    background: linear-gradient(45deg, #49a09d, #5f2c82);
-    font-family: sans-serif;
-    font-weight: 100;
-  }
-  
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  table {
-    width: 800px;
-    border-collapse: collapse;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  }
-  
-  th,
-  td {
-    padding: 15px;
-    background-color: rgba(255,255,255,0.2);
-    color: black;
-  }
-  
-  th {
-    text-align: left;
-  }
-  
-  thead {
-    th {
-      background-color: #55608f;
-    }
-  }
-  
-  tbody {
-    tr {
-      &:hover {
-        background-color: black;
-      }
-    }
-    td {
-      position: relative;
-      &:hover {
-        &:before {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: -9999px;
-          bottom: -9999px;
-          background-color: rgba(255,255,255,0.2);
-          z-index: -1;
-        }
-      }
-    }
-} */
+.closeInputBox{
+  position: absolute;
+  cursor: pointer;
+  left: 0%;
+  top: 1%;
+  width: 7%;
+  height: 10%;
+  background-color: transparent;
+  color: #6C584C;
+  font-weight: bold;
+  font-size: 70px;
+  border: none;
+}

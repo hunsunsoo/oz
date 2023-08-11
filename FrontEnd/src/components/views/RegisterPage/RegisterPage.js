@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/user_action";
+import axiosInstance from "../../../_actions/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import style from "./RegisterPage.module.css";
 function RegisterPage(props) {
@@ -11,6 +12,9 @@ function RegisterPage(props) {
   const [NickName, setNickName] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [Code, setEmailCode] = useState("");
+  const [State, setState] = useState(false);
+  const [IsAuthSuccess, setIsAuthSuccess] = useState(false);
 
   // usestate: const [state, setstate] = useState(initialState) 자동완성.
   // initialState : = placeholder
@@ -18,6 +22,45 @@ function RegisterPage(props) {
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
   };
+
+  const onSubmitEmailHandler = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(Email);
+      const response = await axiosInstance.post("/users/mail", {
+        email: Email,
+      });
+      console.log(response.data);
+      if (response.status === 200) {
+        alert(response.data);
+        setState(true);
+      }
+    } catch (error) {
+      alert("올바르지 않은 이메일입니다");
+    }
+  };
+
+  const onEmailCodeHandler = (event) => {
+    setEmailCode(event.currentTarget.value);
+  };
+
+  const onSubmitCodeHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("users/codechek", {
+        emailCode: Code,
+      });
+
+      if (response.status === 200) {
+        alert(response.data);
+        setIsAuthSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.msg);
+    }
+  };
+
   const onNameHandler = (event) => {
     setName(event.currentTarget.value);
   };
@@ -35,7 +78,7 @@ function RegisterPage(props) {
     event.preventDefault();
 
     if (Password !== ConfirmPassword) {
-      return alert("비밀번호 확인은 같아야합니다.");
+      return alert("비밀번호가 다릅니다");
     } else if (Name.length === 0) {
       return alert("이름을 입력하세요");
     } else if (NickName.length === 0) {
@@ -44,6 +87,8 @@ function RegisterPage(props) {
       return alert("이메일 입력하세요");
     } else if (Password.length === 0) {
       return alert("비밀번호를 입력하세요");
+    } else if (!IsAuthSuccess){
+      return alert("이메일 인증이 필요합니다");
     }
 
     console.log("Email", Email);
@@ -86,56 +131,94 @@ function RegisterPage(props) {
         }}
       >
         <div className={style.box}>
-          <form
-            style={{ display: "flex", flexDirection: "column" }}
-            onSubmit={onSubmitHandler}
-          >
-            <input
-              className={style.input}
+          <div className={style.logo}>
+            <img className={style.logoImage} 
+            src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
+            onClick={() => navigate(`/`)}></img>
+          </div>
+          <div className={style.allBox}>
+
+            <div className={style.topBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="text"
               value={Name}
               placeholder="Name"
-              onChange={onNameHandler}
-            />
-            <br />
-            <input
-              className={style.input}
+              onChange={onNameHandler}>
+              </input>
+            </div>
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="text"
               value={NickName}
               placeholder="NickName"
-              onChange={onNickNameHandler}
-            />
-            <br />
-            <input
-              className={style.input}
+              onChange={onNickNameHandler}>
+              </input>
+            </div>
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.emailZone}
               type="email"
               value={Email}
               placeholder="Email"
-              onChange={onEmailHandler}
-            />
-            <br />
-            {/* 안에서 value값을 바로 변경할 수 없으니 위에 미리 state로 값을 지정하고,
-               그 지정한 값을 받아온다. */}
+              onChange={onEmailHandler}>
+              </input>
+              <div className={style.emailButtonZone}>
+                <button className={style.emailButton}
+                onClick={onSubmitEmailHandler}>전송</button>
+              </div>
+            </div>
 
-            <input
+            {State && (
+              <div className={style.codeBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.codeZone}
+              type="text"
+              value={Code}
+              placeholder="Code"
+              onChange={onEmailCodeHandler}>
+              </input>
+              <div className={style.codeButtonZone}>
+                <button className={style.emailButton}
+                onClick={onSubmitCodeHandler}>인증</button>
+              </div>
+            </div>
+            )}
+
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="password"
               value={Password}
               placeholder="Password"
-              onChange={onPasswordHandler}
-              className={style.input}
-            />
-            <br />
+              onChange={onPasswordHandler}>
+              </input>
+            </div>
 
-            <input
+            <div className={style.bottomBox}>
+              <div className={style.frontZone}>
+              </div>
+              <input className={style.inputZone}
               type="password"
               value={ConfirmPassword}
               onChange={onConfirmPassword}
-              placeholder="ConfirmPassword"
-              className={style.input}
-            />
-            <br />
-            <button className={style.button}>회원가입</button>
-          </form>
+              placeholder="ConfirmPassword">
+              </input>
+            </div>
+
+            <div className={style.registDiv}>
+              <button className={style.registButton}
+                onClick={onSubmitHandler}>회원 등록하기</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

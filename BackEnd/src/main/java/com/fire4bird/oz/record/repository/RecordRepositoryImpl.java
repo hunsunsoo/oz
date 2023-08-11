@@ -4,6 +4,7 @@ import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.team.entity.UserTeam;
 import com.fire4bird.oz.user.entity.User;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,16 +31,22 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         userTeam.user.eq(user))
                 .fetchOne());
     }
-
+    
+    //동적쿼리
     @Override
-    public Record findByRecord(int roundId, int stageNum) {
+    public Record findByRecord(int roundId, int stageNum, String clear) {
         return jpaQueryFactory
                 .select(record)
                 .from(record)
                 .join(record.round, round).on(round.roundId.eq(roundId))
-                .where(record.stageNum.eq(stageNum))
+                .where(record.stageNum.eq(stageNum),
+                        clearEq(clear))
                 .orderBy(record.challengeTurn.desc())
                 .fetchFirst();
+    }
+
+    private static BooleanExpression clearEq(String clear) {
+        return clear != null ? record.clear.eq(clear) : null;
     }
 
     @Override
