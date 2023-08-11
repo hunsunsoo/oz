@@ -25,10 +25,12 @@ const Clock = () => {
   };
 
   const clockStyle = {
-    // backgroundColor: '#ADC178',
+    backgroundColor: '#ADC178',
     height: '80%',
     color: 'black',
     fontSize: '40px',
+    padding: '0 20px', // 좌우 여백 추가
+    borderRadius: '20px', // 모서리를 둥글게 하는 속성
   };
 
   return <div style={clockStyle}>{formatTime(elapsedTime)}</div>;

@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
+import { useDispatch } from "react-redux";
+import { setGameUserInfo} from "../../../_actions/game_actions"
 
 const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole, userId}) => {
-  const [isStage, setIsStage] = useState(3);
-  const [isIndex, setIsIndex] = useState(11);
+  const [isStage, setIsStage] = useState(4);
+  const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 4, 12, 11, 7, 14];
+  const dispatch = useDispatch();  // 디스패치 정의
+  let body = {  //isStage 값 담아줄 객체
+    isStage: isStage,
+    isIndex: isIndex,
+  };
 
   const handleMiddleCondition = () => {
     const newStatus = middleCon - 1;
     onHandleMiddleCondition(newStatus);
-  }
+  };
 
   // flow 상의 Next 버튼
   const handleNext = () => {
+    dispatch(setGameUserInfo(body));//DisPatch 통해서 리듀서에 전달 
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
     } else if (isIndex === 21) {
@@ -103,7 +111,7 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole
     position: "absolute",
     display: isButtonActive ? "none" : "block",
   }
-  console.log("stage: "+isStage+" index: "+isIndex);
+  // console.log("stage: "+isStage+" index: "+isIndex);
   return (
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
