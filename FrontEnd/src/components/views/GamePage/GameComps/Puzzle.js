@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDrop } from "react-dnd";
-import Picture from "./Picture";
+import Picture from "./PuzzleGame/Picture";
 import style from "./GameComps.module.css";
 
 
