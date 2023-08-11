@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
 
-const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
+const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole, userId}) => {
   const [isStage, setIsStage] = useState(0);
   const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 4, 12, 11, 7, 14];
@@ -34,6 +34,11 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
   // index만 증가 따로
   const indexNext = () => {
     setIsIndex(isIndex + 1);
+  };
+
+  // 하위컴포넌트에서 index 값을 지정하는 콜백함수
+  const indexSet = (newIndex) => {
+    setIsIndex(newIndex);
   };
 
   // stage별 이동 따로
@@ -103,7 +108,7 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId}) => {
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
         <button style={BtnStyle} onClick={handleNext} >Next</button>
-        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast} middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={sessionId}/>
+        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast} middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={sessionId} userId={userId} myRole={myRole} indexSet={indexSet}/>
       </div>
     </div>
   );

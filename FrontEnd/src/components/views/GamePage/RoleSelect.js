@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setGameUserInfo } from "../../../_actions/game_actions";
 import { useSelector } from "react-redux";
 
-const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, userId}) => {
+const RoleSelect = ({middleCon, onHandleMyRole, onHandleMiddleCondition, client, sessionId, userId}) => {
   // 도로시 1, 사자 2, 허수아비 3, 양철 나무꾼 4
   const [s0, setS0] = useState(-1);
   const [s1, setS1] = useState(-1);
@@ -86,7 +86,8 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
 
     if (resuserId === userId) {
       setMyRole(role+1);
-      dispatch(setGameUserInfo({ myRole: role+1 }));
+      onHandleMyRole(role+1); // props 전달용
+      dispatch(setGameUserInfo({ myRole: role+1 })); // redux용
     }
   };
   
@@ -103,7 +104,8 @@ const RoleSelect = ({middleCon, onHandleMiddleCondition, client, sessionId, user
     
     if (resuserId === userId) {
       setMyRole(0);
-      dispatch(setGameUserInfo({ myRole: null }));
+      onHandleMyRole(0);  // props 전달용
+      dispatch(setGameUserInfo({ myRole: null })); // redux용
     }
   };
 
