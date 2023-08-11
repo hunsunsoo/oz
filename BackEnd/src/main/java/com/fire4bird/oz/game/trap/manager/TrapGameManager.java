@@ -31,7 +31,7 @@ public class TrapGameManager {
 
     }
 
-    public Trap startGame(TrapStartReq req, Round findRound){
+    public Trap startGame(TrapStartReq req, Round findRound, int turn){
         map = TrapMapGenerator.generateMap();
 
         // startX startY destX destY keyX keyY 각좌표 임시저장
@@ -171,7 +171,7 @@ public class TrapGameManager {
         return Trap.builder()
                 .round(findRound)
                 .map(arrayToString(map))
-                .turn(req.getTurn())
+                .turn(turn)
                 .startLocation(point[0]+" "+point[1])
                 .destinationLocation(point[2]+" "+point[3])
                 .keyLocation(point[4]+" "+point[5])
@@ -313,6 +313,7 @@ public class TrapGameManager {
         SocketMessage message = SocketMessage.builder()
                 .rtcSession(req.getRtcSession())
                 .message("사자 이동 결과")
+                .userId(req.getUserId())
                 .type("trap/move")
                 .data(data)
                 .build();
