@@ -5,21 +5,21 @@ import Stomp from 'stompjs';
 import axios from "axios";
 
 const SocketPage = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const sessionIdFromURL = params.get("SessionId");
+  // const location = useLocation();
+  // const params = new URLSearchParams(location.search);
+  // const sessionIdFromURL = params.get("SessionId");
 
   // userId 가져오기 import { useSelector } from 'react-redux';
-  const accessToken = useSelector(
-    (state) => state.user.loginSuccess.headers.accesstoken
-  );
-  var base64Url = accessToken.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-  const JsonPayload = JSON.parse(jwtPayload);
-  console.log(JsonPayload)
+  // const accessToken = useSelector(
+  //   (state) => state.user.loginSuccess.headers.accesstoken
+  // );
+  // var base64Url = accessToken.split('.')[1];
+  // var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  // var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+  //     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  // }).join(''));
+  // const JsonPayload = JSON.parse(jwtPayload);
+  // console.log(JsonPayload)
 
   // const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
   // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
@@ -28,15 +28,15 @@ const SocketPage = () => {
   // params.SessionId  로컬개발용 ?SessionId=9e648d2d-5e2e-42b3-82fc-b8bef8111cbe
   // const SessionId = '9e648d2d-5e2e-42b3-82fc-b8bef8111cbe'; 
 
-  const [SessionId, setSessionId] = useState(sessionIdFromURL || "DEFAULT");
+  const [SessionId, setSessionId] = useState("zzzzzzzzpleasezzzz");
   const [UserId, setuserId] = useState(1);
   const [client, setClient] = useState(null);
   const [isConnect, setIsConnect] = useState(false);
   const [receivedMessages, setReceivedMessages] = useState([]);
 
   useEffect(() => {
-    const sessionIdFromURL = params.get("SessionId");
-    setSessionId(sessionIdFromURL || "DEFAULT");
+    // const sessionIdFromURL = params.get("SessionId");
+    // setSessionId(sessionIdFromURL || "DEFAULT");
 
     createRoom(SessionId, UserId);
   }, []);
