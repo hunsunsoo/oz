@@ -29,7 +29,7 @@ const GamePage = () => {
   // const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket'
   // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
   const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket'
-  const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/ws';
+  const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
 
   // jwt payload decode
   const accessToken = useSelector(
