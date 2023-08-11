@@ -2,6 +2,7 @@ package com.fire4bird.oz.socket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fire4bird.oz.socket.dto.SocketMessage;
+import com.fire4bird.oz.socket.dto.SocketReadyDto;
 import com.fire4bird.oz.socket.dto.SocketRoleDto;
 import com.fire4bird.oz.socket.repository.SocketRepository;
 import com.fire4bird.oz.socket.service.RedisPublisher;
@@ -69,5 +70,19 @@ public class OverAllController {
                 .build();
 
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
+    }
+
+    @MessageMapping("/socket/ready")
+    public void gameReady(SocketReadyDto req) {
+        SocketReadyDto res = SocketReadyDto.builder()
+                .type("ready")
+                .rtcSession(req.getRtcSession())
+                .userId(req.getUserId())
+                .message(req.getMessage())
+                .stage(req.getStage())
+                .state(req.getState())
+                .build();
+
+        redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), res);
     }
 }
