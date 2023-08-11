@@ -138,7 +138,7 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet}) => {
   let TrapGameRenderingState;
   switch (myRole) {
     case 2:
-      TrapGameRenderingState = <TrapLion startData={startData} client={client} sessionId={sessionId} />
+      TrapGameRenderingState = <TrapLion startData={startData} client={client} sessionId={sessionId} userId={myUserId} />
       break;
     case 1:
     case 3:
