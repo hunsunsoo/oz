@@ -9,14 +9,16 @@ function Picture({ id, url }) {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  return (
-    <img
-      ref={drag}
-      src={url}
-      width="40px"
-      style={{ border: isDragging ? "5px solid pink" : "0px" }}
-    />
-  );
+
+  const style = {
+    width: "40px",
+    height: "40px",
+    backgroundImage: `url(${url})`,
+    backgroundSize: "cover",
+    border: isDragging ? "3px solid pink" : "0px",
+  };
+
+  return <div ref={drag} style={style} />;
 }
 
 export default Picture;
