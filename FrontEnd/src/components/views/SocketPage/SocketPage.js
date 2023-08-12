@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import Stomp from 'stompjs';
+import { useSelector } from "react-redux";
+import Stomp from "stompjs";
 import axios from "axios";
 
 const SocketPage = () => {
@@ -21,12 +21,12 @@ const SocketPage = () => {
   // const JsonPayload = JSON.parse(jwtPayload);
   // console.log(JsonPayload)
 
-  // const CREATEROOM_SERVER_URL = 'https://localhost:8080/socket/room'
-  // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
-  const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket/room'
-  const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
+  const CREATEROOM_SERVER_URL = "https://localhost:8080/socket/room";
+  const WEBSOCKET_SERVER_URL = "ws://localhost:8080/api/ws";
+  // const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket/room'
+  // const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
   // params.SessionId  로컬개발용 ?SessionId=9e648d2d-5e2e-42b3-82fc-b8bef8111cbe
-  // const SessionId = '9e648d2d-5e2e-42b3-82fc-b8bef8111cbe'; 
+  // const SessionId = '9e648d2d-5e2e-42b3-82fc-b8bef8111cbe';
 
   const [SessionId, setSessionId] = useState("zzzzzzzzpleasezzzz");
   const [UserId, setuserId] = useState(1);
@@ -50,14 +50,15 @@ const SocketPage = () => {
       });
 
       if (response.status !== 200) {
-        throw new Error('방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요');
+        throw new Error(
+          "방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요"
+        );
       }
-      console.log('방 생성에 성공하였습니다. 소켓 연결을 시작합니다.');
+      console.log("방 생성에 성공하였습니다. 소켓 연결을 시작합니다.");
 
       socketConnect(); // 방 생성 성공 후 소켓 연결 시작
-
     } catch (error) {
-      console.error('Error creating a room:', error);
+      console.error("Error creating a room:", error);
     }
   };
 
@@ -68,12 +69,12 @@ const SocketPage = () => {
 
     // 연결 성공시 구독을 위한 isConnect state 갱신
     const onConnect = () => {
-      console.log('웹소켓 연결완료');
+      console.log("웹소켓 연결완료");
       setIsConnect(true);
     };
 
     const onError = (error) => {
-      console.error('웹소켓 연결 error:', error);
+      console.error("웹소켓 연결 error:", error);
     };
 
     newClient.connect({}, onConnect, onError);
@@ -83,31 +84,31 @@ const SocketPage = () => {
     return () => {
       newClient.disconnect();
     };
-  }
+  };
 
   const send = async () => {
     try {
       if (!client || !client.connected) {
-        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        console.log("웹소켓이 연결중이 아닙니다. 메시지 보내기 실패");
         return;
       }
 
       const message = {
-        "type":"role",
-        "rtcSession":`${SessionId}`,
-        "userId":`${UserId}`,
-        "message":"",
-        "data":{
-            "role":2,
-            "state":1,
-            "saveState":-1
-        }
+        type: "role",
+        rtcSession: `${SessionId}`,
+        userId: `${UserId}`,
+        message: "",
+        data: {
+          role: 2,
+          state: 1,
+          saveState: -1,
+        },
       };
 
-      client.send('/pub/socket/role', {}, JSON.stringify(message));
-      console.log('메시지 보냈음');
+      client.send("/pub/socket/role", {}, JSON.stringify(message));
+      console.log("메시지 보냈음");
     } catch (error) {
-      console.log('Error sending message:', error);
+      console.log("Error sending message:", error);
     }
   };
 
@@ -119,13 +120,15 @@ const SocketPage = () => {
     // }
 
     // /sub/socket/role/${SessionId} 경로로 구독 요청
-    const subscription = client.subscribe(`/sub/socket/role/${SessionId}`, (message) => {
-        console.log('Received message:', message);
+    const subscription = client.subscribe(
+      `/sub/socket/role/${SessionId}`,
+      (message) => {
+        console.log("Received message:", message);
         setReceivedMessages((prevMessages) => [...prevMessages, message]);
-    });
+      }
+    );
 
     // 언마운트 시 구독 해제 처리 필요할지?
-
   };
 
   // 연결되면 구독메서드 실행하도록

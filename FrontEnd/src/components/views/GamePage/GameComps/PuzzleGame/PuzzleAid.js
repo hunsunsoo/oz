@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import style from "./PuzzleAid.module.css";
 
 const PictureList = [];
@@ -25,7 +25,6 @@ function BoardItem({ data }) {
     </div>
   );
 }
-
 
 const PuzzleAid = ({ startData, myRole }) => {
   const [board, setBoard] = useState([
@@ -59,44 +58,39 @@ const PuzzleAid = ({ startData, myRole }) => {
     setBoard(newBoard); // 새로운 board 상태 설정
   }, []);
 
-  return(
-    <div className={style.container}>
+  return (
+    <>
       {myRole === 1 ? (
+        // <div className={style.container}>
         <div className={style.boardContainer1}>
-          <div>
-            <div className={style["board-container1"]}>
-              <BoardItem data={board[0]} />
-            </div>
-            <div className={style["board-container2"]}>
-              <BoardItem data={board[1]} />
-            </div>
+          <div className={style["board1"]}>
+            <BoardItem data={board[0]} />
+          </div>
+          <div className={style["board2"]}>
+            <BoardItem data={board[1]} />
           </div>
         </div>
       ) : myRole === 2 ? (
         <div className={style.boardContainer2}>
-          <div>
-            <div className={style["board-container3"]}>
-              <BoardItem data={board[2]} />
-            </div>
-            <div className={style["board-container4"]}>
-              <BoardItem data={board[3]} />
-            </div>
+          <div className={style["board-container3"]}>
+            <BoardItem data={board[2]} />
+          </div>
+          <div className={style["board-container4"]}>
+            <BoardItem data={board[3]} />
           </div>
         </div>
       ) : (
         <div className={style.boardContainer3}>
-          <div>
-            <div className={style["board-container5"]}>
-              <BoardItem data={board[4]} />
-            </div>
-            <div className={style["board-container6"]}>
-              <BoardItem data={board[5]} />
-            </div>
+          <div className={style["board-container5"]}>
+            <BoardItem data={board[4]} />
+          </div>
+          <div className={style["board-container6"]}>
+            <BoardItem data={board[5]} />
           </div>
         </div>
       )}
-    </div>
-
+      {/* </div> */}
+    </>
   );
 };
 export default PuzzleAid;

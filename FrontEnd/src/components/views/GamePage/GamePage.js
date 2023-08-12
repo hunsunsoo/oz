@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { OpenVidu } from "openvidu-browser";
 import { useLocation } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import RTCViewLower from "./RTCViewLower";
-import RTCViewCenter from './RTCViewCenter';
-import Stomp from 'stompjs';
+import RTCViewCenter from "./RTCViewCenter";
+import Stomp from "stompjs";
 import axios from "axios";
 import Header from "../Header/Header";
 import GamingHeader from "../Header/GamingHeader";
 import RoleSelect from "./RoleSelect";
 import PlayGame from "./PlayGame";
-import WaitingRoomOption from './WaitingRoomOption';
+import WaitingRoomOption from "./WaitingRoomOption";
 
 const GamePage = () => {
   // 컴포넌트 조건부 렌더링
@@ -26,20 +26,25 @@ const GamePage = () => {
 
   const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
   const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-  // const CREATEROOM_SERVER_URL = 'http://localhost:8080/socket'
-  // const WEBSOCKET_SERVER_URL = 'ws://localhost:8080/ws';
-  const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket'
-  const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
+  const CREATEROOM_SERVER_URL = "http://localhost:8080/socket";
+  const WEBSOCKET_SERVER_URL = "ws://localhost:8080/api/ws";
+  // const CREATEROOM_SERVER_URL = 'https://i9b104.p.ssafy.io/api/socket'
+  // const WEBSOCKET_SERVER_URL = 'wss://i9b104.p.ssafy.io/api/ws';
 
   // jwt payload decode
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
   );
-  var base64Url = accessToken.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jwtPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+  var base64Url = accessToken.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jwtPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
   const JsonPayload = JSON.parse(jwtPayload);
 
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
@@ -75,9 +80,9 @@ const GamePage = () => {
       .catch((error) => {
         console.error("Error creating token:", error);
       });
-    
+
     // Socket
-    if(amIHost == 0){
+    if (amIHost == 0) {
       socketConnect();
     } else {
       createRoom(mySessionId, UserId);
@@ -273,20 +278,21 @@ const GamePage = () => {
   // 소켓 연결 전 socket room 생성
   const createRoom = async (mySessionId, userId) => {
     try {
-      const response = await axios.post(CREATEROOM_SERVER_URL+'/room', {
+      const response = await axios.post(CREATEROOM_SERVER_URL + "/room", {
         rtcSession: mySessionId,
         userId: userId,
       });
 
       if (response.status !== 200) {
-        throw new Error('방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요');
+        throw new Error(
+          "방 생성에 실패하였습니다. 서버 상태 코드 / 세션Id를 확인하세요"
+        );
       }
-      console.log('방 생성에 성공하였습니다. 소켓 연결을 시작합니다.');
+      console.log("방 생성에 성공하였습니다. 소켓 연결을 시작합니다.");
 
       socketConnect(); // 방 생성 성공 후 소켓 연결 시작
-
     } catch (error) {
-      console.error('Error creating a room:', error);
+      console.error("Error creating a room:", error);
     }
   };
 
@@ -297,19 +303,20 @@ const GamePage = () => {
 
     // 연결 성공시 구독을 위한 isConnect state 갱신
     const onConnect = () => {
-      console.log('웹소켓 연결완료');
+      console.log("웹소켓 연결완료");
       setIsConnect(true);
-      axios.post(CREATEROOM_SERVER_URL+'/session',{
-        "rtcSession": mySessionId,
-        "userId": UserId
-      }).then((response) => {
-        console.log(response.data)
-      }
-      );
+      axios
+        .post(CREATEROOM_SERVER_URL + "/session", {
+          rtcSession: mySessionId,
+          userId: UserId,
+        })
+        .then((response) => {
+          console.log(response.data);
+        });
     };
 
     const onError = (error) => {
-      console.error('웹소켓 연결 error:', error);
+      console.error("웹소켓 연결 error:", error);
     };
 
     newClient.connect({}, onConnect, onError);
@@ -319,7 +326,7 @@ const GamePage = () => {
     return () => {
       newClient.disconnect();
     };
-  }
+  };
 
   const handleGamingStart = (status) => {
     setIsWaiting(status);
@@ -338,10 +345,28 @@ const GamePage = () => {
 
   switch (middleCon) {
     case 1:
-      CompMiddleSection = <RoleSelect middleCon={middleCon} onHandleMyRole={handleMyRole} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} userId={JsonPayload.userId}/>;
+      CompMiddleSection = (
+        <RoleSelect
+          middleCon={middleCon}
+          onHandleMyRole={handleMyRole}
+          onHandleMiddleCondition={handleMiddleCondition}
+          client={client}
+          sessionId={mySessionId}
+          userId={JsonPayload.userId}
+        />
+      );
       break;
     case 2:
-      CompMiddleSection = <PlayGame middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={mySessionId} myRole={myRole} userId={JsonPayload.userId} />;
+      CompMiddleSection = (
+        <PlayGame
+          middleCon={middleCon}
+          onHandleMiddleCondition={handleMiddleCondition}
+          client={client}
+          sessionId={mySessionId}
+          myRole={myRole}
+          userId={JsonPayload.userId}
+        />
+      );
       break;
   }
 
@@ -355,8 +380,30 @@ const GamePage = () => {
   return (
     <div style={divStyle}>
       {isGaming ? <GamingHeader /> : <Header />}
-      {isWaiting ? CompMiddleSection : <RTCViewCenter publisher={publisher} subscribers={subscribers} client={client} sessionId={mySessionId} userId={UserId} myNickname={myUserName} /> }
-      {isWaiting ? <RTCViewLower publisher={publisher} subscribers={subscribers} /> : <WaitingRoomOption isWaiting={isWaiting} onGamingStart={handleGamingStart} userId={UserId} sessionId={mySessionId} amIHost={amIHost} client={client}/> }
+      {isWaiting ? (
+        CompMiddleSection
+      ) : (
+        <RTCViewCenter
+          publisher={publisher}
+          subscribers={subscribers}
+          client={client}
+          sessionId={mySessionId}
+          userId={UserId}
+          myNickname={myUserName}
+        />
+      )}
+      {isWaiting ? (
+        <RTCViewLower publisher={publisher} subscribers={subscribers} />
+      ) : (
+        <WaitingRoomOption
+          isWaiting={isWaiting}
+          onGamingStart={handleGamingStart}
+          userId={UserId}
+          sessionId={mySessionId}
+          amIHost={amIHost}
+          client={client}
+        />
+      )}
     </div>
   );
 };
