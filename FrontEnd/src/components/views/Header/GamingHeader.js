@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Clock from "./Clock.js"
-import styled from 'styled-components';
 import { useSelector } from "react-redux";
 
 const headerStyle = {
@@ -14,86 +13,86 @@ const headerStyle = {
 };
   
 const profilePicStyle = {
-  width: 'auto',
-  height: '99%',
+  width: '80px',
+  height: '75px',
+  marginTop: '9px', 
   borderRadius: '50%',
   objectFit: 'cover',
+  backgroundColor: 'gray', // 회색 배경색
+  overflow: 'hidden', // 내부 이미지를 벗어나지 않도록 함
 }
-
-const Container = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  position: relative;
-`;
-
-const Image = styled.img`
-  width: 20%;
-  height: 115px;
-  object-fit: cover;
-  border-radius: ${props => (props.isHighlighted ? '50%' : '0')};
-  border: ${props => (props.isHighlighted ? '2px solid blue' : 'none')};
-  margin: 10px;
-`;
-
 
 const GamingHeader = ({myRole}) => {
   const stage = useSelector((state) => state.gameUserReducer.gameUsers); //stage에 body 값 추출
-  const stageval = stage && stage.isStage ? stage.isStage : 0; //body 값에 stage 값 추출 
+  const stageval = stage && stage.isStage ? stage.isStage : 0; //body 값에 stage 값 추출
 
-  console.log("stage:", stageval); //콘솔 찍어보기
+  const [rotationDegree, setRotationDegree] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotationDegree(rotationDegree + 1);
+    }, 10); // 10ms 마다 1도씩 회전 각도를 증가
+
+    return () => clearInterval(interval); // 컴포넌트가 언마운트 될 때 인터벌 정리
+  }, [rotationDegree]);
+
+  // console.log("stage:", stageval); //콘솔 찍어보기
   return (
     <header style={headerStyle}>
-      <div>
-      <Container>
-          <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div>
           {stageval === 0 || stageval === 1 ? (
             <div>
-              <img src="image/house/house1sad.png" alt="stage 1" style={{ width: '100px', height: '100px', position: 'absolute' }} />
-              <img src="image/house/star2.png" alt="another image" style={{ width: '100px', height: '100px' }} />
+              <img src="image/house/star2.png" alt="stage1" style={{ width: '100px', height: '100px',transform: `rotate(${rotationDegree}deg)`,  position: 'absolute'}} />
+              <img src="image/house/house1sad.png" alt="stage1" style={{ width: '100px', height: '100px', position: 'relative' }} />
             </div>
           ) : (
             <div>
-              <img src="image/house/house1happy.png" alt="stage 1" style={{ width: '100px', height: '95px' }} />
+              <img src="image/house/house1happy.png" alt="stage1" style={{ width: '100px', height: '95px', position: 'relative' }} />
             </div>
           )}
-          </div>
+        </div>
+        <div>
           {stageval === 2 ? (
             <div>
-              <img src="image/house/house2sad.png" alt="stage 2" style={{ width: '100px', height: '100px', position: 'absolute' }} />
-              <img src="image/house/star2.png" alt="another image" style={{ width: '100px', height: '100px' }} />
+              <img src="image/house/star2.png" alt="stage2" style={{ width: '100px', height: '100px',transform: `rotate(${rotationDegree}deg)`,  position: 'absolute'}} />
+              <img src="image/house/house2sad.png" alt="stage2" style={{ width: '100px', height: '100px', position: 'relative' }} />
             </div>
           ) : (
-              <div>
-              <img src="image/house/house2happy.png" alt="stage 2" style={{ width: '105px', height: '95px' }} />
+            <div>
+              <img src="image/house/house2happy.png" alt="stage2" style={{ width: '105px', height: '95px', position: 'relative' }} />
             </div>
           )}
+        </div>
+        <div>
           {stageval === 3 ? (
             <div>
-              <img src="image/house/house3sad.png" alt="stage 3" style={{ width: '100px', height: '100px', position: 'absolute' }} />
-              <img src="image/house/star2.png" alt="another image" style={{ width: '100px', height: '100px' }} />
+              <img src="image/house/star2.png" alt="another image" style={{ width: '100px', height: '100px',transform: `rotate(${rotationDegree}deg)`,  position: 'absolute'}} />
+              <img src="image/house/house3sad.png" alt="stage3" style={{ width: '100px', height: '100px', position: 'relative' }} />
             </div>
           ) : (
             <div>
-              <img src="image/house/house3happy.png" alt="stage 3" style={{ width: '100px', height: '100px' }} />
+              <img src="image/house/house3happy.png" alt="stage3" style={{ width: '100px', height: '100px', position: 'relative' }} />
             </div>
           )}
+        </div>
+        <div>
           {stageval === 4 ? (
             <div>
-              <img src="image/house/house4.png" alt="stage 4" style={{ width: '100px', height: '100px', position: 'absolute' }} />
-              <img src="image/house/star2.png" alt="another image" style={{ width: '100px', height: '100px' }} />
+              <img src="image/house/star2.png" alt="stage4" style={{ width: '100px', height: '100px',transform: `rotate(${rotationDegree}deg)`,  position: 'absolute'}} />
+              <img src="image/house/house4.png" alt="stage4" style={{ width: '100px', height: '100px', position: 'relative'}} />
             </div>
           ) : (
             <div>
-              <img src="image/house/house4.png" alt="stage 4" style={{ width: '105px', height: '105px' }} />
+              <img src="image/house/house4.png" alt="stage4" style={{ width: '105px', height: '105px', position: 'relative' }} />
             </div>
           )}
-      </Container>
+        </div>
       </div>
-      <div>
+      <div style={{width: "100%"}}>
         <Clock />
       </div>
-      <div style={{ height: "100%", marginLeft: "22%" }}>
+      <div style={{ height: "100%" }}>
         {myRole === 1 ? (
           <img src="image/character/dorothy.png" alt="Profile" style={profilePicStyle} />
         ) : myRole === 2 ? (   
