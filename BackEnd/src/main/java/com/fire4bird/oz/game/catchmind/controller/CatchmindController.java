@@ -16,8 +16,8 @@ public class CatchmindController {
     private final CatchmindService catchmindService;
 
 
-    @MessageMapping("/catchmind/ready")
-    public void gameReady(ReadyReq req) { catchmindService.gameReady(req); }
+//    @MessageMapping("/catchmind/ready")
+//    public void gameReady(ReadyReq req) { catchmindService.gameReady(req); }
 
     @MessageMapping("/catchmind/start")
     public void gameStart(StartReq req) { catchmindService.gameStart(req); }
@@ -31,9 +31,9 @@ public class CatchmindController {
     @MessageMapping("/catchmind/data")
     public void catchmindGameData(ActorAnswerReq req) { catchmindService.gameAnswer(req); }
 
-    @MessageMapping("/catchmind/Image")
-    public void uploadImage(HelperSubmit req) { catchmindService.gameImg(req); }
-
-    @MessageMapping("/catchmind/downloadImage")
-    public void downloadImage(HelperSubmit req) {  }
+//    @MessageMapping("/catchmind/Image")
+//    public void uploadImage(HelperSubmit req) { catchmindService.gameImg(req); }
+//
+//    @MessageMapping("/catchmind/downloadImage")
+//    public void downloadImage(HelperSubmit req) {  }
 }

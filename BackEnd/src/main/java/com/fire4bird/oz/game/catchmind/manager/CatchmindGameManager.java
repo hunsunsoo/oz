@@ -22,16 +22,17 @@ import java.util.Random;
 public class CatchmindGameManager {
     private final SocketRepository socketRepository;
     private final RedisPublisher redisPublisher;
-    private CatchmindDataRepository catchmindDataRepository;
+    private final CatchmindDataRepository catchmindDataRepository;
 
     private String answer; // 제시어(정답)
     private String userAnswer; // 유저 제출 정답
 
     private Map<String, int[]> ready;
 
-    public CatchmindGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher) {
+    public CatchmindGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher, CatchmindDataRepository catchmindDataRepository) {
         this.socketRepository = socketRepository;
         this.redisPublisher = redisPublisher;
+        this.catchmindDataRepository = catchmindDataRepository;
 
         this.answer = " ";
         this.userAnswer = " ";
@@ -65,27 +66,23 @@ public class CatchmindGameManager {
 
     public Catchmind startGame(StartReq req, Round findRound, int turn) {
         Random random = new Random();
-        int drawingId = random.nextInt(2)+1; // 1부터 100까지의 데이터라고 가정했음
+        int drawingId = random.nextInt(100)+1; // 1부터 100까지의 데이터라고 가정했음
 
         CatchmindData catchmindData = catchmindDataRepository.findByDrawingId(drawingId);
         String answer = catchmindData.getAnswer();
+
+        System.out.println(answer);
+
+        publisher(req.getRtcSession(),"catchmind/start","게임 시작.. 조력자에게 제시어 줄거야", answer);
 
         String userAnswer = " ";
 
         String drawingPicture = " "; // 이게 이미지 저장인데 멀티파일 뭐시기로 바꿔야함
 
 
-        SendSeggestwordRes sendhelper = SendSeggestwordRes.builder()
-                .answer(answer)
-                .build();
-
-        SendSeggestwordRes sendActor = SendSeggestwordRes.builder()
-                        .build();
-
-        publisherHelper(req, sendhelper);
-
         return Catchmind.builder()
                 .catchmindData(catchmindData)
+                .answer(answer)
                 .drawingPicture(drawingPicture)
                 .userAnswer(userAnswer)
                 .turn(turn)
@@ -95,25 +92,14 @@ public class CatchmindGameManager {
 
 
 
-    public void publisher(String rtcSession, String url, String msg, int check){
+    public void publisher(String rtcSession, String url, String msg, Object data){
         SocketMessage message = SocketMessage.builder()
                 .rtcSession(rtcSession)
                 .message(msg)
                 .type(url)
-                .data(check)
-                .build();
-        redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
-    }
-
-    public void publisherHelper(StartReq req, SendSeggestwordRes data){
-        SocketMessage message = SocketMessage.builder()
-                .rtcSession(req.getRtcSession())
-                .message("게임 시작.. 조력자에게 제시어 줄거야")
-                .type("catchmind/start")
                 .data(data)
                 .build();
         redisPublisher.publish(socketRepository.getTopic(message.getRtcSession()), message);
     }
-
 
 }
