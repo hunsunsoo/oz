@@ -1,90 +1,89 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;  /* 여기를 변경 */
   width: 100%; 
   height: 100%;
 }
 
 .boardContainer1 {
-  flex: 0 0 100%;
-  width: 200px;
-  height: 100vh;
-  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleGameBgHeart1.png");
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  width: 100%;  
+  height: 120%;
+  margin-top: -7%; /* 원하는 마진 값으로 조절 */
+  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleaid1.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative; 
+
 }
 
 .boardContainer2 {
-  flex: 0 0 100%;
-  width: 200px;
-  height: 100vh;
-  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleGameBgHeart2.png");
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  width: 100%;  
+  height: 120%;
+  margin-top: -7%; /* 원하는 마진 값으로 조절 */
+  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleaid2.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
+  position: relative; 
 }
 
 .boardContainer3 {
-  flex: 0 0 100%;
-  width: 200px;
-  height: 100vh;
-  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleGameBgHeart3.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* display: flex; */
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
+  width: 100%;  
+  height: 120%;
+  margin-top: -7%; /* 원하는 마진 값으로 조절 */
+  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleaid3.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: relative; 
 }
 
-.board-container1 {
-  display: flex;
+.board1 {
 
-  flex-direction: column; /* 세로로 배열하려면 이 부분 추가 */
-  margin-left: 15%;
-  position: relative; /* 부모 요소에 상대 위치 지정 */
+
+  
+  margin-left: 40%;
+  margin-top: 10%;
+  position: absolute; 
 }
   
-.board-container2 {
-  display: flex;
-  margin-top: 7%;
-  margin-left: 5%;
-  flex-direction: column; /* 세로로 배열하려면 이 부분 추가 */
+.board2 {
+
+  margin-top: 15%;
+  margin-left: 33%;
+  position: absolute; 
 }
 .board-container3 {
-  display: flex;
-  flex-direction: column; /* 세로로 배열하려면 이 부분 추가 */
-  margin-top: 40%;
-  margin-left: 35%;
-  position: relative; /* 부모 요소에 상대 위치 지정 */
+  margin-left: 66%;
+  margin-top: 15%;
+  position: absolute; 
 }
   
 .board-container4 {
-  display: flex;
-  margin-top: 7%;
-  margin-top: 40%;
-  margin-left: 45%;
-  flex-direction: column; /* 세로로 배열하려면 이 부분 추가 */
+  margin-top: 10%;
+  margin-left: 60%;
+  position: absolute; 
 }
 .board-container5 {
-  display: flex;
-  flex-direction: column; /* 세로로 배열하려면 이 부분 추가 */
-  margin-top: 20%;
-  margin-left: 3%;
-  position: relative; /* 부모 요소에 상대 위치 지정 */
+
+  margin-top: 26%;
+  margin-left: 43%;
+  position: absolute; /* 부모 요소에 상대 위치 지정 */
 }
 
 .board-container6 {
-  margin-top: 15%;
-  display: flex;
-  margin-top: 1%;
-  margin-left: 5%;
-  flex-direction: column; /* 세로로 배열하려면 이 부분 추가 */
+  margin-top: 26%;
+
+  margin-left: 55%;
+  position: absolute; 
 }
 
 .board-item {
