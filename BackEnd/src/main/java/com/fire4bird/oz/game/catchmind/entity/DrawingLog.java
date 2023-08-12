@@ -16,24 +16,24 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatchmindLog {
+public class DrawingLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gameId;
+    private int gameId;
 
     @JoinColumn(name = "roundId")
     @ManyToOne
     private Round round;
 
     // 행위자가 유저인경우
-    private Integer userId;
+    private int userId;
 
     // 시스템 메시지:1, 유저:0
-    private Integer isSystem;
+    private int isSystem;
 
     // 로그 유형
     @Column(length = 10)
-    private Integer logType;
+    private int logType;
 
     // 로그 메시지
     @Column(length = 300)

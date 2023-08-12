@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "catchmind_game")
@@ -13,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Catchmind {
+public class Drawing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gameId;
+    private int gameId;
 
     @JoinColumn(name = "round_id")
     @ManyToOne
@@ -25,13 +26,13 @@ public class Catchmind {
 
     @JoinColumn(name = "drawing_id")
     @ManyToOne
-    private CatchmindData catchmindData;
+    private DrawingData catchmindData;
 
     // 현재 그림
     @Column(length = 200, nullable = false)
     private String drawingPicture;
 
-    // 순서
+    // 순서 2->3->4->1
 
     // 정답
     @Column(length = 30, nullable = false)
@@ -43,9 +44,10 @@ public class Catchmind {
 
     // 정답 확인
     @Column
-    private Integer isCheck;
+    private int isCheck;
 
     // 도전횟수
     @Column(nullable = false)
-    private Integer turn;
+    @ColumnDefault("1")
+    private int turn;
 }

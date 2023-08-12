@@ -1,13 +1,11 @@
 package com.fire4bird.oz.game.catchmind.dto.req;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class ActorAnswerReq {
+@Data
+public class AnswerReq {
     private String rtcSession;
     private int userId;
     private String userAnswer;
-    private int check; // (-1:틀림, 1:정답)
+    private String png;
 }
