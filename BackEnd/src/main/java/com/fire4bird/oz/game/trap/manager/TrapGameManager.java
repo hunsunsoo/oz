@@ -22,17 +22,21 @@ public class TrapGameManager {
     private final RedisPublisher redisPublisher;
 
     private int[][] map; // 맵을 저장할 변수
+    private String[] screenArr;
 
 
     public TrapGameManager(SocketRepository socketRepository, RedisPublisher redisPublisher) {
         this.socketRepository = socketRepository;
         this.redisPublisher = redisPublisher;
         this.map = new int[6][6];
+        this.screenArr = new String[] {"wall", "red1", "red2", "red3", "red4", "green1", "green2", "green3", "green4", "blue1", "blue2", "blue3", "blue4"};
 
     }
 
     public Trap startGame(TrapStartReq req, Round findRound, int turn){
         map = TrapMapGenerator.generateMap();
+        int[][] screenMap = TrapMapGenerator.screenMapGenerator(map);
+
 
         // startX startY destX destY keyX keyY 각좌표 임시저장
         int[] point = new int[6];
@@ -122,44 +126,35 @@ public class TrapGameManager {
                 if(point[0] == 0){
                     nextCell = 0;
                 } else{
-                    nextCell = map[point[0]-1][point[1]];
+                    nextCell = screenMap[point[0]-1][point[1]];
                 }
                 break;
             case "D":
                 if(point[0] == 5){
                     nextCell = 0;
                 } else{
-                    nextCell = map[point[0]+1][point[1]];
+                    nextCell = screenMap[point[0]+1][point[1]];
                 }
                 break;
             case "L":
                 if(point[1] == 0){
                     nextCell = 0;
                 } else{
-                    nextCell = map[point[0]][point[1]-1];
+                    nextCell = screenMap[point[0]][point[1]-1];
                 }
                 break;
             case "R":
                 if(point[1] == 5){
                     nextCell = 0;
                 } else{
-                    nextCell = map[point[0]][point[1]+1];
+                    nextCell = screenMap[point[0]][point[1]+1];
                 }
                 break;
             default:
                 System.out.println("Invalid direction");
         }
 
-        String nextScreen = "";
-        if(nextCell<10){
-            nextScreen = "wall";
-        } else if(nextCell<20){
-            nextScreen = "red";
-        } else if(nextCell<30){
-            nextScreen = "green";
-        } else {
-            nextScreen = "blue";
-        }
+        String nextScreen = screenArr[nextCell];
 
         SendLion sendLion = SendLion.builder()
                 .distanceKey(distKey)
@@ -171,6 +166,7 @@ public class TrapGameManager {
         return Trap.builder()
                 .round(findRound)
                 .map(arrayToString(map))
+                .screenMap(arrayToString(screenMap))
                 .turn(turn)
                 .startLocation(point[0]+" "+point[1])
                 .destinationLocation(point[2]+" "+point[3])

@@ -27,6 +27,10 @@ public class Trap {
     @Column(length = 300, nullable = false)
     private String map;
 
+    // 화면맵
+    @Column(length = 300, nullable = false)
+    private String screenMap;
+
     // 출발지, 목적지, 열쇠 위치
     @Column(length = 10, nullable = false)
     private String startLocation;
