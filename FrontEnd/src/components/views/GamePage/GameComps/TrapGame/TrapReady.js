@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import style from "./TrapReady.module.css"
+import { useLocation } from "react-router-dom";
 
 const TrapReady = ({myRole, onHandleStart, client, sessionId, R1,R2,R3,R4}) => {
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const host = params.get("host");
+
+  const [amIHost, setAmIHost] = useState(host);
   const [amIReady, setAmIReady] = useState(false);
 
   useEffect(() => {
@@ -31,7 +37,20 @@ const TrapReady = ({myRole, onHandleStart, client, sessionId, R1,R2,R3,R4}) => {
         setAmIReady(false);
       }
     } 
-  }, [R1, R2, R3, R4]);
+  }, [myRole, R1, R2, R3, R4]);
+
+  const handleStartAfterReady = () => {
+    console.log(host)
+    if(amIHost === "1"){
+      if(R1 === 2 && R2 === 2 && R3 === 2 && R4 === 2){
+        onHandleStart(true);
+      } else {
+        alert("4명이 준비 완료 상태가 아닙니다");
+      }
+    } else {
+      alert("내가 방장이 아니다.");
+    }
+  };
 
   const trapReadyPublisher = async (readyOrCancel) => {  
       try {
@@ -78,9 +97,9 @@ const TrapReady = ({myRole, onHandleStart, client, sessionId, R1,R2,R3,R4}) => {
           <div className={style.howToPlayBtn}>
             게임 방법
           </div>
-          {/* <div className={style.startBtn} style={{ display: isStartBtnActive && host === 1 ? 'flex' : 'none', }} onClick={sendStage1Start}>
+          <div className={style.startBtn} onClick={handleStartAfterReady}>
             게임 시작
-          </div> */}
+          </div>
           <img
             src="image/tools/checkmarker.png"
             className={style.checkDorothy}
