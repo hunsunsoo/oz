@@ -86,46 +86,6 @@ export default function App({client, sessionId}) {
     setGetCtx(ctx);
   }, []);
 
-  useEffect(() => {
-  const subscribeDrawing = () => {
-    const trySubscribe = () => {
-      if (!client) {
-        console.log("구독 연결 실패")
-        return;
-      }
-      console.log("구독 연결중")
-
-      const subscription = client.subscribe(`/sub/socket/draw/${sessionId}`, (message) => {
-        const receivedData = JSON.parse(message.body); 
-
-        if (receivedData.type === 'draw' && receivedData.rtcSession === sessionId) {
-          
-          const { x, y, width, color } = receivedData.data;
-          getCtx.strokeStyle = color;
-          getCtx.lineWidth = width;
-          // getCtx.lineTo(x, y);
-          // getCtx.stroke();
-          // getCtx.beginPath();
-          // getCtx.moveTo(x, y);
-        }
-      });
-
-      return subscription;
-    };
-
-    const subscription = trySubscribe();
-
-    // 컴포넌트가 언마운트될 때 구독 해제
-    return () => {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
-    };
-  };
-
-  subscribeDrawing();
-}, [client, sessionId]);
-
   
   const penEvent = () =>{
     // if(currentRole === userRole){
@@ -147,6 +107,31 @@ export default function App({client, sessionId}) {
     // }
   }
 
+  useEffect(() => {
+    console.log(client)
+    const subscription = client.subscribe(`/sub/socket/draw/${sessionId}`, (message) => {
+      const receivedData = JSON.parse(message.body);
+
+      if (receivedData.type === 'draw' && receivedData.rtcSession === sessionId) {
+        console.log("@@@@@@@@@@@@@@@")
+        const { x, y, width, color, paint } = receivedData.data;
+        getCtx.strokeStyle = color;
+        getCtx.lineWidth = width;
+        if(!paint){
+          getCtx.beginPath();
+          getCtx.moveTo(x, y);
+        }else{
+          getCtx.lineTo(x, y);
+          getCtx.stroke();
+        }        
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [client, sessionId]);
+
   const drawFn = e => {
     // mouse position
     const mouseX = e.nativeEvent.offsetX;
@@ -154,22 +139,34 @@ export default function App({client, sessionId}) {
     // drawing
     // if(currentRole === userRole){
       if (!painting) {
-          getCtx.beginPath();
-          getCtx.moveTo(mouseX, mouseY);
-      } else {
-          getCtx.lineTo(mouseX, mouseY);
-          getCtx.stroke();
-
-              // 그림 그리는 정보를 생성하여 소켓을 통해 서버로 전송
+          // getCtx.beginPath();
+          // getCtx.moveTo(mouseX, mouseY);
           const drawingInfo = {
             sessionId: sessionId,
             x: mouseX,
             y: mouseY,
             width: getCtx.lineWidth,
             color: getCtx.strokeStyle,
+            paint: false
+        };
+        client.send(`/pub/socket/draw`, {}, JSON.stringify(drawingInfo));
+      } else {
+          // getCtx.lineTo(mouseX, mouseY);
+          // getCtx.stroke();
+
+          const drawingInfo = {
+              sessionId: sessionId,
+              x: mouseX,
+              y: mouseY,
+              width: getCtx.lineWidth,
+              color: getCtx.strokeStyle,
+              paint: true
           };
+
           client.send(`/pub/socket/draw`, {}, JSON.stringify(drawingInfo));
       }
+
+      
     // }
   }
 
