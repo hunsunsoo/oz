@@ -11,4 +11,5 @@ public class DrawReq {
     private int y;
     private float width;
     private String color;
+    private boolean paint;
 }
