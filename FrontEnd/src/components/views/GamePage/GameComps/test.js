@@ -55,7 +55,7 @@ function TimeBar({ duration, onRoleChange }) {
   );
 }
 
-export default function App() {
+export default function App({client, sessionId}) {
   // useRef
   const canvasRef = useRef(null);
   // getCtx
@@ -88,39 +88,86 @@ export default function App() {
 
   
   const penEvent = () =>{
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       getCtx.strokeStyle = "#6C584C";
       getCtx.lineWidth = 2.5;
-    }
+    // }
   };
 
   const eraseEvent = () =>{
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       getCtx.strokeStyle = "#f0ead2";
       getCtx.lineWidth = 25;
-    }
+    // }
   }
 
   const broomEvent = () =>{
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       getCtx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    }
+    // }
   }
+
+  useEffect(() => {
+    console.log(client)
+    const subscription = client.subscribe(`/sub/socket/draw/${sessionId}`, (message) => {
+      const receivedData = JSON.parse(message.body);
+
+      if (receivedData.type === 'draw' && receivedData.rtcSession === sessionId) {
+        console.log("@@@@@@@@@@@@@@@")
+        const { x, y, width, color, paint } = receivedData.data;
+        getCtx.strokeStyle = color;
+        getCtx.lineWidth = width;
+        if(!paint){
+          getCtx.beginPath();
+          getCtx.moveTo(x, y);
+        }else{
+          getCtx.lineTo(x, y);
+          getCtx.stroke();
+        }        
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [client, sessionId]);
 
   const drawFn = e => {
     // mouse position
     const mouseX = e.nativeEvent.offsetX;
     const mouseY = e.nativeEvent.offsetY;
     // drawing
-    if(currentRole === userRole){
+    // if(currentRole === userRole){
       if (!painting) {
-          getCtx.beginPath();
-          getCtx.moveTo(mouseX, mouseY);
+          // getCtx.beginPath();
+          // getCtx.moveTo(mouseX, mouseY);
+          const drawingInfo = {
+            sessionId: sessionId,
+            x: mouseX,
+            y: mouseY,
+            width: getCtx.lineWidth,
+            color: getCtx.strokeStyle,
+            paint: false
+        };
+        client.send(`/pub/socket/draw`, {}, JSON.stringify(drawingInfo));
       } else {
-          getCtx.lineTo(mouseX, mouseY);
-          getCtx.stroke();
+          // getCtx.lineTo(mouseX, mouseY);
+          // getCtx.stroke();
+
+          const drawingInfo = {
+              sessionId: sessionId,
+              x: mouseX,
+              y: mouseY,
+              width: getCtx.lineWidth,
+              color: getCtx.strokeStyle,
+              paint: true
+          };
+
+          client.send(`/pub/socket/draw`, {}, JSON.stringify(drawingInfo));
       }
-    }
+
+      
+    // }
   }
 
   return (
