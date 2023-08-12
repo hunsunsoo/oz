@@ -78,6 +78,26 @@ function sendPuzzleReadyData(client, session, role) {
 }
 
 const GameComp = (props) => {
+
+  //게임 브라우저 컨트롤
+  useEffect(() => {
+    //뒤로가기 막기
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function (event) {
+      window.history.pushState(null, null, window.location.href);
+    };
+
+    //새로고침 막기
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = '새로고침 시, 데이터가 손실되며 게임이 중단될 수 있습니다. 그래도 나가시겠습니까?';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   const isStage = props.isStage;
   const isIndex = props.isIndex;
 
