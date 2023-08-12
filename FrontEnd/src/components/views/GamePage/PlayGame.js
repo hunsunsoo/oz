@@ -28,6 +28,7 @@ const PlayGame = ({
   // flow 상의 Next 버튼
   const handleNext = () => {
     dispatch(setGameUserInfo(body)); //DisPatch 통해서 리듀서에 전달
+
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
     } else if (isIndex === 21) {

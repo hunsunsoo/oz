@@ -3,15 +3,13 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import style from "./MakeRoomModal.module.css";
+import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from "../../../_actions/urls";
 
 function MakeRoomModal({ setIsVisibledModal }) {
     const [cookies, setCookies] = useCookies(); // 쿠키와 설정 함수, 삭제 함수 추출
     const navigate = useNavigate();
     const [mySessionId, setMySessionId] = useState("");
     const [isClicked, setIsClicked] = useState(false);
-
-    const OPENVIDU_SERVER_URL = "https://i9b104.p.ssafy.io:8443";
-    const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
     const closeModal = () => {
         setIsVisibledModal(false);
