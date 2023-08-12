@@ -5,4 +5,6 @@ import com.fire4bird.oz.game.trap.entity.Trap;
 public interface TrapRepositoryCustom {
 
     Trap maxTurn(int roundId);
+
+    long countTurn(int roundId);
 }
