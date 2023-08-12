@@ -4,6 +4,7 @@ import com.fire4bird.oz.game.catchmind.dto.req.*;
 import com.fire4bird.oz.game.catchmind.entity.Catchmind;
 import com.fire4bird.oz.game.catchmind.entity.CatchmindLog;
 import com.fire4bird.oz.game.catchmind.manager.CatchmindGameManager;
+import com.fire4bird.oz.game.catchmind.repository.CatchmindDataRepository;
 import com.fire4bird.oz.game.catchmind.repository.CatchmindLogRepsitory;
 import com.fire4bird.oz.game.catchmind.repository.CatchmindRepository;
 import com.fire4bird.oz.round.entity.Round;
@@ -26,13 +27,15 @@ public class CatchmindService {
 
     private final CatchmindRepository catchmindRepository;
     private final CatchmindLogRepsitory catchmindLogRepsitory;
+    private final CatchmindDataRepository catchmindDataRepository;
     private final SocketRepository socketRepository;
     private final RedisPublisher redisPublisher;
     private final RoundRepository roundRepository;
     private CatchmindGameManager catchmindGameManager;
 
+
     @PostConstruct
-    public void init() { catchmindGameManager = new CatchmindGameManager(socketRepository, redisPublisher); }
+    public void init() { catchmindGameManager = new CatchmindGameManager(socketRepository, redisPublisher, catchmindDataRepository); }
 
 
     public void gameReady(ReadyReq req) {
