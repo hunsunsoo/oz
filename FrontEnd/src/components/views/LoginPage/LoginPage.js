@@ -11,8 +11,8 @@ function LoginPage(props) {
   const dispatch = useDispatch();
 
   // 1.  로그인 데이터 부분
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState("hsh5349@naver.com");
+  const [Password, setPassword] = useState("1234");
 
   // usestate: const [state, setstate] = useState(initialState) 자동완성.
   // initialState : = placeholder
@@ -28,7 +28,7 @@ function LoginPage(props) {
   const [cookies, setCookies] = useCookies();
 
   const enterKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       onSubmitHandler(event);
     }
   };
@@ -77,8 +77,7 @@ function LoginPage(props) {
   };
 
   return (
-    <div className={style.loginpage}
-    onKeyDown={enterKeyPress}>
+    <div className={style.loginpage} onKeyDown={enterKeyPress}>
       <div
         style={{
           display: "flex",
@@ -90,34 +89,37 @@ function LoginPage(props) {
       >
         <div className={style.box}>
           <div className={style.logo}>
-            <img className={style.logoImage} 
-            src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
-            onClick={() => navigate(`/`)}></img>
+            <img
+              className={style.logoImage}
+              src={process.env.PUBLIC_URL + "/image/logo/real_logo.png"}
+              onClick={() => navigate(`/`)}
+            ></img>
           </div>
           <div className={style.allBox}>
             <div className={style.idBox}>
-              <div className={style.frontZone}>
-              </div>
-              <input className={style.inputZone}
-              placeholder="Email"
-              type="email"
-              value={Email}
-              onChange={onEmailHandler}>
-              </input>
+              <div className={style.frontZone}></div>
+              <input
+                className={style.inputZone}
+                placeholder="Email"
+                type="email"
+                value={Email}
+                onChange={onEmailHandler}
+              ></input>
             </div>
             <div className={style.pwBox}>
-              <div className={style.frontZone}>
-              </div>
-              <input className={style.inputZone}
-              placeholder="Password"
-              type="password"
-              value={Password}
-              onChange={onPasswordHandler}>
-              </input>
+              <div className={style.frontZone}></div>
+              <input
+                className={style.inputZone}
+                placeholder="Password"
+                type="password"
+                value={Password}
+                onChange={onPasswordHandler}
+              ></input>
             </div>
             <div className={style.loginDiv}>
-              <button className={style.loginButton}
-                onClick={onSubmitHandler}>로그인</button>
+              <button className={style.loginButton} onClick={onSubmitHandler}>
+                로그인
+              </button>
             </div>
             <div className={style.etcDiv}>
               <button
@@ -139,8 +141,10 @@ function LoginPage(props) {
               <div className={style.line}></div>
             </div>
             <div className={style.loginDiv}>
-              <button className={style.kakaoButton} onClick={handleKakaoLogin}>
-              </button>
+              <button
+                className={style.kakaoButton}
+                onClick={handleKakaoLogin}
+              ></button>
             </div>
           </div>
         </div>

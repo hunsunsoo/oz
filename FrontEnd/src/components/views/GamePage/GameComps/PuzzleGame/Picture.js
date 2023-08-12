@@ -11,11 +11,11 @@ function Picture({ id, url }) {
   }));
 
   const style = {
-    width: "40px",
-    height: "40px",
+    width: "60px",
+    height: "60px",
     backgroundImage: `url(${url})`,
     backgroundSize: "cover",
-    border: isDragging ? "3px solid pink" : "0px",
+    border: isDragging ? "3px solid pink" : "1px",
   };
 
   return <div ref={drag} style={style} />;

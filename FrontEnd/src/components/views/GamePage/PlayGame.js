@@ -1,18 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { GameComp } from "./GameComps/GameComps";
-
-const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole, userId}) => {
+import { useDispatch } from "react-redux";
+import { setGameUserInfo } from "../../../_actions/game_actions";
+const PlayGame = ({
+  middleCon,
+  onHandleMiddleCondition,
+  client,
+  sessionId,
+  myRole,
+  userId,
+}) => {
   const [isStage, setIsStage] = useState(3);
   const [isIndex, setIsIndex] = useState(11);
   const stageLimits = [16, 4, 12, 11, 7, 14];
+  const dispatch = useDispatch(); // 디스패치 정의
+  let body = {
+    //isStage 값 담아줄 객체
+    isStage: isStage,
+    isIndex: isIndex,
+  };
 
   const handleMiddleCondition = () => {
     const newStatus = middleCon - 1;
     onHandleMiddleCondition(newStatus);
-  }
+  };
 
   // flow 상의 Next 버튼
   const handleNext = () => {
+    dispatch(setGameUserInfo(body)); //DisPatch 통해서 리듀서에 전달
+
     if (isIndex < stageLimits[isStage]) {
       setIsIndex(isIndex + 1);
     } else if (isIndex === 21) {
@@ -23,13 +39,13 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole
       setIsStage(isStage + 1);
     }
   };
-  const isButtonActive = 
-  (isStage >= 1 && isStage <= 4 && isIndex >= 10 && isIndex <= 20) || // 기존 조건
-  (isStage === 1 && isIndex === 3) || // isStage가 1이고 isIndex가 3인 조건
-  (isStage === 2 && isIndex === 3) ||
-  (isStage === 3 && isIndex === 3) ||
-  (isStage === 4 && isIndex === 2) ||
-  (isStage === 5 && isIndex === 13); // isStage가 2이고 isIndex가 2인 조건
+  const isButtonActive =
+    (isStage >= 1 && isStage <= 4 && isIndex >= 10 && isIndex <= 20) || // 기존 조건
+    (isStage === 1 && isIndex === 3) || // isStage가 1이고 isIndex가 3인 조건
+    (isStage === 2 && isIndex === 3) ||
+    (isStage === 3 && isIndex === 3) ||
+    (isStage === 4 && isIndex === 2) ||
+    (isStage === 5 && isIndex === 13); // isStage가 2이고 isIndex가 2인 조건
 
   // index만 증가 따로
   const indexNext = () => {
@@ -50,23 +66,23 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole
   // 게임 시작 (준비완료 됐을때)
   const readyNext = () => {
     setIsIndex(11);
-  }
+  };
 
   // 게임 클리어 (마지막 일러스트 보러가자)
   const stageLast = () => {
-    if (isStage === 4 ){
+    if (isStage === 4) {
       setIsIndex(0);
       setIsStage(isStage + 1);
     } else {
       setIsIndex(21);
     }
-  }
-  
+  };
+
   // 게임 종료 (팀구성 화면)
   const resetNext = () => {
     setIsIndex(0);
     setIsStage(0);
-  }
+  };
 
   useEffect(() => {
     // 10초 후에 숫자판 (일단 3초)
@@ -79,13 +95,11 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole
     }
   }, [isStage, isIndex]);
 
-
   useEffect(() => {
     // subscribeToSessionID();
-    console.log(sessionId)
+    console.log(sessionId);
   }, []);
 
-  
   const gamedivStyle = {
     margin: "0",
     padding: "0",
@@ -102,13 +116,29 @@ const PlayGame = ({middleCon, onHandleMiddleCondition, client, sessionId, myRole
   const BtnStyle = {
     position: "absolute",
     display: isButtonActive ? "none" : "block",
-  }
-  console.log("stage: "+isStage+" index: "+isIndex);
+  };
+  // console.log("stage: " + isStage + " index: " + isIndex);
   return (
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
-        <button style={BtnStyle} onClick={handleNext} >Next</button>
-        <GameComp isStage={isStage} isIndex={isIndex} changeIsIndex={indexNext} changeIsStage={stageNext} changeIsReady={readyNext} changeIsClear={stageLast} middleCon={middleCon} onHandleMiddleCondition={handleMiddleCondition} client={client} sessionId={sessionId} userId={userId} myRole={myRole} indexSet={indexSet}/>
+        <button style={BtnStyle} onClick={handleNext}>
+          Next
+        </button>
+        <GameComp
+          isStage={isStage}
+          isIndex={isIndex}
+          changeIsIndex={indexNext}
+          changeIsStage={stageNext}
+          changeIsReady={readyNext}
+          changeIsClear={stageLast}
+          middleCon={middleCon}
+          onHandleMiddleCondition={handleMiddleCondition}
+          client={client}
+          sessionId={sessionId}
+          userId={userId}
+          myRole={myRole}
+          indexSet={indexSet}
+        />
       </div>
     </div>
   );

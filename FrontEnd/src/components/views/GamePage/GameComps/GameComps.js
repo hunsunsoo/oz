@@ -92,8 +92,8 @@ const GameComp = (props) => {
   const indexSet = props.indexSet
 
 
-  // 각 4역할의 상태
-  // 0: default / 1:1번게임 준비상태 / 2:2번게임 준비상태 / 3:3번게임 준비상태 /4:4번게임 준비상태
+  // 각 4역할의 준비 상태
+  // 0: default / 1:1번게임 준비 / 2:2번게임 준비 / 3:3번게임 준비 /4:4번게임 준비
   const [dorothyState, setDorothyState] = useState(0);
   const [lionState, setLionState] = useState(0);
   const [heosuState, setHeosuState] = useState(0);
@@ -108,19 +108,18 @@ const GameComp = (props) => {
         console.log("게임 준비 구독 연결중")
         const subscription = client.subscribe(`/sub/socket/ready/${sessionId}`, (resMessage) => {
           console.log('Received message:', resMessage.body);
-          
+          // role 역할, stage 몇스테이지, state 1:준비 0:취소
           try {
             const resJson = JSON.parse(resMessage.body);
-            const role = resJson.data.role;
+            const readyRole = resJson.data.role;
             const readyState = resJson.data.state;
-            const readyType = resJson.data.type;
-
+            const readyStage = resJson.data.stage;
 
             // 누가 무엇을 골랐는지 상태 저장할 메서드 호출
-            if (readyType === 1) {
-              handleReadyRole(role, readyState);
-            } else if (readyType === -1) {
-              handleCancelReady(role, readyState);
+            if (readyState === 1) {
+              handleReadyRole(readyRole, readyStage);
+            } else if (readyState === 0) {
+              handleCancelReady(readyRole);
             } 
 
           } catch (error) {
@@ -135,19 +134,19 @@ const GameComp = (props) => {
   }, [client, sessionId]);
 
   // 선택 상태 저장 갱신
-  const handleReadyRole = (role, readyState) => {
+  const handleReadyRole = (role, stage) => {
     if(role === 1){
-      setDorothyState(readyState);
+      setDorothyState(stage);
     } else if(role === 2){
-      setLionState(readyState);
+      setLionState(stage);
     } else if(role === 3){
-      setHeosuState(readyState);
+      setHeosuState(stage);
     } else if(role === 4){
-      setTwmState(readyState);
+      setTwmState(stage);
     }
   };
 
-  const handleCancelReady = (role, readyState) => {
+  const handleCancelReady = (role) => {
     if(role === 1){
       setDorothyState(0);
     } else if(role === 2){
@@ -158,6 +157,8 @@ const GameComp = (props) => {
       setTwmState(0);
     }
   };
+
+  // 여기까지 각게임 준비하기
   
   const [gameId, setGameId] = useState(0);
   const [turn, setTurn] = useState(1);
@@ -611,7 +612,8 @@ const GameComp = (props) => {
   } else if (isStage === 2 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <TrapGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} />
+        <TrapGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet}
+                  R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState} />
       </div>
     );
   } else if (isStage === 2 && isIndex == 12) {

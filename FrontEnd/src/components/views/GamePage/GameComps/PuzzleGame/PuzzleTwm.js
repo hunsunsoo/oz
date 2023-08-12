@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Picture from "./Picture";
-import style from "../GameComps.module.css";
+import style from "./PuzzleGame.module.css";
 import Board from "./PuzzleBoard";
 
 const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
@@ -12,16 +12,6 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
   const imageIds = puzzle.split(",");
 
   const initialBoardsFromBackend = [];
-
-  const PictureList = [];
-  for (let i = 1; i <= 6; i++) {
-    for (let j = 1; j <= 6; j++) {
-      const id = i * 10 + j;
-      const key = i * 10 + j;
-      const url = `/image/game/puzzleGame/puzzlePiece/${id}.png`;
-      PictureList.push({ id, url });
-    }
-  }
 
   // 나머지 빈 보드 추가
   for (let i = 0; i < 6; i++) {
@@ -41,7 +31,7 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
       const emptyBoard = { id: null, url: null, fixed: false };
       initialBoardsFromBackend.push(emptyBoard);
     }
-  };
+  }
 
   // 초기 보드를 useState로 설정
   const [boards, setBoards] = useState(initialBoardsFromBackend);
@@ -57,21 +47,17 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
     });
   };
 
-
-
-
-
   const handleSendAnswerCheck = () => {
-    console.log(boards)
-    console.log(locationArray)
+    console.log(boards);
+    console.log(locationArray);
     const userAnswerString = getUserAnswerString(boards, locationArray);
-    
+
     sendPuzzleAnswer(userAnswerString);
   };
 
   const getUserAnswerString = (boards, location) => {
     const locationArray = Array.from(String(location), Number);
-    
+
     // const result = boards.filter((_, index) => locationArray.includes(index + 1)).map((board) => board.id);
     // console.log(result);
     // return result;
@@ -79,36 +65,36 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
     console.log(locationArray);
 
     const result = boards
-    .map((board, index) => {
-      if (!locationArray.includes(index+1)) {
-        return `${index + 1}:${board.id}`;
-      }
-      return null;
-    })
-    .filter(Boolean)
-    .join(", ");
+      .map((board, index) => {
+        if (!locationArray.includes(index + 1)) {
+          return `${index + 1}:${board.id}`;
+        }
+        return null;
+      })
+      .filter(Boolean)
+      .join(", ");
     console.log(result);
-    return result
+    return result;
   };
 
   // 게임로그 publisher
   const sendLogData = async (logLocation, logNum) => {
     try {
       if (!client) {
-        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        console.log("웹소켓이 연결중이 아닙니다. 메시지 보내기 실패");
         return;
       }
-          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!num 확인하기
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!num 확인하기
       const message = {
         userId: userId,
         message: `${userId}번님이 ${logLocation}위치에 ${logNum}을 넣었습니다`,
         rtcSession: sessionId,
       };
 
-      client.send('/pub/puzzle/log', {}, JSON.stringify(message));
-      console.log(message)
+      client.send("/pub/puzzle/log", {}, JSON.stringify(message));
+      console.log(message);
     } catch (error) {
-      console.log('Error sending message:', error);
+      console.log("Error sending message:", error);
     }
   };
 
@@ -116,47 +102,65 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
   const sendPuzzleAnswer = async (userAnswerString) => {
     try {
       if (!client) {
-        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+        console.log("웹소켓이 연결중이 아닙니다. 메시지 보내기 실패");
         return;
       }
-          // userAnswerString!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!이걸 만드는 그개 필요해
+      // userAnswerString!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!이걸 만드는 그개 필요해
       const message = {
-        "rtcSession":sessionId,
-        "userId": userId,
-        "userAnswer": userAnswerString,
-        "check": 1
+        rtcSession: sessionId,
+        userId: userId,
+        userAnswer: userAnswerString,
+        check: 1,
       };
 
-      client.send('/pub/puzzle/data', {}, JSON.stringify(message));
-      console.log(message)
+      client.send("/pub/puzzle/data", {}, JSON.stringify(message));
+      console.log(message);
     } catch (error) {
-      console.log('Error sending message:', error);
+      console.log("Error sending message:", error);
     }
   };
+  const PictureList = [];
+  for (let i = 1; i <= 6; i++) {
+    for (let j = 1; j <= 6; j++) {
+      const id = i * 10 + j;
+      const key = i * 10 + j;
+      const url = `/image/game/puzzleGame/puzzlePiece/${id}.png`;
+      PictureList.push({ id, url });
+    }
+  }
 
-
-  
-    return (
-      <div className={style.compStyle}>
+  return (
+    <div className={style.compStyle}>
       <div className={style.container}>
         <div className={style.puzzleLeft}>
-          <div
-            className="Boards"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)", // 3개의 열을 생성
-              gridTemplateRows: "repeat(3, 1fr)", // 2개의 행을 생성
-              gap: "30px", // 각 그리드 항목 사이의 간격
-            }}
-          >
-            {boards.map((picture, index) => (
-              <Board
-                key={index}
-                index={index}
-                picture={picture}
-                onDrop={handleDrop}
-              />
-            ))}
+          {/* <div className="Boards"> */}
+          {/* {boards.map((picture, index) => (
+            <Board
+              key={index}
+              index={index}
+              picture={picture}
+              onDrop={handleDrop}
+              className={`board-${index}`}
+            />
+          ))} */}
+          {/* </div> */}
+          <div className={style.board0}>
+            <Board key={0} index={0} picture={boards[0]} onDrop={handleDrop} />
+          </div>
+          <div className={style.board1}>
+            <Board key={1} index={1} picture={boards[1]} onDrop={handleDrop} />
+          </div>
+          <div className={style.board2}>
+            <Board key={2} index={2} picture={boards[2]} onDrop={handleDrop} />
+          </div>
+          <div className={style.board3}>
+            <Board key={3} index={3} picture={boards[3]} onDrop={handleDrop} />
+          </div>
+          <div className={style.board4}>
+            <Board key={4} index={4} picture={boards[4]} onDrop={handleDrop} />
+          </div>
+          <div className={style.board5}>
+            <Board key={5} index={5} picture={boards[5]} onDrop={handleDrop} />
           </div>
         </div>
 
@@ -178,7 +182,12 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
           ))}
         </div>
 
-        <button onClick={handleSendAnswerCheck}>정답 확인</button>
+        <button
+          className={style.stage3SelectBtn}
+          onClick={handleSendAnswerCheck}
+        >
+          정답 확인
+        </button>
       </div>
       <img
         src="image/tools/questionMark.png"
@@ -189,8 +198,6 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
         선택완료
       </div> */}
     </div>
-    );
-
-  
-  };
+  );
+};
 export default PuzzleTwm;
