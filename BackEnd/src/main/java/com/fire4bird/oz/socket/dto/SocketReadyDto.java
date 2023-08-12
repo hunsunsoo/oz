@@ -13,7 +13,6 @@ public class SocketReadyDto implements Serializable {
 
     private String type;
     private String rtcSession;
-    private Integer userId;
     private Integer role;
     private Integer stage;
     private Integer state;

@@ -74,16 +74,12 @@ public class OverAllController {
 
     @MessageMapping("/socket/ready")
     public void gameReady(SocketReadyDto req) {
-        SocketReadyDto res = SocketReadyDto.builder()
-                .type("ready")
+        SocketMessage msg = SocketMessage.builder()
                 .rtcSession(req.getRtcSession())
-                .userId(req.getUserId())
-                .role(req.getRole())
-                .message(req.getMessage())
-                .stage(req.getStage())
-                .state(req.getState())
+                .type("ready")
+                .data(req)
                 .build();
 
-        redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), res);
+        redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), msg);
     }
 }
