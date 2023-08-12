@@ -111,10 +111,9 @@ const GameComp = (props) => {
           // role 역할, stage 몇스테이지, state 1:준비 0:취소
           try {
             const resJson = JSON.parse(resMessage.body);
-            const readyRole = resJson.role;
-            const readyState = resJson.state;
-            const readyStage = resJson.stage;
-
+            const readyRole = resJson.data.role;
+            const readyState = resJson.data.state;
+            const readyStage = resJson.data.stage;
 
             // 누가 무엇을 골랐는지 상태 저장할 메서드 호출
             if (readyState === 1) {
@@ -613,7 +612,8 @@ const GameComp = (props) => {
   } else if (isStage === 2 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <TrapGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} />
+        <TrapGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet}
+                  R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState} />
       </div>
     );
   } else if (isStage === 2 && isIndex == 12) {
