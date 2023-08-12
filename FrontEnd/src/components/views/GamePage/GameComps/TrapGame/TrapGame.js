@@ -4,7 +4,7 @@ import TrapReady from './TrapReady';
 import TrapAid from './TrapAid';
 import { useSelector } from 'react-redux';
 
-const TrapGame = ({client, sessionId, myRole, handleindexSet}) => {
+const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {
   // isStart 참이면 TrapGameRederingState에 의해 분기되는 게임페이지가 렌더링된다.
   const [isStart, setIsStart] = useState(false);
   // TrapGameRederingState 에서 나눠지는 조건 => myRole
@@ -138,7 +138,7 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet}) => {
   let TrapGameRenderingState;
   switch (myRole) {
     case 2:
-      TrapGameRenderingState = <TrapLion startData={startData} client={client} sessionId={sessionId} />
+      TrapGameRenderingState = <TrapLion startData={startData} client={client} sessionId={sessionId} userId={myUserId} />
       break;
     case 1:
     case 3:
@@ -150,7 +150,7 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet}) => {
   // TrapGame 컴포넌트
   return (
     <div style={{height:'100%'}}>
-      {isStart ? TrapGameRenderingState : <TrapReady isStart={isStart} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} />}
+      {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
     </div>
   );
 };

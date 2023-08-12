@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const TrapLion = ({ startData, client, sessionId }) => {
+const TrapLion = ({ startData, client, sessionId, userId }) => {
 
   
   const screen = startData.data.screen;
@@ -10,23 +10,25 @@ const TrapLion = ({ startData, client, sessionId }) => {
     if(screen==="wall" && type==="Go"){
       alert("벽으로는 갈 수 없어요");
       return;
-    }
-    try {
-      if (!client) {
-        console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
-        return;
-      }
-          
-      const message = {
-        "rtcSession":`${sessionId}`,
-        "userId":8,
-        "moving":`${type}`
-      };
+    } else{
+      try {
+        if (!client) {
+          console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+          return;
+        }
+        console.log(userId)
+            
+        const message = {
+          "rtcSession":`${sessionId}`,
+          "userId":userId,
+          "moving":`${type}`
+        };
 
-      client.send('/pub/trap/move', {}, JSON.stringify(message));
-      console.log('메시지 보냈음');
-    } catch (error) {
-      console.log('Error sending message:', error);
+        client.send('/pub/trap/move', {}, JSON.stringify(message));
+        console.log('메시지 보냈음');
+      } catch (error) {
+        console.log('Error sending message:', error);
+      }
     }
   };
 
