@@ -66,10 +66,10 @@ public class TrapService {
             int check = trapGameManager.locationCheck(curLocX, curLocY, trap.getMap(), hasKey);
 
             if(check == 0){
-                trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey));
+                trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey, trap.getScreenMap()));
             } else if(check == 1){
                 hasKey = 1;
-                trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey));
+                trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey, trap.getScreenMap()));
             } else if(check == 2){
                 // 클리어 처리해야함
                 // 모두에게 클리어 전송
@@ -109,7 +109,7 @@ public class TrapService {
                 }
             }
 
-            trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, nextDir, hasKey));
+            trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, nextDir, hasKey, trap.getScreenMap()));
         }
 
         trap.setHasKey(hasKey);

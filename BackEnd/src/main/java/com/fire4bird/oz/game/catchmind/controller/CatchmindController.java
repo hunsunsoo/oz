@@ -1,12 +1,12 @@
 package com.fire4bird.oz.game.catchmind.controller;
 
+import com.fire4bird.oz.game.catchmind.dto.DrawingDto;
 import com.fire4bird.oz.game.catchmind.dto.req.*;
 import com.fire4bird.oz.game.catchmind.service.CatchmindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,25 +15,19 @@ public class CatchmindController {
 
     private final CatchmindService catchmindService;
 
-
-    @MessageMapping("/catchmind/ready")
-    public void gameReady(ReadyReq req) { catchmindService.gameReady(req); }
-
-    @MessageMapping("/catchmind/start")
+    @MessageMapping("/draw/start")
     public void gameStart(StartReq req) { catchmindService.gameStart(req); }
 
-    @MessageMapping("/catchmind/reset")
-    public void gameReset(StartReq req) { catchmindService.gameReset(req); }
+    @MessageMapping("/draw/drawing")
+    public void gameDrawing(DrawingDto req) { catchmindService.gameDrawing(req); }
 
-    @MessageMapping("/catchmind/log")
-    public void catchmindGameLog(ActorLogReq req) { catchmindService.gameLog(req); }
+    @MessageMapping("/draw/pass")
+    public void gamePass(PassReq req) { catchmindService.gamePass(req); }
 
-    @MessageMapping("/catchmind/data")
-    public void catchmindGameData(ActorAnswerReq req) { catchmindService.gameAnswer(req); }
+    @MessageMapping("/draw/reset")
+    public void gameReset(StartReq req) { catchmindService.imageReset(req); }
 
-    @MessageMapping("/catchmind/Image")
-    public void uploadImage(HelperSubmit req) { catchmindService.gameImg(req); }
+    @MessageMapping("/draw/data")
+    public void gameAnswer(AnswerReq req) { catchmindService.gameAnswer(req); }
 
-    @MessageMapping("/catchmind/downloadImage")
-    public void downloadImage(HelperSubmit req) {  }
 }

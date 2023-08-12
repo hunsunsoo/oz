@@ -145,4 +145,64 @@ public class TrapMapGenerator {
 
         return foundPath;
     }
+
+    public static int[][] screenMapGenerator(int[][] map){
+        // red 1,2,3,4 / blue 5,6,7,8 / green 9, 10, 11, 12
+        int[][] screenMap = new int[6][6];
+        int rCount = 0;
+        int gCount = 0;
+        int bCount = 0;
+        int value = 0;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                value = map[i][j] / 10;
+
+                if(value == 1){ // 빨강
+                    if(rCount == 0) {
+                        screenMap[i][j] = 1;
+                        rCount++;
+                    } else if(rCount == 1){
+                        screenMap[i][j] = 2;
+                        rCount++;
+                    } else if(rCount == 2){
+                        screenMap[i][j] = 3;
+                        rCount++;
+                    } else if(rCount == 3){
+                        screenMap[i][j] = 4;
+                        rCount = 0;
+                    }
+                } else if(value == 2){ // 초록
+                    if(gCount == 0) {
+                        screenMap[i][j] = 5;
+                        gCount++;
+                    } else if(gCount == 1){
+                        screenMap[i][j] = 6;
+                        gCount++;
+                    } else if(gCount == 2){
+                        screenMap[i][j] = 7;
+                        gCount++;
+                    } else if(gCount == 3){
+                        screenMap[i][j] = 8;
+                        gCount = 0;
+                    }
+                } else if(value == 3) { // 파랑
+                    if(bCount == 0) {
+                        screenMap[i][j] = 9;
+                        bCount++;
+                    } else if(bCount == 1){
+                        screenMap[i][j] = 10;
+                        bCount++;
+                    } else if(bCount == 2){
+                        screenMap[i][j] = 11;
+                        bCount++;
+                    } else if(bCount == 3){
+                        screenMap[i][j] = 12;
+                        bCount = 0;
+                    }
+                }
+            }
+        }
+
+        return screenMap;
+    }
 }
