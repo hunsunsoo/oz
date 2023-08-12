@@ -208,8 +208,9 @@ public class TrapGameManager {
     }
 
 
-    public SendLion lionScreen(String map, int curLocX, int curLocY, String curDir, byte hasKey){
+    public SendLion lionScreen(String map, int curLocX, int curLocY, String curDir, byte hasKey, String screen){
         int[][] myMap = stringToArray(map);
+        int[][] myScreenMap = stringToArray(screen);
 
         int value = 0;
         int keyX = 0;
@@ -233,44 +234,35 @@ public class TrapGameManager {
                 if(curLocX == 0){
                     nextCell = 0;
                 } else{
-                    nextCell = myMap[curLocX-1][curLocY];
+                    nextCell = myScreenMap[curLocX-1][curLocY];
                 }
                 break;
             case "D":
                 if(curLocX == 5){
                     nextCell = 0;
                 } else{
-                    nextCell = myMap[curLocX+1][curLocY];
+                    nextCell = myScreenMap[curLocX+1][curLocY];
                 }
                 break;
             case "L":
                 if(curLocY == 0){
                     nextCell = 0;
                 } else{
-                    nextCell = myMap[curLocX][curLocY-1];
+                    nextCell = myScreenMap[curLocX][curLocY-1];
                 }
                 break;
             case "R":
                 if(curLocY == 5){
                     nextCell = 0;
                 } else{
-                    nextCell = myMap[curLocX][curLocY+1];
+                    nextCell = myScreenMap[curLocX][curLocY+1];
                 }
                 break;
             default:
                 System.out.println("Invalid direction");
         }
 
-        String nextScreen = "";
-        if(nextCell<10){
-            nextScreen = "wall";
-        } else if(nextCell<20){
-            nextScreen = "red";
-        } else if(nextCell<30){
-            nextScreen = "green";
-        } else {
-            nextScreen = "blue";
-        }
+        String nextScreen = screenArr[nextCell];
 
         int dist = dx+dy;
 
