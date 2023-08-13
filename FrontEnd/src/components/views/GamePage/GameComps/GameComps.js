@@ -703,6 +703,7 @@ const GameComp = (props) => {
           sessionId={sessionId}
           myRole={myRole}
           handleindexSet={indexSet}
+          R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}
         />
       </div>
     );
