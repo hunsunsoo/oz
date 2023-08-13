@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SetBoardRes {
-    private Integer gameId;
+    private int gameId;
     private int[][] numberBoard;
     private int turn;
     private String session;
