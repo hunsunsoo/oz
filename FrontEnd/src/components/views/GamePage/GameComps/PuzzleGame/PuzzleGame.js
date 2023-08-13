@@ -5,7 +5,7 @@ import PuzzleTwm from "./PuzzleTwm";
 import { useSelector } from "react-redux";
 import style from "./PuzzleGame.module.css";
 
-const PuzzleGame = ({ client, sessionId, myRole, handleindexSet }) => {
+const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {
   const [isStart, setIsStart] = useState(false);
 
   const accessToken = useSelector(
@@ -184,10 +184,11 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet }) => {
         PuzzleGameRenderingState
       ) : (
         <PuzzleReady
-          isStart={isStart}
+          myRole={myRole}
           onHandleStart={handlerGameStartOrReset}
           client={client}
           sessionId={sessionId}
+          R1={R1} R2={R2} R3={R3} R4={R4}
         />
       )}
     </div>
