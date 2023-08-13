@@ -1,20 +1,19 @@
 // react
 import React, { useRef, useEffect, useState } from "react";
 import style from "./canvas.module.css";
+import TimeBar from "./Timebar";
 
-function Canvas() {
+
+const Canvas = ({client, sessionId, myUserId, myRole, currentRole, sendDuration}) => {
     // useRef
   const canvasRef = useRef(null);
   // getCtx
-  const [getCtx, setGetCtx] = useState(null);
+  const [getCtx, setGetCtx] = useState();
   // painting state
   const [painting, setPainting] = useState(false);
-  const [currentRole, setCurrentRole] = useState(1);
-  const userRole = 1;
+  const [timeBarDuration, setTimeBarDuration] = useState(0);
+  const [paintAvailable, setPaintAvailable] = useState(false);
 
-  const handleRoleChange = (newRole) => {
-    setCurrentRole(newRole);
-  };
 
   useEffect(() => {
     // canvas useRef
@@ -30,27 +29,86 @@ function Canvas() {
     ctx.lineJoin = "round";
     ctx.lineWidth = 2.5;
     ctx.strokeStyle = "#6C584C";
+    console.log(ctx);
     setGetCtx(ctx);
   }, []);
 
+  useEffect(() => {
+    console.log(client)
+    const subscription = client.subscribe(`/sub/socket/draw/drawing/${sessionId}`, (message) => {      
+      //console.log("Received message:", message.body);
+
+      try{
+        const receivedData = JSON.parse(message.body);
+        const { x, y, width, color, paint } = receivedData.data;
+        getCtx.strokeStyle = color;
+        getCtx.lineWidth = width;
+        if(!paint){
+          getCtx.beginPath();
+          getCtx.moveTo(x, y);
+        }else{
+          getCtx.lineTo(x, y);
+          getCtx.stroke();
+        }        
+      } catch (error) {
+        console.error("Error parsing message body:", error);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [client, sessionId, getCtx]);
+
+  useEffect(() => {
+    console.log(client)
+    const subscription = client.subscribe(`/sub/socket/draw/reset/${sessionId}`, (message) => {      
+      console.log("Received message:", message.body);
+      
+      try{
+        getCtx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      } catch (error) {
+        console.error("Error parsing message body:", error);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [client, sessionId, getCtx]);
+
+  useEffect(() => {
+    setPaintAvailable(!sendDuration);
+    if(!sendDuration){
+      setTimeBarDuration(7);
+    }else{
+      setTimeBarDuration(0);
+    }
+  }, [sendDuration]);
+
   
   const penEvent = () =>{
-    if(currentRole === userRole){
+    if(currentRole === myRole && paintAvailable){
       getCtx.strokeStyle = "#6C584C";
       getCtx.lineWidth = 2.5;
     }
   };
 
   const eraseEvent = () =>{
-    if(currentRole === userRole){
+    if(currentRole === myRole && paintAvailable){
       getCtx.strokeStyle = "#f0ead2";
       getCtx.lineWidth = 25;
     }
   }
 
   const broomEvent = () =>{
-    if(currentRole === userRole){
-      getCtx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    if(currentRole === myRole && paintAvailable){
+      const sendData = {
+        rtcSession: sessionId,
+        userId: myUserId
+      };
+
+      client.send(`/pub/draw/reset`, {}, JSON.stringify(sendData));
     }
   }
 
@@ -59,18 +117,41 @@ function Canvas() {
     const mouseX = e.nativeEvent.offsetX;
     const mouseY = e.nativeEvent.offsetY;
     // drawing
-    if(currentRole === userRole){
-      if (!painting) {
-          getCtx.beginPath();
-          getCtx.moveTo(mouseX, mouseY);
-      } else {
-          getCtx.lineTo(mouseX, mouseY);
-          getCtx.stroke();
-      }
+    if(currentRole === myRole && paintAvailable){
+      const drawingInfo = {
+        sessionId: sessionId,
+        userId: myUserId,
+        x: mouseX,
+        y: mouseY,
+        width: getCtx.lineWidth,
+        color: getCtx.strokeStyle,
+        paint: painting
+      };
+      client.send(`/pub/draw/drawing`, {}, JSON.stringify(drawingInfo));
     }
   }
 
     return (
+      <div className={style.canvasWrap}>
+        {myRole !== 1 && (
+        <div className={style.timer}>
+          <div className={style.clock}>⏳</div>
+          <div className={style.timebarVertical}><TimeBar client={client} sessionId={sessionId} myUserId={myUserId} myRole={myRole} currentRole={currentRole} duration={timeBarDuration}></TimeBar></div>
+        </div>
+        )}
+        {myRole !== 1 && (
+          <div className = {style.buttonZone}>
+            <button className = {style.button} onClick={penEvent}>
+              <i class="fi fi-rr-pen-fancy"></i>
+            </button>
+            <button className = {style.button} onClick={eraseEvent}>
+              <i class="fi fi-rr-eraser"></i>
+            </button>
+            <button className = {style.button} onClick={broomEvent}>
+              <i class="fi fi-rr-broom"></i>
+            </button>
+          </div>
+        )}
         <canvas 
           className={style.canvas}
           ref={canvasRef}
@@ -80,5 +161,8 @@ function Canvas() {
           onMouseLeave={() => setPainting(false)}
         >
         </canvas>
+      </div>
     );
 }
+
+export default Canvas;
