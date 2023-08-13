@@ -1,0 +1,123 @@
+.compStyle {
+	width: 90%;
+	height: 95%;
+	padding: 2.5% 5%;
+  display: flex;
+}
+.background_G2{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  background-image: url("../../../../../../public/image/backGround/G2_BG_maze.png");
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+}
+.charStyle{
+  display: flex;
+  width: 55%;
+  height: 100%;
+}
+.guideStyle{
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  height: 100%;
+}
+
+.firstDiv {
+  height: 100%;
+  width: 34%;
+  display: flex;
+  padding-bottom: 2%;
+  position: relative;
+}
+.otherDiv {
+  height: 100%;
+  width: 22%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 2%;
+  position: relative;
+}
+
+.topDivStyle {
+  height: 67%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottomDivStyle {
+  height: 33%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.howToPlayImg {
+  width: 50%;
+  height: 50%;
+  background-color: white;
+}
+.readyBtn {
+  width: 20%;
+  height: 50%;
+  background-Color: #A98467;
+  display: flex;
+  align-Items: center;
+  justify-Content: center;
+  font-Size: 24px;
+  font-Weight: bold;
+  color:#F0EAD2;
+  border-Radius: 20px;
+}
+.howToPlayBtn {
+  width: 20%;
+  height: 50%;
+  background-Color: #A98467;
+  display: flex;
+  align-Items: center;
+  justify-Content: center;
+  font-Size: 24px;
+  font-Weight: bold;
+  color:#F0EAD2;
+  border-Radius: 20px;
+}
+.startBtn {
+  width: 20%;
+  height: 50%;
+  background-Color: #A98467;
+  display: flex;
+  align-Items: center;
+  justify-Content: center;
+  font-Size: 24px;
+  font-Weight: bold;
+  color:#F0EAD2;
+  border-Radius: 20px;
+}
+.checkMain{
+  height: auto;
+  width: 100%;
+}
+.checkExtra{
+  height: auto;
+  width: 100%;
+}
+.checkMark{
+  width: 50%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  z-index: 1;
+}
+.checkMarkExtra{
+  width: 50%;
+  height: auto;
+  position: absolute;
+  top: 70%;
+  left: 30%;
+  z-index: 1;
+}
