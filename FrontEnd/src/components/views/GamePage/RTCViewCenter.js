@@ -54,7 +54,7 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
   const chatMessagesRef = useRef(null);
 
   const RTCStyle = {
-    backgroundColor: '#DDE5B6',
+    // backgroundColor: '#DDE5B6',
     height: '70%',
     display: 'flex',
   };
