@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import PuzzleReady from "./PuzzleReady";
 import PuzzleAid from "./PuzzleAid";
 import PuzzleTwm from "./PuzzleTwm";
 import { useSelector } from "react-redux";
 import style from "./PuzzleGame.module.css";
+import GameReady from "../GameReady";
 
 const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {
   const [isStart, setIsStart] = useState(false);
+  const stage = 3;
 
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
@@ -183,7 +184,8 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
       {isStart ? (
         PuzzleGameRenderingState
       ) : (
-        <PuzzleReady
+        <GameReady
+          stage={stage}
           myRole={myRole}
           onHandleStart={handlerGameStartOrReset}
           client={client}

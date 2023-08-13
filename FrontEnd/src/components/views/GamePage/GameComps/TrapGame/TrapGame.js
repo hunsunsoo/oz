@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import TrapLion from './TrapLion';
-import TrapReady from './TrapReady';
 import TrapAid from './TrapAid';
 import { useSelector } from 'react-redux';
+import GameReady from '../GameReady';
 
 const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {
   // isStart 참이면 TrapGameRederingState에 의해 분기되는 게임페이지가 렌더링된다.
   const [isStart, setIsStart] = useState(false);
   // TrapGameRederingState 에서 나눠지는 조건 => myRole
-
+  const stage = 2;
 
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
@@ -150,7 +150,7 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
   // TrapGame 컴포넌트
   return (
     <div style={{height:'100%'}}>
-      {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
+      {isStart ? TrapGameRenderingState : <GameReady stage={stage} myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
     </div>
   );
 };
