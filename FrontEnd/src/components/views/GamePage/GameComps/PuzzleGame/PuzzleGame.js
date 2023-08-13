@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PuzzleReady from "./PuzzleReady";
 import PuzzleAid from "./PuzzleAid";
 import PuzzleTwm from "./PuzzleTwm";
 import { useSelector } from "react-redux";
@@ -184,8 +185,7 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
       {isStart ? (
         PuzzleGameRenderingState
       ) : (
-        <GameReady
-          stage={stage}
+        <PuzzleReady
           myRole={myRole}
           onHandleStart={handlerGameStartOrReset}
           client={client}

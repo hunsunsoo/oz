@@ -18,10 +18,10 @@ const GameReady = ({ stage, myRole, onHandleStart, client, sessionId, R1,R2,R3,R
   const [L2, setL2] = useState(0);
   const [L3, setL3] = useState(0);
   const [L4, setL4] = useState(0);
-  const [LI1, setLI1] = useState();
-  const [LI2, setLI2] = useState();
-  const [LI3, setLI3] = useState();
-  const [LI4, setLI4] = useState();
+  const [LI1, setLI1] = useState("");
+  const [LI2, setLI2] = useState("");
+  const [LI3, setLI3] = useState("");
+  const [LI4, setLI4] = useState("");
 
   useEffect(() => {
     if(myRole === 1){
