@@ -1,0 +1,53 @@
+.hideZone{
+    position: absolute;
+    width: 40%;
+    background: #f0ead2;
+    right: 7%;
+    height: 43%;
+    top: 19%;
+    border-radius: 20px;
+    border: 4px solid #6c584c;
+    text-align: center;
+    color: #6c584c;
+    font-weight: bold;
+    font-size: xx-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.answerInput{
+    background-color: #f0ead2;
+    color: #6c584c;
+    padding-left: 1%;
+    width: 19%;
+    height: 6%;
+    border: 4px solid #6c584c;
+    position: absolute;
+    margin-left: 3%;
+    margin-top: 3%;
+    font-weight: bold;
+    font-size: x-large;
+    border-radius: 10px;
+    outline: none;
+}
+
+.answerButton{
+    position: absolute;
+    width: 5%;
+    height: 7%;
+    border: 4px solid #6c584c;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    background-color: #f0ead2;
+    color: #6c584c;
+    cursor: pointer;
+    margin-left: 3%;
+    margin-top: 7%;
+}
+
+.answerButton:hover{
+    background-color: #6c584c;
+    color: #f0ead2;
+}
