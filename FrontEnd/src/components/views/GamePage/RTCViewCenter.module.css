@@ -11,7 +11,7 @@
 
 .videoPage{
     flex: 0 0 60%;
-    background-color:#F0EAD2;
+    background-color: rgba(240, 234, 210, 0.8);
     border-radius: 50px;
     margin: 1%;
     /* display: grid;
