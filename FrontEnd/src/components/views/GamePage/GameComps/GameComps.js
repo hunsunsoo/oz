@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NumberBoard, AlphaBoard, MathBoard, AnsBoard } from "./Board";
-import App from "./test";
 import style from "./GameComps.module.css";
 import { DndProvider, useDrag } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
