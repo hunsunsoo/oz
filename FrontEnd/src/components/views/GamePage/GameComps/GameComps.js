@@ -5,7 +5,6 @@ import {
   MathBoard,
   AnsBoard,
 } from "./Board";
-import App from "./test";
 import style from "./GameComps.module.css";
 import { DndProvider, useDrag } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -21,6 +20,7 @@ import { client } from "stompjs";
 import { Sub, Dnd } from "./Puzzle";
 import TrapGame from "./TrapGame/TrapGame";
 import PuzzleGame from "./PuzzleGame/PuzzleGame";
+import DrawingGame from './DrawingGame/DrawingGame';
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -741,18 +741,7 @@ const GameComp = (props) => {
   } else if (isStage === 4 && isIndex === 11) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G4}>
-          <div className={style.word}>수륙챙이</div>
-          <div className={style.drawing}>
-            <App client={client} sessionId={sessionId}/>
-          </div>
-          <img
-            src="image/tools/questionMark.png"
-            alt="questionMark"
-            className={style.iconStyle}
-          />
-        </div>
-        {/* 임시버튼임 */}
+        <DrawingGame client={client} sessionId={sessionId}  myRole={myRole}></DrawingGame>
         <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
