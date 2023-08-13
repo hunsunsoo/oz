@@ -1,0 +1,133 @@
+.modalBox{
+    position: absolute;
+    background-color: #F0EAD2;
+    z-index: 1;
+    top: 40%;
+    left: 50%;
+    width: 70%;
+    height: 50%;
+    border: 5px solid #6C584C;
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+}
+.firstDiv{
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    bottom: 0;
+    left: 5%;
+}
+.index{
+    color: #6C584C;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.characters{
+    width: 90%;
+    height: 100%;
+}
+
+
+.title{
+    background-color: #6C584C;
+    padding-left: 20%;
+    color: azure;
+    padding: 1.5% 3%;
+    border-radius: 12px;
+    
+}
+
+
+.closeButton{
+    position: absolute;
+    cursor: pointer;
+    right: 3%;
+    top: 3%;
+    width: 7%;
+    height: 10%;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 3px solid #6C584C;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+
+.labelDiv{
+    position: absolute;
+    /* background-color: #6C584C; */
+  
+    color: #fff;
+    font-weight: bold;
+    font-size: xx-large;
+
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  
+
+    width: 100%;
+    /* left: 18%; */
+    top: -20%;
+}
+
+.explaincontents{
+    color: #6C584C;
+    font-weight: bold;
+    position: relative; 
+    top : 15%;
+    display: flex;
+    justify-content: space-around;
+    font-size: x-large;
+}
+.explain{
+    margin: 0%;
+}
+
+.button{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;   /* 이 속성을 추가합니다. */
+    bottom: 30px;         /* 버튼을 모달창 바닥에서 얼마나 떨어져있게 할지를 설정합니다. 이 값을 조절하여 원하는 위치에 배치할 수 있습니다. */
+    left: 40px;              /* 왼쪽으로부터의 간격을 0으로 설정하여 버튼이 좌우로 꽉 차게 합니다. */
+    right: 40px;             /* 오른쪽으로부터의 간격도 0으로 설정합니다. */
+}
+.nextbutton{
+    background-color: transparent;
+    border: 0px;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: xx-large;
+
+}
+.characterDiv {
+
+    text-align: center;
+    width: 200px;
+    height: 120px;
+    margin-left: 2%;
+    padding-left: 5%;  /* 원하는 크기로 조절 */
+   
+  }
+.characterframe{
+    width: 100%;
+    height: 100%;
+
+    border-radius: 6%;
+    border: 5px solid #6C584C;
+    background-color: transparent;
+    margin-bottom: 5%;
+}
+  
+  .messageDiv {
+    width: 70%;  
+
+    /* margin-left: 10%;
+    padding-left: 10%; */
+
+; /* 원하는 크기로 조절 */
+     /* 내용이 지정된 크기를 벗어날 경우 숨김 처리 */
+  }
