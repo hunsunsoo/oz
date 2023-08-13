@@ -45,6 +45,7 @@ spring:
     host: i9b104.p.ssafy.io
     #    host: localhost
     port: 6379
+    password: fire4bird
 
 jwt:
   secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
