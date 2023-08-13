@@ -214,7 +214,11 @@ const RoleSelect = ({
 
   const container = {
     height: "60%",
-    backgroundColor: "#DDE5B6",
+    // backgroundColor: "#DDE5B6",
+    background: `url(${process.env.PUBLIC_URL}/image/backGround/backgroundUser.png)`,
+    backgroundSize: 'cover', // 이미지가 요소에 맞게 크기 조절
+    backgroundRepeat: 'no-repeat', // 이미지 반복 없음
+    backgroundPosition: 'center', // 이미지 중앙 배치
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
     alignItems: "center", // 세로 방향 가운데 정렬
@@ -228,6 +232,8 @@ const RoleSelect = ({
   const box1 = {
     height: "15%", // 첫 번째 박스의 높이
     backgroundColor: "#6C584C",
+    fontWeight: 'bold', 
+    fontSize: '20px',
     color: "white",
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
@@ -244,6 +250,9 @@ const RoleSelect = ({
   const box3 = {
     height: "20%", // 두 번째 박스의 높이
     backgroundColor: "#F0EAD2",
+    display: 'flex',
+    justifyContent: 'center',   // 수평 가운데 정렬
+    alignItems: 'center',       // 수직 가운데 정렬
   };
 
   const imgbox = {
@@ -274,6 +283,19 @@ const RoleSelect = ({
   const twmanSelected = {
     border: s3 !== -1 ? "2px solid blue" : "none",
     // backgroundColor: isMySelectedImage(3) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+  };
+
+  const nextButton = {
+    padding: '1%',
+    fontSize: '20px',         // font-size 속성
+    backgroundColor: '#6C584C',
+    color: '#c9be96',
+    border: 'none',
+    fontWeight: 'bold', 
+    borderRadius: '20px',
+    cursor: 'pointer',
+    height: '57%',
+    width: '20%'              // width 속성
   };
 
   const imageStyle = {
@@ -337,7 +359,7 @@ const RoleSelect = ({
           <button onClick={() => handleMiddleCondition()}>
             로컬개발용 그냥넘기기
           </button>
-          <button onClick={() => handleSelectComplete()}>역할선택완료</button>
+          <button style={nextButton} onClick={() => handleSelectComplete()}>역할 선택완료</button>
         </div>
       </div>
     </div>
