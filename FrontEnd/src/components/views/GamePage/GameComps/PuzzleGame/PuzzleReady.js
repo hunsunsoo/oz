@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import GameModal from "../GameModal/GameModal";
 import style from "./PuzzleReady.module.css"
 
@@ -83,13 +84,6 @@ const PuzzleReady = ({ myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 }) 
 
 
   return (
-    // <div>
-      // {showModal && (
-      //   <GameModal isStage={stageval} closeModal={() => setShowModal(false)} />
-      // )}
-    //   <button onClick={onHandleStart}>게임 시작</button>
-    //   <button onClick={onHandleExplain}>게임 설명</button>
-    // </div>
     <div className={style.compStyle}>
       <div className={style.background_G2}>
         <div className={style.charStyle}>
@@ -98,7 +92,7 @@ const PuzzleReady = ({ myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 }) 
               src="image/character/twm_light.png"
               className={style.checkMain}>
             </img>
-            {R2 === 3 && (
+            {R4 === 3 && (
               <img
               src="image/tools/checkmarker.png"
               className={style.checkMarkExtra}>
@@ -119,10 +113,10 @@ const PuzzleReady = ({ myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 }) 
           </div>
           <div className={style.otherDiv}>
             <img
-              src="image/character/lionb.png"
+              src="image/character/liona.png"
               className={style.checkExtra}>
             </img>
-            {R3 === 3 && (
+            {R2 === 3 && (
               <img
               src="image/tools/checkmarker.png"
               className={style.checkMarkExtra}>
@@ -131,10 +125,10 @@ const PuzzleReady = ({ myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 }) 
           </div>
           <div className={style.otherDiv}>
             <img
-              src="image/character/heosub.png"
+              src="image/character/heosua.png"
               className={style.checkExtra}>
             </img>
-            {R4 === 3 && (
+            {R3 === 3 && (
               <img
               src="image/tools/checkmarker.png"
               className={style.checkMarkExtra}>
