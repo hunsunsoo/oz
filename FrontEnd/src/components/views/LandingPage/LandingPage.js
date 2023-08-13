@@ -10,7 +10,6 @@ import {persistor} from '../../../store'
 
 function LandingPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [accessToken, setAccessToken] = useState(null);
   const [cookies, setCookies] = useCookies(); // 쿠키와 설정 함수, 삭제 함수 추출
   const [isVisibledModal, setIsVisibledModal] = useState(false);

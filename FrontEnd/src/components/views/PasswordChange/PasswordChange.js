@@ -5,14 +5,13 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
-import { logoutUser } from "../../../_actions/user_action";
+import {persistor} from '../../../store'
 import axiosInstance from "../../../_actions/axiosInstance";
 
 
 const PasswordChange = () => {
   const [cookies, setCookies] = useCookies(); // 쿠키와 설정 함수, 삭제 함수 추출
   const navigate = useNavigate();
-  const dispatch = useDispatch()
   const [password, setPassword] = useState("");
   const [Newpassword, setNewPassword] = useState("");
   const [Confirmpassword, setConfirmPassword] = useState("");
@@ -56,9 +55,12 @@ const PasswordChange = () => {
         console.log(err);
       });
 
-    setCookies("Atoken", "", { expires: new Date() }); // "token" 쿠키 삭제
-    setCookies("Rtoken", "", { expires: new Date() }); // "token" 쿠키 삭제
-    window.location.href = '/';
+      persistor.purge();
+      setCookies("Atoken", "", { expires: new Date() }); // "token" 쿠키 삭제
+      setCookies("Rtoken", "", { expires: new Date() }); // "token" 쿠키 삭제
+      console.log(cookies);
+      window.location.href="/";
+      console.log(cookies);
   };
 
   const onSubmitPasswordHandler = async (e) => {

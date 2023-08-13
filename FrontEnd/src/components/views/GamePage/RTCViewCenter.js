@@ -26,8 +26,11 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
             const resJson = JSON.parse(resMessage.body);
             const message = resJson.message;
             const Messenger = resJson.data.nickname;
+            const userId = resJson.userId;
+            console.log(resJson);
 
             const saveMsg = {
+              userId: userId,
               Messenger : Messenger,
               message : message
             }
@@ -125,7 +128,7 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
               ))}
               {[...Array(emptySlots)].map((_, i) => (
                   <div className={style.videoBox} >
-                      <div className={style.nickBox}><p>닉네임</p></div>
+                      <div className={style.nickBox}><p></p></div>
                       <div className={style.emptySlot}></div>
                   </div>
                   
@@ -135,10 +138,17 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
               {/* 채팅 메시지 출력 */}
               <div className={style.chatMessages} ref={chatMessagesRef}>
                 {chatMessages.map((message, index) => (
-                  <p key={index}>
-                    <span className={style.Msng}>{message.Messenger}: </span>
-                    {message.message}
-                  </p>
+                    (message.userId !== userId) ? (
+                      <div className={style.chattingBox} key={index}>
+                        <div className={style.nameZone}>{message.Messenger}</div>
+                        <div className={style.messageZone}>{message.message}</div>
+                      </div>
+                    ) : (
+                      <div className={style.leftchattingBox} key={index}>
+                        <div className={style.leftnameZone}>{message.Messenger}</div>
+                        <div className={style.leftmessageZone}>{message.message}</div>
+                      </div>
+                    )  
                 ))}
               </div>
               <div className={style.chatInput}>
