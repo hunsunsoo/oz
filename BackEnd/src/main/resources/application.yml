@@ -54,6 +54,6 @@ jwt:
 
 kakao:
   client-id: 581ca2cce261061e9424b527fdadf174
-  redirect-uri: http://localhost:3000/kakaoLogin
+  redirect-uri: https://i9b104.p.ssafy.io/kakaoLogin
   token-url: https://kauth.kakao.com/oauth/token
   info-url: https://kapi.kakao.com/v2/user/me
