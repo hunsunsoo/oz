@@ -139,6 +139,18 @@ public class CalculationController {
         redisPublisher.publish(socketRepository.getTopic(msg.getRtcSession()), msg);
     }
 
+    @MessageMapping("/calselect")
+    public void Calselect(CalSelectDto req) {
+        SocketMessage msg = SocketMessage.builder()
+                .rtcSession(req.getRtcSession())
+                .type("calselect")
+                .data(req)
+                .build();
+
+        redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), msg);
+    }
+
+
 
 
 
