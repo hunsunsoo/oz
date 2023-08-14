@@ -50,6 +50,7 @@ const GamePage = () => {
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
   const [amIHost, setAmIHost] = useState(host);
   const [myRole, setMyRole] = useState(0);
+  const [roundId, setRoundId] = useState(0);
 
   // RTC를 위한 state
   const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
@@ -333,6 +334,11 @@ const GamePage = () => {
     setIsWaiting(status);
   };
 
+  // roundId 콜백 함수
+  const handleRoundId = (status) => {
+    setRoundId(status);
+  };
+
   const handleMiddleCondition = (status) => {
     setMiddleCon(status);
     setIsGaming((prevIsGaming) => !prevIsGaming);
@@ -350,6 +356,7 @@ const GamePage = () => {
         <RoleSelect
           middleCon={middleCon}
           onHandleMyRole={handleMyRole}
+          onHandleRoundId={handleRoundId}
           onHandleMiddleCondition={handleMiddleCondition}
           client={client}
           sessionId={mySessionId}
@@ -366,6 +373,7 @@ const GamePage = () => {
           sessionId={mySessionId}
           myRole={myRole}
           userId={JsonPayload.userId}
+          roundId={roundId}
         />
       );
       break;
