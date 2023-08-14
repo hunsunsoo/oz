@@ -9,9 +9,10 @@ const PlayGame = ({
   sessionId,
   myRole,
   userId,
+  roundId
 }) => {
-  const [isStage, setIsStage] = useState(4);
-  const [isIndex, setIsIndex] = useState(11);
+  const [isStage, setIsStage] = useState(1);
+  const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 4, 12, 11, 7, 14];
   const dispatch = useDispatch(); // 디스패치 정의
   let body = {
@@ -27,6 +28,8 @@ const PlayGame = ({
 
   // flow 상의 Next 버튼
   const handleNext = () => {
+    console.log(isIndex)
+    console.log(isStage)
     dispatch(setGameUserInfo(body)); //DisPatch 통해서 리듀서에 전달
 
     if (isIndex < stageLimits[isStage]) {
@@ -138,6 +141,7 @@ const PlayGame = ({
           userId={userId}
           myRole={myRole}
           indexSet={indexSet}
+          roundId={roundId}
         />
       </div>
     </div>

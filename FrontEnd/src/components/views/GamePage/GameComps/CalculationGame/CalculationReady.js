@@ -49,6 +49,7 @@ const CalculationReady = ( { myRole, onHandleStart, client, sessionId, R1,R2,R3,
     console.log(host)
     if(amIHost === "1"){
       if(R1 === 1 && R2 === 1 && R3 === 1 && R4 === 1){
+        console.log("여기")
         onHandleStart(true);
       } else {
         alert("4명이 준비 완료 상태가 아닙니다");

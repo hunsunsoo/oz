@@ -316,35 +316,10 @@ const GameComp = (props) => {
   } else if (isStage === 1 && isIndex == 3) {
     // ready 화면 + 방법설명
     return (
-      // <div className={style.compStyle}>
-      //   <div className={style.background_G1}>
-      //     <img 
-      //       src="image/character/troop2.png"
-      //       alt=""
-      //       className={style.troop2}
-      //     />
-      //     <div className={style.howToPlayImg}>
-      //       게임 방법 넣을 part
-      //     </div>
-      //     {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
-      //     <div className={style.readyBtn} onClick={sendStage1Ready}>
-      //       준비 완료
-      //     </div>
-      //     <div className={style.howToPlayBtn}>
-      //       게임 방법
-      //     </div>
-      //     <div className={style.startBtn} style={{ display: isStartBtnActive && host === 1 ? 'flex' : 'none', }} onClick={sendStage1Start}>
-      //       게임 시작
-      //     </div>
-      //     <img
-      //       src="image/tools/checkmarker.png"
-      //       className={style.checkDorothy}
-      //       style={{ display: dorothyState === 1 ? 'block' : 'none' }}
-      //     >
-      //     </img>
-      //   </div>
-      // </div>
-      null
+      <div className={style.compStyle}>
+      <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
+                R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
+    </div>
     );
   } else if (isStage === 1 && isIndex === 21) {
     // 클리어 후

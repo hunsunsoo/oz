@@ -6,6 +6,7 @@ import { setGameUserInfo } from "../../../_actions/game_actions";
 const RoleSelect = ({
   middleCon,
   onHandleMyRole,
+  onHandleRoundId,
   onHandleMiddleCondition,
   client,
   sessionId,
@@ -74,7 +75,13 @@ const RoleSelect = ({
       (message) => {
         console.log("Received message:", message.body);
         try {
+
+          const resJson = JSON.parse(message.body);
+          const resJsonData = resJson.data;
+          const resRoundId = resJsonData.roundId;
+
           handleMiddleCondition();
+          onHandleRoundId(resRoundId);
         } catch (error) {
           console.error("Error parsing message body:", error);
         }
