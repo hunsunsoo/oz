@@ -56,6 +56,19 @@ const WaitingRoomOption = ({
     }, 500);
   }, [client, sessionId]);
 
+  const copySessionId = () => {
+    if (sessionId) {
+      navigator.clipboard.writeText(sessionId)
+        .then(() => {
+          alert('초대코드 복사 완료!');
+        })
+        .catch((error) => {
+          console.error('에러! session ID:', error);
+        });
+    }
+  };
+
+
   const [alertMessage, setAlertMessage] = useState("");
   // 유효성 검증 & 팀 등록
   const handleGamingStartState = () => {
@@ -160,7 +173,7 @@ const WaitingRoomOption = ({
   };
 
   const WROStyle = {
-    backgroundColor: "rgb(221, 229, 182)",
+    // backgroundColor: "rgb(221, 229, 182)",
     height: "20%",
     display: "flex",
   };
@@ -169,18 +182,11 @@ const WaitingRoomOption = ({
     <div style={WROStyle}>
       <div className={style.optionBox}>
         {/* Left Pane Content */}
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-microphone"></i>
-        </button>
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-video-camera-alt"></i>
-        </button>
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-settings"></i>
-        </button>
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-envelope-plus"></i>
-        </button>
+        <button className={style.optionButton}><i class="fi fi-rr-microphone"></i></button>
+        <button className={style.optionButton}><i class="fi fi-rr-video-camera-alt"></i></button>
+        <button className={style.optionButton}><i class="fi fi-rr-settings"></i></button>
+        <button className={style.optionButton}
+        onClick={copySessionId}><i class="fi fi-rr-envelope-plus"></i></button>
       </div>
       <div className={style.nextBox}>
         {/* Right Pane Content */}

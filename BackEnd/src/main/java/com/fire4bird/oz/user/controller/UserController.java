@@ -50,6 +50,8 @@ public class UserController {
     //유저 회원탈퇴
     @DeleteMapping("/resign")
     public ResponseEntity resignUser(@RequestBody ResignDto resignDto) {
+        log.info("회원 탈퇴 api 진입");
+        
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         userService.resignUser(Integer.parseInt(userId), resignDto.getPassword());

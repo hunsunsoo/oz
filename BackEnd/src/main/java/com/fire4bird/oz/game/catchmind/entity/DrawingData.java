@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatchmindData {
+public class DrawingData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer drawingId;
+    private int drawingId;
 
     // 제시어
     @Column(length = 10)

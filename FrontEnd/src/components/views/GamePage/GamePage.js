@@ -396,6 +396,10 @@ const GamePage = () => {
     padding: "0",
     height: "100vh",
     overflow: "hidden",
+    background: `url(${process.env.PUBLIC_URL}/image/backGround/backgroundUser.png)`,
+    backgroundSize: 'cover', // 이미지가 요소에 맞게 크기 조절
+    backgroundRepeat: 'no-repeat', // 이미지 반복 없음
+    backgroundPosition: 'center', // 이미지 중앙 배치
   };
 
   return (
