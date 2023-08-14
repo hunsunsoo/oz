@@ -14,11 +14,7 @@ function BoardItem({ data }) {
   return (
     <div className={style.boardItem}>
       {data ? (
-        <img
-          src={data.url}
-          alt={`piece-${data.id}`}
-          style={{ width: "40px" }}
-        />
+        <img src={data.url} alt={`piece-${data.id}`} style={{ width: "70%" }} />
       ) : (
         <div className={style.emptySpace} />
       )}

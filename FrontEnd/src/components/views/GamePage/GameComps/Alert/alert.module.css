@@ -1,0 +1,51 @@
+/* CustomAlert.css */
+.alertBox{
+
+  position: absolute;
+  background-color: #F0EAD2;
+  z-index: 1;
+  top: 45%;
+  left: 50%;
+  width: 37%;
+  height: 30%;
+  border: 5px solid #6C584C;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+  text-align: center;
+  }
+  
+
+
+  .firstDiv {
+    display: flex;
+    flex-direction: column; /* 아이템들을 수직으로 배열 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    height: 100%; /* 이 값을 설정하여 .firstDiv의 높이를 .alertBox와 동일하게 만듭니다. */
+}
+
+.message{
+  
+  color: #6C584C;
+  font-weight: bold;
+  position: relative; 
+
+  display: flex;
+  justify-content: space-around;
+  font-size: x-large;
+}
+.closeButton{
+  position: absolute;
+  cursor: pointer;
+  right: 3%;
+  top: 3%;
+  width: 15%;
+  height: 14%;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 3px solid #6C584C;
+  color: #6C584C;
+  font-weight: bold;
+  font-size: x-large;
+}
