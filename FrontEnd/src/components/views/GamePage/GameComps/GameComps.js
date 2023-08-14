@@ -172,92 +172,9 @@ const GameComp = (props) => {
     }
   };
 
-  // 게임 part
-  // 1스테이지
-  if (isStage === 1 && isIndex == 11) {
-    return (
-      <div className={style.compStyle}>
-        <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
-                  R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
-      </div> 
-    );
-  } else if (isStage === 1 && isIndex == 12) {
-    return (
-      null
-    );
-  } else if (isStage === 1 && isIndex == 13) {
-    return (
-      null
-    );
-    // 2스테이지 게임시작
-  } else if (isStage === 2 && isIndex == 11) {
-    return (
-      <div className={style.compStyle}>
-        <TrapGame
-          client={client}
-          sessionId={sessionId}
-          myRole={myRole}
-          handleindexSet={indexSet}
-          R1={dorothyState}
-          R2={lionState}
-          R3={heosuState}
-          R4={twmState}
-        />
-      </div>
-    );
-    // 3스테이지
-  } else if (isStage === 3 && isIndex == 1) {
-    return (
-      <div className={style.compStyle}>
-        <PuzzleGame
-          client={client}
-          sessionId={sessionId}
-          myRole={myRole}
-          handleindexSet={indexSet}
-          R1={dorothyState}
-          R2={lionState}
-          R3={heosuState}
-          R4={twmState}
-        />
-      </div>
-    );
-    // 4스테이지
-  } else if (isStage === 4 && isIndex === 11) {
-    return (
-      <div className={style.compStyle}>
-        <DrawingGame
-          client={client}
-          sessionId={sessionId}
-          myRole={myRole}
-          handleindexSet={props.changeIsStage}
-          R1={dorothyState}
-          R2={lionState}
-          R3={heosuState}
-          R4={twmState}
-        />
-
-        <button onClick={props.changeIsIndex}>(임시)Next</button>
-      </div>
-    );
-  } else if (isStage === 4 && isIndex == 12) {
-    return (
-      <div className={style.compStyle}>
-        <div className={style.background_G4}>
-          <div className={style.word}>제시어</div>
-          <div className={style.drawingDiv}> 그림판 </div>
-        </div>
-        <div className={style.stage4SubmitBtn} onClick={props.changeIsClear}>
-          정답제출
-        </div>
-        <img
-          src="image/tools/questionMark.png"
-          alt="questionMark"
-          className={style.iconStyle}
-        />
-      </div>
-    );
-    // 인트로 스토리
-  } else if (isStage === 0 && isIndex <= 2) {
+  /** 게임 시작 **/
+  // 인트로 스토리
+  if (isStage === 0 && isIndex <= 2) {
     return (
       <div className={style.compStyle}>
         <div className={style.background_S1}>
@@ -297,6 +214,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
+    /** 1스테이지 **/
     // 1스테이지 스토리
   } else if (isStage === 1 && isIndex <= 2) {
     const characterImageClass = getCharacterClass(dialogue1Data, isIndex);
@@ -313,38 +231,13 @@ const GameComp = (props) => {
         </div>
       </div>
     );
+    // 1스테이지 게임준비&시작
   } else if (isStage === 1 && isIndex == 3) {
-    // ready 화면 + 방법설명
     return (
-      // <div className={style.compStyle}>
-      //   <div className={style.background_G1}>
-      //     <img 
-      //       src="image/character/troop2.png"
-      //       alt=""
-      //       className={style.troop2}
-      //     />
-      //     <div className={style.howToPlayImg}>
-      //       게임 방법 넣을 part
-      //     </div>
-      //     {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
-      //     <div className={style.readyBtn} onClick={sendStage1Ready}>
-      //       준비 완료
-      //     </div>
-      //     <div className={style.howToPlayBtn}>
-      //       게임 방법
-      //     </div>
-      //     <div className={style.startBtn} style={{ display: isStartBtnActive && host === 1 ? 'flex' : 'none', }} onClick={sendStage1Start}>
-      //       게임 시작
-      //     </div>
-      //     <img
-      //       src="image/tools/checkmarker.png"
-      //       className={style.checkDorothy}
-      //       style={{ display: dorothyState === 1 ? 'block' : 'none' }}
-      //     >
-      //     </img>
-      //   </div>
-      // </div>
-      null
+      <div className={style.compStyle}>
+        <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
+                  R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
+      </div> 
     );
   } else if (isStage === 1 && isIndex === 21) {
     // 클리어 후
@@ -363,6 +256,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
+    /** 2스테이지 **/
     // 2스테이지 스토리
   } else if (isStage === 2 && isIndex <= 2) {
     const characterImageClass = getCharacterClass(dialogue2Data, isIndex);
@@ -380,21 +274,19 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 2 && isIndex === 3) {
-    // ready 화면 + 방법설명
+    // 2스테이지 게임준비&시작
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G2}>
-          <img
-            src="image/character/troop2.png"
-            alt=""
-            className={style.troop2}
-          />
-          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-          <div className={style.readyBtn} onClick={props.changeIsReady}>
-            준비 완료
-          </div>
-          <div className={style.howToPlayBtn}>게임 방법</div>
-        </div>
+        <TrapGame
+          client={client}
+          sessionId={sessionId}
+          myRole={myRole}
+          handleindexSet={indexSet}
+          R1={dorothyState}
+          R2={lionState}
+          R3={heosuState}
+          R4={twmState}
+        />
       </div>
     );
   } else if (isStage === 2 && isIndex === 21) {
@@ -414,6 +306,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
+    /** 3스테이지 **/
     // 3스테이지 스토리
   } else if (isStage === 3 && isIndex === 0) {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
@@ -430,7 +323,23 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-  } else if (isStage === 3 && isIndex === 21) {
+  } else if (isStage === 3 && isIndex === 1) {
+    // 3스테이지 게임준비&시작
+      return (
+      <div className={style.compStyle}>
+        <PuzzleGame
+          client={client}
+          sessionId={sessionId}
+          myRole={myRole}
+          handleindexSet={indexSet}
+          R1={dorothyState}
+          R2={lionState}
+          R3={heosuState}
+          R4={twmState}
+        />
+      </div>
+    );
+  }else if (isStage === 3 && isIndex === 21) {
     // 클리어 후
     const characterImageClass = getCharacterClass(dialogue3Data, 3);
     console.log(characterImageClass);
@@ -447,6 +356,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
+    /** 4스테이지 **/
     // 4스테이지 스토리
   } else if (isStage === 4 && isIndex <= 1) {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
@@ -464,23 +374,22 @@ const GameComp = (props) => {
       </div>
     );
   } else if (isStage === 4 && isIndex === 2) {
-    // ready 화면 + 방법설명
-    // return (
-    //   <div className={style.compStyle}>
-    //     <div className={style.background_G4}>
-    //       <img
-    //         src="image/character/troop2.png"
-    //         alt=""
-    //         className={style.troop2}
-    //       />
-    //       <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-    //       <div className={style.readyBtn} onClick={props.changeIsReady}>
-    //         준비 완료
-    //       </div>
-    //       <div className={style.howToPlayBtn}>게임 방법</div>
-    //     </div>
-    //   </div>
-    // );
+    // 4스테이지 게임준비&시작
+    return (
+      <div className={style.compStyle}>
+        <DrawingGame
+          client={client}
+          sessionId={sessionId}
+          myRole={myRole}
+          handleindexSet={props.changeIsStage}
+          R1={dorothyState}
+          R2={lionState}
+          R3={heosuState}
+          R4={twmState}
+        />
+      </div>
+    );
+    /** 모두 클리어시, 아웃트로 **/
   } else if (isStage === 5 && isIndex <= 9) {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
