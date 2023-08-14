@@ -173,8 +173,8 @@ const WaitingRoomOption = ({
   };
 
   const WROStyle = {
-    // backgroundColor: "rgb(221, 229, 182)",
-    height: "20%",
+    backgroundColor: "rgb(221, 229, 182)",
+    height: "22%",
     display: "flex",
   };
 
