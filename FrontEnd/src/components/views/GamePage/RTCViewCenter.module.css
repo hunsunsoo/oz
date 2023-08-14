@@ -10,7 +10,7 @@
 }
 
 .videoPage{
-    flex: 0 0 60%;
+    flex: 0 0 62%;
     background-color:#F0EAD2;
     border-radius: 50px;
     margin: 1%;
@@ -93,13 +93,56 @@
 }
 
 .chatMessages {
-    height: 90%;
+    height: 85%;
     overflow-y: auto;
     background-color: #F0EAD2;
-    padding: 0 2%;
+    padding: 5% 5% 1% 5%;
     border-radius: 10px 10px 0 0;
 }
 
-.Msng{
+.nameZone{
+    color: #6C584C;
     font-weight: bold;
+}
+
+.messageZone{
+    background: #C9BE96;
+    display: inline-block;
+    padding: 3%;
+    border-radius: 0 8px 8px 0;
+    color: #6C584C;
+}
+.chattingBox{
+    margin-top: 8px;
+}
+
+.chatMessages::-webkit-scrollbar {
+    width: 10px; /* 스크롤바 너비 */
+}
+  
+.chatMessages::-webkit-scrollbar-thumb {
+  background-color: #C9BE96; /* 스크롤바 색상 */
+  border-radius: 5px; /* 스크롤바 모서리 둥글게 */
+ }
+  
+.chatMessages::-webkit-scrollbar-thumb:hover {
+  background-color: #65584c; /* 스크롤바 호버 시 색상 변경 */
+}
+
+.leftnameZone{
+    color: #6C584C;
+    font-weight: bold;
+}
+
+.leftmessageZone{
+    background: #C9BE96;
+    display: inline-block;
+    padding: 3%;
+    border-radius: 8px 0 0 8px;
+    color: #6C584C;
+}
+
+.leftchattingBox{
+    text-align: right;
+    margin-top: 8px;
 }

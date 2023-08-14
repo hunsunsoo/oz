@@ -10,7 +10,7 @@ const PlayGame = ({
   myRole,
   userId,
 }) => {
-  const [isStage, setIsStage] = useState(3);
+  const [isStage, setIsStage] = useState(4);
   const [isIndex, setIsIndex] = useState(11);
   const stageLimits = [16, 4, 12, 11, 7, 14];
   const dispatch = useDispatch(); // 디스패치 정의
@@ -103,7 +103,7 @@ const PlayGame = ({
   const gamedivStyle = {
     margin: "0",
     padding: "0",
-    height: "60%",
+    height: "70%",
     overflow: "hidden",
   };
 
