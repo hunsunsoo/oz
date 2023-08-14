@@ -14,7 +14,7 @@
 .optionBox{
     background-color: #CABE96;
     margin-left: 1%;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
     border-radius: 20px;
     flex: 1 1 20%;
     display: flex;
@@ -28,7 +28,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
 }
 
 .nextButton{

@@ -213,12 +213,8 @@ const RoleSelect = ({
   };
 
   const container = {
-    height: "60%",
-    // backgroundColor: "#DDE5B6",
-    background: `url(${process.env.PUBLIC_URL}/image/backGround/backgroundUser.png)`,
-    backgroundSize: 'cover', // 이미지가 요소에 맞게 크기 조절
-    backgroundRepeat: 'no-repeat', // 이미지 반복 없음
-    backgroundPosition: 'center', // 이미지 중앙 배치
+    height: "70%",
+    backgroundColor: "#DDE5B6",
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
     alignItems: "center", // 세로 방향 가운데 정렬
@@ -238,26 +234,54 @@ const RoleSelect = ({
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
     alignItems: "center", // 세로 방향 가운데 정렬
+    borderRadius: "40px 40px 0 0",
+    fontSize: "28px"
   };
 
+  // const box2 = {
+  //   height: "65%", // 두 번째 박스의 높이
+  //   backgroundColor: "#CABE96",
+  //   display: "flex",
+  //   flexDirection: "row",
+  // };
+
   const box2 = {
-    height: "65%", // 두 번째 박스의 높이
-    backgroundColor: "#CABE96",
+    height: "60%", // 두 번째 박스의 높이
+    backgroundColor: "#F0EAD2",
     display: "flex",
+    justifyContent: "space-between",
     flexDirection: "row",
   };
 
   const box3 = {
-    height: "20%", // 두 번째 박스의 높이
+    height: "23%",
     backgroundColor: "#F0EAD2",
-    display: 'flex',
-    justifyContent: 'center',   // 수평 가운데 정렬
-    alignItems: 'center',       // 수직 가운데 정렬
-  };
+    display: "flex",
+    justifyContent: "center",
+    paddingBottom: "2%",
+    borderRadius: "0 0 40px 40px",
+  }
+
+  const boxCha = {
+    backgroundColor: "#CABE96",
+    width: "20%",
+    height: "80%",
+    margin: "4% 3% 1% 3%"
+  }
+
+  const nameBox = {
+    backgroundColor: "#A98467",
+    height: "15%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "25px",
+    color: "#F0EAD2"
+  }
 
   const imgbox = {
-    width: "25%",
-    height: "100%",
+    width: "100%",
+    height: "85%",
     objectFit: "cover",
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
@@ -265,23 +289,22 @@ const RoleSelect = ({
   };
 
   const dorothySelected = {
-    border: s0 !== -1 ? "2px solid blue" : "none",
-    // display: s0 !== -1 ? 'block' : 'none',
+    boxShadow: s0 !== -1 ? "0 0 10px 2px blue" : "none",
     // backgroundColor: isMySelectedImage(0) ? 'rgba(255, 0, 0, 0.7)' : 'none',
   };
 
   const lionSelected = {
-    border: s1 !== -1 ? "2px solid blue" : "none",
+    boxShadow: s1 !== -1 ? "0 0 10px 2px blue" : "none",
     // backgroundColor: isMySelectedImage(1) ? 'rgba(255, 0, 0, 0.7)' : 'none',
   };
 
   const heoSelected = {
-    border: s2 !== -1 ? "2px solid blue" : "none",
+    boxShadow: s2 !== -1 ? "0 0 10px 2px blue" : "none",
     // backgroundColor: isMySelectedImage(2) ? 'rgba(255, 0, 0, 0.7)' : 'none',
   };
 
   const twmanSelected = {
-    border: s3 !== -1 ? "2px solid blue" : "none",
+    boxShadow: s3 !== -1 ? "0 0 10px 2px blue" : "none",
     // backgroundColor: isMySelectedImage(3) ? 'rgba(255, 0, 0, 0.7)' : 'none',
   };
 
@@ -310,57 +333,74 @@ const RoleSelect = ({
       <div style={rolebox}>
         <div style={box1}>역할 선택</div>
         <div style={box2}>
-          <div
-            key={0}
-            style={{ ...imgbox, ...dorothySelected }}
-            onClick={() => sendRoleSelect(0)}
-          >
-            <img
-              src="/image/roleSelect/dorothys.png"
-              alt={"Image 0"}
-              style={imageStyle}
-            />
+          <div style={boxCha}>
+            <div style={nameBox}>도로시</div>
+            <div
+              key={0}
+              style={{ ...imgbox, ...dorothySelected }}
+              onClick={() => sendRoleSelect(0)}
+            >
+              <img
+                src="/image/roleSelect/dorothys.png"
+                alt={"Image 0"}
+                style={imageStyle}
+              />
+            </div>
           </div>
-          <div
-            key={1}
-            style={{ ...imgbox, ...lionSelected }}
-            onClick={() => sendRoleSelect(1)}
-          >
-            <img
-              src="/image/roleSelect/lions.png"
-              alt={"Image 1"}
-              style={imageStyle}
-            />
+          <div style={boxCha}>
+            <div style={nameBox}>사자</div>
+            <div
+              key={1}
+              style={{ ...imgbox, ...lionSelected }}
+              onClick={() => sendRoleSelect(1)}
+            >
+              <img
+                src="/image/roleSelect/lions.png"
+                alt={"Image 1"}
+                style={imageStyle}
+              />
+            </div>
           </div>
-          <div
-            key={2}
-            style={{ ...imgbox, ...heoSelected }}
-            onClick={() => sendRoleSelect(2)}
-          >
-            <img
-              src="/image/roleSelect/heosus.png"
-              alt={"Image 2"}
-              style={imageStyle}
-            />
+          <div style={boxCha}>
+            <div style={nameBox}>허수아비</div>
+            <div
+              key={2}
+              style={{ ...imgbox, ...heoSelected }}
+              onClick={() => sendRoleSelect(2)}
+            >
+              <img
+                src="/image/roleSelect/heosus.png"
+                alt={"Image 2"}
+                style={imageStyle}
+              />
+            </div>
           </div>
-          <div
-            key={3}
-            style={{ ...imgbox, ...twmanSelected }}
-            onClick={() => sendRoleSelect(3)}
-          >
-            <img
-              src="/image/roleSelect/tws.png"
-              alt={"Image 3"}
-              style={imageStyle}
-            />
+          <div style={boxCha}>
+            <div style={nameBox}>양철 나무꾼</div>
+            <div
+              key={3}
+              style={{ ...imgbox, ...twmanSelected }}
+              onClick={() => sendRoleSelect(3)}
+            >
+              <img
+                src="/image/roleSelect/tws.png"
+                alt={"Image 3"}
+                style={imageStyle}
+              />
+            </div>
           </div>
         </div>
         <div style={box3}>
-          <button onClick={() => handleMiddleCondition()}>
-            로컬개발용 그냥넘기기
-          </button>
-          <button style={nextButton} onClick={() => handleSelectComplete()}>역할 선택완료</button>
+          <img
+            src="/image/tools/roleSelBtn.png"
+            style={{width: "25%", height: "120%"}}
+            onClick={() => handleSelectComplete()}
+          />
         </div>
+        <button onClick={() => handleMiddleCondition()}>
+          로컬개발용 그냥넘기기
+        </button>
+        <button onClick={() => handleSelectComplete()}>역할선택완료</button>
       </div>
     </div>
   );
