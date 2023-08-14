@@ -241,7 +241,7 @@ public class GameManager {
         int ans = 0;
 
         switch(req.getMarks()[0]){
-            case '*':
+            case 'x':
                 ans = num[0] * num[1];
                 break;
             case '/':
@@ -258,7 +258,7 @@ public class GameManager {
         }
 
         switch(req.getMarks()[1]){
-            case '*':
+            case 'x':
                 ans *= num[2];
                 break;
             case '/':
