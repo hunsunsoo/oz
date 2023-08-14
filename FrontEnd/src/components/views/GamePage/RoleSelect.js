@@ -228,6 +228,8 @@ const RoleSelect = ({
   const box1 = {
     height: "15%", // 첫 번째 박스의 높이
     backgroundColor: "#6C584C",
+    fontWeight: 'bold', 
+    fontSize: '20px',
     color: "white",
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
@@ -304,6 +306,19 @@ const RoleSelect = ({
   const twmanSelected = {
     boxShadow: s3 !== -1 ? "0 0 10px 2px blue" : "none",
     // backgroundColor: isMySelectedImage(3) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+  };
+
+  const nextButton = {
+    padding: '1%',
+    fontSize: '20px',         // font-size 속성
+    backgroundColor: '#6C584C',
+    color: '#c9be96',
+    border: 'none',
+    fontWeight: 'bold', 
+    borderRadius: '20px',
+    cursor: 'pointer',
+    height: '57%',
+    width: '20%'              // width 속성
   };
 
   const imageStyle = {

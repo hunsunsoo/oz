@@ -36,6 +36,8 @@ public class UserService {
 
     //유저 회원 탈퇴
     public void resignUser(int userId, String password) {
+        log.info("회원 탈퇴 서비스 로직 진입");
+
         User user = findUser(userId);
 
         if (user.getProvider().equals("self")) {

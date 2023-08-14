@@ -42,6 +42,7 @@ public class GameManager {
     private Integer roundId;
     // 회차의 몇 번째 도전인지
     private Integer turn;
+    private Integer gameId;
     // 게임이 시작되었는지 확인하는 변수
     private boolean isGameStarted;
     private boolean isBoardMaked;
@@ -52,7 +53,6 @@ public class GameManager {
         this.roundId = roundId;
         this.roundService = roundService;
         this.session = session;
-        System.out.println(session);
         List<UserRound> userRounds = roundService.findAllRoundByRoundId(roundId);
         players = new LinkedList<>();
         this.calculationService = calculationService;
@@ -104,6 +104,7 @@ public class GameManager {
             res.setNumberBoard(this.numberBoard);
             res.setSession(this.session);
             this.turn = res.getTurn();
+            this.gameId = res.getGameId();
         }else{
             res.setTurn(this.turn);
             res.setNumberBoard(this.numberBoard);
@@ -199,7 +200,7 @@ public class GameManager {
             log[i] = Arrays.toString(temp);
         }
 
-        calculationService.helperUpdate(req, Arrays.toString(log));
+        calculationService.helperUpdate(req, Arrays.toString(log), this.gameId);
         HelperSubmitRes helperSubmitRes = new HelperSubmitRes();
         helperSubmitRes.setSelectedNums(middleBoard);
         helperSubmitRes.setSession(this.session);
@@ -274,7 +275,7 @@ public class GameManager {
         }
 
         if(answer == ans) isCorrect =  true;
-        calculationService.submitAnswer(req, ans, Arrays.toString(log));
+        calculationService.submitAnswer(req, ans, Arrays.toString(log), this.gameId);
         return new GuessAnswerRes(this.session, num, isCorrect, true, ans);
     }
 
