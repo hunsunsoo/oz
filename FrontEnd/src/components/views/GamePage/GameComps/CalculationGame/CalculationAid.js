@@ -11,10 +11,8 @@ const CalculationAid = ({ boardData, myRole, client, sessionId, roundId, resAnsw
 	
 	const [helperSubmit, setHelperSubmit] = useState(0);
 
-	// 알파벳 보드 선택 공유
-
 	useEffect(() => {
-		// 10초 후에 숫자판 (일단 5초)
+		// 10초 후에 숫자판
 		if (helperState === 0) {
 			const timeoutId = setTimeout(() => {
 				onHandleHelperState(1);
@@ -52,7 +50,6 @@ const CalculationAid = ({ boardData, myRole, client, sessionId, roundId, resAnsw
 	const [sel42, setSel42] = useState('.');
 
 	const handleCheckSelect = (rsRole, rsState, rsCell, resLoc) => {
-
 		if(rsState === 1){
 			if(resLoc === 11){
 				setSel11(rsCell);
@@ -83,8 +80,6 @@ const CalculationAid = ({ boardData, myRole, client, sessionId, roundId, resAnsw
 			}
 		}
 	};	
-
-	
 
 	useEffect(() => {
     const subscribeToCellSelect = () => {
@@ -240,7 +235,6 @@ const CalculationAid = ({ boardData, myRole, client, sessionId, roundId, resAnsw
             src="image/tools/stage1SubBtn.png"
             alt="stage1SubBtn"
             className={style.selectBtn}
-            // onClick={sendStage1SelectCells}
           />
 				</div>
 			</div>
