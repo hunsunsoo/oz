@@ -162,6 +162,17 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
           <div className={style.board5}>
             <Board key={5} index={5} picture={boards[5]} onDrop={handleDrop} />
           </div>
+          <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+          />
+          <button
+            className={style.stage3SelectBtn}
+            onClick={handleSendAnswerCheck}
+          >
+            정답 확인
+          </button>
         </div>
 
         <div className={style.puzzleRight}>
@@ -182,18 +193,7 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
           ))}
         </div>
 
-        <button
-          className={style.stage3SelectBtn}
-          onClick={handleSendAnswerCheck}
-        >
-          정답 확인
-        </button>
       </div>
-      <img
-        src="image/tools/questionMark.png"
-        alt="questionMark"
-        className={style.iconStyle}
-      />
       {/* <div className={style.stage3SelectBtn} onClick={props.changeIsClear}>
         선택완료
       </div> */}

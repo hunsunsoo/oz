@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const headerStyle = {
   backgroundColor: "#CABE96",
   color: "white",
-  height: "10%",
+  height: "8%",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -13,8 +13,8 @@ const headerStyle = {
 };
 
 const profilePicStyle = {
-  width: "80px",
-  height: "75px",
+  width: "64px",
+  height: "60px",
   marginTop: "9px",
   borderRadius: "50%",
   objectFit: "cover",
@@ -39,7 +39,7 @@ const GamingHeader = ({ myRole }) => {
   // console.log("stage:", stageval); //콘솔 찍어보기
   return (
     <header style={headerStyle}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px" }}>
         <div>
           {stageval === 0 || stageval === 1 ? (
             <div>
@@ -47,8 +47,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/star2.png"
                 alt="stage1"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   transform: `rotate(${rotationDegree}deg)`,
                   position: "absolute",
                 }}
@@ -57,8 +57,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/house1sad.png"
                 alt="stage1"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   position: "relative",
                 }}
               />
@@ -68,7 +68,7 @@ const GamingHeader = ({ myRole }) => {
               <img
                 src="image/house/house1happy.png"
                 alt="stage1"
-                style={{ width: "100px", height: "95px", position: "relative" }}
+                style={{ width: "80px", height: "79px", position: "relative" }}
               />
             </div>
           )}
@@ -80,8 +80,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/star2.png"
                 alt="stage2"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   transform: `rotate(${rotationDegree}deg)`,
                   position: "absolute",
                 }}
@@ -90,8 +90,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/house2sad.png"
                 alt="stage2"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   position: "relative",
                 }}
               />
@@ -101,7 +101,7 @@ const GamingHeader = ({ myRole }) => {
               <img
                 src="image/house/house2happy.png"
                 alt="stage2"
-                style={{ width: "105px", height: "95px", position: "relative" }}
+                style={{ width: "81px", height: "79px", position: "relative" }}
               />
             </div>
           )}
@@ -113,8 +113,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/star2.png"
                 alt="another image"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   transform: `rotate(${rotationDegree}deg)`,
                   position: "absolute",
                 }}
@@ -123,8 +123,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/house3sad.png"
                 alt="stage3"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   position: "relative",
                 }}
               />
@@ -135,8 +135,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/house3happy.png"
                 alt="stage3"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   position: "relative",
                 }}
               />
@@ -150,8 +150,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/star2.png"
                 alt="stage4"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   transform: `rotate(${rotationDegree}deg)`,
                   position: "absolute",
                 }}
@@ -160,8 +160,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/house4.png"
                 alt="stage4"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   position: "relative",
                 }}
               />
@@ -172,8 +172,8 @@ const GamingHeader = ({ myRole }) => {
                 src="image/house/house4.png"
                 alt="stage4"
                 style={{
-                  width: "105px",
-                  height: "105px",
+                  width: "81px",
+                  height: "81px",
                   position: "relative",
                 }}
               />

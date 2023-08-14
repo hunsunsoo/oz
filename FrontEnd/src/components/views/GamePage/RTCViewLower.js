@@ -7,7 +7,7 @@ const RTCViewLower = ({ publisher, subscribers }) => {
 
   const RTCStyle = {
     backgroundColor: '#d2cea2',
-    height: '30%',
+    height: '22%',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',

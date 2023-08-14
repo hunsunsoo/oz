@@ -130,7 +130,7 @@ const WaitingRoomOption = ({ isWaiting, onGamingStart, userId, sessionId, amIHos
 
   const WROStyle = {
     backgroundColor: "rgb(221, 229, 182)",
-    height: "20%",
+    height: "22%",
     display: "flex",
   };
 

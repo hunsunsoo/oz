@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import style from "./TrapLion.module.css"
 
 const TrapLion = ({ startData, client, sessionId, userId }) => {
 
@@ -32,32 +33,57 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
     }
   };
 
-  const PicStyle = {
-    height: '300px',  //임시크기입니다
-    objectFit: 'contain',
-  }
-  const txtStyle = {
-    height: '40px',
-    backgroundColor: '#CABE96',
-  }
+  
 
   return(
-    <div>
-      {hasKey === 1 ? (
-          <div style={txtStyle}>
-            열쇠를 획득했어~!~! 함정을 피해 도착지점으로 가자~!!
+    <div className={style.compStyle}>
+      <div className={style.backgroundDiv}>
+        <div className={style.arrowDiv}>
+          <div className={style.arrowPart}>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <div style={{ width: "54px", visibility: "hidden"}}>
+                <img src="image/game/trapGame/ArrowBack.png"/>
+              </div>
+              <div style={{ width: "54px" }} onClick={() => lionMovePublisher("Go")}>
+                <img src="image/game/trapGame/ArrowFront.png"/>
+              </div>
+              <div style={{ width: "54px", visibility: "hidden"}}>
+                <img src="image/game/trapGame/ArrowBack.png"/>
+              </div>
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <div style={{ width: "54px" }} onClick={() => lionMovePublisher("L")}>
+                <img src="image/game/trapGame/ArrowLeft.png"/>
+              </div>
+              <div style={{ width: "54px" }}>
+                <img src="image/game/trapGame/ArrowBack.png"/>
+              </div>
+              <div style={{ width: "54px" }} onClick={() => lionMovePublisher("R")}>
+                <img src="image/game/trapGame/ArrowRight.png"/>
+              </div>
+            </div>
           </div>
-        ) : (
-          <div style={txtStyle}>
-            도착지에 가기전에 열쇠가 필요해! 열쇠와의 거리는 {startData.data.distanceKey}칸 이야.. 함정을 피해 찾아보자
+        </div>
+        <div className={style.lionDiv}>
+          <div className={style.lionView}>
+            <img src={`image/game/trapGame/${startData.data.screen}.png`} style={{ width: "75%", height: "60%", marginTop: "5%" }}/>
           </div>
-        )}
-      <div>
-        <img src={`image/game/trapGame/${startData.data.screen}.png`} style={PicStyle} />
+          {hasKey === 1 ? (
+              <div className={style.txtStyle}>
+                열쇠를 획득했어~!~! 함정을 피해 도착지점으로 가자~!!
+              </div>
+            ) : (
+              <div className={style.txtStyle}>
+                열쇠가 있어야 탈출할 수 있어! 열쇠와의 거리는 {startData.data.distanceKey}칸 이야!
+              </div>
+            )}
+        </div>
       </div>
-      <button onClick={() => lionMovePublisher("L")}>사자왼쪽으로턴</button>
-      <button onClick={() => lionMovePublisher("Go")}>사자이동내가보는방향으로</button>
-      <button onClick={() => lionMovePublisher("R")}>사자오른쪽으로턴</button>
+      <img
+        src="image/tools/questionMark.png"
+        alt="questionMark"
+        className={style.iconStyle}
+      />
     </div>
   );
 };
