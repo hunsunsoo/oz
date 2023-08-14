@@ -24,8 +24,9 @@ const UserVideoComponent = ({ streamManager }) => {
         ref={videoRef}
         autoPlay
         style={{
-          width: "266px",
-          height: "200px",
+          marginTop: "5px",
+          width: "240px",
+          height: "180px",
           backgroundColor: "black",
         }}
       />

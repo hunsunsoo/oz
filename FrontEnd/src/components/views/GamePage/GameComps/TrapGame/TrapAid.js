@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {MiroRed, MiroGreen, MiroBlue} from "./TrapBoard";
+import style from "./TrapAid.module.css"
+
 const TrapAid = ({ startData, myRole }) => {
 
   const mapData = startData.data.aidMap;
@@ -16,7 +18,6 @@ const TrapAid = ({ startData, myRole }) => {
     boardData.push(row);
   }
   
-
   // 역할에 따른 게임페이지 조건부 렌더링
   let miroColorRendering;
   switch (myRole) {
@@ -31,11 +32,48 @@ const TrapAid = ({ startData, myRole }) => {
       break;
   }
   
-
   return(
-    <div>
-      여긴 조력자의 페이지야
-      {miroColorRendering}
+    <div className={style.compStyle}>
+      <div className={style.backgroundDiv}>
+        {myRole === 1 ? (
+          <div className={style.miroHow}>
+            <div>
+              <div className={style.miroText}>출발</div>
+              <div className={style.miroText}>도착</div>
+            </div>
+            <div>
+              <img src="image/game/trapGame/start.png" className={style.PicStyle} />
+              <img src="image/game/trapGame/finish.png" className={style.PicStyle} />
+            </div>       
+          </div>
+        ) : myRole === 3 ? (
+          <div className={style.miroHow}>
+            <div>
+              <div className={style.miroText}>폭탄</div>
+            </div>
+            <div>
+              <img src="image/game/trapGame/bomb.png" className={style.PicStyle} />
+            </div>       
+          </div>
+        ) : (
+          <div className={style.miroHow}>
+            <div>
+              <div className={style.miroText}>유령</div>
+            </div>
+            <div>
+              <img src="image/game/trapGame/ghost.png" className={style.PicStyle} />
+            </div>       
+          </div>
+        )}
+        <div className={style.miroDiv}>
+          {miroColorRendering}
+        </div>
+      </div>
+      <img
+        src="image/tools/questionMark.png"
+        alt="questionMark"
+        className={style.iconStyle}
+      />
     </div>
   );
 };

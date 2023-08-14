@@ -103,7 +103,7 @@ const PlayGame = ({
   const gamedivStyle = {
     margin: "0",
     padding: "0",
-    height: "60%",
+    height: "70%",
     overflow: "hidden",
   };
 

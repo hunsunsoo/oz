@@ -14,7 +14,11 @@ function BoardItem({ data }) {
   return (
     <div className={style.boardItem}>
       {data ? (
-        <img src={data.url} alt={`piece-${data.id}`} style={{ width: "70%" }} />
+        <img
+          src={data.url}
+          alt={`piece-${data.id}`}
+          style={{height: "100%", width: "100%"}}
+        />
       ) : (
         <div className={style.emptySpace} />
       )}
@@ -55,11 +59,11 @@ const PuzzleAid = ({ startData, myRole }) => {
   }, []);
 
   return (
-    <>
+    <div className={style.compStyle}>
       {myRole === 1 ? (
         // <div className={style.container}>
         <div className={style.boardContainer1}>
-          <div className={style["board1"]}>
+          <div className={style.board1}>
             <BoardItem data={board[0]} />
           </div>
           <div className={style["board2"]}>
@@ -86,7 +90,7 @@ const PuzzleAid = ({ startData, myRole }) => {
         </div>
       )}
       {/* </div> */}
-    </>
+    </div>
   );
 };
 export default PuzzleAid;
