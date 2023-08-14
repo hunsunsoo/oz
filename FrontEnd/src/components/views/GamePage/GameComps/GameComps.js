@@ -235,9 +235,9 @@ const GameComp = (props) => {
   } else if (isStage === 1 && isIndex == 3) {
     return (
       <div className={style.compStyle}>
-        <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
-                  R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
-      </div> 
+      <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
+                R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
+    </div>
     );
   } else if (isStage === 1 && isIndex === 21) {
     // 클리어 후

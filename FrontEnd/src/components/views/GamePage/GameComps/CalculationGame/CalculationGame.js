@@ -6,6 +6,7 @@ import CalculationReady from "./CalculationReady";
 const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, R1,R2,R3,R4 } ) => {
 	// isStart 참이면 렌더링에 의해 분기되는 게임 페이지
 	const [isStart, setIsStart] = useState(false);
+
   const handleGamingStart = (status) => {
 		setIsStart(status);
 	};
@@ -110,10 +111,12 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
         return;
       }
-
+      console.log("시작해줘")
 			const message = {
 				"session":`${sessionId}`,
 			};
+      console.log(message)
+      console.log(roundId)
 
       client.send(`/pub/calculation/start/${roundId}`, {}, JSON.stringify(message));
     } catch (error) {
