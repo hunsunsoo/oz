@@ -10,11 +10,13 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 		setIsStart(status);
 	};
 	
+  // 허수아비 화면 제어
   const [actorState, setActorState] = useState(0);
   const handleActorState = (status) => {
     setActorState(status);
   };
 
+  // 조력자 화면 제어
   const [helperState, setHelperState] = useState(0);
   const handleHelperState = (status) => {
     setHelperState(status);
@@ -22,7 +24,6 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 	
 	const [resAnswer, setResAnswer] = useState(0);
 
-	const [turn, setTurn] = useState(0);
 	const [boardData, setBoardData] = useState([
 		[' ', ' ', ' ', ' ', ' ', ' '],
 		[' ', ' ', ' ', ' ', ' ', ' '],
@@ -37,21 +38,24 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 	  ['?','?','?','?','?']
 	])
 
+  // 입력 위치 헤더
   const [head, setHead] = useState(0);
 
+  // 입력 데이터 갱신 
   const handletableData = (status) => {
-
     const temp = [...tableData[0]];
     temp[head] = status;
     setHead(head+1);
     setTableData([temp]);
   };
 
+  // 입력 데이터 리셋
   const resetTable = () => {
     setTableData([['?','?','?','?','?']]);
     setHead(0);
   };
 
+  // 타임 아웃 실패 - 안씀
   const failTimeOut = () => {
     alert("실패요");
     resetTable();
@@ -81,22 +85,17 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
           console.log('Received message:', message.body);
           
           try {
-						// JSON 문자열을 JavaScript 객체로 변환
         		const resJsondata = JSON.parse(message.body);
-            // setStartData(JSON.parse(message.body));
-						
-        		// 객체의 속성을 활용하여 처리
-						const resTurn = resJsondata.data.turn;
+
+            // 시작 보드 데이터
 						const numberBoardArray = resJsondata.data.numberBoard;
-						setTurn(resTurn);
         		setBoardData(numberBoardArray);
 						CalculationGameAnswerPublisher();
-        
+            // 게임 시작
             handleGamingStart(true);
           } catch (error) {
             console.error('Error parsing message body:', error);
           }
-    
         });
       };
       trySubscribe();
@@ -104,10 +103,8 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
     subscribeToWaiting();
   }, [client, sessionId]);
 
-	// 게임시작 pub
+	// 사칙연산게임 시작 pub
   const CalculationGameStartPublisher = async () => {
-    console.log("게임시작버튼 누름");
-    // /pub/calculation/start/{roundId} 경로로 메시지 전송
     try {
       if (!client) {
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
@@ -124,7 +121,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
     }
   };
 
-	// 1스테이지 문제 공개 sub
+	// 사칙연산게임 문제 공개 sub
 	useEffect(() => {
 		const subscribeToStage1GetAnswer = () => {
 			const trySubscribe = () => {
@@ -132,10 +129,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 				client.subscribe(`/sub/socket/calculation/getanswer/${roundId}/${sessionId}`, (message) => {
 					console.log('Received message:', message.body);
 					try {
-						// JSON 문자열을 JavaScript 객체로 변환
 						const resJsondata = JSON.parse(message.body);
-				
-						// 객체의 속성을 활용하여 처리
 						const resAnswer = resJsondata.data.answer;
 		
 						setResAnswer(resAnswer);
@@ -151,9 +145,8 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 		subscribeToStage1GetAnswer();
 	}, [client, sessionId]);
 	
-	// 1스테이지 문제 공개 pub
+	// 사칙연산게임 문제 공개 pub
   const CalculationGameAnswerPublisher = async () => {
-    // /pub/calculation/getanswer/{roundId} 경로로 메시지 전송
     try {
       if (!client) {
         console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
@@ -161,7 +154,6 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
       }
 
       client.send(`/pub/calculation/getanswer/${roundId}`);
-      console.log("정답을 받아왔음");
       
     } catch (error) {
       console.log('Error sending message:', error);
@@ -179,12 +171,8 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 					try {
 						// JSON 문자열을 JavaScript 객체로 변환
 						const resJsondata = JSON.parse(message.body);
-				
-						// 객체의 속성을 활용하여 처리
 						const selectedNumsArray = resJsondata.data.selectedNums;
-						
-						          
-            // 여기 응답이 제대로 왔다면
+
             setBoardData(selectedNumsArray);
 
             handleActorState(2);
@@ -200,9 +188,6 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 		subscribeToAidSelectedCells();
 	}, [client, sessionId]);
 
-	
-
-
 	// 1스테이지 정답 선택 sub
 	useEffect (() => {
 		const subscribeToStage1SelectAns = () => {
@@ -210,17 +195,15 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 				// /sub/socket/calculation/submitanswer/{roundId}/{sessionId} 경로로 구독 요청
 				client.subscribe(`/sub/socket/calculation/submitanswer/${roundId}/${sessionId}`, (message) => {
 					console.log('Received message:', message.body);
-					console.log("허수아비 정답 제출을 위한 소켓 연결");
 		
 					try {
 						// JSON 문자열을 JavaScript 객체로 변환
 						const resJsondata = JSON.parse(message.body);
-				
-						// 객체의 속성을 활용하여 처리
+
 						const selectednumber = resJsondata.data.correct;
 		
 						if(selectednumber === true){
-              alert("성공이요");
+              alert("성공");
               handleindexSet(21);
             } else if(selectednumber === false){
               alert("실패요");
@@ -247,42 +230,6 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 		};
 		subscribeToStage1SelectAns();
 	}, [client, sessionId]);
-
-
-
-
-
-
-
-	// useEffect(() => {
-	// 	const subscribeCalculationResult = () => {
-	// 		const trySubscribe = () => {
-	// 			if (!client) {
-  //         console.log("사칙연산게임 결과 구독 연결 실패")
-  //       }
-	// 			console.log("사칙연산게임 결과 구독 연결중")
-	// 			const subscription = client.subscribe(`/sub/socket/calculation/submitanswer/${sessionId}`, (message) => {
-	// 				console.log('Received message:', message.body);
-
-	// 				try {
-	// 					const resJson = JSON.parse(message.body);
-	// 					if (resJson.data.correct === false) {
-	// 						alert("실패입니다! 게임이 다시 시작됩니다 준비화면으로 돌아갑니다.");
-	// 						handleGamingStart(false);
-	// 					} else if (resJson.data.correct === true) {
-	// 						alert("성공입니다! 다음 게임으로 넘어갑니다.")
-  //             // 다음 페이지는
-  //             handleindexSet(21);
-	// 					}
-	// 				} catch (error) {
-	// 					console.error('Error parsing message body:', error);
-	// 				}
-	// 			});
-	// 		};
-	// 		trySubscribe();
-	// 	};
-	// 	subscribeCalculationResult();
-	// }, [client, sessionId]);
 
 	// 역할에 따른 게임페이지 조건부 렌더링
 	let CalculationGameRenderingState;
