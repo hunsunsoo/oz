@@ -176,7 +176,7 @@ const GameComp = (props) => {
   // 인트로 스토리
   if (isStage === 0 && isIndex <= 2) {
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_S1}>
           <div className={style.illustration}>
             {IntrodialogueData[isIndex].character}
@@ -189,7 +189,7 @@ const GameComp = (props) => {
   } else if (isStage === 0 && isIndex <= 13) {
     const characterImageClass = getCharacterClass(IntrodialogueData, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_S2}>
           <div className={style.script}>
             {IntrodialogueData[isIndex].character}
@@ -203,7 +203,7 @@ const GameComp = (props) => {
     );
   } else if (isStage === 0 && isIndex <= 16) {
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_S3}>
           <div className={style.illustration}>
             {IntrodialogueData[isIndex].character}
@@ -219,7 +219,7 @@ const GameComp = (props) => {
   } else if (isStage === 1 && isIndex <= 2) {
     const characterImageClass = getCharacterClass(dialogue1Data, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G1}>
           <div className={style.script}>
             {dialogue1Data[isIndex].character}
@@ -244,7 +244,7 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue1Data, 3);
     console.log(characterImageClass);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G1}>
           <div className={style.script}>
             {dialogue1Data[3].character}
@@ -261,7 +261,7 @@ const GameComp = (props) => {
   } else if (isStage === 2 && isIndex <= 2) {
     const characterImageClass = getCharacterClass(dialogue2Data, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G2}>
           <div className={style.script}>
             {dialogue2Data[isIndex].character}
@@ -294,7 +294,7 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue2Data, 3);
     console.log(characterImageClass);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G2}>
           <div className={style.script}>
             {dialogue2Data[3].character}
@@ -311,7 +311,7 @@ const GameComp = (props) => {
   } else if (isStage === 3 && isIndex === 0) {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G3}>
           <div className={style.script}>
             {dialogue3Data[isIndex].character}
@@ -344,7 +344,7 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(dialogue3Data, 3);
     console.log(characterImageClass);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G3}>
           <div className={style.script}>
             {dialogue3Data[3].character}
@@ -361,7 +361,7 @@ const GameComp = (props) => {
   } else if (isStage === 4 && isIndex <= 1) {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G4}>
           <div className={style.script}>
             {dialogue4Data[isIndex].character}
@@ -393,7 +393,7 @@ const GameComp = (props) => {
   } else if (isStage === 5 && isIndex <= 9) {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_S5}>
           <div className={style.script}>
             {OutrodialogueData[isIndex].character}
@@ -408,7 +408,7 @@ const GameComp = (props) => {
   } else if (isStage === 5 && isIndex <= 12) {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
-      <div className={style.compStyle}>
+      <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_S6}>
           <div className={style[characterImageClass]}></div>
           <div className={style.illustration}>

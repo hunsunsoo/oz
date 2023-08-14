@@ -12,7 +12,7 @@ const PlayGame = ({
   roundId
 }) => {
 
-  const [isStage, setIsStage] = useState(1);
+  const [isStage, setIsStage] = useState(2);
   const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 4, 12, 11, 7, 14];
   const dispatch = useDispatch(); // 디스패치 정의
@@ -125,12 +125,13 @@ const PlayGame = ({
   return (
     <div style={gamedivStyle}>
       <div style={bodyStyle}>
-        <button style={BtnStyle} onClick={handleNext}>
+        {/* <button style={BtnStyle} onClick={handleNext}>
           Next
-        </button>
+        </button> */}
         <GameComp
           isStage={isStage}
           isIndex={isIndex}
+          changeNextPage={handleNext}
           changeIsIndex={indexNext}
           changeIsStage={stageNext}
           changeIsReady={readyNext}
