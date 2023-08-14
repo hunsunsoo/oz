@@ -81,7 +81,6 @@ const AlphaBoard = ( {onCellClick, boardData, sel11, sel12, sel21, sel22, sel41,
           selectedCells.push(defaultCell);
         }
 
-        console.log("egwagwae");
         console.log(selectedCells);
 
         const message = {

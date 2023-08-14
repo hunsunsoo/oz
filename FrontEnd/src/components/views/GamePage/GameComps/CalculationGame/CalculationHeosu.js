@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   NumberBoard,
-  AlphaBoard,
   AlphaBoardH,
   MathBoard,
   AnsBoard,
@@ -43,7 +42,6 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
   };
 
   const submitAnswer = () => {
-    
       const nums = [];
       const marks = [];
       nums.push(tableData[0][0]);
@@ -54,7 +52,6 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
       marks.push(tableData[0][3]);
 
       sendStage1SelectAns(nums, marks);
-    
   }
 
   // 1스테이지 정답 선택 pub
@@ -114,8 +111,6 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
 						alt="questionMark"
 						className={style.iconStyle}
 					/>
-					{/* <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div> */}
-					{/* <div className={style.ansSubmitBtn} onClick={sendStage1SelectAns}>정답제출</div> */}
 					<div className={style.ansSubmitBtn} onClick={submitAnswer}>정답제출</div>
 					<div className={style.resetBtn} onClick={handleReset}>리셋</div>
 					<img
