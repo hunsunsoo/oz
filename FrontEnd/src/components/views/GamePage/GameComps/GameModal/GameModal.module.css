@@ -92,8 +92,8 @@
     justify-content: space-between;
     position: absolute;   /* 이 속성을 추가합니다. */
     bottom: 30px;         /* 버튼을 모달창 바닥에서 얼마나 떨어져있게 할지를 설정합니다. 이 값을 조절하여 원하는 위치에 배치할 수 있습니다. */
-    left: 40px;              /* 왼쪽으로부터의 간격을 0으로 설정하여 버튼이 좌우로 꽉 차게 합니다. */
-    right: 40px;             /* 오른쪽으로부터의 간격도 0으로 설정합니다. */
+    left: 5%;              /* 왼쪽으로부터의 간격을 0으로 설정하여 버튼이 좌우로 꽉 차게 합니다. */
+    right: 5%;             /* 오른쪽으로부터의 간격도 0으로 설정합니다. */
 }
 .nextbutton{
     background-color: transparent;
