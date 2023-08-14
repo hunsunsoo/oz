@@ -8,7 +8,7 @@
 .puzzleLeft {
   flex: 0 0 70%;
   max-width: 70%;
-  height: 120%;
+  height: 100%;
   margin-top: -6%;
   background-image: url("../../../../../../public/image/game/puzzleGame/puzzleGameBgHeart.JPG");
   background-size: 100% 95%;
