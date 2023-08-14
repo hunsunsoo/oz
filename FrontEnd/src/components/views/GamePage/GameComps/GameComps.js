@@ -15,6 +15,7 @@ import { client } from "stompjs";
 import { Sub, Dnd } from "./Puzzle";
 import TrapGame from "./TrapGame/TrapGame";
 import PuzzleGame from "./PuzzleGame/PuzzleGame";
+import CalculationGame from "./CalculationGame/CalculationGame";
 import DrawingGame from "./DrawingGame/DrawingGame";
 
 const characterToClassMap = {
@@ -95,7 +96,7 @@ const GameComp = (props) => {
   const isIndex = props.isIndex;
 
   const client = props.client;
-  const roundId = 1; // 일단 임시, 나중에 리덕스로 가져올거임
+  const roundId = props.roundId;
   const userId = props.userId;
   const myRole = props.myRole;
   const sessionId = props.sessionId;
@@ -170,77 +171,6 @@ const GameComp = (props) => {
       setTwmState(0);
     }
   };
-
-  // 여기까지 각게임 준비하기
-
-  const [gameId, setGameId] = useState(0);
-  const [turn, setTurn] = useState(1);
-  const [resAnswer, setResAnswer] = useState(0);
-
-  const [isStartBtnActive, setIsStartBtnActive] = useState(true); // 예시 값으로 true 설정
-  // => 4명이 준비하면 true로 바꿔줄 값
-  const host = 1; // 일단 임시, 나중에 리덕스로 가져올거임
-
-  const [boardData, setBoardData] = useState([
-    [" ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " "],
-  ]);
-
-  // 정답 받을 보드
-  const [tableData, setTableData] = useState([[" ", " ", " ", " ", " "]]);
-
-  // socket
-  // 1스테이지 준비 구독 sub
-  // const subscribeToStage1Ready = () => {
-  //   console.log("1스테이지 ready 페이지 소켓연결1");
-  //   // /sub/socket/calculation/start/{roundId}/ 경로로 구독 요청
-  //   const subscription = client.subscribe(`/sub/socket/calculation/ready/${roundId}/${sessionId}`, (message) => {
-  //     console.log('Received message:', message.body);
-
-  //     try {
-  //       // JSON 문자열을 JavaScript 객체로 변환
-  //       const resJsondata = JSON.parse(message.body);
-
-  //       // 객체의 속성을 활용하여 처리
-  //       const resRole = resJsondata.role;
-
-  //       // 응답에 의한 처리들 (역할군 state 변경)
-  //       if (myRole === 1) {
-  //         if (dorothyState === 0) {
-  //           setDorothyState(1);
-  //         } else {
-  //           setDorothyState(0);
-  //         }
-  //       } else if (myRole === 2) {
-  //         if (lionState === 0) {
-  //           setLionState(1);
-  //         } else {
-  //           setLionState(0);
-  //         }
-  //       } else if (myRole === 3) {
-  //         if (heosuState === 0) {
-  //           setHeosuState(1);
-  //         } else {
-  //           setHeosuState(0);
-  //         }
-  //       } else if (myRole === 4) {
-  //         if (twState === 0) {
-  //           setTwState(1);
-  //         } else {
-  //           setTwState(0);
-  //         }
-  //       }
-
-  //     } catch (error) {
-  //       console.error('Error parsing message body:', error);
-  //     }
-
-  //   });
-  // }
 
   // 1스테이지 게임 준비 버튼 pub
   const sendStage1Ready = () => {
@@ -564,7 +494,7 @@ const GameComp = (props) => {
   if (isStage === 1 && isIndex == 11) {
     return (
       <div className={style.compStyle}>
-        <div className={style.background_G1}>
+        {/* <div className={style.background_G1}>
           <div className={style.BoardStyle}>
             <NumberBoard boardData={boardData} />
           </div>
@@ -573,62 +503,64 @@ const GameComp = (props) => {
             alt="questionMark"
             className={style.iconStyle}
           />
-        </div>
-      </div>
+        </div> */}
+        <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
+                  R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
+      </div> 
     );
   } else if (isStage === 1 && isIndex == 12) {
     return (
-      <div className={style.compStyle}>
-        <div className={style.background_G1}>
-          <div className={style.BoardStyle}>
-            <AlphaBoard onCellClick={handleCellClick} />
-          </div>
-          <img
-            src="image/tools/questionMark.png"
-            alt="questionMark"
-            className={style.iconStyle}
-          />
-          <img
-            src="image/tools/stage1SubBtn.png"
-            alt="stage1SubBtn"
-            className={style.selectBtn}
-            onClick={sendStage1SelectCells}
-          />
-        </div>
-      </div>
+      // <div className={style.compStyle}>
+      //   <div className={style.background_G1}>
+      //     <div className={style.BoardStyle}>
+      //       <AlphaBoard onCellClick={handleCellClick} />
+      //     </div>
+      //     <img
+      //       src="image/tools/questionMark.png"
+      //       alt="questionMark"
+      //       className={style.iconStyle}
+      //     />
+      //     <img
+      //       src="image/tools/stage1SubBtn.png"
+      //       alt="stage1SubBtn"
+      //       className={style.selectBtn}
+      //       onClick={sendStage1SelectCells}
+      //     />
+      //   </div>
+      // </div>
+      null
     );
   } else if (isStage === 1 && isIndex == 13) {
     return (
-      <div className={style.compStyle}>
-        <div className={style.background_G1}>
-          <div className={style.BoardStyle2}>
-            {/* <AlphaBoard /> */}
-            <NumberBoard boardData={boardData} onClick={handleAnsClick} />
-          </div>
-          <div className={style.MathBoardStyle}>
-            <MathBoard onclick={handleMarksClick} />
-          </div>
-          <div className={style.AnsBoardStyle}>
-            <AnsBoard tableData={tableData} />
-          </div>
-          <img
-            src="image/tools/questionMark.png"
-            alt="questionMark"
-            className={style.iconStyle}
-          />
-          {/* <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div> */}
-          <div className={style.ansSubmitBtn} onClick={sendStage1SelectAns}>
-            정답제출
-          </div>
-          <div className={style.resetBtn}>리셋</div>
-          <img
-            src="image/tools/equal.png"
-            alt="equal"
-            className={style.equal}
-          />
-          <div className={style.rectangleStyle}>{resAnswer}</div>
-        </div>
-      </div>
+      // <div className={style.compStyle}>
+      //   <div className={style.background_G1}>
+      //     <div className={style.BoardStyle2}>
+      //       {/* <AlphaBoard /> */}
+      //       <NumberBoard boardData={boardData} onClick={handleAnsClick}/>
+      //     </div>
+      //     <div className={style.MathBoardStyle}>
+      //       <MathBoard onclick={handleMarksClick}/>
+      //     </div>
+      //     <div className={style.AnsBoardStyle}>
+      //       <AnsBoard tableData={tableData}/>
+      //     </div>
+      //     <img
+      //       src="image/tools/questionMark.png"
+      //       alt="questionMark"
+      //       className={style.iconStyle}
+      //     />
+      //     {/* <div className={style.ansSubmitBtn} onClick={props.changeIsClear}>정답제출</div> */}
+      //     <div className={style.ansSubmitBtn} onClick={sendStage1SelectAns}>정답제출</div>
+      //     <div className={style.resetBtn}>리셋</div>
+      //     <img
+      //       src="image/tools/equal.png"
+      //       alt="equal"
+      //       className={style.equal}
+      //     />
+      //     <div className={style.rectangleStyle}>{resAnswer}</div>
+      //   </div>
+      // </div>
+      null
     );
     // 2스테이지 게임시작
   } else if (isStage === 2 && isIndex == 11) {
@@ -757,35 +689,35 @@ const GameComp = (props) => {
   } else if (isStage === 1 && isIndex == 3) {
     // ready 화면 + 방법설명
     return (
-      <div className={style.compStyle}>
-        <div className={style.background_G1}>
-          <img
-            src="image/character/troop2.png"
-            alt=""
-            className={style.troop2}
-          />
-          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-          {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
-          <div className={style.readyBtn} onClick={sendStage1Ready}>
-            준비 완료
-          </div>
-          <div className={style.howToPlayBtn}>게임 방법</div>
-          <div
-            className={style.startBtn}
-            style={{
-              display: isStartBtnActive && host === 1 ? "flex" : "none",
-            }}
-            onClick={sendStage1Start}
-          >
-            게임 시작
-          </div>
-          <img
-            src="image/tools/checkmarker.png"
-            className={style.checkDorothy}
-            style={{ display: dorothyState === 1 ? "block" : "none" }}
-          ></img>
-        </div>
-      </div>
+      // <div className={style.compStyle}>
+      //   <div className={style.background_G1}>
+      //     <img 
+      //       src="image/character/troop2.png"
+      //       alt=""
+      //       className={style.troop2}
+      //     />
+      //     <div className={style.howToPlayImg}>
+      //       게임 방법 넣을 part
+      //     </div>
+      //     {/* <div className={style.readyBtn} onClick={props.changeIsReady}> */}
+      //     <div className={style.readyBtn} onClick={sendStage1Ready}>
+      //       준비 완료
+      //     </div>
+      //     <div className={style.howToPlayBtn}>
+      //       게임 방법
+      //     </div>
+      //     <div className={style.startBtn} style={{ display: isStartBtnActive && host === 1 ? 'flex' : 'none', }} onClick={sendStage1Start}>
+      //       게임 시작
+      //     </div>
+      //     <img
+      //       src="image/tools/checkmarker.png"
+      //       className={style.checkDorothy}
+      //       style={{ display: dorothyState === 1 ? 'block' : 'none' }}
+      //     >
+      //     </img>
+      //   </div>
+      // </div>
+      null
     );
   } else if (isStage === 1 && isIndex === 21) {
     // 클리어 후
