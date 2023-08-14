@@ -15,7 +15,7 @@ import { client } from "stompjs";
 import { Sub, Dnd } from "./Puzzle";
 import TrapGame from "./TrapGame/TrapGame";
 import PuzzleGame from "./PuzzleGame/PuzzleGame";
-import DrawingGame from './DrawingGame/DrawingGame';
+import DrawingGame from "./DrawingGame/DrawingGame";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -703,7 +703,10 @@ const GameComp = (props) => {
           sessionId={sessionId}
           myRole={myRole}
           handleindexSet={indexSet}
-          R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}
+          R1={dorothyState}
+          R2={lionState}
+          R3={heosuState}
+          R4={twmState}
         />
       </div>
     );
@@ -757,7 +760,17 @@ const GameComp = (props) => {
   } else if (isStage === 4 && isIndex === 11) {
     return (
       <div className={style.compStyle}>
-        <DrawingGame client={client} sessionId={sessionId}  myRole={myRole}></DrawingGame>
+        <DrawingGame
+          client={client}
+          sessionId={sessionId}
+          myRole={myRole}
+          handleindexSet={indexSet}
+          R1={dorothyState}
+          R2={lionState}
+          R3={heosuState}
+          R4={twmState}
+        />
+
         <button onClick={props.changeIsIndex}>(임시)Next</button>
       </div>
     );
@@ -1005,22 +1018,22 @@ const GameComp = (props) => {
     );
   } else if (isStage === 4 && isIndex === 2) {
     // ready 화면 + 방법설명
-    return (
-      <div className={style.compStyle}>
-        <div className={style.background_G4}>
-          <img
-            src="image/character/troop2.png"
-            alt=""
-            className={style.troop2}
-          />
-          <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
-          <div className={style.readyBtn} onClick={props.changeIsReady}>
-            준비 완료
-          </div>
-          <div className={style.howToPlayBtn}>게임 방법</div>
-        </div>
-      </div>
-    );
+    // return (
+    //   <div className={style.compStyle}>
+    //     <div className={style.background_G4}>
+    //       <img
+    //         src="image/character/troop2.png"
+    //         alt=""
+    //         className={style.troop2}
+    //       />
+    //       <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+    //       <div className={style.readyBtn} onClick={props.changeIsReady}>
+    //         준비 완료
+    //       </div>
+    //       <div className={style.howToPlayBtn}>게임 방법</div>
+    //     </div>
+    //   </div>
+    // );
   } else if (isStage === 5 && isIndex <= 9) {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
