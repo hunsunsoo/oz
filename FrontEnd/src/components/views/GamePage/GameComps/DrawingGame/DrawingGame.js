@@ -119,7 +119,7 @@ const DrawingGame = ({
               } else {
                 alert("정답입니다! 다음 게임으로 넘어갑니다.");
                 console.log("여기서 인덱스 넣기");
-                //handleindexSet(50);
+                handleindexSet();
               }
             } catch (error) {
               console.error("Error parsing message body:", error);

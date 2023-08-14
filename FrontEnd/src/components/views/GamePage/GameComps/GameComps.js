@@ -764,7 +764,7 @@ const GameComp = (props) => {
           client={client}
           sessionId={sessionId}
           myRole={myRole}
-          handleindexSet={indexSet}
+          handleindexSet={props.changeIsStage}
           R1={dorothyState}
           R2={lionState}
           R3={heosuState}

@@ -54,6 +54,7 @@ const DrawingReady = ({
   const handleStartAfterReady = () => {
     console.log(host);
     if (amIHost === "1") {
+      console.log(R3);
       if (R1 === 4 && R2 === 4 && R3 === 4 && R4 === 4) {
         onHandleStart(true);
       } else {
