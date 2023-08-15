@@ -9,6 +9,7 @@ import com.fire4bird.oz.game.catchmind.manager.CatchmindGameManager;
 import com.fire4bird.oz.game.catchmind.repository.CatchmindDataRepository;
 import com.fire4bird.oz.game.catchmind.repository.CatchmindLogRepsitory;
 import com.fire4bird.oz.game.catchmind.repository.CatchmindRepository;
+import com.fire4bird.oz.record.service.RecordService;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.round.repository.RoundRepository;
 import com.fire4bird.oz.socket.dto.RedisSaveObject;
@@ -16,12 +17,14 @@ import com.fire4bird.oz.socket.repository.SocketRepository;
 import com.fire4bird.oz.socket.service.RedisPublisher;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CatchmindService {
 
     private final CatchmindRepository catchmindRepository;
@@ -30,7 +33,9 @@ public class CatchmindService {
     private final SocketRepository socketRepository;
     private final RedisPublisher redisPublisher;
     private final RoundRepository roundRepository;
+    private final RecordService recordService;
     private CatchmindGameManager catchmindGameManager;
+
 
 
     @PostConstruct
@@ -45,6 +50,16 @@ public class CatchmindService {
         Round findRound = roundRepository.findById(obj.getRoundId()).orElseThrow(RuntimeException::new);
         long turn = catchmindRepository.countTurn(obj.getRoundId())+1;
         DrawingData drawingData = catchmindGameManager.startGame(req);
+
+        //기록 유효성 검사 및 기록 테이블에 등록
+        //중복되는 서칭들 있음 추후 리팩토링 필수
+        //userId는 방장으로 판단 -> 그대로 사용
+        //roundId 그대로 사용 -> turn은 어떤건지 정확히 판단 불가 -> 기록테이블에서도 중복서칭 됨 -> 수정 필수
+        log.info("찾아온 roundId : {}", findRound.getRoundId());
+        log.info("요청 받은 roundId : {}", obj.getRoundId());
+        log.info("방장 : {}", owner);
+        recordService.validRequest(4, findRound.getRoundId(), owner);
+        recordService.saveStartRecord(findRound.getRoundId(), 4);
 
         Drawing drawing = Drawing.builder()
                 .catchmindData(drawingData)
