@@ -7,13 +7,16 @@ import {
 } from "./CalBoard";
 import style from "./Calculation.module.css"
 
-const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, onHandleActorState, actorState, tableData, onHandleTableData, head, onHandleresetTable, failTimeOut }) => {
+const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, onHandleActorState, actorState, tableData, onHandleTableData, head, onHandleresetTable, failTimeOut, onHandleMike, onHandleCamera, onHandleSpeaker }) => {
 	
 	useEffect(() => {
 		// 10초 후에 숫자판
 		if (actorState === 0) {
 			const timeoutId = setTimeout(() => {
 				onHandleActorState(1);
+				onHandleCamera(false);
+				onHandleMike(false);
+				onHandleSpeaker(false);
 			}, 10000);
 
 			return () => clearTimeout(timeoutId);

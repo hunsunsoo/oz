@@ -236,7 +236,8 @@ const GameComp = (props) => {
     return (
       <div className={style.compStyle}>
       <CalculationGame client={client} sessionId={sessionId} myRole={myRole} handleindexSet={indexSet} roundId={roundId}
-                R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}/>
+                R1={dorothyState} R2={lionState} R3={heosuState} R4={twmState}
+                onHandleMike={props.onHandleMike} onHandleCamera={props.onHandleCamera} onHandleSpeaker={props.onHandleSpeaker}/>
     </div>
     );
   } else if (isStage === 1 && isIndex === 21) {

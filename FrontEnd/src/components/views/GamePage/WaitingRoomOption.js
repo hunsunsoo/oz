@@ -15,6 +15,9 @@ const WaitingRoomOption = ({
   sessionId,
   amIHost,
   client,
+  handleToggle,
+  isMike,
+  isCamera
 }) => {
   // 구독
   const handleWaiting = () => {
@@ -182,9 +185,13 @@ const WaitingRoomOption = ({
     <div style={WROStyle}>
       <div className={style.optionBox}>
         {/* Left Pane Content */}
-        <button className={style.optionButton}><i class="fi fi-rr-microphone"></i></button>
-        <button className={style.optionButton}><i class="fi fi-rr-video-camera-alt"></i></button>
-        <button className={style.optionButton}><i class="fi fi-rr-settings"></i></button>
+        <button className={`${style.optionButton}  ${isCamera ? style.active : ""}`}>
+          <i className={`fi fi-rr-video-camera-alt`} onClick={() => handleToggle("camera")}></i>
+        </button>
+        <button className={`${style.optionButton} ${isMike ? style.active : ""}` }>
+          <i className={`fi fi-rr-microphone`} onClick={() => handleToggle("mike")} ></i>
+        </button>
+        <button className={style.optionButton}><i class="fi fi-rr-settings" ></i></button>
         <button className={style.optionButton}
         onClick={copySessionId}><i class="fi fi-rr-envelope-plus"></i></button>
       </div>
