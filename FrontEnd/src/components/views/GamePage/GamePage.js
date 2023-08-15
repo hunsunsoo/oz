@@ -435,6 +435,9 @@ const GamePage = () => {
           sessionId={mySessionId}
           amIHost={amIHost}
           client={client}
+          handleToggle={handleToggle}
+          isMike={isMike}
+          isCamera={isCamera}
         />
       )}
     </div>
