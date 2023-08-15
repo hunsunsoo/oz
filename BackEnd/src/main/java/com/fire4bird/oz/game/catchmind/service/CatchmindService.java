@@ -54,7 +54,7 @@ public class CatchmindService {
         //기록 유효성 검사 및 기록 테이블에 등록
         //중복되는 서칭들 있음 추후 리팩토링 필수
         //userId는 방장으로 판단 -> 그대로 사용
-        //roundId 그대로 사용 -> turn은 어떤건지 정확히 판단 불가 -> 기록테이블에서도 중복서칭 됨 -> 수정 필수
+        //roundId 그대로 사용 -> turn은 어떤건지 정확히 판단 불가 -> 기록테이블에서도 중복서칭 됨 ->수정 필수
         log.info("찾아온 roundId : {}", findRound.getRoundId());
         log.info("요청 받은 roundId : {}", obj.getRoundId());
         log.info("방장 : {}", owner);
