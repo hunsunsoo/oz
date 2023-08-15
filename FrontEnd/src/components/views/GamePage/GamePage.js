@@ -186,6 +186,19 @@ const GamePage = () => {
     }
   };
 
+  const handleMikeToggle = (status) => {
+    setIsMike(status);
+    publisher.publishAudio(status);
+  };
+  const handleCameraToggle = (status) => {
+    setIsCamera(status);
+    publisher.publishVideo(status);
+  };
+  const handleSpeakerToggle = (status) => {
+    setIsSpeaker(status);
+    subscribers.forEach((s) => s.subscribeToAudio(status));
+  };
+
   // 토큰 생성 메서드. 실제 해당 세션에 연결
   const createToken = (mySessionId) => {
     return new Promise((resolve, reject) => {
@@ -394,6 +407,9 @@ const GamePage = () => {
           myRole={myRole}
           userId={JsonPayload.userId}
           roundId={roundId}
+          onHandleMike={handleMikeToggle}
+          onHandleCamera={handleCameraToggle}
+          onHandleSpeaker={handleSpeakerToggle}
         />
       );
       break;

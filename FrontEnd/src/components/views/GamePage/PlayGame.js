@@ -9,7 +9,10 @@ const PlayGame = ({
   sessionId,
   myRole,
   userId,
-  roundId
+  roundId,
+  onHandleMike,
+  onHandleCamera,
+  onHandleSpeaker
 }) => {
 
   const [isStage, setIsStage] = useState(1);
@@ -143,6 +146,9 @@ const PlayGame = ({
           myRole={myRole}
           indexSet={indexSet}
           roundId={roundId}
+          onHandleMike={onHandleMike}
+          onHandleCamera={onHandleCamera}
+          onHandleSpeaker={onHandleSpeaker}
         />
       </div>
     </div>
