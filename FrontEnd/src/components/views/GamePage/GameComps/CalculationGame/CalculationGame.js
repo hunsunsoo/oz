@@ -207,6 +207,9 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 		
 						if(selectednumber === true){
               alert("성공");
+              onHandleCamera(true);
+              onHandleMike(true);
+              onHandleSpeaker(true);
               handleindexSet(21);
             } else if(selectednumber === false){
               alert("실패요");
