@@ -31,6 +31,7 @@ public class RecordService {
     private final RecordMapper recordMapper;
     private final RecordError recordError;
 
+
     //기록 검색
     public Record findRecord(int roundId, int stageNum) {
         return recordRepository.findByRecord(roundId, stageNum,null);
@@ -153,5 +154,12 @@ public class RecordService {
         //요청 유저가 이상한 라운드id로 요청 보내면 throw
         findUserTeam
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BAD_REQUEST));
+    }
+
+    //유효성 검사 메서드 합치기
+    public void validRequest(int stageNum, int roundId, int userId) {
+        recordError.stageNumValid(stageNum, roundId);
+
+        validUserAndRound(userId, roundId);
     }
 }
