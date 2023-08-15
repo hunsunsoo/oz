@@ -22,7 +22,7 @@ const KakoLogin = () => {
           setCookies("Atoken", Atoken);
           setCookies("Rtoken", Rtoken);
           setTimeout(() => {
-            navigate("/authlanding");
+            navigate("/");
           }, 0);
         }
       });

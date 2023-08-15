@@ -1,108 +1,101 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import style from "./CalculationReady.module.css"
 import { useLocation } from "react-router-dom";
 import GameModal from "../GameModal/GameModal";
 import CustomAlert from "../Alert/alert";
-import style from "./DrawingReady.module.css";
-const DrawingReady = ({
-  myRole,
-  onHandleStart,
-  client,
-  sessionId,
-  R1,
-  R2,
-  R3,
-  R4,
-}) => {
-  const stageval = 4;
+
+const CalculationReady = ( { myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 } ) => {
+
+  const stageval = 1;
   const [showModal, setShowModal] = useState(false);
 
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const host = params.get("host");
+	const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	const host = params.get("host");
 
-  const [amIHost, setAmIHost] = useState(host);
-  const [amIReady, setAmIReady] = useState(false);
+	const [amIHost, setAmIHost] = useState(host);
+	const [amIReady, setAmIReady] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  useEffect(() => {
-    if (myRole === 1) {
-      if (R1 === 4) {
+
+	useEffect(() => {
+    if(myRole === 1){
+      if(R1 === 1){
         setAmIReady(true);
-      } else if (R1 === 0) {
+      } else if(R1 === 0){
         setAmIReady(false);
       }
-    } else if (myRole === 2) {
-      if (R2 === 4) {
+    } else if(myRole === 2){
+      if(R2 === 1){
         setAmIReady(true);
-      } else if (R2 === 0) {
+      } else if(R2 === 0){
         setAmIReady(false);
       }
-    } else if (myRole === 3) {
-      if (R3 === 4) {
+    } else if(myRole === 3){
+      if(R3 === 1){
         setAmIReady(true);
-      } else if (R3 === 0) {
+      } else if(R3 === 0){
         setAmIReady(false);
       }
-    } else if (myRole === 4) {
-      if (R4 === 4) {
+    } else if(myRole === 4){
+      if(R4 === 1){
         setAmIReady(true);
-      } else if (R4 === 0) {
+      } else if(R4 === 0){
         setAmIReady(false);
       }
-    }
+    } 
   }, [myRole, R1, R2, R3, R4]);
 
-  const handleStartAfterReady = () => {
-    console.log(host);
-    if (amIHost === "1") {
-      console.log(R3);
-      if (R1 === 4 && R2 === 4 && R3 === 4 && R4 === 4) {
+	const handleStartAfterReady = () => {
+    console.log(host)
+    if(amIHost === "1"){
+      if(R1 === 1 && R2 === 1 && R3 === 1 && R4 === 1){
+        console.log("여기")
         onHandleStart(true);
       } else {
-        setAlertMessage("4명이 준비 완료 상태가 아닙니다");
+        alert("4명이 준비 완료 상태가 아닙니다");
       }
     } else {
-      setAlertMessage("내가 방장이 아니다.");
+      alert("내가 방장이 아니다.");
     }
   };
 
-  const ReadyPublisher = async (readyOrCancel) => {
-    console.log(sessionId);
-    try {
-      if (!client) {
-        console.log("웹소켓이 연결중이 아닙니다. 메시지 보내기 실패");
-        return;
-      }
+	const CalReadyPublisher = async (readyOrCancel) => {  
+		try {
+			if (!client) {
+				console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+				return;
+			}
 
-      const message = {
-        type: "ready",
-        rtcSession: `${sessionId}`,
-        role: myRole,
-        stage: 4,
-        state: readyOrCancel,
-        message: `${myRole}님이 ${readyOrCancel} (1준비 0취소)하셨습니다`,
-      };
+			const message = {
+				"type":"ready",
+				"rtcSession":`${sessionId}`,
+				"role":myRole,
+				"stage":1,
+				"state":readyOrCancel,
+				"message":`${myRole}님이 ${readyOrCancel} (1준비 0취소)하셨습니다`
+			};
 
-      client.send("/pub/socket/ready", {}, JSON.stringify(message));
-      console.log("메시지 보냈음");
-    } catch (error) {
-      console.log("Error sending message:", error);
-    }
-  };
+			client.send('/pub/socket/ready', {}, JSON.stringify(message));
+			console.log('메시지 보냈음');
+		} catch (error) {
+			console.log('Error sending message:', error);
+		}
+	};
 
   const onHandleExplain = () => {
     setShowModal(true);
   };
 
-  return (
+	return(
     <div className={style.compStyle}>
-      <div className={style.background_G2}>
+      <div className={style.background_G1}>
         <div className={style.charStyle}>
           <div className={style.firstDiv}>
             <img
-              src="image/character/dorothy_light.png"
+              src="image/character/heosu_light.png"
               className={style.checkMain}
             ></img>
-            {R1 === 4 && (
+            {R3 === 1 && (
               <img
                 src="image/tools/checkmarker.png"
                 className={style.checkMarkExtra}
@@ -114,7 +107,7 @@ const DrawingReady = ({
               src="image/character/dorothy.png"
               className={style.checkExtra}
             ></img>
-            {R4 === 4 && (
+            {R1 === 1 && (
               <img
                 src="image/tools/checkmarker.png"
                 className={style.checkMarkExtra}
@@ -123,10 +116,10 @@ const DrawingReady = ({
           </div>
           <div className={style.otherDiv}>
             <img
-              src="image/character/liona.png"
+              src="image/character/lionb.png"
               className={style.checkExtra}
             ></img>
-            {R2 === 4 && (
+            {R2 === 1 && (
               <img
                 src="image/tools/checkmarker.png"
                 className={style.checkMarkExtra}
@@ -135,10 +128,10 @@ const DrawingReady = ({
           </div>
           <div className={style.otherDiv}>
             <img
-              src="image/character/heosua.png"
+              src="image/character/twb.png"
               className={style.checkExtra}
             ></img>
-            {R3 === 4 && (
+            {R4 === 1 && (
               <img
                 src="image/tools/checkmarker.png"
                 className={style.checkMarkExtra}
@@ -159,7 +152,7 @@ const DrawingReady = ({
               className={style.readyBtn}
               onClick={() => {
                 const readyOrCancel = amIReady ? 0 : 1;
-                ReadyPublisher(readyOrCancel);
+                CalReadyPublisher(readyOrCancel);
               }}
             >
               {amIReady ? "준비 취소" : "준비 완료"}
@@ -186,4 +179,4 @@ const DrawingReady = ({
   );
 };
 
-export default DrawingReady;
+export default CalculationReady;

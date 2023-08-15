@@ -11,7 +11,7 @@ const Header = () => {
 const headerStyle = {
   backgroundColor: '#CABE96',
   color: 'white',
-  height:'10%',
+  height:'8%',
   display: 'flex',
   alignItems: 'center',
 };
