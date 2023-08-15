@@ -10,6 +10,10 @@
     border-radius: 28px;
     cursor: pointer;
 }
+.optionButton.active {
+    background-color: #4CAF50; /* 초록색 */
+    color: #FFFFFF; /* 흰색 */
+  }
 
 .optionBox{
     background-color: #CABE96;
