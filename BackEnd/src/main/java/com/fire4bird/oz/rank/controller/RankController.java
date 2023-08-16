@@ -2,6 +2,7 @@ package com.fire4bird.oz.rank.controller;
 
 import com.fire4bird.oz.common.CMRespDto;
 import com.fire4bird.oz.rank.dto.RankResponseDto;
+import com.fire4bird.oz.rank.dto.TeamRecordDto;
 import com.fire4bird.oz.rank.mapper.RankMapper;
 import com.fire4bird.oz.rank.service.RankService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class RankController {
     private final RankMapper rankMapper;
 
     @GetMapping("/{stage-num}")
-    public ResponseEntity test(@PathVariable("stage-num") int stageNum) {
+    public ResponseEntity getRank(@PathVariable("stage-num") int stageNum) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         RankResponseDto test = rankService.findMyRank(Integer.parseInt(userId), stageNum);
@@ -31,5 +32,12 @@ public class RankController {
         return ResponseEntity
                 .ok()
                 .body(new CMRespDto<>(1, stageNum + "스테이지 조회결과", test));
+    }
+
+    @GetMapping("/team/{round-id}")
+    public ResponseEntity getTeamRank(@PathVariable("round-id") int roundId) {
+        TeamRecordDto teamRank = rankService.findTeamRank(roundId);
+
+        return ResponseEntity.ok(teamRank);
     }
 }

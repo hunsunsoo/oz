@@ -1,9 +1,11 @@
 package com.fire4bird.oz.record.repository;
 
+import com.fire4bird.oz.rank.dto.TeamRecordDto;
 import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.team.entity.UserTeam;
 import com.fire4bird.oz.user.entity.User;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         userTeam.user.eq(user))
                 .fetchOne());
     }
-    
+
     //동적쿼리
     @Override
     public Record findByRecord(int roundId, int stageNum, String clear) {
@@ -69,5 +71,16 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .where(record.clear.eq("clear"),
                         record.accRecord.isNotNull())
                 .fetch();
+    }
+
+    @Override
+    public TeamRecordDto findTeamRecord(int roundId) {
+        return jpaQueryFactory
+                .select(Projections.fields(TeamRecordDto.class,
+                        record.accRecord))
+                .from(record)
+                .where(record.round.roundId.eq(roundId),
+                        record.stageNum.eq(5))
+                .fetchOne();
     }
 }
