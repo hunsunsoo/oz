@@ -19,7 +19,8 @@ const WaitingRoomOption = ({
   client,
   handleToggle,
   isMike,
-  isCamera
+  isCamera,
+  isSpeaker
 }) => {
   // 구독
   const handleWaiting = () => {
@@ -212,7 +213,9 @@ const WaitingRoomOption = ({
         <button className={`${style.optionButton} ${isMike ? style.active : ""}` }>
           <i className={`fi fi-rr-microphone`} onClick={() => handleToggle("mike")} ></i>
         </button>
-        <button className={style.optionButton}><i class="fi fi-rr-settings" ></i></button>
+        <button className={`${style.optionButton} ${isSpeaker ? style.active : ""}` }>
+          <i className={`fi fi-rr-volume`} onClick={() => handleToggle("speaker")} ></i>
+        </button>
         <button className={style.optionButton}
         onClick={copySessionId}><i class="fi fi-rr-envelope-plus"></i></button>
       </div>

@@ -454,6 +454,7 @@ const GamePage = () => {
           handleToggle={handleToggle}
           isMike={isMike}
           isCamera={isCamera}
+          isSpeaker={isSpeaker}
         />
       )}
     </div>
