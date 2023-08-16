@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NumberBoard, AlphaBoard, MathBoard, AnsBoard } from "./Board";
 import style from "./GameComps.module.css";
 import { DndProvider, useDrag } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   IntrodialogueData,
   dialogue1Data,
@@ -11,12 +9,11 @@ import {
   dialogue4Data,
   OutrodialogueData,
 } from "../../../scripts/Scripts";
-import { client } from "stompjs";
-import { Sub, Dnd } from "./Puzzle";
 import TrapGame from "./TrapGame/TrapGame";
 import PuzzleGame from "./PuzzleGame/PuzzleGame";
 import CalculationGame from "./CalculationGame/CalculationGame";
 import DrawingGame from "./DrawingGame/DrawingGame";
+import ClearPage from "./ClearPage";
 
 const characterToClassMap = {
   도로시: "character_dorothy",
@@ -428,7 +425,7 @@ const GameComp = (props) => {
     return (
       <div className={style.compStyle}>
         <div className={style.background_S6}>
-          <div style={{ color: "white" }}>클리어 했습니다</div>
+          <ClearPage roundId={roundId}/>
         </div>
       </div>
     );
