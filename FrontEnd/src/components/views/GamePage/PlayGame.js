@@ -30,6 +30,62 @@ const PlayGame = ({
     onHandleMiddleCondition(newStatus);
   };
 
+   // 소켓 연결 유지를 위한 요청
+   useEffect(() => {
+    const subscribeToInfinityRequest = () => {
+      const trySubscribe = () => {
+        if (!client) {
+          console.log("연결유지sub 구독실패")
+        }
+        console.log("연결유지sub 연결중")
+        client.subscribe(`/sub/socket/infinity/${sessionId}`, (message) => {
+          console.log('Received message:', message.body);
+          try {
+
+          } catch (error) {
+            console.error('Error parsing message body:', error);
+          }
+    
+        });
+      };
+      trySubscribe();
+    };
+    subscribeToInfinityRequest();
+  }, [client, sessionId]);
+
+useEffect(() => {
+    const sendMessageInfinity = async () => {
+      try {
+        if (!client) {
+          console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
+          return;
+        }
+        const message = {
+          "type":"infinity",
+          "rtcSession":`${sessionId}`,
+          "message":`on socket`,
+          "data":{
+          }
+        };
+        console.log("나살아있는지보냈음");
+    
+        client.send('/pub/socket/infinity', {}, JSON.stringify(message));
+      } catch (error) {
+        console.log('Error sending message:', error);
+      }
+    };
+    
+    sendMessageInfinity();
+
+    // 5초마다 함수 실행
+    const intervalId = setInterval(sendMessageInfinity, 5000);
+
+    // 컴포넌트 언마운트 시 타이머 클리어
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [client, sessionId]);
+
   // flow 상의 Next 버튼
   const handleNext = () => {
     console.log(isIndex);
