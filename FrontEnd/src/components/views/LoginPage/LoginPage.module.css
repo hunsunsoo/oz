@@ -1,4 +1,4 @@
-.loginpage{
+.loginpage {
         background-image: url('../../../../public/image/backGround/backgroundUser.png');
         background-size: cover;
         background-position: center;
@@ -7,30 +7,30 @@
         height: 100%;
 }
 
-.logo{
+.logo {
         position: absolute;
         left: 45%;
         top: 15%;
 }
 
-.logoImage{
+.logoImage {
         width: 17%;
         cursor: pointer;
 }
 
-.allBox{
+.allBox {
         position: relative;
         margin-top: 17%;
         height: 60%;
 }
 
-.idBox{
+.idBox {
         display: flex;
         height: 20%;
         border-bottom: 5px solid #6C584C;
 }
 
-.pwBox{
+.pwBox {
         margin-top: 3%;
         display: flex;
         height: 20%;
@@ -38,12 +38,12 @@
 }
 
 
-.frontZone{
+.frontZone {
         height: 100%;
         width: 20%;
 }
 
-.inputZone{
+.inputZone {
         padding-left: 3%;
         background: transparent;
         border: none;
@@ -55,14 +55,14 @@
         color: #6C584C;
 }
 
-.loginDiv{
+.loginDiv {
         margin-top: 6%;
         height: 20%;
         position: relative;
         justify-content: center;
 }
 
-.loginButton{
+.loginButton {
         background-color: #6C584C;
         border-radius: 15px;
         width: 90%;
@@ -70,20 +70,20 @@
         color: #F0EAD2;
         cursor: pointer;
         border: none;
-        box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         font-size: x-large;
         font-weight: bold;
         margin-left: 5%;
 }
 
-.etcDiv{
+.etcDiv {
         display: flex;
         width: 90%;
         height: 15%;
         margin: 0 5%;
 }
 
-.registerButton{
+.registerButton {
         width: 20%;
         margin-right: 30%;
         border: none;
@@ -95,7 +95,7 @@
         cursor: pointer;
 }
 
-.findPwButton{
+.findPwButton {
         width: 30%;
         margin-left: 20%;
         border: none;
@@ -107,27 +107,27 @@
         cursor: pointer;
 }
 
-.lineDiv{
+.lineDiv {
         display: flex;
         height: 10%;
         margin-top: 3%;
 }
 
-.line{
+.line {
         margin-top: 2.5%;
         width: 40%;
         height: 7%;
         background-color: #6C584C;
 }
 
-.lineText{
+.lineText {
         width: 15%;
         text-align: center;
         color: #6C584C;
         font-weight: bold;
 }
 
-.kakaoButton{
+.kakaoButton {
 
         background-image: url('../../../../public/image/button/kakaoLoginButton.png');
         background-size: cover;
@@ -139,25 +139,25 @@
         /* color: #191919; */
         cursor: pointer;
         border: none;
-        box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         /* font-size: x-large;
         font-weight: bold; */
         margin-left: 5%;
 }
 
 
-.box{
-width: 30%;
-height: 55%;
-background-color: #F0EAD2;
-border-color: #6C584C;
-border-width : 5px ;
-border-style : solid ;
-border-radius: 25px;
-padding: 4rem 4rem ;
-display: grid;
-/* justify-content: center; 
+.box {
+        width: 30%;
+        height: 55%;
+        background-color: #F0EAD2;
+        border-color: #6C584C;
+        border-width: 5px;
+        border-style: solid;
+        border-radius: 25px;
+        padding: 4rem 4rem;
+        display: grid;
+        /* justify-content: center; 
   align-items: center;  */
-  box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 
 }
