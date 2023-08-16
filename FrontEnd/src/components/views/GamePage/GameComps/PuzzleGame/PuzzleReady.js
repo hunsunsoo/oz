@@ -147,7 +147,7 @@ const PuzzleReady = ({
         </div>
         <div className={style.guideStyle}>
           <div className={style.topDivStyle}>
-            <div className={style.howToPlayImg}></div>
+          
           </div>
           <div className={style.bottomDivStyle}>
             <div className={style.howToPlayBtn} onClick={onHandleExplain}>

@@ -308,7 +308,7 @@ const GameComp = (props) => {
     );
     /** 3스테이지 **/
     // 3스테이지 스토리
-  } else if (isStage === 3 && isIndex === 0) {
+  } else if (isStage === 3 && isIndex <= 2) {
     const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
     return (
       <div className={style.compStyle} onClick={props.changeNextPage}>
@@ -323,7 +323,7 @@ const GameComp = (props) => {
         </div>
       </div>
     );
-  } else if (isStage === 3 && isIndex === 1) {
+  } else if (isStage === 3 && isIndex === 3) {
     // 3스테이지 게임준비&시작
       return (
       <div className={style.compStyle}>

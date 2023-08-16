@@ -336,46 +336,51 @@
 /* 캐릭터 */
 .character_dorothy {
   background-image: url("../../../../../public/image/roleSelect/dorothys.png");
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   background-size: cover;
-  bottom: 34%;
+  bottom: 29%;
+  left: 3%;
   position: absolute;
 }
 
 .character_scarecrow {
   background-image: url("../../../../../public/image/roleSelect/heosus.png");
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   background-size: cover;
-  bottom: 34%;
+  bottom: 29%;
+  left: 3%;
   position: absolute;
 }
 
 .character_lion {
   background-image: url("../../../../../public/image/roleSelect/lions.png");
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   background-size: cover;
-  bottom: 34%;
+  bottom: 29%;
+  left: 3%;
   position: absolute;
 }
 
 .character_tinman {
   background-image: url("../../../../../public/image/roleSelect/tws.png");
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   background-size: cover;
-  bottom: 34%;
+  bottom: 29%;
+  left: 3%;
   position: absolute;
 }
 
 .everyone {
   background-image: url("../../../../../public/image/character/everyone.png");
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   background-size: cover;
-  bottom: 34%;
+  bottom: 29%;
+  left: 3%;
   position: absolute;
 }
 
@@ -497,12 +502,12 @@
 
 .script {
   position: absolute;
-  bottom: 35%;
+  bottom: 30%;
   right: 6%;
 
   width: 72%;
   height: 22%;
-  font-size: 25px;
+  font-size: 30px;
   background-color: #F0EAD2;
   opacity: 0.8;
   display: flex;
