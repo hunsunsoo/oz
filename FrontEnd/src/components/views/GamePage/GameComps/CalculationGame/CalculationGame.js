@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import CalculationHeosu from "./CalculationHeosu";
 import CalculationAid from "./CalculationAid";
 import CalculationReady from "./CalculationReady";
-
+import CustomAlert from "../Alert/alert";
 const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, R1,R2,R3,R4, onHandleMike, onHandleCamera, onHandleSpeaker } ) => {
 	// isStart 참이면 렌더링에 의해 분기되는 게임 페이지
 	const [isStart, setIsStart] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleGamingStart = (status) => {
 		setIsStart(status);
@@ -58,7 +59,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 
   // 타임 아웃 실패 - 안씀
   const failTimeOut = () => {
-    alert("실패요");
+    setAlertMessage("실패요");
     resetTable();
     setActorState(0);
     setHelperState(0);
@@ -206,13 +207,13 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 						const selectednumber = resJsondata.data.correct;
 		
 						if(selectednumber === true){
-              alert("성공");
+              setAlertMessage("성공");
               onHandleCamera(true);
               onHandleMike(true);
               onHandleSpeaker(true);
               handleindexSet(21);
             } else if(selectednumber === false){
-              alert("실패요");
+              setAlertMessage("실패요");
               resetTable();
               setActorState(0);
               setHelperState(0);
@@ -256,8 +257,15 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 	// CalculationGame 컴포넌트
 	return (
 		<div style={{height:'100%'}}>
+      {alertMessage && (
+        <CustomAlert
+          message={alertMessage}
+          onClose={() => setAlertMessage("")}
+        />
+      )}
 			{isStart ? CalculationGameRenderingState : <CalculationReady myRole={myRole} onHandleStart={CalculationGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
 		</div>
+
 	);
 };
 
