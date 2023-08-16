@@ -18,6 +18,9 @@ const DrawingGame = ({
 }) => {
   const [isStart, setIsStart] = useState(false);
 
+  const [isClear, setIsClear] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
   );
@@ -116,20 +119,29 @@ const DrawingGame = ({
             try {
               const resJson = JSON.parse(message.body);
               if (resJson.data === -1) {
-                alert(
-                  "정답을 틀려 게임이 다시 시작됩니다. 준비 화면으로 돌아갑니다."
-                );
-                onHandleCamera(true);
-                onHandleMike(true);
-                onHandleSpeaker(true);
-                handleGamingStart(false);
+                setIsFail(true);
+                const timer = setTimeout(() => {
+                  setIsFail(false);
+                  onHandleCamera(true);
+                  onHandleMike(true);
+                  onHandleSpeaker(true);
+                  handleGamingStart(false);
+                }, 3000);
+                return () => {
+                  clearTimeout(timer);
+                }
               } else {
-                alert("정답입니다! 다음 게임으로 넘어갑니다.");
-                onHandleCamera(true);
-                onHandleMike(true);
-                onHandleSpeaker(true);
-                console.log("여기서 인덱스 넣기");
-                handleindexSet();
+                setIsClear(true);
+                const timer = setTimeout(() => {
+                  setIsClear(false);
+                  onHandleCamera(true);
+                  onHandleMike(true);
+                  onHandleSpeaker(true);
+                  handleindexSet();
+                }, 3000);
+                return () => {
+                  clearTimeout(timer);
+                }
               }
             } catch (error) {
               console.error("Error parsing message body:", error);
@@ -206,6 +218,8 @@ const DrawingGame = ({
           onHandleStart={drawingGameStartPublisher}
         />
       )}
+      {isClear && <div className={style.clearDiv}>Clear</div>}
+      {isFail && <div className={style.failDiv}>Fail</div>}
     </div>
   );
 };

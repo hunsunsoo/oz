@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import CalculationHeosu from "./CalculationHeosu";
 import CalculationAid from "./CalculationAid";
 import CalculationReady from "./CalculationReady";
+import style from "./CalculaionGame.module.css"
 import CustomAlert from "../Alert/alert";
+
 const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, R1,R2,R3,R4, onHandleMike, onHandleCamera, onHandleSpeaker } ) => {
 	// isStart 참이면 렌더링에 의해 분기되는 게임 페이지
 	const [isStart, setIsStart] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+
+  const [isClear, setIsClear] = useState(false);
+  const [isFail, setIsFail] = useState(false);
 
   const handleGamingStart = (status) => {
 		setIsStart(status);
@@ -207,29 +212,39 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 						const selectednumber = resJsondata.data.correct;
 		
 						if(selectednumber === true){
-              setAlertMessage("성공");
-              onHandleCamera(true);
-              onHandleMike(true);
-              onHandleSpeaker(true);
-              handleindexSet(21);
+              setIsClear(true);
+              const timer = setTimeout(() => {
+                setIsClear(false);
+                onHandleCamera(true);
+                onHandleMike(true);
+                onHandleSpeaker(true);
+                handleindexSet(21);
+              }, 3000);
+              return () => {
+                clearTimeout(timer);
+              }
+              
             } else if(selectednumber === false){
-              setAlertMessage("실패요");
-              resetTable();
-              setActorState(0);
-              setHelperState(0);
-              setResAnswer(0);
-              setBoardData(([
-                [' ', ' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' ', ' ']
-              ]));
-              onHandleCamera(true);
-              onHandleMike(true);
-              onHandleSpeaker(true);
-              handleGamingStart(false);
+              setIsFail(true);
+              const timer = setTimeout(() =>{
+                setIsFail(false);
+                resetTable();
+                setActorState(0);
+                setHelperState(0);
+                setResAnswer(0);
+                setBoardData(([
+                  [' ', ' ', ' ', ' ', ' ', ' '],
+                  [' ', ' ', ' ', ' ', ' ', ' '],
+                  [' ', ' ', ' ', ' ', ' ', ' '],
+                  [' ', ' ', ' ', ' ', ' ', ' '],
+                  [' ', ' ', ' ', ' ', ' ', ' '],
+                  [' ', ' ', ' ', ' ', ' ', ' ']
+                ]));
+                onHandleCamera(true);
+                onHandleMike(true);
+                onHandleSpeaker(true);
+                handleGamingStart(false);
+              }, 3000);
             }
 					} catch (error) {
 						console.error('Error parsing message body:', error);
@@ -264,6 +279,8 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
         />
       )}
 			{isStart ? CalculationGameRenderingState : <CalculationReady myRole={myRole} onHandleStart={CalculationGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
+      {isClear && <div className={style.clearDiv}>Clear</div>}
+      {isFail && <div className={style.failDiv}>Fail</div>}
 		</div>
 
 	);

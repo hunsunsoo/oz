@@ -3,10 +3,15 @@ import TrapLion from './TrapLion';
 import TrapAid from './TrapAid';
 import { useSelector } from 'react-redux';
 import TrapReady from './TrapReady';
+import style from './TrapGame.module.css'
 
 const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {
   // isStart 참이면 TrapGameRederingState에 의해 분기되는 게임페이지가 렌더링된다.
   const [isStart, setIsStart] = useState(false);
+
+  const [isClear, setIsClear] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+
   // TrapGameRederingState 에서 나눠지는 조건 => myRole
   const stage = 2;
 
@@ -111,12 +116,24 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
           try {
             const resJson = JSON.parse(message.body);
             if(resJson.data.resultCode === 0){
-              alert("실패입니다! 게임이 다시 시작됩니다 준비화면으로 돌아갑니다.");
-              handleGamingStart(false);
+              setIsFail(true);
+              const timer = setTimeout(() => {
+                setIsFail(false);
+                handleGamingStart(false);
+              }, 3000);
+              return () => {
+                clearTimeout(timer);
+              }
+              
             } else if(resJson.data.resultCode === 1){
-              alert("성공입니다! 다음 게임으로 넘어갑니다.")
-              // 다음 페이지는
-              handleindexSet(21);
+              setIsClear(true);
+              const timer = setTimeout(() => {
+                setIsClear(false);
+                handleindexSet(21);
+              }, 3000);
+              return () => {
+                clearTimeout(timer);
+              }
             }
             
           } catch (error) {
@@ -151,6 +168,8 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
   return (
     <div style={{height:'100%'}}>
       {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
+      {isClear && <div className={style.clearDiv}>Clear</div>}
+      {isFail && <div className={style.failDiv}>Fail</div>}
     </div>
   );
 };
