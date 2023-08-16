@@ -62,13 +62,14 @@
 	text-align: center;
 	justify-content: center;
 	align-items: center;
+	top:5%;
 	width: 60%;
 }
 
 .lionView {
 	display: flex;
 	justify-content: center;
-  align-items: center;
+ 	align-items: center;
 }
 
 .txtStyle {

@@ -39,12 +39,31 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
       }
     }
   };
+
+  const handleKeyDown = (event) => {
+    const keyCode = event.keyCode;
+
+    // 방향키의 업 다운 이벤트 처리
+    if (keyCode === 37) { // Left arrow key
+      lionMovePublisher("L");
+    } else if (keyCode === 38) { // Up arrow key
+      lionMovePublisher("Go");
+    } else if (keyCode === 39) { // Right arrow key
+      lionMovePublisher("R");
+    }
+  };
+
+  useEffect(() => {
+      window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
   
   return(
     <div className={style.compStyle}>
       <div className={style.backgroundDiv}>
-        <div className={style.arrowDiv}>
-        </div>
+        <div className={style.arrowDiv}></div>
         <div className={style.lionDiv}>
           <div className={style.lionView}>
             <div onClick={() => lionMovePublisher("L")}>
