@@ -27,10 +27,10 @@ const Clock = () => {
   const clockStyle = {
     backgroundColor: '#ADC178',
     height: '80%',
-    width: '145px',
+    width: '170px',
     color: 'black',
     fontSize: '40px',
-    marginLeft: '31%',
+    marginLeft: '27.5%',
     padding: '0 30px', // 좌우 여백 추가
     borderRadius: '20px', // 모서리를 둥글게 하는 속성
   };
