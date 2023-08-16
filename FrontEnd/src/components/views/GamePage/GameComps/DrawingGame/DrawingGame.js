@@ -203,7 +203,7 @@ const DrawingGame = ({
   }
 
   return (
-    <div className={style.drawingContainer}>
+    <div style={{height:'100%'}}>
       {isStart ? (
         DrawingGameRenderingState
       ) : (

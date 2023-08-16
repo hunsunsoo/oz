@@ -95,7 +95,7 @@ const DrawingReady = ({
 
   return (
     <div className={style.compStyle}>
-      <div className={style.background_G2}>
+      <div className={style.background_G4}>
         <div className={style.charStyle}>
           <div className={style.firstDiv}>
             <img
@@ -103,18 +103,6 @@ const DrawingReady = ({
               className={style.checkMain}
             ></img>
             {R1 === 4 && (
-              <img
-                src="image/tools/checkmarker.png"
-                className={style.checkMarkExtra}
-              ></img>
-            )}
-          </div>
-          <div className={style.otherDiv}>
-            <img
-              src="image/character/twa.png"
-              className={style.checkExtra}
-            ></img>
-            {R4 === 4 && (
               <img
                 src="image/tools/checkmarker.png"
                 className={style.checkMarkExtra}
@@ -145,11 +133,20 @@ const DrawingReady = ({
               ></img>
             )}
           </div>
+          <div className={style.otherDiv}>
+            <img
+              src="image/character/twa.png"
+              className={style.checkExtra}
+            ></img>
+            {R4 === 4 && (
+              <img
+                src="image/tools/checkmarker.png"
+                className={style.checkMarkExtra}
+              ></img>
+            )}
+          </div>
         </div>
         <div className={style.guideStyle}>
-          <div className={style.topDivStyle}>
-            {/* <div className={style.howToPlayImg}>게임 방법 넣을 part</div> */}
-          </div>
           <div className={style.bottomDivStyle}>
             <div className={style.howToPlayBtn} onClick={onHandleExplain}>
               게임 방법

@@ -94,7 +94,7 @@ const PuzzleReady = ({
 
   return (
     <div className={style.compStyle}>
-      <div className={style.background_G2}>
+      <div className={style.background_G3}>
         <div className={style.charStyle}>
           <div className={style.firstDiv}>
             <img

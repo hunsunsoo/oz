@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CalculationHeosu from "./CalculationHeosu";
 import CalculationAid from "./CalculationAid";
 import CalculationReady from "./CalculationReady";
-import style from "./CalculaionGame.module.css"
+import style from "./CalculationGame.module.css"
 import CustomAlert from "../Alert/alert";
 
 const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, R1,R2,R3,R4, onHandleMike, onHandleCamera, onHandleSpeaker } ) => {
