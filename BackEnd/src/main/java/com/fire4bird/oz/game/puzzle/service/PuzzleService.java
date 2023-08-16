@@ -60,10 +60,10 @@ public class PuzzleService {
         //게임 시작 시 기록 타이밍
         //유효성 체크
         //일단 주석처리
-//        recordService.validRequest(3, findRound.getRoundId(), owner);
-//
-//        //기록 저장
-//        recordService.saveStartRecord(findRound.getRoundId(), 3);
+        recordService.validRequest(3, findRound.getRoundId(), owner);
+
+        //기록 저장
+        recordService.saveStartRecord(findRound.getRoundId(), 3);
 
         //type 1: 게임 시작 로그
         saveLog(req.getRtcSession(), req.getUserId(), 0, 1, "Start Answer: " + puzzle.getAnswer() + ", Board: " + puzzle.getBoard());
@@ -108,11 +108,11 @@ public class PuzzleService {
 
         //게임 종료 기록 저장 타이밍
         // 일단 주석 처리
-//        if (check == 1) {
-//            recordService.clearCheck(obj.getRoundId(), 3, "clear");
-//        } else {
-//            recordService.clearCheck(obj.getRoundId(), 3, "false");
-//        }
+        if (check == 1) {
+            recordService.clearCheck(obj.getRoundId(), 3, "clear");
+        } else {
+            recordService.clearCheck(obj.getRoundId(), 3, "false");
+        }
 
 
         //type 4: 게임 정답 제출 로그
