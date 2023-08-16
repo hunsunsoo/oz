@@ -1,28 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import style from "./ClearPage.module.css";
-import axiosInstance from "../../../../_actions/axiosInstance";
+import axios from "axios";
+import {
+  OPENVIDU_SERVER_SECRET,
+  OPENVIDU_SERVER_URL,
+  SERVER_URL,
+} from "../../../../_actions/urls";
 
-function ClearPage(roundId) {
-    const [clearTime, setClearTime] = useState(''); // 시간 정보를 저장할 상태
+function ClearPage({roundId}) {
+  const [clearTime, setClearTime] = useState(''); // 시간 정보를 저장할 상태
+  
     const navigate = useNavigate();
     const navigateToHome = () => {
       navigate(`/`); // 홈 페이지로 이동합니다.
     };
 
   useEffect(() => {
-    // API를 호출하여 데이터 가져오기
-    try {
-      console.log("@@@@@@@@@"+roundId);
-      const response = axiosInstance.get("/rank/team/"+roundId);
-      console.log(response.data);
-      if (response.status === 200) {
-        alert(response.data);
-      }
-    } catch (error) {
-      alert("올바르지 않은 이메일입니다");
-    }
-  }, []);
+    console.log(roundId + "-> roundId");
+      axios
+      .get(SERVER_URL + "/rank/team/"+roundId, {
+      })
+        .then((response) => {
+          setClearTime(response.data.accRecord);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }, []);
 
   return (
     <div className={style.clearPage}>

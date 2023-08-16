@@ -425,7 +425,7 @@ const GameComp = (props) => {
     return (
       <div className={style.compStyle}>
         <div className={style.background_S6}>
-          <ClearPage roundId={roundId}/>
+          <ClearPage roundId={props.roundId}/>
         </div>
       </div>
     );
