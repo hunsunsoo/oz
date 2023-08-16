@@ -18,25 +18,25 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
     if(myRole === 1){
       if(R1 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R1 === 0){
         setAmIReady(false);
       }
     } else if(myRole === 2){
       if(R2 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R2 === 0){
         setAmIReady(false);
       }
     } else if(myRole === 3){
       if(R3 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R3 === 0){
         setAmIReady(false);
       }
     } else if(myRole === 4){
       if(R4 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R4 === 0){
         setAmIReady(false);
       }
     } 
