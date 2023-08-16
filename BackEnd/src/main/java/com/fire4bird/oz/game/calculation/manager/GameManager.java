@@ -243,25 +243,18 @@ public class GameManager {
         num[2] = boardMap.get(req.getSelectedNums()[2]).value;
         int ans = 0;
 
-        switch(req.getMarks()[0]){
-            case '*':
-                ans = num[0] * num[1];
-                break;
-            case '/':
+        switch (req.getMarks()[0]) {
+            case '*' -> ans = num[0] * num[1];
+            case '/' -> {
                 ans = num[0] / num[1];
-                if(num[0] % num[1] != 1)
-                {
+                if (num[0] % num[1] != 1) {
                     //실패 기록 저장
-                    recordService.clearCheck(this.roundId,1,"false");
+                    recordService.clearCheck(this.roundId, 1, "false");
                     return new GuessAnswerRes(this.session, num, false, false, ans);
                 }
-                break;
-            case '+':
-                ans = num[0] + num[1];
-                break;
-            case '-':
-                ans = num[0] - num[1];
-                break;
+            }
+            case '+' -> ans = num[0] + num[1];
+            case '-' -> ans = num[0] - num[1];
         }
 
         switch(req.getMarks()[1]){
