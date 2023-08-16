@@ -33,12 +33,12 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
     }
   };
 
-  
-
   return(
     <div className={style.compStyle}>
       <div className={style.backgroundDiv}>
         <div className={style.arrowDiv}>
+          <img className={style.turnArrow} src="image/game/trapGame/turnArrow.png" />
+          
           <div className={style.arrowPart}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div style={{ width: "54px", visibility: "hidden"}}>
@@ -63,10 +63,11 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
               </div>
             </div>
           </div>
+          
         </div>
         <div className={style.lionDiv}>
           <div className={style.lionView}>
-            <img src={`image/game/trapGame/${startData.data.screen}.png`} style={{ width: "75%", height: "60%", marginTop: "5%" }}/>
+            <img src={`image/game/trapGame/${startData.data.screen}.png`} style={{ width: "60%", height: "40%", marginTop: "5%" }}/>
           </div>
           {hasKey === 1 ? (
               <div className={style.txtStyle}>

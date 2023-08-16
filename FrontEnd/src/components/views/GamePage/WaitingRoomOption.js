@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./WaitingRoomOption.module.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom"
 import {
   OPENVIDU_SERVER_SECRET,
   OPENVIDU_SERVER_URL,
@@ -175,8 +176,26 @@ const WaitingRoomOption = ({
     }
   };
 
+  const navigate = useNavigate();
+  const sessionExit = () => {
+    axios
+      .delete(SERVER_URL + "/socket/user", {
+        data: {
+          rtcSession: { sessionId },
+          userId: userId,
+        },
+      })
+      .then((response) => {
+        console.log("잘나감.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    navigate(`/`);
+  };
+
   const WROStyle = {
-    backgroundColor: "rgb(221, 229, 182)",
+    // backgroundColor: "rgb(221, 229, 182)",
     height: "22%",
     display: "flex",
   };
@@ -201,7 +220,7 @@ const WaitingRoomOption = ({
         <button className={style.nextButton} onClick={handleGamingStartState}>
           모험시작
         </button>
-        <button className={style.nextButton}>나가기</button>
+        <button className={style.nextButton}  onClick={sessionExit}>나가기</button>
       </div>
       {alertMessage && (
         <CustomAlert

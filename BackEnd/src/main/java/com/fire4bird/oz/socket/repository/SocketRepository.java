@@ -73,7 +73,7 @@ public class SocketRepository {
     }
 
     // 관리방 유저 삭제
-    public void deleteUser(String rtcSession, Integer userId) {
+    public void deleteUser(String rtcSession, String userId) {
         manageUserChannel.delete(rtcSession, userId);
     }
 

@@ -41,7 +41,7 @@ const GamingHeader = ({ myRole }) => {
     <header style={headerStyle}>
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px" }}>
         <div>
-          {stageval === 0 || stageval === 1 ? (
+          {stageval === 1 ? (
             <div>
               <img
                 src="image/house/star2.png"
