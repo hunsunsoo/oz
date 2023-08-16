@@ -15,11 +15,28 @@ import RankPage from "./components/views/RankPage/RankPage";
 import FindPwPage from "./components/views/LoginPage/FindPwPage";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+
+import {createGlobalStyle} from "styled-components";
+
+const GlobalStyles = createGlobalStyle`
+    @font-face {
+      font-family: 'ImcreSoojin';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/ImcreSoojin.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    * {
+      font-family: 'ImcreSoojin';
+    }
+`;
+
 function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <BrowserRouter>
         <div className="App">
+          <GlobalStyles />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/authlanding" element={<AuthLandingPage />} />
