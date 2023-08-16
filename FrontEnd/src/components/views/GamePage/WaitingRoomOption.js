@@ -8,6 +8,8 @@ import {
   SERVER_URL,
 } from "../../../_actions/urls";
 import CustomAlert from "./GameComps/Alert/alert";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../_actions/axiosInstance";
 
 const WaitingRoomOption = ({
   isWaiting,
@@ -62,16 +64,35 @@ const WaitingRoomOption = ({
 
   const copySessionId = () => {
     if (sessionId) {
-      navigator.clipboard.writeText(sessionId)
+      navigator.clipboard
+        .writeText(sessionId)
         .then(() => {
-          alert('초대코드 복사 완료!');
+          alert("초대코드 복사 완료!");
         })
         .catch((error) => {
-          console.error('에러! session ID:', error);
+          console.error("에러! session ID:", error);
         });
     }
   };
-
+  const navigate = useNavigate();
+  const sessionExit = () => {
+    console.log("s:", sessionId);
+    axios
+      .delete(SERVER_URL + "/socket/user", {
+        data: {
+          rtcSession: sessionId,
+          userId: userId,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("Error during DELETE request:", error.message);
+        console.log("Error details:", error.response);
+      });
+    navigate(`/`);
+  };
 
   const [alertMessage, setAlertMessage] = useState("");
   // 유효성 검증 & 팀 등록
@@ -220,7 +241,9 @@ const WaitingRoomOption = ({
         <button className={style.nextButton} onClick={handleGamingStartState}>
           모험시작
         </button>
-        <button className={style.nextButton}  onClick={sessionExit}>나가기</button>
+        <button className={style.nextButton} onClick={sessionExit}>
+          나가기
+        </button>
       </div>
       {alertMessage && (
         <CustomAlert
