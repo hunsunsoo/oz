@@ -1,10 +1,10 @@
 package com.fire4bird.oz.game.calculation.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fire4bird.oz.game.calculation.dto.request.*;
 import com.fire4bird.oz.game.calculation.dto.response.*;
 import com.fire4bird.oz.game.calculation.manager.GameManager;
 import com.fire4bird.oz.game.calculation.service.CalculationService;
+import com.fire4bird.oz.record.service.RecordService;
 import com.fire4bird.oz.round.service.RoundService;
 import com.fire4bird.oz.socket.dto.SocketMessage;
 import com.fire4bird.oz.socket.repository.SocketRepository;
@@ -30,6 +30,7 @@ public class CalculationController {
     private final CalculationService calculationService;
     private final RedisPublisher redisPublisher;
     private final SocketRepository socketRepository;
+    private final RecordService recordService;
 
     @PostConstruct
     public void init(){
@@ -53,7 +54,7 @@ public class CalculationController {
     // 게임 시작을 하면 필요한 보드판 설정 및 받아오기
     @MessageMapping("/calculation/start/{roundId}")
     public void setGame(@DestinationVariable Integer roundId, SessionReq req){
-        gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService));
+        gameManagerMap.putIfAbsent(roundId, new GameManager(roundId, req.getSession(), roundService, calculationService,recordService));
 
         SocketMessage msg = new SocketMessage();
         SetBoardRes res = gameManagerMap.get(roundId).setGame(roundId);
