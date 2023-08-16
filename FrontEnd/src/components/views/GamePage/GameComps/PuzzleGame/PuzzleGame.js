@@ -10,6 +10,9 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   const [isStart, setIsStart] = useState(false);
   const stage = 3;
 
+  const [isClear, setIsClear] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
   );
@@ -88,15 +91,25 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
               const resJson = JSON.parse(message.body);
 
               if (resJson.data === 1) {
-                alert("성공입니다! 다음 게임으로 넘어갑니다.");
-                // 다음 페이지는
-                handleindexSet(21);
+                setIsClear(true);
+                const timer = setTimeout(() => {
+                  setIsClear(false);
+                  handleindexSet(21);
+                }, 3000);
+                return () => {
+                  clearTimeout(timer);
+                }
               } else if (resJson.data === -1) {
-                alert(
-                  "실패입니다! 게임이 다시 시작됩니다 준비화면으로 돌아갑니다."
-                );
-                setTurn(turn + 1);
-                handleGamingStart(false);
+                setIsFail(true);
+                const timer = setTimeout(() => {
+                  setIsFail(false);
+                  setTurn(turn + 1);
+                  handleGamingStart(false);
+                }, 3000);
+                return () => {
+                  clearTimeout(timer);
+                }
+                
               }
             } catch (error) {
               console.error("Error parsing message body:", error);
@@ -181,7 +194,6 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   // PuzzleGame 컴포넌트
   return (
     <div style={{ height: "100%" }}>
-      {/* {isStart ? TrapGameRenderingState : <TrapReady isStart={isStart} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} />} */}
       {isStart ? (
         PuzzleGameRenderingState
       ) : (
@@ -193,6 +205,8 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
           R1={R1} R2={R2} R3={R3} R4={R4}
         />
       )}
+      {isClear && <div className={style.clearDiv}>Clear</div>}
+      {isFail && <div className={style.failDiv}>Fail</div>}
     </div>
   );
 };

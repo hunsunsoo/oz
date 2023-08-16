@@ -113,3 +113,24 @@
   background-size: cover;
   transition: background-image 0.5s;
 }
+
+.clearDiv{
+  color: rgb(128, 188, 39);
+  font-size: 200px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%; /* 가로 중앙 정렬 */
+  top: 50%; /* 세로 중앙 정렬 */
+  transform: translate(-50%, -75%); /* 중앙으로 이동 */
+  text-shadow: -6px 0px white, 0px 6px white, 6px 0px white, 0px -6px white;
+}
+.failDiv{
+  color: rgb(243, 39, 39);
+  font-size: 200px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%; /* 가로 중앙 정렬 */
+  top: 50%; /* 세로 중앙 정렬 */
+  transform: translate(-50%, -75%); /* 중앙으로 이동 */
+  text-shadow: -6px 0px white, 0px 6px white, 6px 0px white, 0px -6px white;
+}
