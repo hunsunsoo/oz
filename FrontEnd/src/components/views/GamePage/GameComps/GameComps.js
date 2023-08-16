@@ -23,9 +23,11 @@ const characterToClassMap = {
   허수아비: "character_scarecrow",
   사자: "character_lion",
   "양철 나무꾼": "character_tinman",
+  모두: "everyone",
 };
 const getCharacterClass = (data, index) => {
   const characterName = data[index].character;
+  console.log(characterName)
   return characterToClassMap[characterName];
 };
 
@@ -360,7 +362,7 @@ const GameComp = (props) => {
     /** 4스테이지 **/
     // 4스테이지 스토리
   } else if (isStage === 4 && isIndex <= 1) {
-    const characterImageClass = getCharacterClass(dialogue3Data, isIndex);
+    const characterImageClass = getCharacterClass(dialogue4Data, isIndex);
     return (
       <div className={style.compStyle} onClick={props.changeNextPage}>
         <div className={style.background_G4}>

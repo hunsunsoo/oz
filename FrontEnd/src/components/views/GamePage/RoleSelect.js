@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 // import { useDispatch } from "react-redux";
 import { setGameUserInfo } from "../../../_actions/game_actions";
 // import { useSelector } from "react-redux";
-
+import CustomAlert from "./GameComps/Alert/alert";
 const RoleSelect = ({
   middleCon,
   onHandleMyRole,
@@ -11,6 +11,7 @@ const RoleSelect = ({
   client,
   sessionId,
   userId,
+  host
 }) => {
   // 도로시 1, 사자 2, 허수아비 3, 양철 나무꾼 4
   const [s0, setS0] = useState(-1);
@@ -18,6 +19,7 @@ const RoleSelect = ({
   const [s2, setS2] = useState(-1);
   const [s3, setS3] = useState(-1);
   const [myRole, setMyRole] = useState(0);
+  const [alertMessage, setAlertMessage] = useState("");
   // const dispatch = useDispatch();
 
   // const myRoleRDX = useSelector(
@@ -184,11 +186,16 @@ const RoleSelect = ({
   };
 
   const handleSelectComplete = () => {
-    if (s0 === -1 || s1 === -1 || s2 === -1 || s3 === -1) {
-      alert("아직 역할 선택을 하지 않은 인원이 있습니다!");
-    } else {
-      sendSelectComplete();
+    if(host=== "1"){
+      if (s0 === -1 || s1 === -1 || s2 === -1 || s3 === -1) {
+        setAlertMessage("아직 역할 선택을 하지 않은 인원이 있습니다!");
+      } else {
+        sendSelectComplete();
+      }
+    } else if (host==="0"){
+      setAlertMessage("내가 방장 아님")
     }
+   
   };
 
   const sendSelectComplete = async () => {
@@ -409,6 +416,12 @@ const RoleSelect = ({
         </button>
         <button onClick={() => handleSelectComplete()}>역할선택완료</button>
       </div>
+      {alertMessage && (
+        <CustomAlert
+          message={alertMessage}
+          onClose={() => setAlertMessage("")}
+        />
+      )}
     </div>
   );
 };

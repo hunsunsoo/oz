@@ -234,7 +234,7 @@ const CalculationAid = ({
       <div className={style.compStyle}>
         <div className={style.background_G1}>
           <div className={style.juseokbalance}>
-            <div className={style.juseok}>숫자판을 외워봐!~!~!!~!</div>
+            <div className={style.juseok}>숫자판을 외워봐~!</div>
           </div>
           <div className={style.BoardStyle}>
             <NumberBoard boardData={boardData} />
@@ -260,10 +260,9 @@ const CalculationAid = ({
         <div className={style.background_G1}>
           <div className={style.juseokbalance}>
             <div className={style.juseok}>
-              허수아비에게 도움이 될만한숫자를 골라줘@!!!
+              허수아비에게 도움이 될만한 숫자를 골라줘!!!
             </div>
           </div>
-
           <div className={style.BoardStyle}>
             <AlphaBoard
               onCellClick={handleCellClick}
@@ -286,11 +285,6 @@ const CalculationAid = ({
             className={style.iconStyle}
             onClick={onHandleExplain}
           />
-          <img
-            src="image/tools/stage1SubBtn.png"
-            alt="stage1SubBtn"
-            className={style.selectBtn}
-          />
         </div>
         {showModal && (
           <GameModal
@@ -305,16 +299,12 @@ const CalculationAid = ({
       <div className={style.compStyle}>
         <div className={style.background_G1}>
           <div className={style.juseokbalance}>
-            <div className={style.juseok}>사자가 열심히 푸는중이야!</div>
+            <div className={style.juseok}>사자가 열심히 푸는 중이야!</div>
           </div>
 
           <div className={style.BoardStyle2}>
-            <AlphaBoard
-              onHandleCellClick={handleCellClick}
+            <NumberBoard
               boardData={boardData}
-              client={client}
-              roundId={roundId}
-              head={head}
             />
           </div>
           <div className={style.MathBoardStyle}>
