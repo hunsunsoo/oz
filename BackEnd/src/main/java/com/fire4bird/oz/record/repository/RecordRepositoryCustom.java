@@ -1,5 +1,6 @@
 package com.fire4bird.oz.record.repository;
 
+import com.fire4bird.oz.rank.dto.TeamRecordDto;
 import com.fire4bird.oz.record.entity.Record;
 import com.fire4bird.oz.round.entity.Round;
 import com.fire4bird.oz.team.entity.UserTeam;
@@ -22,5 +23,7 @@ public interface RecordRepositoryCustom {
 
     //해당 회차의 1 ~ 4의 클리어기록 조회
     List<LocalTime> findByClearRecord(int roundId);
+
+    TeamRecordDto findTeamRecord(int roundId);
 
 }
