@@ -65,23 +65,25 @@ export default function DrawingDorothy({client, sessionId, myUserId, myRole, cur
       };
 
     return (
-        <div>
-            <div className={style.answerZone}>
-                <input className={style.answerInput}
-                type="text"
-                value={answer}
-                placeholder="정답을 입력하세요"
-                onChange={onAnswerHandler}
-                onKeyDown={enterKeyPress}
-                disabled={currentRole !== 5}/>
-                {!showDiv &&
-                <button className={style.answerButton}
-                onClick={drawingGameAnswerPublisher}>
-                    제출
-                </button>}
-            </div>
-            <Canvas client={client} sessionId={sessionId} myUserId={myUserId} myRole={myRole} currentRole={currentRole}></Canvas>
-            {showDiv && <div className={style.hideZone}>{role} 님이 그리는 중입니다</div>}
+      <div className={style.compStyle}>
+        <div className={style.background_G4}>
+          <div className={style.answerZone}>
+            <input className={style.answerInput}
+            type="text"
+            value={answer}
+            placeholder="정답을 입력하세요"
+            onChange={onAnswerHandler}
+            onKeyDown={enterKeyPress}
+            disabled={currentRole !== 5}/>
+            {!showDiv &&
+            <button className={style.answerButton}
+            onClick={drawingGameAnswerPublisher}>
+                제출
+            </button>}
+          </div>
+          <Canvas client={client} sessionId={sessionId} myUserId={myUserId} myRole={myRole} currentRole={currentRole}></Canvas>
+          {showDiv && <div className={style.hideZone}>{role} 님이 그리는 중입니다</div>}
         </div>
+      </div>
     )
 }

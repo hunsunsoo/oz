@@ -249,7 +249,7 @@ const RoleSelect = ({
     justifyContent: "center", // 가로 방향 가운데 정렬
     alignItems: "center", // 세로 방향 가운데 정렬
     borderRadius: "40px 40px 0 0",
-    fontSize: "28px"
+    fontSize: "40px"
   };
 
   // const box2 = {
@@ -289,7 +289,7 @@ const RoleSelect = ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: "25px",
+    fontSize: "30px",
     color: "#F0EAD2"
   }
 
@@ -362,7 +362,7 @@ const RoleSelect = ({
             </div>
           </div>
           <div style={boxCha}>
-            <div style={nameBox}>사자</div>
+            <div style={nameBox}>겁쟁이 사자</div>
             <div
               key={1}
               style={{ ...imgbox, ...lionSelected }}
