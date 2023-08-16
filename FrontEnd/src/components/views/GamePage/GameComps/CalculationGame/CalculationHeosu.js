@@ -146,7 +146,7 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
         <div className={style.background_G1}>
           <div className={style.juseokbalance}>
             <div className={style.juseok}>
-              친구들이 힌트를 줬어 얼른 수식을완성해보자!
+              친구들이 힌트를 줬어! 얼른 수식을 완성해보자!
             </div>
           </div>
 

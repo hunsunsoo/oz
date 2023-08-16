@@ -394,6 +394,7 @@ const GamePage = () => {
           client={client}
           sessionId={mySessionId}
           userId={JsonPayload.userId}
+          host={host}
         />
       );
       break;

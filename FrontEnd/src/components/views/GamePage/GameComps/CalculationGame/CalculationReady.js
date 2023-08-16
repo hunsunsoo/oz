@@ -60,10 +60,10 @@ const CalculationReady = ({
         console.log("여기");
         onHandleStart(true);
       } else {
-        alert("4명이 준비 완료 상태가 아닙니다");
+        setAlertMessage("4명이 준비 완료 상태가 아닙니다");
       }
     } else {
-      alert("내가 방장이 아니다.");
+      setAlertMessage("내가 방장이 아니다.");
     }
   };
 

@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import style from "./TrapLion.module.css"
+import GameModal from "../GameModal/GameModal";
+import CustomAlert from '../Alert/alert';
 
 const TrapLion = ({ startData, client, sessionId, userId }) => {
+  const stageval = 2
+  const [showModal, setShowModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   
   const screen = startData.data.screen;
@@ -9,7 +14,7 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
 
   const lionMovePublisher = async (type) => {
     if(screen==="wall" && type==="Go"){
-      alert("벽으로는 갈 수 없어요");
+      setAlertMessage("벽으로는 갈 수 없어요");
       return;
     } else{
       try {
@@ -32,7 +37,9 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
       }
     }
   };
-
+  const onHandleExplain = () => {
+    setShowModal(true);
+  };
   return(
     <div className={style.compStyle}>
       <div className={style.backgroundDiv}>
@@ -84,7 +91,17 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
         src="image/tools/questionMark.png"
         alt="questionMark"
         className={style.iconStyle}
+        onClick={onHandleExplain} 
       />
+      {showModal && (
+        <GameModal isStage={stageval} closeModal={() => setShowModal(false)} />
+      )}
+      {alertMessage && (
+        <CustomAlert
+          message={alertMessage}
+          onClose={() => setAlertMessage("")}
+        />
+      )}
     </div>
   );
 };
