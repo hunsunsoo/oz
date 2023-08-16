@@ -14,6 +14,7 @@ const DrawingGame = ({
   R2,
   R3,
   R4,
+  onHandleMike, onHandleCamera, onHandleSpeaker,
 }) => {
   const [isStart, setIsStart] = useState(false);
 
@@ -57,6 +58,9 @@ const DrawingGame = ({
               const resJsondata = JSON.parse(message.body);
               setKeyword(resJsondata.data);
               console.log("userId: " + myUserId);
+              onHandleCamera(false);
+              onHandleMike(false);
+              onHandleSpeaker(false);
               setCurrentRole(2);
               handleGamingStart(true);
             } catch (error) {
@@ -115,9 +119,15 @@ const DrawingGame = ({
                 alert(
                   "정답을 틀려 게임이 다시 시작됩니다. 준비 화면으로 돌아갑니다."
                 );
+                onHandleCamera(true);
+                onHandleMike(true);
+                onHandleSpeaker(true);
                 handleGamingStart(false);
               } else {
                 alert("정답입니다! 다음 게임으로 넘어갑니다.");
+                onHandleCamera(true);
+                onHandleMike(true);
+                onHandleSpeaker(true);
                 console.log("여기서 인덱스 넣기");
                 handleindexSet();
               }

@@ -455,6 +455,9 @@ const GamePage = () => {
           isMike={isMike}
           isCamera={isCamera}
           isSpeaker={isSpeaker}
+          onHandleMike={handleMikeToggle}
+          onHandleCamera={handleCameraToggle}
+          onHandleSpeaker={handleSpeakerToggle}
         />
       )}
     </div>

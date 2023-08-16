@@ -20,7 +20,10 @@ const WaitingRoomOption = ({
   handleToggle,
   isMike,
   isCamera,
-  isSpeaker
+  isSpeaker,
+  onHandleMike,
+  onHandleCamera,
+  onHandleSpeaker
 }) => {
   // 구독
   const handleWaiting = () => {
@@ -47,6 +50,9 @@ const WaitingRoomOption = ({
             console.log("Received message:", message.body);
             try {
               handleWaiting();
+              onHandleCamera(true);
+              onHandleMike(true);
+              onHandleSpeaker(true);
             } catch (error) {
               console.error("Error parsing message body:", error);
             }
