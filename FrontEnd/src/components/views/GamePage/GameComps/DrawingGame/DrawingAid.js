@@ -42,11 +42,13 @@ export default function DrawingAid({client, sessionId, myUserId, myRole, current
     }, [currentRole]);
 
   return (
-    <div>
+    <div className={style.compStyle}>
+      <div className={style.background_G4}>
         <div className={style.keyWordDiv}>{currentKeyword}</div>
         <div className={style.turnDiv}>{role}의 차례입니다</div>
         <Canvas client={client} sessionId={sessionId} myRole={myRole} myUserId={myUserId} currentRole={currentRole} sendDuration={showDiv}></Canvas>
         {showDiv && <div className={style.readyDiv}>준비</div>}
+      </div>
     </div>
     
   )

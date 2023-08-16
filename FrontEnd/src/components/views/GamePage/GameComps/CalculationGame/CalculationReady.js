@@ -148,9 +148,6 @@ const CalculationReady = ({
           </div>
         </div>
         <div className={style.guideStyle}>
-          <div className={style.topDivStyle}>
-            {/* <div className={style.howToPlayImg}>게임 방법 넣을 part</div> */}
-          </div>
           <div className={style.bottomDivStyle}>
             <div className={style.howToPlayBtn} onClick={onHandleExplain}>
               게임 방법
