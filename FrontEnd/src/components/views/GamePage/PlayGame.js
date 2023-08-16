@@ -15,7 +15,7 @@ const PlayGame = ({
   onHandleSpeaker
 }) => {
 
-  const [isStage, setIsStage] = useState(0);
+  const [isStage, setIsStage] = useState(2);
   const [isIndex, setIsIndex] = useState(0);
   const stageLimits = [16, 4, 12, 11, 7, 14];
   const dispatch = useDispatch(); // 디스패치 정의
