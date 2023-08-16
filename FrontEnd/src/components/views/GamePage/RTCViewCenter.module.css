@@ -11,7 +11,8 @@
 
 .videoPage{
     flex: 0 0 62%;
-    background-color:#F0EAD2;
+    /* background-color:#F0EAD2; */
+    background-color: rgba(240, 234, 210, 0.8); /* 배경색상에 투명도 적용 */
     border-radius: 50px;
     margin: 1%;
     /* display: grid;

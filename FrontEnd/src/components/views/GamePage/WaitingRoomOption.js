@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./WaitingRoomOption.module.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom"
 import {
   OPENVIDU_SERVER_SECRET,
   OPENVIDU_SERVER_URL,
@@ -17,6 +18,9 @@ const WaitingRoomOption = ({
   sessionId,
   amIHost,
   client,
+  handleToggle,
+  isMike,
+  isCamera
 }) => {
   // 구독
   const handleWaiting = () => {
@@ -193,8 +197,26 @@ const WaitingRoomOption = ({
     }
   };
 
+  const navigate = useNavigate();
+  const sessionExit = () => {
+    axios
+      .delete(SERVER_URL + "/socket/user", {
+        data: {
+          rtcSession: { sessionId },
+          userId: userId,
+        },
+      })
+      .then((response) => {
+        console.log("잘나감.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    navigate(`/`);
+  };
+
   const WROStyle = {
-    backgroundColor: "rgb(221, 229, 182)",
+    // backgroundColor: "rgb(221, 229, 182)",
     height: "22%",
     display: "flex",
   };
@@ -203,18 +225,15 @@ const WaitingRoomOption = ({
     <div style={WROStyle}>
       <div className={style.optionBox}>
         {/* Left Pane Content */}
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-microphone"></i>
+        <button className={`${style.optionButton}  ${isCamera ? style.active : ""}`}>
+          <i className={`fi fi-rr-video-camera-alt`} onClick={() => handleToggle("camera")}></i>
         </button>
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-video-camera-alt"></i>
+        <button className={`${style.optionButton} ${isMike ? style.active : ""}` }>
+          <i className={`fi fi-rr-microphone`} onClick={() => handleToggle("mike")} ></i>
         </button>
-        <button className={style.optionButton}>
-          <i class="fi fi-rr-settings"></i>
-        </button>
-        <button className={style.optionButton} onClick={copySessionId}>
-          <i class="fi fi-rr-envelope-plus"></i>
-        </button>
+        <button className={style.optionButton}><i class="fi fi-rr-settings" ></i></button>
+        <button className={style.optionButton}
+        onClick={copySessionId}><i class="fi fi-rr-envelope-plus"></i></button>
       </div>
       <div className={style.nextBox}>
         {/* Right Pane Content */}

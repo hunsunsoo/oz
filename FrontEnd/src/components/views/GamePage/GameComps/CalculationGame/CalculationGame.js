@@ -3,7 +3,7 @@ import CalculationHeosu from "./CalculationHeosu";
 import CalculationAid from "./CalculationAid";
 import CalculationReady from "./CalculationReady";
 
-const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, R1,R2,R3,R4 } ) => {
+const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, R1,R2,R3,R4, onHandleMike, onHandleCamera, onHandleSpeaker } ) => {
 	// isStart 참이면 렌더링에 의해 분기되는 게임 페이지
 	const [isStart, setIsStart] = useState(false);
 
@@ -207,6 +207,9 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 		
 						if(selectednumber === true){
               alert("성공");
+              onHandleCamera(true);
+              onHandleMike(true);
+              onHandleSpeaker(true);
               handleindexSet(21);
             } else if(selectednumber === false){
               alert("실패요");
@@ -222,6 +225,9 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
                 [' ', ' ', ' ', ' ', ' ', ' '],
                 [' ', ' ', ' ', ' ', ' ', ' ']
               ]));
+              onHandleCamera(true);
+              onHandleMike(true);
+              onHandleSpeaker(true);
               handleGamingStart(false);
             }
 					} catch (error) {
@@ -238,7 +244,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 	let CalculationGameRenderingState;
 	switch (myRole) {
 		case 3:
-			CalculationGameRenderingState = <CalculationHeosu boardData={boardData} client={client} sessionId={sessionId} roundId={roundId} resAnswer={resAnswer} onHandleActorState={handleActorState} actorState={actorState} tableData={tableData} onHandleTableData={handletableData} head={head} onHandleresetTable={resetTable} failTimeOut={failTimeOut} />
+			CalculationGameRenderingState = <CalculationHeosu boardData={boardData} client={client} sessionId={sessionId} roundId={roundId} resAnswer={resAnswer} onHandleActorState={handleActorState} actorState={actorState} tableData={tableData} onHandleTableData={handletableData} head={head} onHandleresetTable={resetTable} failTimeOut={failTimeOut} onHandleMike={onHandleMike} onHandleCamera={onHandleCamera} onHandleSpeaker={onHandleSpeaker}/>
 			break;
 		case 1:
 		case 2:
