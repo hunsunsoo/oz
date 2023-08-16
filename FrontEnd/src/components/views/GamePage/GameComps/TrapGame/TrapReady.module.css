@@ -84,21 +84,13 @@
   left: 10%;
   width: 600px;
   height: 300px;
-}
-.howToPlayImg {
-  position: absolute;
-  top: 22%;
-  right: 15%;
-  width: 20%;
-  height: 25%;
-  background-color: white;
-}
+} 
 .readyBtn {
   position: absolute;
-  top: 52%;
+  top: 58%;
   right: 22%;
-  width: 130px;
-  height: 60px;
+  width: 8%;
+  height: 9%;
   background-Color: #A98467;
   display: flex;
   align-Items: center;
@@ -110,10 +102,10 @@
 }
 .howToPlayBtn {
   position: absolute;
-  top: 52%;
+  top: 58%;
   right: 33%;
-  width: 130px;
-  height: 60px;
+  width: 8%;
+  height: 9%;
   background-Color: #A98467;
   display: flex;
   align-Items: center;
@@ -125,10 +117,10 @@
 }
 .startBtn {
   position: absolute;
-  top: 52%;
-  right: 12%;
-  width: 130px;
-  height: 60px;
+  top: 58%;
+  right: 11%;
+  width: 8%;
+  height: 9%;
   background-Color: #A98467;
   display: flex;
   align-Items: center;
@@ -139,37 +131,3 @@
   border-Radius: 20px;
 }
 
-
-.checkDorothy{
-  position: absolute;
-  top: 34%;
-  left: 40%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
-.checkHeosu{
-	position: absolute;
-  top: 42%;
-  left: 30%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
-.checkLion{
-	position: absolute;
-  top: 34%;
-  left: 21%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
-
-.checktwm{
-	position: absolute;
-  top: 42%;
-  left: 12%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}

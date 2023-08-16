@@ -4,7 +4,6 @@ import com.fire4bird.oz.game.calculation.dto.request.*;
 import com.fire4bird.oz.game.calculation.dto.response.*;
 import com.fire4bird.oz.game.calculation.entity.Player;
 import com.fire4bird.oz.game.calculation.service.CalculationService;
-import com.fire4bird.oz.record.service.RecordService;
 import com.fire4bird.oz.round.entity.UserRound;
 import com.fire4bird.oz.round.service.RoundService;
 import lombok.Getter;
@@ -243,22 +242,25 @@ public class GameManager {
         num[2] = boardMap.get(req.getSelectedNums()[2]).value;
         int ans = 0;
 
-        switch (req.getMarks()[0]) {
-            case '*' -> ans = num[0] * num[1];
-            case '/' -> {
+        switch(req.getMarks()[0]){
+            case 'x':
+                ans = num[0] * num[1];
+                break;
+            case '/':
                 ans = num[0] / num[1];
-                if (num[0] % num[1] != 1) {
-                    //실패 기록 저장
-                    recordService.clearCheck(this.roundId, 1, "false");
-                    return new GuessAnswerRes(this.session, num, false, false, ans);
-                }
-            }
-            case '+' -> ans = num[0] + num[1];
-            case '-' -> ans = num[0] - num[1];
+                if(num[0] % num[1] != 1)
+                    return new GuessAnswerRes(this.session, num, false, true, ans);
+                break;
+            case '+':
+                ans = num[0] + num[1];
+                break;
+            case '-':
+                ans = num[0] - num[1];
+                break;
         }
 
         switch(req.getMarks()[1]){
-            case '*':
+            case 'x':
                 ans *= num[2];
                 break;
             case '/':

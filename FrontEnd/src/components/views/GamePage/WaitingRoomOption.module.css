@@ -10,13 +10,17 @@
     border-radius: 28px;
     cursor: pointer;
 }
+.optionButton.active {
+    background-color: #4CAF50; /* 초록색 */
+    color: #FFFFFF; /* 흰색 */
+  }
 
 .optionBox{
     background-color: #CABE96;
     margin-left: 1%;
     margin-bottom: 1%;
     border-radius: 20px;
-    flex: 1 1 20%;
+    flex: 1 1 25%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +36,7 @@
 }
 
 .nextButton{
-    padding: 10px 20px;
+    padding: 1% 1%;
     font-size: 30px;
     font-weight: 700;
     background-color: #6C584C;
@@ -41,8 +45,7 @@
     border-radius: 20px;
     cursor: pointer;
     margin: 10px;
-    margin-left: 7%;
+    margin-left: 14%;
     height: 57%;
     width: 56%;
-
 }

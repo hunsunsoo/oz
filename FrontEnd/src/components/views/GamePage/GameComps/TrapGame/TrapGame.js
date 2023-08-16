@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import TrapLion from './TrapLion';
 import TrapAid from './TrapAid';
 import { useSelector } from 'react-redux';
-import GameReady from '../GameReady';
 import TrapReady from './TrapReady';
 
 const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {

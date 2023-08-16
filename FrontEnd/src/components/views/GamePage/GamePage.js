@@ -70,6 +70,7 @@ const GamePage = () => {
   const [mySessionId, setMySessionId] = useState(sessionIdFromURL || "DEFAULT");
   const [amIHost, setAmIHost] = useState(host);
   const [myRole, setMyRole] = useState(0);
+  const [roundId, setRoundId] = useState(0);
 
   // RTC를 위한 state
   const [myUserName, setMyUserName] = useState(JsonPayload.nickname);
@@ -183,6 +184,19 @@ const GamePage = () => {
           break;
       }
     }
+  };
+
+  const handleMikeToggle = (status) => {
+    setIsMike(status);
+    publisher.publishAudio(status);
+  };
+  const handleCameraToggle = (status) => {
+    setIsCamera(status);
+    publisher.publishVideo(status);
+  };
+  const handleSpeakerToggle = (status) => {
+    setIsSpeaker(status);
+    subscribers.forEach((s) => s.subscribeToAudio(status));
   };
 
   // 토큰 생성 메서드. 실제 해당 세션에 연결
@@ -353,6 +367,11 @@ const GamePage = () => {
     setIsWaiting(status);
   };
 
+  // roundId 콜백 함수
+  const handleRoundId = (status) => {
+    setRoundId(status);
+  };
+
   const handleMiddleCondition = (status) => {
     setMiddleCon(status);
     setIsGaming((prevIsGaming) => !prevIsGaming);
@@ -370,6 +389,7 @@ const GamePage = () => {
         <RoleSelect
           middleCon={middleCon}
           onHandleMyRole={handleMyRole}
+          onHandleRoundId={handleRoundId}
           onHandleMiddleCondition={handleMiddleCondition}
           client={client}
           sessionId={mySessionId}
@@ -386,6 +406,10 @@ const GamePage = () => {
           sessionId={mySessionId}
           myRole={myRole}
           userId={JsonPayload.userId}
+          roundId={roundId}
+          onHandleMike={handleMikeToggle}
+          onHandleCamera={handleCameraToggle}
+          onHandleSpeaker={handleSpeakerToggle}
         />
       );
       break;
@@ -427,6 +451,9 @@ const GamePage = () => {
           sessionId={mySessionId}
           amIHost={amIHost}
           client={client}
+          handleToggle={handleToggle}
+          isMike={isMike}
+          isCamera={isCamera}
         />
       )}
     </div>

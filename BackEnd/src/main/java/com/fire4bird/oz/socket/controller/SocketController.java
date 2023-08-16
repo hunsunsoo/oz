@@ -45,7 +45,7 @@ public class SocketController {
 
     @DeleteMapping("/user")
     public ResponseEntity outRoomUser(@Valid @RequestBody SocketRoomDto socketRoomDto, BindingResult bindingResult) {
-        socketRepository.deleteUser(socketRoomDto.getRtcSession(),socketRoomDto.getUserId());
+        socketRepository.deleteUser(socketRoomDto.getRtcSession(),String.valueOf(socketRoomDto.getUserId()));
         return new ResponseEntity<>(new CMRespDto<>(1,"소켓방 유저 나감", null), HttpStatus.OK);
     }
 

@@ -6,6 +6,7 @@ import { setGameUserInfo } from "../../../_actions/game_actions";
 const RoleSelect = ({
   middleCon,
   onHandleMyRole,
+  onHandleRoundId,
   onHandleMiddleCondition,
   client,
   sessionId,
@@ -74,7 +75,13 @@ const RoleSelect = ({
       (message) => {
         console.log("Received message:", message.body);
         try {
+
+          const resJson = JSON.parse(message.body);
+          const resJsonData = resJson.data;
+          const resRoundId = resJsonData.roundId;
+
           handleMiddleCondition();
+          onHandleRoundId(resRoundId);
         } catch (error) {
           console.error("Error parsing message body:", error);
         }
@@ -214,7 +221,7 @@ const RoleSelect = ({
 
   const container = {
     height: "70%",
-    backgroundColor: "#DDE5B6",
+    // backgroundColor: "#DDE5B6",
     display: "flex", // 컨테이너 내부의 요소들을 행으로 배치
     justifyContent: "center", // 가로 방향 가운데 정렬
     alignItems: "center", // 세로 방향 가운데 정렬
