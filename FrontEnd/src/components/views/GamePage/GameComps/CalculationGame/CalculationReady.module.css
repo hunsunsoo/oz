@@ -4,11 +4,15 @@
 	padding: 2.5% 5%;
   display: flex;
 }
+.flex{
+  display: flex;
+  justify-content: flex-end;
+}
 .background_G1{
   width: 100%;
   height: 90%;
   display: flex;
-  background-image: url("../../../../../../public/image/backGround/G1_BG_carcul.png");
+  background-image: url("../../../../../../public/image/backGround/G3_BG_puzzle.png");
   background-size: cover;
   background-position: center;
   padding: 0;
@@ -19,6 +23,7 @@
 }
 .guideStyle{
   display: flex;
+  justify-content: flex-end;
   flex-direction: column;
   width: 45%;
   height: 100%;
@@ -28,6 +33,7 @@
   height: 100%;
   width: 34%;
   display: flex;
+ 
   padding-bottom: 2%;
   position: relative;
 }
@@ -42,24 +48,27 @@
 }
 
 .topDivStyle {
-  height: 67%;
+  height: 80%;
+  width: 100%;
+  top : 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: fl;
 }
 
 .bottomDivStyle {
   height: 33%;
   display: flex;
-  justify-content: space-evenly;
+  
+  justify-content: flex-end;
   align-items: center;
 }
 
-.howToPlayImg {
+/* .howToPlayImg {
   width: 50%;
   height: 50%;
   background-color: white;
-}
+} */
 .readyBtn {
   width: 20%;
   height: 50%;
@@ -71,6 +80,7 @@
   font-Weight: bold;
   color:#F0EAD2;
   border-Radius: 20px;
+  margin-right: 8%;
 }
 .howToPlayBtn {
   width: 20%;
@@ -83,6 +93,7 @@
   font-Weight: bold;
   color:#F0EAD2;
   border-Radius: 20px;
+  margin-right: 8%;
 }
 .startBtn {
   width: 20%;
@@ -95,6 +106,8 @@
   font-Weight: bold;
   color:#F0EAD2;
   border-Radius: 20px;
+  margin-right: 8%;
+  top: 100%
 }
 .checkMain{
   height: auto;

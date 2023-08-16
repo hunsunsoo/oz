@@ -11,8 +11,8 @@ function LoginPage(props) {
   const dispatch = useDispatch();
 
   // 1.  로그인 데이터 부분
-  const [Email, setEmail] = useState("hsh5349@naver.com");
-  const [Password, setPassword] = useState("1234");
+  const [Email, setEmail] = useState("1@a.com");
+  const [Password, setPassword] = useState("1");
 
   // usestate: const [state, setstate] = useState(initialState) 자동완성.
   // initialState : = placeholder

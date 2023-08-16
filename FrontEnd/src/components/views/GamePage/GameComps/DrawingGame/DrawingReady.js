@@ -111,7 +111,7 @@ const DrawingReady = ({
           </div>
           <div className={style.otherDiv}>
             <img
-              src="image/character/dorothy.png"
+              src="image/character/twa.png"
               className={style.checkExtra}
             ></img>
             {R4 === 4 && (
@@ -148,7 +148,7 @@ const DrawingReady = ({
         </div>
         <div className={style.guideStyle}>
           <div className={style.topDivStyle}>
-            <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+            {/* <div className={style.howToPlayImg}>게임 방법 넣을 part</div> */}
           </div>
           <div className={style.bottomDivStyle}>
             <div className={style.howToPlayBtn} onClick={onHandleExplain}>

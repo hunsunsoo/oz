@@ -3,12 +3,13 @@
 	height: 95%;
 	padding: 2.5% 5%;
   display: flex;
+  background-color: #DDE5B6;
 }
 .background_G2{
   width: 100%;
   height: 90%;
   display: flex;
-  background-image: url("../../../../../../public/image/backGround/G3_BG_puzzle.png");
+  background-image: url("../../../../../../public/image/backGround/G4_BG_catchmind.png");
   background-size: cover;
   background-position: center;
   padding: 0;

@@ -88,13 +88,13 @@
   }
   .BoardStyle2{
     position: absolute;
-    top: 40%;
+    top: 45%;
     left: 30%;
     margin: -150px 0 0 -150px;
   }
   .MathBoardStyle {
     position: absolute;
-    top: 42%;
+    top: 45%;
     left: 60%;
     margin: -150px 0 0 -150px;
   }
@@ -106,10 +106,10 @@
   }
   .equal {
     position: absolute;
-    top: 55%;
-    right: 45%;
-    width: 50px;
-    height: 50px;
+    top: 59%;
+    right: 40%;
+    width: 4%;
+    height: 7%;
   }
   .selectBtn {
     position: absolute;
@@ -120,10 +120,10 @@
   }
   .ansSubmitBtn {
     position: absolute;
-    top: 24%;
-    right: 33%;
-    width: 130px;
-    height: 60px;
+    top: 37%;
+    right: 27%;
+    width: 10%;
+    height: 6%;
     background-Color: #A98467;
     display: flex;
     align-Items: center;
@@ -135,10 +135,10 @@
   }
   .resetBtn {
     position: absolute;
-    top: 24%;
-    right: 25%;
-    width: 110px;
-    height: 60px;
+    top: 45%;
+    right: 27%;
+    width: 10%;
+    height: 6%;
     background-color: #A98467;
     display: flex;
     align-items: center;
@@ -147,13 +147,14 @@
     font-weight: bold;
     color: #F0EAD2;
     border-radius: 20px;
+    margin: -150px 0 0 -150px;
   }
   .rectangleStyle {
     position: absolute;
-    top: 53%;
-    right: 26%;
-    width: 200px;
-    height: 80px;
+    top: 57%;
+    right: 24%;
+    width: 13%;
+    height: 10%;
     background-color: #A98467;
     display: flex;
     align-items: center;
@@ -164,3 +165,32 @@
     border-radius: 20px;
   }
   
+  .background_G1{
+    width: 100%;
+    height: 90%;
+    display: flex;
+  
+    background-image: url("../../../../../../public/image/backGround/G1_BG_carcul.png");
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+  }
+.juseokbalance{
+  width :100%;
+  display: flex;
+  justify-content: center;
+}
+  .juseok{
+    position: absolute;
+    top: 16%;
+    width: 30%;
+    height: 5%;
+    background-color: #A98467;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #F0EAD2;
+    border-radius: 20px;
+  }
