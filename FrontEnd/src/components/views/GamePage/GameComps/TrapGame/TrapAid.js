@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {MiroRed, MiroGreen, MiroBlue} from "./TrapBoard";
 import style from "./TrapAid.module.css"
-
+import GameModal from "../GameModal/GameModal";
+import CustomAlert from '../Alert/alert';
 const TrapAid = ({ startData, myRole }) => {
-
+  const stageval = 2
+  const [showModal, setShowModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
   const mapData = startData.data.aidMap;
   // 공백을 기준으로 문자열을 숫자 배열로 변환
   const numberArray = mapData.split(" ").map(Number);
@@ -31,7 +34,10 @@ const TrapAid = ({ startData, myRole }) => {
       miroColorRendering = < MiroBlue boardData={boardData} />
       break;
   }
-  
+  const onHandleExplain = () => {
+    setShowModal(true);
+  };
+
   return(
     <div className={style.compStyle}>
       <div className={style.backgroundDiv}>
@@ -73,7 +79,17 @@ const TrapAid = ({ startData, myRole }) => {
         src="image/tools/questionMark.png"
         alt="questionMark"
         className={style.iconStyle}
+        onClick={onHandleExplain}
       />
+        {showModal && (
+        <GameModal isStage={stageval} closeModal={() => setShowModal(false)} />
+      )}
+      {alertMessage && (
+        <CustomAlert
+          message={alertMessage}
+          onClose={() => setAlertMessage("")}
+        />
+      )}
     </div>
   );
 };

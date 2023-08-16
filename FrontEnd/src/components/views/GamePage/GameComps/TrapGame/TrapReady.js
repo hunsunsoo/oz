@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import style from "./TrapReady.module.css"
 import { useLocation } from "react-router-dom";
 import GameModal from "../GameModal/GameModal";
-
+import CustomAlert from '../Alert/alert';
 const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 }) => {
   const stageval = 2;
   const [showModal, setShowModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -18,25 +19,25 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
     if(myRole === 1){
       if(R1 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R1 === 0){
         setAmIReady(false);
       }
     } else if(myRole === 2){
       if(R2 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R2 === 0){
         setAmIReady(false);
       }
     } else if(myRole === 3){
       if(R3 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R3 === 0){
         setAmIReady(false);
       }
     } else if(myRole === 4){
       if(R4 === 2){
         setAmIReady(true);
-      } else if(R1==0){
+      } else if(R4 === 0){
         setAmIReady(false);
       }
     } 
@@ -48,10 +49,10 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
       if(R1 === 2 && R2 === 2 && R3 === 2 && R4 === 2){
         onHandleStart(true);
       } else {
-        alert("4명이 준비 완료 상태가 아닙니다");
+        setAlertMessage("4명이 준비 완료 상태가 아닙니다");
       }
     } else {
-      alert("내가 방장이 아니다.");
+      setAlertMessage("내가 방장이 아니다.");
     }
   };
 
@@ -163,6 +164,12 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
       </div>
       {showModal && (
         <GameModal isStage={stageval} closeModal={() => setShowModal(false)} />
+      )}
+      {alertMessage && (
+        <CustomAlert
+          message={alertMessage}
+          onClose={() => setAlertMessage("")}
+        />
       )}
     </div>
   );

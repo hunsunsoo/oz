@@ -1,109 +1,120 @@
   /* 스테이지 공통 */
-.compStyle {
-  width: 90%;
-  height: 95%;
-  padding: 2.5% 5%;
-}
-.iconStyle {
-  position: absolute;
-  top: 55%;
-  left: 7.5%;
-  width: 50px;
-  height: 50px;
-}
-.troop2 {
-  position: absolute;
-  top: 18%;
-  left: 10%;
-  width: 600px;
-  height: 300px;
-}
-.howToPlayImg {
-  position: absolute;
-  top: 22%;
-  right: 15%;
-  width: 20%;
-  height: 25%;
-  background-color: white;
-}
-.readyBtn {
-  position: absolute;
-  top: 52%;
-  right: 20%;
-  width: 130px;
-  height: 60px;
-  background-Color: #A98467;
-  display: flex;
-  align-Items: center;
-  justify-Content: center;
-  font-Size: 24px;
-  font-Weight: bold;
-  color:#F0EAD2;
-  border-Radius: 20px;
-}
-.howToPlayBtn {
-  position: absolute;
-  top: 52%;
-  right: 33%;
-  width: 130px;
-  height: 60px;
-  background-Color: #A98467;
-  display: flex;
-  align-Items: center;
-  justify-Content: center;
-  font-Size: 24px;
-  font-Weight: bold;
-  color:#F0EAD2;
-  border-Radius: 20px;
-}
-.startBtn {
-  position: absolute;
-  top: 52%;
-  right: 7%;
-  width: 130px;
-  height: 60px;
-  background-Color: #A98467;
-  align-Items: center;
-  justify-Content: center;
-  font-Size: 24px;
-  font-Weight: bold;
-  color:#F0EAD2;
-  border-Radius: 20px;
-}
-.checkDorothy{
-  position: absolute;
-  top: 34%;
-  left: 40%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
+  .compStyle {
+    width: 90%;
+    height: 95%;
+    padding: 2.5% 5%;
+  }
+
+  .iconStyle {
+    position: absolute;
+    top: 55%;
+    left: 7.5%;
+    width: 50px;
+    height: 50px;
+  }
+
+  .troop2 {
+    position: absolute;
+    top: 18%;
+    left: 10%;
+    width: 600px;
+    height: 300px;
+  }
+
+  .howToPlayImg {
+    position: absolute;
+    top: 22%;
+    right: 15%;
+    width: 20%;
+    height: 25%;
+    background-color: white;
+  }
+
+  .readyBtn {
+    position: absolute;
+    top: 52%;
+    right: 20%;
+    width: 130px;
+    height: 60px;
+    background-Color: #A98467;
+    display: flex;
+    align-Items: center;
+    justify-Content: center;
+    font-Size: 24px;
+    font-Weight: bold;
+    color: #F0EAD2;
+    border-Radius: 20px;
+  }
+
+  .howToPlayBtn {
+    position: absolute;
+    top: 52%;
+    right: 33%;
+    width: 130px;
+    height: 60px;
+    background-Color: #A98467;
+    display: flex;
+    align-Items: center;
+    justify-Content: center;
+    font-Size: 24px;
+    font-Weight: bold;
+    color: #F0EAD2;
+    border-Radius: 20px;
+  }
+
+  .startBtn {
+    position: absolute;
+    top: 52%;
+    right: 7%;
+    width: 130px;
+    height: 60px;
+    background-Color: #A98467;
+    align-Items: center;
+    justify-Content: center;
+    font-Size: 24px;
+    font-Weight: bold;
+    color: #F0EAD2;
+    border-Radius: 20px;
+  }
+
+  .checkDorothy {
+    position: absolute;
+    top: 34%;
+    left: 40%;
+    width: 130px;
+    height: 60px;
+    z-index: 100;
+  }
 
   /* 1스테이지 게임 */
   .BoardStyle {
     position: absolute;
     top: 40%;
     left: 50%;
-    margin: -150px 0 0 -150px;
+    margin: -150px 0 0 -180px;
   }
-  .BoardStyle2{
+
+  .BoardStyle2 {
     position: absolute;
     top: 45%;
     left: 30%;
     margin: -150px 0 0 -150px;
   }
+
   .MathBoardStyle {
     position: absolute;
     top: 45%;
     left: 60%;
     margin: -150px 0 0 -150px;
   }
-  .AnsBoardStyle  {
+
+  .AnsBoardStyle {
     position: absolute;
     top: 62%;
     left: 60%;
     margin: -150px 0 0 -150px;
   }
+
   .equal {
     position: absolute;
     top: 59%;
@@ -111,6 +122,7 @@
     width: 4%;
     height: 7%;
   }
+
   .selectBtn {
     position: absolute;
     top: 55%;
@@ -118,6 +130,7 @@
     width: 100px;
     height: 50px;
   }
+
   .ansSubmitBtn {
     position: absolute;
     top: 37%;
@@ -130,9 +143,10 @@
     justify-Content: center;
     font-Size: 24px;
     font-Weight: bold;
-    color:#F0EAD2;
+    color: #F0EAD2;
     border-Radius: 20px;
   }
+
   .resetBtn {
     position: absolute;
     top: 45%;
@@ -149,6 +163,7 @@
     border-radius: 20px;
     margin: -150px 0 0 -150px;
   }
+
   .rectangleStyle {
     position: absolute;
     top: 57%;
@@ -164,23 +179,25 @@
     color: #F0EAD2;
     border-radius: 20px;
   }
-  
-  .background_G1{
+
+  .background_G1 {
     width: 100%;
     height: 90%;
     display: flex;
-  
+
     background-image: url("../../../../../../public/image/backGround/G1_BG_carcul.png");
     background-size: cover;
     background-position: center;
     padding: 0;
   }
-.juseokbalance{
-  width :100%;
-  display: flex;
-  justify-content: center;
-}
-  .juseok{
+
+  .juseokbalance {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .juseok {
     position: absolute;
     top: 16%;
     width: 30%;

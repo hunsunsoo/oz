@@ -105,17 +105,19 @@ public class CatchmindService {
         Drawing catchmind = catchmindRepository.maxTurn(obj.getRoundId());
 
         //정답 확인 후 유효성 검사
-        recordService.validRequest(4, obj.getRoundId(), obj.getUserId());
+        //일단 주석 처리
+//        recordService.validRequest(4, obj.getRoundId(), obj.getUserId());
 
         int check = -1;
         if (req.getUserAnswer().equals(catchmind.getAnswer())) check = 1;
 
-        if (check == 1) {
-            recordService.clearCheck(obj.getRoundId(), 4, "clear");
-        }
-        else {
-            recordService.clearCheck(obj.getRoundId(), 4, "false");
-        }
+        //일단 주석 처리
+//        if (check == 1) {
+//            recordService.clearCheck(obj.getRoundId(), 4, "clear");
+//        }
+//        else {
+//            recordService.clearCheck(obj.getRoundId(), 4, "false");
+//        }
 
         catchmindGameManager.publisher(req.getRtcSession(), "draw/data", "게임 정답 확인", check);
 

@@ -6,6 +6,7 @@
   width: 100%;
   height: 100%;
 }
+
 .iconStyle {
   position: absolute;
   top: 55%;
@@ -13,6 +14,7 @@
   width: 50px;
   height: 50px;
 }
+
 .troop2 {
   position: absolute;
   top: 18%;
@@ -20,6 +22,7 @@
   width: 600px;
   height: 300px;
 }
+
 .howToPlayImg {
   position: absolute;
   top: 22%;
@@ -28,6 +31,7 @@
   height: 25%;
   background-color: white;
 }
+
 .readyBtn {
   position: absolute;
   top: 52%;
@@ -40,9 +44,10 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
+
 .howToPlayBtn {
   position: absolute;
   top: 52%;
@@ -55,9 +60,10 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
+
 .startBtn {
   position: absolute;
   top: 52%;
@@ -69,10 +75,11 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
-.checkDorothy{
+
+.checkDorothy {
   position: absolute;
   top: 34%;
   left: 40%;
@@ -81,31 +88,35 @@
   z-index: 100;
 }
 
-  /* 1스테이지 게임 */
+/* 1스테이지 게임 */
 .BoardStyle {
   position: absolute;
   top: 40%;
   left: 50%;
   margin: -150px 0 0 -150px;
 }
-.BoardStyle2{
+
+.BoardStyle2 {
   position: absolute;
   top: 40%;
   left: 30%;
   margin: -150px 0 0 -150px;
 }
+
 .MathBoardStyle {
   position: absolute;
   top: 42%;
   left: 60%;
   margin: -150px 0 0 -150px;
 }
-.AnsBoardStyle  {
+
+.AnsBoardStyle {
   position: absolute;
   top: 62%;
   left: 60%;
   margin: -150px 0 0 -150px;
 }
+
 .equal {
   position: absolute;
   top: 55%;
@@ -113,6 +124,7 @@
   width: 50px;
   height: 50px;
 }
+
 .selectBtn {
   position: absolute;
   top: 55%;
@@ -120,6 +132,7 @@
   width: 100px;
   height: 50px;
 }
+
 .ansSubmitBtn {
   position: absolute;
   top: 24%;
@@ -132,9 +145,10 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
+
 .resetBtn {
   position: absolute;
   top: 24%;
@@ -150,6 +164,7 @@
   color: #F0EAD2;
   border-radius: 20px;
 }
+
 .rectangleStyle {
   position: absolute;
   top: 53%;
@@ -176,6 +191,7 @@
   background-color: red;
   margin: -150px 0 0 -300px;
 }
+
 .dist {
   position: absolute;
   top: 59%;
@@ -190,6 +206,7 @@
   color: #F0EAD2;
   border-radius: 20px;
 }
+
 .liondir {
   position: absolute;
   top: 45%;
@@ -197,6 +214,7 @@
   width: 150px;
   height: 110px;
 }
+
 .MiroStyle {
   position: absolute;
   top: 40%;
@@ -208,9 +226,10 @@
 .container {
   display: flex;
   justify-content: space-between;
-  width: 100%; 
+  width: 100%;
   height: 100%;
 }
+
 .puzzleLeft {
   flex: 0 0 70%;
   max-width: 70%;
@@ -219,6 +238,7 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 .puzzleRight {
   flex: 0 0 30%;
   max-width: 30%;
@@ -227,8 +247,9 @@
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(6, 1fr);
   gap: 1px;
-  object-fit:fill;
+  object-fit: fill;
 }
+
 .gridImage {
   width: 100%;
   height: 100%;
@@ -236,11 +257,13 @@
   max-width: 100%;
   max-height: 100%;
 }
+
 .puzzleImage {
   width: 100%;
   height: 100%;
   object-fit: fill;
 }
+
 .stage3SelectBtn {
   position: absolute;
   top: 58%;
@@ -253,7 +276,7 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
 
@@ -270,9 +293,10 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
+
 .stage4SubmitBtn {
   position: absolute;
   top: 30%;
@@ -285,9 +309,10 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
 }
+
 .drawingDiv {
   position: absolute;
   top: 22%;
@@ -301,40 +326,53 @@
   border: solid 5px #6C584C;
   border-Radius: 20px;
 }
-.drawing{
-  width:70%;
+
+.drawing {
+  width: 70%;
   height: 100%;
 }
 
 
 /* 캐릭터 */
-.character_dorothy{
+.character_dorothy {
   background-image: url("../../../../../public/image/roleSelect/dorothys.png");
-  width: 250px; 
+  width: 250px;
   height: 250px;
   background-size: cover;
   bottom: 34%;
   position: absolute;
 }
-.character_scarecrow{
+
+.character_scarecrow {
   background-image: url("../../../../../public/image/roleSelect/heosus.png");
-  width: 250px; 
+  width: 250px;
   height: 250px;
   background-size: cover;
   bottom: 34%;
   position: absolute;
 }
-.character_lion{
+
+.character_lion {
   background-image: url("../../../../../public/image/roleSelect/lions.png");
-  width: 250px; 
+  width: 250px;
   height: 250px;
   background-size: cover;
   bottom: 34%;
   position: absolute;
 }
-.character_tinman{
+
+.character_tinman {
   background-image: url("../../../../../public/image/roleSelect/tws.png");
-  width: 250px; 
+  width: 250px;
+  height: 250px;
+  background-size: cover;
+  bottom: 34%;
+  position: absolute;
+}
+
+.everyone {
+  background-image: url("../../../../../public/image/character/everyone.png");
+  width: 250px;
   height: 250px;
   background-size: cover;
   bottom: 34%;
@@ -345,16 +383,17 @@
 
 /* 배경 최종 */
 /* 일러 & 스토리 배경 background_S*/
-.background_S1{
+.background_S1 {
   width: 100%;
   height: 90%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-  url("../../../../../public/image/backGround/S1_BG_tornado.png");
+    url("../../../../../public/image/backGround/S1_BG_tornado.png");
   background-size: cover;
   background-position: center;
   padding: 0;
 }
-.background_S2{
+
+.background_S2 {
   width: 100%;
   height: 90%;
   background-image: url("../../../../../public/image/backGround/S2_BG_forest.png");
@@ -362,25 +401,28 @@
   background-position: center;
   padding: 0;
 }
-.background_S3{
+
+.background_S3 {
   width: 100%;
   height: 90%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-  url("../../../../../public/image/backGround/S3_BG_castle.png");
+    url("../../../../../public/image/backGround/S3_BG_castle.png");
   background-size: cover;
   background-position: center;
   padding: 0;
 }
-.background_S4{
+
+.background_S4 {
   width: 100%;
   height: 90%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-  url("../../../../../public/image/backGround/S4_BG_oz.png");
+    url("../../../../../public/image/backGround/S4_BG_oz.png");
   background-size: cover;
   background-position: center;
   padding: 0;
 }
-.background_S5{
+
+.background_S5 {
   width: 100%;
   height: 90%;
   background-image: url("../../../../../public/image/backGround/S5_BG_clear.png");
@@ -388,18 +430,19 @@
   background-position: center;
   padding: 0;
 }
-.background_S6{
+
+.background_S6 {
   width: 100%;
   height: 90%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-  url("../../../../../public/image/backGround/S6_BG_gohome.png");
+    url("../../../../../public/image/backGround/S6_BG_gohome.png");
   background-size: cover;
   background-position: center;
   padding: 0;
 }
 
 /* 게임 배경 background_G */
-.background_G1{
+.background_G1 {
   width: 100%;
   height: 90%;
   background-image: url("../../../../../public/image/backGround/G1_BG_carcul.png");
@@ -407,7 +450,8 @@
   background-position: center;
   padding: 0;
 }
-.background_G2{
+
+.background_G2 {
   width: 100%;
   height: 90%;
   background-image: url("../../../../../public/image/backGround/G2_BG_maze.png");
@@ -415,7 +459,8 @@
   background-position: center;
   padding: 0;
 }
-.background_G3{
+
+.background_G3 {
   width: 100%;
   height: 90%;
   background-image: url("../../../../../public/image/backGround/G3_BG_puzzle.png");
@@ -423,7 +468,8 @@
   background-position: center;
   padding: 0;
 }
-.background_G4{
+
+.background_G4 {
   width: 100%;
   height: 90%;
   background-image: url("../../../../../public/image/backGround/G4_BG_catchmind.png");
@@ -434,7 +480,7 @@
 
 
 /* 대화스크립트창 */
-.illustration{
+.illustration {
   position: absolute;
   top: 50%;
   left: 55%;
@@ -448,7 +494,8 @@
   justify-Content: center;
   margin: -240px 0 0 -490px;
 }
-.script{
+
+.script {
   position: absolute;
   bottom: 35%;
   right: 6%;
@@ -466,4 +513,3 @@
   border: solid 5px #6C584C;
   border-radius: 20px;
 }
-

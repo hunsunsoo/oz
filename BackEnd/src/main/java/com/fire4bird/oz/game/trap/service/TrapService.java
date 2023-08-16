@@ -77,8 +77,9 @@ public class TrapService {
                 trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey, trap.getScreenMap()));
             } else if (check == 2) {
                 //기록 저장 타이밍
-                recordService.validRequest(2, obj.getRoundId(), obj.getUserId());
-                recordService.clearCheck(obj.getRoundId(), 2, "clear");
+                //일단 주석 타이밍
+//                recordService.validRequest(2, obj.getRoundId(), obj.getUserId());
+//                recordService.clearCheck(obj.getRoundId(), 2, "clear");
 
                 // 클리어 처리해야함
                 // 모두에게 클리어 전송
@@ -89,8 +90,8 @@ public class TrapService {
 
             } else if (check == 3) {
                 //기록 저장 타이밍
-                recordService.validRequest(2, obj.getRoundId(), obj.getUserId());
-                recordService.clearCheck(obj.getRoundId(), 2, "false");
+//                recordService.validRequest(2, obj.getRoundId(), obj.getUserId());
+//                recordService.clearCheck(obj.getRoundId(), 2, "false");
 
                 // 실패 처리
                 // 모두에게 실패 전송

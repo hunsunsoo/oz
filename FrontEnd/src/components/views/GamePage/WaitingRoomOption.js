@@ -10,6 +10,7 @@ import {
 import CustomAlert from "./GameComps/Alert/alert";
 import axiosInstance from "../../../_actions/axiosInstance";
 
+
 const WaitingRoomOption = ({
   isWaiting,
   onGamingStart,
@@ -73,7 +74,7 @@ const WaitingRoomOption = ({
       navigator.clipboard
         .writeText(sessionId)
         .then(() => {
-          alert("초대코드 복사 완료!");
+          setAlertMessage("초대코드 복사 완료");
         })
         .catch((error) => {
           console.error("에러! session ID:", error);
@@ -81,8 +82,11 @@ const WaitingRoomOption = ({
     }
   };
 
+  //alert
 
   const [alertMessage, setAlertMessage] = useState("");
+  const [showTeamNameInput, setShowTeamNameInput] = useState(false);
+const [teamNameInput, setTeamNameInput] = useState("");
   // 유효성 검증 & 팀 등록
   const handleGamingStartState = () => {
     // 방장인지
@@ -121,7 +125,8 @@ const WaitingRoomOption = ({
                     var teamName;
                     if (response.data.data == null) {
                       teamName = prompt("사용할 팀 이름을 정하세요");
-                    } else {
+                      // setAlertMessage("사용할 팀 이름을 정하세요");
+                    }  else {
                       teamName = prompt(
                         `해당 4명의 사용자는 기존에 사용하던 팀 명이 있습니다. ${teamNameDefault.teamName} 이거 쓰던거 쓰려면 아무것도 입력하지말고 넘기시고 새로 팀만들고싶으면 적으세요 이건나중에 바꿀거에요`,
                         teamNameDefault.teamName

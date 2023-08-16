@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import GameModal from "./GameModal/GameModal";
 import style from "./GameReady.module.css"
+import CustomAlert from "./Alert/alert";
 
 const GameReady = ({ stage, myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 }) => {
     
@@ -57,10 +58,10 @@ const GameReady = ({ stage, myRole, onHandleStart, client, sessionId, R1,R2,R3,R
       if(R1 === stage && R2 === stage && R3 === stage && R4 === stage){
         onHandleStart(true);
       } else {
-        alert("4명이 준비 완료 상태가 아닙니다");
+        setAlertMessage("4명이 준비 완료 상태가 아닙니다");
       }
     } else {
-      alert("내가 방장이 아니다.");
+      setAlertMessage("내가 방장이 아니다.");
     }
   };
 
@@ -85,8 +86,7 @@ const GameReady = ({ stage, myRole, onHandleStart, client, sessionId, R1,R2,R3,R
     } catch (error) {
       console.log('Error sending message:', error);
     }
-  };
-
+  };  const [alertMessage, setAlertMessage] = useState("");
   const onHandleExplain = () => {
     setShowModal(true);
   };
@@ -211,6 +211,12 @@ const GameReady = ({ stage, myRole, onHandleStart, client, sessionId, R1,R2,R3,R
       </div>
       {showModal && (
         <GameModal isStage={stage} closeModal={() => setShowModal(false)} />
+      )}
+      {alertMessage && (
+        <CustomAlert
+          message={alertMessage}
+          onClose={() => setAlertMessage("")}
+        />
       )}
     </div>
   );
