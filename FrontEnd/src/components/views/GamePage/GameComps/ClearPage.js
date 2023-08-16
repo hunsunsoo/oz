@@ -1,0 +1,52 @@
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import style from "./ClearPage.module.css";
+import axios from "axios";
+import {
+  OPENVIDU_SERVER_SECRET,
+  OPENVIDU_SERVER_URL,
+  SERVER_URL,
+} from "../../../../_actions/urls";
+
+function ClearPage({roundId}) {
+  const [clearTime, setClearTime] = useState(''); // 시간 정보를 저장할 상태
+  
+    const navigate = useNavigate();
+    const navigateToHome = () => {
+      navigate(`/`); // 홈 페이지로 이동합니다.
+    };
+
+  useEffect(() => {
+    console.log(roundId + "-> roundId");
+      axios
+      .get(SERVER_URL + "/rank/team/"+roundId, {
+      })
+        .then((response) => {
+          setClearTime(response.data.accRecord);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }, []);
+
+  return (
+    <div className={style.clearPage}>
+    <div style={{fontSize:"200px", fontWeight:"bold"}}>
+      CLEAR
+    </div>
+    <div style={{fontSize:"40px", fontWeight:"bold"}}>
+      CLEAR TIME: {clearTime}
+    </div>
+    <div className={style.clearPage2}>
+      <div className={style.container} onClick={() => navigate(`/rank`)}>
+        <img className={style.item} src="../image/tools/trophy.png" alt="Image"></img>
+      </div>
+      <div className={style.container} onClick={navigateToHome}>
+        <img className={style.item} src="../image/tools/home.png" alt="Image"></img>
+      </div>
+    </div>
+  </div>
+  );
+}
+
+export default ClearPage;
