@@ -9,6 +9,7 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
 
   const stageval = 2;
   const [showModal, setShowModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
   const onHandleExplain = () => {
     setShowModal(true);
   };

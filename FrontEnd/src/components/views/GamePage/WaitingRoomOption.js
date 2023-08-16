@@ -126,11 +126,11 @@ const [teamNameInput, setTeamNameInput] = useState("");
                     if (response.data.data == null) {
                       // teamName = prompt("사용할 팀 이름을 정하세요");
                       setAlertMessage("사용할 팀 이름을 정하세요");
-                    } else {
-                     
-                      
-                      const defaultTeamName = teamNameDefault.teamName;
-    setAlertMessage(`해당 4명의 사용자는 기존에 사용하던 팀 명이 있습니다. ${defaultTeamName} 이거 쓰던거 쓰려면 아무것도 입력하지말고 넘기시고 새로 팀만들고싶으면 적으세요 이건나중에 바꿀거에요`);
+                    }  else {
+                      teamName = prompt(
+                        `해당 4명의 사용자는 기존에 사용하던 팀 명이 있습니다. ${teamNameDefault.teamName} 이거 쓰던거 쓰려면 아무것도 입력하지말고 넘기시고 새로 팀만들고싶으면 적으세요 이건나중에 바꿀거에요`,
+                        teamNameDefault.teamName
+                      );
                     }
                     console.log(
                       teamName +
