@@ -4,15 +4,13 @@ import com.fire4bird.oz.game.calculation.dto.request.*;
 import com.fire4bird.oz.game.calculation.dto.response.*;
 import com.fire4bird.oz.game.calculation.entity.Player;
 import com.fire4bird.oz.game.calculation.service.CalculationService;
+import com.fire4bird.oz.record.service.RecordService;
 import com.fire4bird.oz.round.entity.UserRound;
 import com.fire4bird.oz.round.service.RoundService;
-import com.fire4bird.oz.team.entity.Team;
-import com.fire4bird.oz.team.service.TeamService;
-import com.fire4bird.oz.user.entity.User;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Slf4j
+@RequiredArgsConstructor
 // 게임의 시작부터 끝까지의 로직이 담긴 각각의 게임을 관리할 객체
 public class GameManager {
     // 해당 게임의 시작부터 끝까지 필요한 정보들 관리
@@ -48,8 +47,9 @@ public class GameManager {
     private boolean isBoardMaked;
     // 조력자가 선택한 블럭의 숫자 관리, 객체가 만들어질 때 0으로 초기화
     private int helperCount;
+    private RecordService recordService;
 
-    public GameManager(Integer roundId, String session, RoundService roundService, CalculationService calculationService){
+    public GameManager(Integer roundId, String session, RoundService roundService, CalculationService calculationService,RecordService recordService){
         this.roundId = roundId;
         this.roundService = roundService;
         this.session = session;
@@ -60,7 +60,7 @@ public class GameManager {
         this.isGameStarted = true;
         this.isBoardMaked = false;
         this.boardMap = new ConcurrentHashMap<>();
-
+        this.recordService = recordService;
         this.setPlayerState(userRounds);
     }
 
@@ -99,6 +99,9 @@ public class GameManager {
             req.setRoundId(roundId);
             req.setAnswer(this.setAnswerNumber());
             req.setNumberBoard(this.setNumberBoard());
+
+            //게임 기록 저장 타이밍
+            recordService.saveStartRecord(roundId, 1);
 
             res = calculationService.initSave(req);
             res.setNumberBoard(this.numberBoard);
@@ -263,7 +266,11 @@ public class GameManager {
                 break;
             case '/':
                 if(ans%num[2] != 0 )
-                    return new GuessAnswerRes(this.session, num, false, true, ans);
+                {
+                    //실패 기록 저장
+                    recordService.clearCheck(this.roundId,1,"false");
+                    return new GuessAnswerRes(this.session, num, false, false, ans);
+                }
                 ans /= num[2];
                 break;
             case '+':
@@ -275,6 +282,14 @@ public class GameManager {
         }
 
         if(answer == ans) isCorrect =  true;
+
+        if (isCorrect) {
+            recordService.clearCheck(this.roundId, 1, "clear");
+        }
+        else{
+            recordService.clearCheck(this.roundId, 1, "false");
+        }
+
         calculationService.submitAnswer(req, ans, Arrays.toString(log), this.gameId);
         return new GuessAnswerRes(this.session, num, isCorrect, true, ans);
     }
