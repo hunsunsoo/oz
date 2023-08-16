@@ -387,6 +387,7 @@ const GameComp = (props) => {
           R2={lionState}
           R3={heosuState}
           R4={twmState}
+          onHandleMike={props.onHandleMike} onHandleCamera={props.onHandleCamera} onHandleSpeaker={props.onHandleSpeaker}
         />
       </div>
     );
