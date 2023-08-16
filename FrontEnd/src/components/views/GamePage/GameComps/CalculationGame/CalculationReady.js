@@ -1,55 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import style from "./CalculationReady.module.css"
+import React, { useState, useEffect } from "react";
+import style from "./CalculationReady.module.css";
 import { useLocation } from "react-router-dom";
 import GameModal from "../GameModal/GameModal";
 import CustomAlert from "../Alert/alert";
 
-const CalculationReady = ( { myRole, onHandleStart, client, sessionId, R1,R2,R3,R4 } ) => {
-
+const CalculationReady = ({
+  myRole,
+  onHandleStart,
+  client,
+  sessionId,
+  R1,
+  R2,
+  R3,
+  R4,
+}) => {
   const stageval = 1;
   const [showModal, setShowModal] = useState(false);
 
-	const location = useLocation();
-	const params = new URLSearchParams(location.search);
-	const host = params.get("host");
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const host = params.get("host");
 
-	const [amIHost, setAmIHost] = useState(host);
-	const [amIReady, setAmIReady] = useState(false);
+  const [amIHost, setAmIHost] = useState(host);
+  const [amIReady, setAmIReady] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-	useEffect(() => {
-    if(myRole === 1){
-      if(R1 === 1){
+  useEffect(() => {
+    if (myRole === 1) {
+      if (R1 === 1) {
         setAmIReady(true);
-      } else if(R1 === 0){
+      } else if (R1 === 0) {
         setAmIReady(false);
       }
-    } else if(myRole === 2){
-      if(R2 === 1){
+    } else if (myRole === 2) {
+      if (R2 === 1) {
         setAmIReady(true);
-      } else if(R2 === 0){
+      } else if (R2 === 0) {
         setAmIReady(false);
       }
-    } else if(myRole === 3){
-      if(R3 === 1){
+    } else if (myRole === 3) {
+      if (R3 === 1) {
         setAmIReady(true);
-      } else if(R3 === 0){
+      } else if (R3 === 0) {
         setAmIReady(false);
       }
-    } else if(myRole === 4){
-      if(R4 === 1){
+    } else if (myRole === 4) {
+      if (R4 === 1) {
         setAmIReady(true);
-      } else if(R4 === 0){
+      } else if (R4 === 0) {
         setAmIReady(false);
       }
-    } 
+    }
   }, [myRole, R1, R2, R3, R4]);
 
-	const handleStartAfterReady = () => {
-    console.log(host)
-    if(amIHost === "1"){
-      if(R1 === 1 && R2 === 1 && R3 === 1 && R4 === 1){
-        console.log("여기")
+  const handleStartAfterReady = () => {
+    console.log(host);
+    if (amIHost === "1") {
+      if (R1 === 1 && R2 === 1 && R3 === 1 && R4 === 1) {
+        console.log("여기");
         onHandleStart(true);
       } else {
         alert("4명이 준비 완료 상태가 아닙니다");
@@ -59,34 +67,34 @@ const CalculationReady = ( { myRole, onHandleStart, client, sessionId, R1,R2,R3,
     }
   };
 
-	const CalReadyPublisher = async (readyOrCancel) => {  
-		try {
-			if (!client) {
-				console.log('웹소켓이 연결중이 아닙니다. 메시지 보내기 실패');
-				return;
-			}
+  const CalReadyPublisher = async (readyOrCancel) => {
+    try {
+      if (!client) {
+        console.log("웹소켓이 연결중이 아닙니다. 메시지 보내기 실패");
+        return;
+      }
 
-			const message = {
-				"type":"ready",
-				"rtcSession":`${sessionId}`,
-				"role":myRole,
-				"stage":1,
-				"state":readyOrCancel,
-				"message":`${myRole}님이 ${readyOrCancel} (1준비 0취소)하셨습니다`
-			};
+      const message = {
+        type: "ready",
+        rtcSession: `${sessionId}`,
+        role: myRole,
+        stage: 1,
+        state: readyOrCancel,
+        message: `${myRole}님이 ${readyOrCancel} (1준비 0취소)하셨습니다`,
+      };
 
-			client.send('/pub/socket/ready', {}, JSON.stringify(message));
-			console.log('메시지 보냈음');
-		} catch (error) {
-			console.log('Error sending message:', error);
-		}
-	};
+      client.send("/pub/socket/ready", {}, JSON.stringify(message));
+      console.log("메시지 보냈음");
+    } catch (error) {
+      console.log("Error sending message:", error);
+    }
+  };
 
   const onHandleExplain = () => {
     setShowModal(true);
   };
 
-	return(
+  return (
     <div className={style.compStyle}>
       <div className={style.background_G1}>
         <div className={style.charStyle}>
@@ -141,7 +149,7 @@ const CalculationReady = ( { myRole, onHandleStart, client, sessionId, R1,R2,R3,
         </div>
         <div className={style.guideStyle}>
           <div className={style.topDivStyle}>
-            <div className={style.howToPlayImg}>게임 방법 넣을 part</div>
+            {/* <div className={style.howToPlayImg}>게임 방법 넣을 part</div> */}
           </div>
           <div className={style.bottomDivStyle}>
             <div className={style.howToPlayBtn} onClick={onHandleExplain}>

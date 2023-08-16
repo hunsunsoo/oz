@@ -85,14 +85,14 @@
   width: 600px;
   height: 300px;
 }
-.howToPlayImg {
+/* .howToPlayImg {
   position: absolute;
   top: 22%;
   right: 15%;
   width: 20%;
   height: 25%;
   background-color: white;
-}
+} */
 .readyBtn {
   position: absolute;
   top: 52%;
