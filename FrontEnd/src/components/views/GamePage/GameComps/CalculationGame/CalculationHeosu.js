@@ -9,7 +9,6 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
 		if (actorState === 0) {
 			const timeoutId = setTimeout(() => {
 				onHandleActorState(1);
-				onHandleCamera(false);
 				onHandleMike(false);
 				onHandleSpeaker(false);
 			}, 10000);
