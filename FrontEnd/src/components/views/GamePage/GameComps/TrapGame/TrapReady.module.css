@@ -84,14 +84,6 @@
   left: 10%;
   width: 600px;
   height: 300px;
-}
-/* .howToPlayImg {
-  position: absolute;
-  top: 60%;
-  right: 22%;
-  width: 8%;
-  height: 25%;
-  background-color: white;
 } 
 .readyBtn {
   position: absolute;
@@ -139,37 +131,3 @@
   border-Radius: 20px;
 }
 
-
-.checkDorothy{
-  position: absolute;
-  top: 34%;
-  left: 40%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
-.checkHeosu{
-	position: absolute;
-  top: 42%;
-  left: 30%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
-.checkLion{
-	position: absolute;
-  top: 34%;
-  left: 21%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}
-
-.checktwm{
-	position: absolute;
-  top: 42%;
-  left: 12%;
-  width: 130px;
-  height: 60px;
-  z-index: 100;
-}

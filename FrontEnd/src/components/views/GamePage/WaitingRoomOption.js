@@ -8,7 +8,6 @@ import {
   SERVER_URL,
 } from "../../../_actions/urls";
 import CustomAlert from "./GameComps/Alert/alert";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../_actions/axiosInstance";
 
 const WaitingRoomOption = ({
@@ -74,25 +73,7 @@ const WaitingRoomOption = ({
         });
     }
   };
-  const navigate = useNavigate();
-  const sessionExit = () => {
-    console.log("s:", sessionId);
-    axios
-      .delete(SERVER_URL + "/socket/user", {
-        data: {
-          rtcSession: sessionId,
-          userId: userId,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("Error during DELETE request:", error.message);
-        console.log("Error details:", error.response);
-      });
-    navigate(`/`);
-  };
+
 
   const [alertMessage, setAlertMessage] = useState("");
   // 유효성 검증 & 팀 등록

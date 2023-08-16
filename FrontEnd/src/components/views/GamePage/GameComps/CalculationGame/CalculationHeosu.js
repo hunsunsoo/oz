@@ -2,27 +2,6 @@ import React, { useState, useEffect } from "react";
 import { NumberBoard, AlphaBoardH, MathBoard, AnsBoard } from "./CalBoard";
 import style from "./Calculation.module.css";
 import GameModal from "../GameModal/GameModal";
-const CalculationHeosu = ({
-  boardData,
-  client,
-  sessionId,
-  roundId,
-  resAnswer,
-  onHandleActorState,
-  actorState,
-  tableData,
-  onHandleTableData,
-  head,
-  onHandleresetTable,
-  failTimeOut,
-}) => {
-  useEffect(() => {
-    // 10초 후에 숫자판
-    if (actorState === 0) {
-      const timeoutId = setTimeout(() => {
-        onHandleActorState(1);
-      }, 10000);
-
 const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, onHandleActorState, actorState, tableData, onHandleTableData, head, onHandleresetTable, failTimeOut, onHandleMike, onHandleCamera, onHandleSpeaker }) => {
 	
 	useEffect(() => {
