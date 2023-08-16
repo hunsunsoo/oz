@@ -82,4 +82,15 @@ public class OverAllController {
 
         redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), msg);
     }
+
+    @MessageMapping("/socket/infinity")
+    public void infinityRequest(SocketMessage req) {
+        SocketMessage msg = SocketMessage.builder()
+                .rtcSession(req.getRtcSession())
+                .type("infinity")
+                .data(req)
+                .build();
+
+        redisPublisher.publish(socketRepository.getTopic(req.getRtcSession()), msg);
+    }
 }

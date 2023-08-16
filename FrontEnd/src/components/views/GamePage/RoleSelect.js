@@ -411,10 +411,6 @@ const RoleSelect = ({
             onClick={() => handleSelectComplete()}
           />
         </div>
-        <button onClick={() => handleMiddleCondition()}>
-          로컬개발용 그냥넘기기
-        </button>
-        <button onClick={() => handleSelectComplete()}>역할선택완료</button>
       </div>
       {alertMessage && (
         <CustomAlert
