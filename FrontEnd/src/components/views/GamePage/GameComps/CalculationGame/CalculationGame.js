@@ -215,7 +215,6 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
               setIsClear(true);
               const timer = setTimeout(() => {
                 setIsClear(false);
-                onHandleCamera(true);
                 onHandleMike(true);
                 onHandleSpeaker(true);
                 handleindexSet(21);
@@ -240,7 +239,6 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
                   [' ', ' ', ' ', ' ', ' ', ' '],
                   [' ', ' ', ' ', ' ', ' ', ' ']
                 ]));
-                onHandleCamera(true);
                 onHandleMike(true);
                 onHandleSpeaker(true);
                 handleGamingStart(false);

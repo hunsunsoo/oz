@@ -61,7 +61,6 @@ const DrawingGame = ({
               const resJsondata = JSON.parse(message.body);
               setKeyword(resJsondata.data);
               console.log("userId: " + myUserId);
-              onHandleCamera(false);
               onHandleMike(false);
               onHandleSpeaker(false);
               setCurrentRole(2);
@@ -122,7 +121,6 @@ const DrawingGame = ({
                 setIsFail(true);
                 const timer = setTimeout(() => {
                   setIsFail(false);
-                  onHandleCamera(true);
                   onHandleMike(true);
                   onHandleSpeaker(true);
                   handleGamingStart(false);
@@ -134,7 +132,6 @@ const DrawingGame = ({
                 setIsClear(true);
                 const timer = setTimeout(() => {
                   setIsClear(false);
-                  onHandleCamera(true);
                   onHandleMike(true);
                   onHandleSpeaker(true);
                   handleindexSet();
