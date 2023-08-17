@@ -16,6 +16,16 @@ function ClearPage({roundId}) {
       navigate(`/`); // 홈 페이지로 이동합니다.
     };
 
+     const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   useEffect(() => {
     console.log(roundId + "-> roundId");
       axios
@@ -45,10 +55,10 @@ function ClearPage({roundId}) {
         CLEAR TIME: {clearTime}
       </div>
       <div className={style.clearPage2}>
-        <div className={style.container} onClick={() => navigate(`/rank`)}>
+        <div className={style.container} onClick={() => navigate(`/rank`)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <img className={style.item} src="../image/tools/trophy.png" alt="Image"></img>
         </div>
-        <div className={style.container} onClick={navigateToHome}>
+        <div className={style.container} onClick={navigateToHome} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <img className={style.item} src="../image/tools/home.png" alt="Image"></img>
         </div>
       </div>
