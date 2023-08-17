@@ -270,6 +270,13 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 	// CalculationGame 컴포넌트
 	return (
 		<div style={{height:'100%'}}>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Brain Fade_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
       {alertMessage && (
         <CustomAlert
           message={alertMessage}

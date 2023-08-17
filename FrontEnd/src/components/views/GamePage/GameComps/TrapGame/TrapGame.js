@@ -167,6 +167,13 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
   // TrapGame 컴포넌트
   return (
     <div style={{height:'100%'}}>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Two Faced.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
       {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
       {isClear && <div className={style.clearDiv}>Clear</div>}
       {isFail && <div className={style.failDiv}>Fail</div>}

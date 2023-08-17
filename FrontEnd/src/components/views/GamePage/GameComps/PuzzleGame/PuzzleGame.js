@@ -194,6 +194,13 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   // PuzzleGame 컴포넌트
   return (
     <div style={{ height: "100%" }}>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Dice Game_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
       {isStart ? (
         PuzzleGameRenderingState
       ) : (
