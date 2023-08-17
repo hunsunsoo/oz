@@ -1,5 +1,5 @@
 <div align="center">
-    <img width="300" height="300" src="assets/fire4bird.png">
+    <img width="300" height="500" src="assets/fire4bird.png">
     <h2>Oz</h2>
     <p>실시간 소통을 이용한 오즈의 마법사 게임</p>
     <hr>
@@ -133,13 +133,11 @@
 
 사진+설명
 
-## 🏗️**프로젝트 구성**
-
 ---
 
-## **1. 서비스 아키텍쳐**
+## 🏗️**서비스 아키텍쳐**
 
-## ![시스템 아키텍쳐](assets/stack.png){: width="300" height="300"){: .center}
+## ![시스템 아키텍쳐](assets/stack.png){: width="600" height="500"){: .center}
 
 ## 🔎**서비스 기능 소개**
 
@@ -217,7 +215,7 @@ GitLab, Jira, DB의 컨벤션 규칙을 문서화 시켜 놓았습니다
 `Postman` 을 활용하여 API 문서를 작성하였습니다.
 
 <details>
-<summary>회의록</summary>
+<summary>기획 및 회의록</summary>
 <details>
 <summary>회의록</summary>
 <div markdown="1">
