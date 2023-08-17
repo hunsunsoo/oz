@@ -12,6 +12,7 @@ const DrawingReady = ({
   R2,
   R3,
   R4,
+  onHandleVolume4
 }) => {
   const stageval = 4;
   const [showModal, setShowModal] = useState(false);
@@ -56,6 +57,7 @@ const DrawingReady = ({
     if (amIHost === "1") {
       console.log(R3);
       if (R1 === 4 && R2 === 4 && R3 === 4 && R4 === 4) {
+        onHandleVolume4();
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");
