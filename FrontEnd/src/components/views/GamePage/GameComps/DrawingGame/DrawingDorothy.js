@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Canvas from "./canvas";
 // style
 import style from "./DrawingDorothy.module.css";
+import GameModal from "../GameModal/GameModal";
 
 
 export default function DrawingDorothy({client, sessionId, myUserId, myRole, currentRole}) {
@@ -63,6 +64,11 @@ export default function DrawingDorothy({client, sessionId, myUserId, myRole, cur
           drawingGameAnswerPublisher();
         }
       };
+  const stageval = 4;
+  const [showModal, setShowModal] = useState(false);
+  const onHandleExplain = () => {
+    setShowModal(true);
+  };
 
     return (
       <div className={style.compStyle}>
@@ -80,7 +86,19 @@ export default function DrawingDorothy({client, sessionId, myUserId, myRole, cur
             onClick={drawingGameAnswerPublisher}>
                 제출
             </button>}
+            <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+            onClick={onHandleExplain}
+          />
           </div>
+          {showModal && (
+          <GameModal
+            isStage={stageval}
+            closeModal={() => setShowModal(false)}
+          />
+        )}
           <Canvas client={client} sessionId={sessionId} myUserId={myUserId} myRole={myRole} currentRole={currentRole}></Canvas>
           {showDiv && <div className={style.hideZone}>{role} 님이 그리는 중입니다</div>}
         </div>
