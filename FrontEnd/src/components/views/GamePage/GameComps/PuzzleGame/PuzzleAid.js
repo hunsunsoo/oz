@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import style from "./PuzzleAid.module.css";
+import GameModal from "../GameModal/GameModal";
 
 const PictureList = [];
 for (let i = 1; i <= 6; i++) {
@@ -57,9 +58,19 @@ const PuzzleAid = ({ startData, myRole }) => {
     });
     setBoard(newBoard); // 새로운 board 상태 설정
   }, []);
-
+  const stageval = 3;
+  const [showModal, setShowModal] = useState(false);
+  const onHandleExplain = () => {
+    setShowModal(true);
+  };
   return (
     <div className={style.compStyle}>
+       {showModal && (
+          <GameModal
+            isStage={stageval}
+            closeModal={() => setShowModal(false)}
+          />
+        )}
       {myRole === 1 ? (
         // <div className={style.container}>
         <div className={style.boardContainer1}>
@@ -69,6 +80,12 @@ const PuzzleAid = ({ startData, myRole }) => {
           <div className={style["board2"]}>
             <BoardItem data={board[1]} />
           </div>
+          <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+            onClick={onHandleExplain}
+          />
         </div>
       ) : myRole === 2 ? (
         <div className={style.boardContainer2}>
@@ -78,6 +95,12 @@ const PuzzleAid = ({ startData, myRole }) => {
           <div className={style["board-container4"]}>
             <BoardItem data={board[3]} />
           </div>
+          <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+            onClick={onHandleExplain}
+          />
         </div>
       ) : (
         <div className={style.boardContainer3}>
@@ -87,6 +110,12 @@ const PuzzleAid = ({ startData, myRole }) => {
           <div className={style["board-container6"]}>
             <BoardItem data={board[5]} />
           </div>
+          <img
+            src="image/tools/questionMark.png"
+            alt="questionMark"
+            className={style.iconStyle}
+            onClick={onHandleExplain}
+          />
         </div>
       )}
       {/* </div> */}
