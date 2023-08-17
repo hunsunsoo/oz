@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import { useDispatch } from "react-redux";
-import { setGameUserInfo } from "../../../_actions/game_actions";
-// import { useSelector } from "react-redux";
 import CustomAlert from "./GameComps/Alert/alert";
+
 const RoleSelect = ({
   middleCon,
   onHandleMyRole,
@@ -20,11 +18,6 @@ const RoleSelect = ({
   const [s3, setS3] = useState(-1);
   const [myRole, setMyRole] = useState(0);
   const [alertMessage, setAlertMessage] = useState("");
-  // const dispatch = useDispatch();
-
-  // const myRoleRDX = useSelector(
-  //    (state) => state.gameUserReducer.gameUsers.myRole
-  // );
 
   // 조건부 렌더링을위한 콜백함수
   const handleMiddleCondition = () => {
@@ -105,8 +98,7 @@ const RoleSelect = ({
 
     if (resuserId === userId) {
       setMyRole(role + 1);
-      onHandleMyRole(role + 1); // props 전달용
-      // dispatch(setGameUserInfo({ myRole: role+1 })); // redux용
+      onHandleMyRole(role + 1);
     }
   };
 
@@ -123,8 +115,7 @@ const RoleSelect = ({
 
     if (resuserId === userId) {
       setMyRole(0);
-      onHandleMyRole(0); // props 전달용
-      // dispatch(setGameUserInfo({ myRole: null })); // redux용
+      onHandleMyRole(0);
     }
   };
 
@@ -140,28 +131,28 @@ const RoleSelect = ({
         if (s0 === userId) {
           msgstate = -1;
         } else if (s0 >= 0) {
-          alert("내가 선택한 캐릭터가 아닙니다!");
+          alert("선택할 수 없습니다!");
           return;
         }
       } else if (index === 1) {
         if (s1 === userId) {
           msgstate = -1;
         } else if (s1 >= 0) {
-          alert("내가 선택한 캐릭터가 아닙니다!");
+          alert("선택할 수 없습니다!");
           return;
         }
       } else if (index === 2) {
         if (s2 === userId) {
           msgstate = -1;
         } else if (s2 >= 0) {
-          alert("내가 선택한 캐릭터가 아닙니다!");
+          alert("선택할 수 없습니다!");
           return;
         }
       } else if (index === 3) {
         if (s3 === userId) {
           msgstate = -1;
         } else if (s3 >= 0) {
-          alert("내가 선택한 캐릭터가 아닙니다!");
+          alert("선택할 수 없습니다!");
           return;
         }
       }
@@ -193,7 +184,7 @@ const RoleSelect = ({
         sendSelectComplete();
       }
     } else if (host==="0"){
-      setAlertMessage("내가 방장 아님")
+      setAlertMessage("방장 권한이 없어 시작할 수 없습니다.")
     }
    
   };
@@ -252,13 +243,6 @@ const RoleSelect = ({
     fontSize: "40px"
   };
 
-  // const box2 = {
-  //   height: "65%", // 두 번째 박스의 높이
-  //   backgroundColor: "#CABE96",
-  //   display: "flex",
-  //   flexDirection: "row",
-  // };
-
   const box2 = {
     height: "60%", // 두 번째 박스의 높이
     backgroundColor: "#F0EAD2",
@@ -303,36 +287,23 @@ const RoleSelect = ({
   };
 
   const dorothySelected = {
-    boxShadow: s0 !== -1 ? "0 0 10px 2px blue" : "none",
-    // backgroundColor: isMySelectedImage(0) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+    boxShadow: s0 !== -1 ? (s0 === userId ? "0 0 10px 2px blue" : "0 0 10px 2px red") : "none",
+    cursor: "pointer",
   };
 
   const lionSelected = {
-    boxShadow: s1 !== -1 ? "0 0 10px 2px blue" : "none",
-    // backgroundColor: isMySelectedImage(1) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+    boxShadow: s1 !== -1 ? (s1 === userId ? "0 0 10px 2px blue" : "0 0 10px 2px red") : "none",
+    cursor: "pointer",
   };
 
   const heoSelected = {
-    boxShadow: s2 !== -1 ? "0 0 10px 2px blue" : "none",
-    // backgroundColor: isMySelectedImage(2) ? 'rgba(255, 0, 0, 0.7)' : 'none',
+    boxShadow: s2 !== -1 ? (s2 === userId ? "0 0 10px 2px blue" : "0 0 10px 2px red") : "none",
+    cursor: "pointer",
   };
 
   const twmanSelected = {
-    boxShadow: s3 !== -1 ? "0 0 10px 2px blue" : "none",
-    // backgroundColor: isMySelectedImage(3) ? 'rgba(255, 0, 0, 0.7)' : 'none',
-  };
-
-  const nextButton = {
-    padding: '1%',
-    fontSize: '20px',         // font-size 속성
-    backgroundColor: '#6C584C',
-    color: '#c9be96',
-    border: 'none',
-    fontWeight: 'bold', 
-    borderRadius: '20px',
-    cursor: 'pointer',
-    height: '57%',
-    width: '20%'              // width 속성
+    boxShadow: s3 !== -1 ? (s3 === userId ? "0 0 10px 2px blue" : "0 0 10px 2px red") : "none",
+    cursor: "pointer",
   };
 
   const imageStyle = {
@@ -407,7 +378,7 @@ const RoleSelect = ({
         <div style={box3}>
           <img
             src="/image/tools/roleSelBtn.png"
-            style={{width: "25%", height: "120%"}}
+            style={{width: "25%", height: "120%", cursor: "pointer"}}
             onClick={() => handleSelectComplete()}
           />
         </div>
