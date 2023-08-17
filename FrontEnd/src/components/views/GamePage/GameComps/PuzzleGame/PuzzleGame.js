@@ -12,6 +12,7 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
 
   const [isClear, setIsClear] = useState(false);
   const [isFail, setIsFail] = useState(false);
+  const [volume3, setVolume3] = useState(0.7);
 
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
@@ -37,6 +38,11 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   // 하위 컴포넌트에서 현재 컴포넌트의 state를 바꿀 수 있게 해주는 콜백함수
   const handleGamingStart = (status) => {
     setIsStart(status);
+  };
+
+  // 볼륨 조절
+  const handleVolume3 = () => {
+    setVolume3(0.3);
   };
 
   // 게임시작 - 게임방법 / 게임중 상태를 바꿔줌 startData를 받아 넘겨줌
@@ -200,6 +206,7 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
         frameborder="0"
         allowfullscreen
         allow="autoplay"
+        volume={volume3}
       ></iframe>
       {isStart ? (
         PuzzleGameRenderingState
@@ -210,6 +217,7 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
           client={client}
           sessionId={sessionId}
           R1={R1} R2={R2} R3={R3} R4={R4}
+          onHandleVolume3={handleVolume3}
         />
       )}
       {isClear && <div className={style.clearDiv}>Clear</div>}

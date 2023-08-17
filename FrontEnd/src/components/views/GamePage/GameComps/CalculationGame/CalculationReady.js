@@ -13,6 +13,7 @@ const CalculationReady = ({
   R2,
   R3,
   R4,
+  onHandleVolume1
 }) => {
   const stageval = 1;
   const [showModal, setShowModal] = useState(false);
@@ -58,6 +59,7 @@ const CalculationReady = ({
     if (amIHost === "1") {
       if (R1 === 1 && R2 === 1 && R3 === 1 && R4 === 1) {
         console.log("여기");
+        onHandleVolume1();
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");
