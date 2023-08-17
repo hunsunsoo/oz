@@ -26,6 +26,16 @@ const CalculationReady = ({
   const [amIReady, setAmIReady] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   useEffect(() => {
     if (myRole === 1) {
       if (R1 === 1) {
@@ -151,7 +161,7 @@ const CalculationReady = ({
         </div>
         <div className={style.guideStyle}>
           <div className={style.bottomDivStyle}>
-            <div className={style.howToPlayBtn} onClick={onHandleExplain}>
+            <div className={style.howToPlayBtn} onClick={onHandleExplain} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               게임 방법
             </div>
 
@@ -161,12 +171,13 @@ const CalculationReady = ({
                 const readyOrCancel = amIReady ? 0 : 1;
                 CalReadyPublisher(readyOrCancel);
               }}
+              onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
             >
               {amIReady ? "준비 취소" : "준비 완료"}
             </div>
 
             {amIHost === "1" && (
-              <div className={style.startBtn} onClick={handleStartAfterReady}>
+              <div className={style.startBtn} onClick={handleStartAfterReady} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 게임 시작
               </div>
             )}
