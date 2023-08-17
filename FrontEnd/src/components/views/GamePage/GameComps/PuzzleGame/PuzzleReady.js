@@ -12,6 +12,7 @@ const PuzzleReady = ({
   R2,
   R3,
   R4,
+  onHandleVolume3
 }) => {
   const stageval = 3;
   const [showModal, setShowModal] = useState(false);
@@ -56,6 +57,7 @@ const PuzzleReady = ({
     console.log(host);
     if (amIHost === "1") {
       if (R1 === 3 && R2 === 3 && R3 === 3 && R4 === 3) {
+        onHandleVolume3();
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");

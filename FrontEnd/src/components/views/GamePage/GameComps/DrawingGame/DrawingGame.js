@@ -20,6 +20,7 @@ const DrawingGame = ({
 
   const [isClear, setIsClear] = useState(false);
   const [isFail, setIsFail] = useState(false);
+  const [volume4, setVolume4] = useState(0.7);
 
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
@@ -44,6 +45,11 @@ const DrawingGame = ({
   const handleGamingStart = (status) => {
     setIsStart(status);
   };
+
+  // 볼륨 조절
+  const handleVolume4 = () => {
+    setVolume4(0.3);
+  };  
 
   useEffect(() => {
     const subscribeToWaiting = () => {
@@ -207,6 +213,7 @@ const DrawingGame = ({
         frameborder="0"
         allowfullscreen
         allow="autoplay"
+        volume={volume4}
       ></iframe>
       {isStart ? (
         DrawingGameRenderingState
@@ -220,6 +227,7 @@ const DrawingGame = ({
           R3={R3}
           R4={R4}
           onHandleStart={drawingGameStartPublisher}
+          onHandleVolume4={handleVolume4}
         />
       )}
       {isClear && <div className={style.clearDiv}>Clear</div>}

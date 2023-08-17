@@ -3,7 +3,7 @@ import style from "./TrapReady.module.css"
 import { useLocation } from "react-router-dom";
 import GameModal from "../GameModal/GameModal";
 import CustomAlert from '../Alert/alert';
-const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 }) => {
+const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4, onHandleVolume2 }) => {
   const stageval = 2;
   const [showModal, setShowModal] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -47,6 +47,7 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
     console.log(host)
     if(amIHost === "1"){
       if(R1 === 2 && R2 === 2 && R3 === 2 && R4 === 2){
+        onHandleVolume2(); // 볼륨조절
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");
