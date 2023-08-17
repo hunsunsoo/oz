@@ -17,6 +17,7 @@
   left: 5%;
   width: 7.5%;
   height: 10%;
+  cursor: pointer;
 }
 
 .stage3SelectBtn {
@@ -33,6 +34,11 @@
   font-Weight: bold;
   color:#F0EAD2;
   border-Radius: 20px;
+  cursor: pointer;
+}
+.stage3SelectBtn:hover {
+  background-color: #f0ead2;
+  color: #a98467;
 }
 
 .puzzleLeft {

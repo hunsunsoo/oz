@@ -14,6 +14,16 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
 
   const initialBoardsFromBackend = [];
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   // 나머지 빈 보드 추가
   for (let i = 0; i < 6; i++) {
     if (locationArray.includes(i + 1)) {
@@ -177,6 +187,7 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
           <button
             className={style.stage3SelectBtn}
             onClick={handleSendAnswerCheck}
+            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
           >
             정답 확인
           </button>
