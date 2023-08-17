@@ -109,11 +109,11 @@
     margin: -150px 0 0 -150px;
   }
 
-  .head024Style  {
+  .head024Style {
     box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
   }
 
-  .head13Style  {
+  .head13Style {
     box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
   }
 
@@ -156,6 +156,7 @@
     border-Radius: 20px;
     cursor: pointer;
   }
+
   .ansSubmitBtn:hover {
     background-color: #f0ead2;
     color: #a98467;
@@ -178,6 +179,7 @@
     margin: -150px 0 0 -150px;
     cursor: pointer;
   }
+
   .resetBtn:hover {
     background-color: #f0ead2;
     color: #a98467;

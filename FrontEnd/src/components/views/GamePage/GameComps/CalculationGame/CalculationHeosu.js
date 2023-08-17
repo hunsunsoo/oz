@@ -107,6 +107,7 @@ const CalculationHeosu = ({ boardData, myRole, client, sessionId, roundId, resAn
             src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
+            onClick={onHandleExplain}
           />
         </div>
       </div>
