@@ -110,6 +110,12 @@ const CalculationHeosu = ({ boardData, myRole, client, sessionId, roundId, resAn
             onClick={onHandleExplain}
           />
         </div>
+        {showModal && (
+          <GameModal
+            isStage={stageval}
+            closeModal={() => setShowModal(false)}
+          />
+        )}
       </div>
     );
   } else if (actorState === 1) {
@@ -140,6 +146,7 @@ const CalculationHeosu = ({ boardData, myRole, client, sessionId, roundId, resAn
             src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
+            onClick={onHandleExplain}
           />
           <div className={style.ansSubmitBtn} onClick={submitAnswer}>
             정답제출
@@ -154,6 +161,12 @@ const CalculationHeosu = ({ boardData, myRole, client, sessionId, roundId, resAn
           />
           <div className={style.rectangleStyle}>{resAnswer}</div>
         </div>
+        {showModal && (
+          <GameModal
+            isStage={stageval}
+            closeModal={() => setShowModal(false)}
+          />
+        )}
       </div>
     );
   } else if (actorState === 2) {
