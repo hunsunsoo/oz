@@ -1,7 +1,7 @@
 .canvasWrap {
     position: absolute;
     width: 60%;
-    height: 43%;
+    height: 44%;
     right: 10%;
     top: 19%;
 }
@@ -13,7 +13,6 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 50%;
 }
 
 .buttonZone {
