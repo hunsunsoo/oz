@@ -116,19 +116,16 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
           <div className={style.videoPage}>
               {publisher !== undefined ? (
                   <div className={style.videoBox} key={publisher.stream.streamId} >
-                      <div className={style.nickBox}><p>닉네임</p></div>
                       <UserVideoWaitingRoom streamManager={publisher} />
                   </div>
               ) : null}
               {visibleSubscribers.map((sub, i) => (
                   <div className={style.videoBox} key={sub.stream.streamId} >
-                      <div className={style.nickBox}><p>닉네임</p></div>
                       <UserVideoWaitingRoom streamManager={sub} />
                   </div>
               ))}
               {[...Array(emptySlots)].map((_, i) => (
                   <div className={style.videoBox} >
-                      <div className={style.nickBox}><p></p></div>
                       <div className={style.emptySlot}></div>
                   </div>
                   
@@ -160,7 +157,7 @@ const RTCViewCenter = ({ publisher, subscribers, client, sessionId, userId, myNi
                   placeholder="채팅을 입력하세요..."
                   onKeyDown={enterKeyPress}
                   />
-                  <button onClick={sendMessageOnSocket}>
+                  <button onClick={sendMessageOnSocket} style={{cursor:"pointer"}}>
                     <i class="fi fi-rr-paper-plane"></i>
                   </button>
               </div>
