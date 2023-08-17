@@ -1,96 +1,155 @@
 /* 숫자보드 */
 .number-board {
-    display: flex;
-    flex-direction: column;
-  }  
-  .number-row {
-    display: flex;
-  }  
-  .number-cell {
-    width: 60px;
-    height: 60px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-  }  
-  .number-cell.even {
-    background-color: #ADC178;
-  }
-  .number-cell.odd {
-    background-color: #A98467;
-  }
+  display: flex;
+  flex-direction: column;
+}  
+.number-row {
+  display: flex;
+}  
+.number-cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}  
+.number-cell.even {
+  background-color: #ADC178;
+}
+.number-cell.odd {
+  background-color: #A98467;
+}
+
   
-  /* 알파벳보드 */
-  .alpha-board {
-    display: flex;
-    flex-direction: column;
-  }
-  .alpha-row {
-    display: flex;
-  }
-  .alpha-cell {
-    width: 60px;
-    height: 60px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-  }
-  .alpha-cell.even {
-    background-color: #ADC178;
-  }
-  .alpha-cell.odd {
-    background-color: #A98467;
-  }
-  
-  /* 사칙연산기호 보드 */
-  .math-board {
-    display: flex;
-    flex-direction: column;
-  }
-  .math-row {
-    display: flex;
-  }
-  .math-cell {
-    width: 60px;
-    height: 60px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-  }
-  .math-cell.even {
-    background-color: #ADC178;
-  }
-  .math-cell.odd {
-    background-color: #A98467;
-  }
-  
-  
-  /* 정답입력 보드 */
-  .ans-board {
-    display: flex;
-    flex-direction: column;
-  }
-  .ans-row {
-    display: flex;
-  }
-  .ans-cell {
-    width: 75px;
-    height: 75px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-  }
-  .ans-cell.even {
-    background-color: #6C584C;
-  }
-  .ans-cell.odd {
-    background-color: #ADC178;
-  }
+/* 알파벳보드 */
+.alpha-board {
+  display: flex;
+  flex-direction: column;
+}
+.alpha-row {
+  display: flex;
+}
+.alpha-cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.alpha-cell.even {
+  background-color: #ADC178;
+}
+.alpha-cell.odd {
+  background-color: #A98467;
+}
+.alpha-cell:hover {
+  background-color: rgba(213, 212, 200, 0.7); /* 배경 색상 변경 */
+  box-shadow: 0 0 10px rgba(173, 193, 120, 0.7); /* 은은한 효과를 주는 그림자 스타일 */
+  transition: background-color 0.3s, box-shadow 0.3s; /* 변화를 부드럽게 만드는 트랜지션 효과 */
+}
+
+/* 알파벳보드 (허수) */
+.alpha-board2 {
+  display: flex;
+  flex-direction: column;
+}
+.alpha-row2 {
+  display: flex;
+}
+.alpha-cell2 {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.alpha-cell2.even {
+  background-color: #ADC178;
+}
+.alpha-cell2.odd {
+  background-color: #A98467;
+}
+.alpha-cell2:hover {
+  background-color: #f0ead2;
+}
+
+/* 사칙연산기호 보드 */
+.math-board {
+  display: flex;
+  flex-direction: column;
+}
+.math-row {
+  display: flex;
+}
+.math-cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.math-cell.even {
+  background-color: #ADC178;
+}
+.math-cell.odd {
+  background-color: #A98467;
+}
+
+/* 사칙연산기호 보드 (허수) */
+.math-board2 {
+  display: flex;
+  flex-direction: column;
+}
+.math-row2 {
+  display: flex;
+}
+.math-cell2 {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.math-cell2.even {
+  background-color: #ADC178;
+}
+.math-cell2.odd {
+  background-color: #A98467;
+}
+.math-cell2:hover {
+  background-color: #f0ead2;
+}
+
+/* 정답입력 보드 */
+.ans-board {
+  display: flex;
+  flex-direction: column;
+}
+.ans-row {
+  display: flex;
+}
+.ans-cell {
+  width: 75px;
+  height: 75px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+.ans-cell.even {
+  background-color: #6C584C;
+}
+.ans-cell.odd {
+  background-color: #ADC178;
+}

@@ -74,10 +74,10 @@ const GameComp = (props) => {
   //게임 브라우저 컨트롤
   useEffect(() => {
     //뒤로가기 막기
-    // window.history.pushState(null, null, window.location.href);
-    // window.onpopstate = function (event) {
-    //   window.history.pushState(null, null, window.location.href);
-    // };
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function (event) {
+      window.history.pushState(null, null, window.location.href);
+    };
 
     //새로고침 막기
     const handleBeforeUnload = (event) => {

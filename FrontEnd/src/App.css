@@ -1,6 +1,6 @@
-/* .App {
-  text-align: center;
-} */
+.App {
+  user-select: none;
+}
 
 /* .App-logo {
   height: 40vmin;

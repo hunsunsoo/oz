@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { NumberBoard, AlphaBoardH, MathBoard, AnsBoard } from "./CalBoard";
+import { NumberBoard, AlphaBoardH, MathBoardH, AnsBoard } from "./CalBoard";
 import style from "./Calculation.module.css";
 import GameModal from "../GameModal/GameModal";
-const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, onHandleActorState, actorState, tableData, onHandleTableData, head, onHandleresetTable, failTimeOut, onHandleMike, onHandleCamera, onHandleSpeaker }) => {
+const CalculationHeosu = ({ boardData, myRole, client, sessionId, roundId, resAnswer, onHandleActorState, actorState, tableData, onHandleTableData, head, onHandleresetTable, failTimeOut, onHandleMike, onHandleCamera, onHandleSpeaker }) => {
 	
 	useEffect(() => {
 		// 10초 후에 숫자판
@@ -29,6 +29,16 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
     ["Y", "Z", "a", "b", "c", "d"],
     ["e", "f", "g", "h", "i", "j"],
   ];
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const handleCellClick = (row, col) => {
     onHandleTableData(staticBoardData[row][col]);
@@ -81,10 +91,15 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
     }
   };
 
+  
+
   if (actorState === 0) {
     return (
       <div className={style.compStyle}>
         <div className={style.background_G1}>
+          <div className={style.juseokbalance}>
+            <div className={style.juseok}>숫자판을 외워봐~!</div>
+          </div>
           <div className={style.BoardStyle}>
             <NumberBoard boardData={boardData} />
           </div>
@@ -111,10 +126,11 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
               client={client}
               roundId={roundId}
               head={head}
+              myRole={myRole}
             />
           </div>
           <div className={style.MathBoardStyle}>
-            <MathBoard onHandleCellClick={handleCellClick2} head={head} />
+            <MathBoardH onHandleCellClick={handleCellClick2} head={head} />
           </div>
           <div className={style.AnsBoardStyle}>
             <AnsBoard tableData={tableData} head={head} />
@@ -149,7 +165,9 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
             </div>
           </div>
 
-          <div className={style.BoardStyle2}>
+          <div className={`${style.BoardStyle2} ${
+              [0, 2, 4].includes(head) ? style.head024Style : null
+            }`}>
             <AlphaBoardH
               onHandleCellClick={handleCellClick}
               boardData={boardData}
@@ -158,8 +176,12 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
               head={head}
             />
           </div>
-          <div className={style.MathBoardStyle}>
-            <MathBoard onHandleCellClick={handleCellClick2} head={head} />
+          <div
+            className={`${style.MathBoardStyle} ${
+              [1, 3].includes(head) ? style.head13Style : null
+            }`}
+          >
+            <MathBoardH onHandleCellClick={handleCellClick2} head={head} />
           </div>
           <div className={style.AnsBoardStyle}>
             <AnsBoard tableData={tableData} head={head} />
@@ -171,10 +193,10 @@ const CalculationHeosu = ({ boardData, client, sessionId, roundId, resAnswer, on
             className={style.iconStyle}
             onClick={onHandleExplain}
           />
-          <div className={style.ansSubmitBtn} onClick={submitAnswer}>
+          <div className={style.ansSubmitBtn} onClick={submitAnswer} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}> 
             정답제출
           </div>
-          <div className={style.resetBtn} onClick={handleReset}>
+          <div className={style.resetBtn} onClick={handleReset} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             리셋
           </div>
           <img
