@@ -216,6 +216,13 @@ const [teamNameInput, setTeamNameInput] = useState("");
 
   return (
     <div style={WROStyle}>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Good Morning_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
       <div className={style.optionBox}>
         {/* Left Pane Content */}
         <button className={`${style.optionButton}  ${isCamera ? style.active : ""}`}>

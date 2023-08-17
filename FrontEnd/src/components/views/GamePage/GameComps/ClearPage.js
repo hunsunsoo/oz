@@ -31,21 +31,28 @@ function ClearPage({roundId}) {
 
   return (
     <div className={style.clearPage}>
-    <div style={{fontSize:"200px", fontWeight:"bold"}}>
-      CLEAR
-    </div>
-    <div style={{fontSize:"40px", fontWeight:"bold"}}>
-      CLEAR TIME: {clearTime}
-    </div>
-    <div className={style.clearPage2}>
-      <div className={style.container} onClick={() => navigate(`/rank`)}>
-        <img className={style.item} src="../image/tools/trophy.png" alt="Image"></img>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Plop Plop_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
+      <div style={{fontSize:"200px", fontWeight:"bold"}}>
+        CLEAR
       </div>
-      <div className={style.container} onClick={navigateToHome}>
-        <img className={style.item} src="../image/tools/home.png" alt="Image"></img>
+      <div style={{fontSize:"40px", fontWeight:"bold"}}>
+        CLEAR TIME: {clearTime}
+      </div>
+      <div className={style.clearPage2}>
+        <div className={style.container} onClick={() => navigate(`/rank`)}>
+          <img className={style.item} src="../image/tools/trophy.png" alt="Image"></img>
+        </div>
+        <div className={style.container} onClick={navigateToHome}>
+          <img className={style.item} src="../image/tools/home.png" alt="Image"></img>
+        </div>
       </div>
     </div>
-  </div>
   );
 }
 

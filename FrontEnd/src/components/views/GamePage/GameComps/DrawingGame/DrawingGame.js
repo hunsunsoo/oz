@@ -201,6 +201,13 @@ const DrawingGame = ({
 
   return (
     <div style={{height:'100%'}}>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Unlucky Day_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
       {isStart ? (
         DrawingGameRenderingState
       ) : (
