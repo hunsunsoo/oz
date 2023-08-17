@@ -5,7 +5,7 @@ import style from "./DrawingAid.module.css";
 import GameModal from "../GameModal/GameModal";
 
 export default function DrawingAid({client, sessionId, myUserId, myRole, currentRole, keyword}) {
-    const [showDiv, setShowDiv] = useState(true);
+    const [showDiv, setShowDiv] = useState(false);
     const [role, setRole] = useState("");
     const [currentKeyword, setKeyword] = useState("");
 
@@ -31,14 +31,16 @@ export default function DrawingAid({client, sessionId, myUserId, myRole, current
         }
 
         if (currentRole !== 5) {
-          setShowDiv(true); // div 표시
-          const timer = setTimeout(() => {
-            setShowDiv(false); // div 숨김
-          }, 3000);
-    
-          return () => {
-            clearTimeout(timer);
-          };
+          if(currentRole == myRole){
+            setShowDiv(true); // div 표시
+            const timer = setTimeout(() => {
+              setShowDiv(false); // div 숨김
+            }, 3000);
+      
+            return () => {
+              clearTimeout(timer);
+            };
+          }
         }
     }, [currentRole]);
     const stageval = 4;
@@ -65,8 +67,7 @@ export default function DrawingAid({client, sessionId, myUserId, myRole, current
           />
         )}
         <Canvas client={client} sessionId={sessionId} myRole={myRole} myUserId={myUserId} currentRole={currentRole} sendDuration={showDiv}></Canvas>
-        {showDiv && <div className={style.readyDiv}>준비</div>}
-        
+        {showDiv && <div className={style.readyDiv}>준비</div>}        
       </div>
     </div>
     
