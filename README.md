@@ -1,5 +1,5 @@
-<div align="left">
-    <img src="assets/fire4bird.png">
+<div align="center">
+    <img width="300" height="300" src="assets/fire4bird.png">
     <h2>Oz</h2>
     <p>실시간 소통을 이용한 오즈의 마법사 게임</p>
     <hr>
@@ -139,7 +139,7 @@
 
 ## **1. 서비스 아키텍쳐**
 
-## ![시스템 아키텍쳐](assets/stack.png)
+## ![시스템 아키텍쳐](assets/stack.png){: width="300" height="300"){: .center}
 
 ## 🔎**서비스 기능 소개**
 
