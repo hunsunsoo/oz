@@ -3,10 +3,13 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import style from "./RankPage.module.css";
 import axiosInstance from "../../../_actions/axiosInstance";
+import { UseSelector } from "react-redux";
 
 function MyRanking({myRankList}) {
     const [rankList, setRankList] = useState([]);
 
+   
+    
     useEffect(() => {
         setRankList(myRankList);
     }, [myRankList]);
@@ -116,16 +119,27 @@ function RankPage(){
         setSelectedStage(stage); // 선택한 랭크 정보를 상태로 설정
     };
 
+    // jwt payload decode
     const accessToken = useSelector(
         (state) => state.user.loginSuccess.headers.accesstoken
-      );
+    );
+    var base64Url = accessToken.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jwtPayload = decodeURIComponent(
+        atob(base64)
+        .split("")
+        .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    const JsonPayload = JSON.parse(jwtPayload);
 
     useEffect(()=> {
+        
         axiosInstance
-        .get(`/rank/${selectedStage}`, {
-            headers: {
-                AccessToken: accessToken,
-            },
+        .get(`/rank/${selectedStage}/${JsonPayload.userId}`, {
+           
         })
         .then((response) => {
             setAllRankList(response.data.data.totalRankList || []);
@@ -146,19 +160,19 @@ function RankPage(){
                 <button
                 className={`${style.buttonNoneClick} ${selectedStage === 5 ? style.buttonClick : ''}`}
                 onClick={() => handleButtonClick(5)}
-                >5</button>
+                >종합 순위</button>
                 <button className={`${style.buttonNoneClick} ${selectedStage === 1 ? style.buttonClick : ''}`}
                 style={{left:'20%'}} onClick={() => handleButtonClick(1)}
-                >1</button>
+                >Stage 1</button>
                 <button 
                 className={`${style.buttonNoneClick} ${selectedStage === 2 ? style.buttonClick : ''}`}
-                style={{left:'40%'}} onClick={() => handleButtonClick(2)}>2</button>
+                style={{left:'40%'}} onClick={() => handleButtonClick(2)}>Stage2</button>
                 <button 
                 className={`${style.buttonNoneClick} ${selectedStage === 3 ? style.buttonClick : ''}`}
-                style={{left:'60%'}} onClick={() => handleButtonClick(3)}>3</button>
+                style={{left:'60%'}} onClick={() => handleButtonClick(3)}>Stage 3</button>
                 <button 
                 className={`${style.buttonNoneClick} ${selectedStage === 4 ? style.buttonClick : ''}`}
-                style={{left:'80%'}} onClick={() => handleButtonClick(4)}>4</button>
+                style={{left:'80%'}} onClick={() => handleButtonClick(4)}>Stage 4</button>
             </div>
             <div className={style.rankDiv}>
                 <div className={style.myTeamBlock}>

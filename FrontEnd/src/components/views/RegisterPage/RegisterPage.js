@@ -131,6 +131,11 @@ function RegisterPage(props) {
         }}
       >
         <div className={style.box}>
+        <button className={style.closeInputBox}
+                onClick={() => navigate(`/`)}
+                >
+                  <i class="fi fi-rr-left"></i>
+            </button>
           <div className={style.logo}>
             <img className={style.logoImage} 
             src= {process.env.PUBLIC_URL + "/image/logo/real_logo.png"}

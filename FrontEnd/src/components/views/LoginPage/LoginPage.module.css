@@ -161,3 +161,18 @@
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 
 }
+
+
+.closeInputBox {
+        position: absolute;
+        cursor: pointer;
+        left: 33%;
+        top: 19%;
+        width: 7%;
+        height: 10%;
+        background-color: transparent;
+        color: #6C584C;
+        font-weight: bold;
+        font-size: 70px;
+        border: none;
+}
