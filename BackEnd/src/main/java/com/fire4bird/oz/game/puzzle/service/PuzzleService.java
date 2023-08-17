@@ -114,6 +114,7 @@ public class PuzzleService {
             recordService.clearCheck(obj.getRoundId(), 3, "false");
         }
 
+        log.info("라운드 getUserAnswer : {}", req.getUserAnswer()+", check: "+check);
 
         //type 4: 게임 정답 제출 로그
         saveLog(req.getRtcSession(), req.getUserId(), 0, 4, "Answer Submit: " + req.getUserAnswer() + ", Check: " + check);

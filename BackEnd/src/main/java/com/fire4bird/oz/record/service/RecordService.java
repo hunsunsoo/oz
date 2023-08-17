@@ -72,7 +72,7 @@ public class RecordService {
         log.info("findRecord : {}", findRecord);
 
         //조회 기록이 없으면 도전 기록이 없음
-        recordError.endRecordValid(findRecord);
+//        recordError.endRecordValid(findRecord);
 
         findRecord.setEndTime(LocalDateTime.now());
         findRecord.setClear(clear);
