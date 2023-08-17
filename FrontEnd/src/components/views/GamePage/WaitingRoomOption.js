@@ -26,6 +26,16 @@ const WaitingRoomOption = ({
   onHandleCamera,
   onHandleSpeaker
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   // 구독
   const handleWaiting = () => {
     const newState = !isWaiting;
@@ -128,7 +138,7 @@ const [teamNameInput, setTeamNameInput] = useState("");
                       // setAlertMessage("사용할 팀 이름을 정하세요");
                     }  else {
                       teamName = prompt(
-                        `해당 4명의 사용자는 기존에 사용하던 팀 명이 있습니다. ${teamNameDefault.teamName} 이거 쓰던거 쓰려면 아무것도 입력하지말고 넘기시고 새로 팀만들고싶으면 적으세요 이건나중에 바꿀거에요`,
+                        `기존에 사용하던 팀 명이 있습니다. ${teamNameDefault.teamName} 새로운 팀명을 사용하려면 입력하세요`,
                         teamNameDefault.teamName
                       );
                     }
@@ -164,7 +174,7 @@ const [teamNameInput, setTeamNameInput] = useState("");
           console.log("방 정보를 가져오는데 실패하였습니다.", error);
         });
     } else {
-      setAlertMessage("내가 방장이 아니다.");
+      setAlertMessage("방장 권한이 없어 시작할 수 없습니다.");
     }
   };
 
@@ -225,14 +235,19 @@ const [teamNameInput, setTeamNameInput] = useState("");
       ></iframe>
       <div className={style.optionBox}>
         {/* Left Pane Content */}
-        <button className={`${style.optionButton}  ${isCamera ? style.active : ""}`}>
-          <i className={`fi fi-rr-video-camera-alt`} onClick={() => handleToggle("camera")}></i>
+        <button 
+          className={`${style.optionButton}  ${isCamera ? style.active : ""}`} 
+          onClick={() => handleToggle("camera")}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <i className={`fi fi-rr-video-camera-alt`} ></i>
         </button>
-        <button className={`${style.optionButton} ${isMike ? style.active : ""}` }>
-          <i className={`fi fi-rr-microphone`} onClick={() => handleToggle("mike")} ></i>
+        <button className={`${style.optionButton} ${isMike ? style.active : ""}` }onClick={() => handleToggle("mike")} >
+          <i className={`fi fi-rr-microphone`} ></i>
         </button>
-        <button className={`${style.optionButton} ${isSpeaker ? style.active : ""}` }>
-          <i className={`fi fi-rr-volume`} onClick={() => handleToggle("speaker")} ></i>
+        <button className={`${style.optionButton} ${isSpeaker ? style.active : ""}`} onClick={() => handleToggle("speaker")}>
+          <i className={`fi fi-rr-volume`} ></i>
         </button>
         <button className={style.optionButton}
         onClick={copySessionId}><i class="fi fi-rr-envelope-plus"></i></button>

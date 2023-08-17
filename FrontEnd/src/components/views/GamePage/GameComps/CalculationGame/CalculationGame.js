@@ -265,7 +265,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 	let CalculationGameRenderingState;
 	switch (myRole) {
 		case 3:
-			CalculationGameRenderingState = <CalculationHeosu boardData={boardData} client={client} sessionId={sessionId} roundId={roundId} resAnswer={resAnswer} onHandleActorState={handleActorState} actorState={actorState} tableData={tableData} onHandleTableData={handletableData} head={head} onHandleresetTable={resetTable} failTimeOut={failTimeOut} onHandleMike={onHandleMike} onHandleCamera={onHandleCamera} onHandleSpeaker={onHandleSpeaker}/>
+			CalculationGameRenderingState = <CalculationHeosu boardData={boardData} myRole={myRole} client={client} sessionId={sessionId} roundId={roundId} resAnswer={resAnswer} onHandleActorState={handleActorState} actorState={actorState} tableData={tableData} onHandleTableData={handletableData} head={head} onHandleresetTable={resetTable} failTimeOut={failTimeOut} onHandleMike={onHandleMike} onHandleCamera={onHandleCamera} onHandleSpeaker={onHandleSpeaker}/>
 			break;
 		case 1:
 		case 2:
