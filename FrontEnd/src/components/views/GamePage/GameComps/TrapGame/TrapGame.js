@@ -11,6 +11,7 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
 
   const [isClear, setIsClear] = useState(false);
   const [isFail, setIsFail] = useState(false);
+  const [volume2, setVolume2] = useState(0.7);
 
   // TrapGameRederingState 에서 나눠지는 조건 => myRole
   const stage = 2;
@@ -31,6 +32,11 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
   // 하위 컴포넌트에서 현재 컴포넌트의 state를 바꿀 수 있게 해주는 handler
   const handleGamingStart = (status) => {
     setIsStart(status);
+  };
+
+  // 볼륨 조절
+  const handleVolume2 = () => {
+    setVolume2(0.3);
   };
 
   useEffect(() => {
@@ -169,12 +175,13 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
     <div style={{height:'100%'}}>
       <iframe
         style={{display: "none"}}
-        src="/audio/Two Faced.mp3?autoplay=true"
+        src="/audio/Two Faced_full.mp3?autoplay=true"
         frameborder="0"
         allowfullscreen
         allow="autoplay"
+        volume={volume2}
       ></iframe>
-      {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
+      {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} onHandleVolume2={handleVolume2}/>}
       {isClear && <div className={style.clearDiv}>Clear</div>}
       {isFail && <div className={style.failDiv}>Fail</div>}
     </div>

@@ -12,10 +12,17 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
 
   const [isClear, setIsClear] = useState(false);
   const [isFail, setIsFail] = useState(false);
-
+  const [volume1, setVolume1] = useState(0.7);
+  
+  // 하위 컴포넌트에서 현재 컴포넌트의 state를 바꿀 수 있게 해주는 handler
   const handleGamingStart = (status) => {
 		setIsStart(status);
 	};
+
+  // 볼륨 조절
+  const handleVolume1 = () => {
+    setVolume1(0.3);
+  };
 	
   // 허수아비 화면 제어
   const [actorState, setActorState] = useState(0);
@@ -276,6 +283,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
         frameborder="0"
         allowfullscreen
         allow="autoplay"
+        volume={volume1}
       ></iframe>
       {alertMessage && (
         <CustomAlert
@@ -283,7 +291,7 @@ const CalculationGame = ( { client, sessionId, myRole, handleindexSet, roundId, 
           onClose={() => setAlertMessage("")}
         />
       )}
-			{isStart ? CalculationGameRenderingState : <CalculationReady myRole={myRole} onHandleStart={CalculationGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
+			{isStart ? CalculationGameRenderingState : <CalculationReady myRole={myRole} onHandleStart={CalculationGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} onHandleVolume1={handleVolume1}/>}
       {isClear && <div className={style.clearDiv}>Clear</div>}
       {isFail && <div className={style.failDiv}>Fail</div>}
 		</div>
