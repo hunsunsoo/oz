@@ -395,6 +395,13 @@ const GameComp = (props) => {
     const characterImageClass = getCharacterClass(OutrodialogueData, isIndex);
     return (
       <div className={style.compStyle} onClick={props.changeNextPage}>
+        <iframe
+        style={{display: "none"}}
+        src="/audio/Plop Plop_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
         <div className={style.background_S5}>
           <div className={style.script}>
             {OutrodialogueData[isIndex].character}
