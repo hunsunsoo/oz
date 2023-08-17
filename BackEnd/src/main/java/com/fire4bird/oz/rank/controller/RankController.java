@@ -8,7 +8,6 @@ import com.fire4bird.oz.rank.service.RankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +22,11 @@ public class RankController {
     private final RankService rankService;
     private final RankMapper rankMapper;
 
-    @GetMapping("/{stage-num}")
-    public ResponseEntity getRank(@PathVariable("stage-num") int stageNum) {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+    @GetMapping("/{stage-num}/{user-id}")
+    public ResponseEntity getRank(@PathVariable("stage-num") int stageNum,
+                                  @PathVariable("user-id") int userId) {
 
-        RankResponseDto test = rankService.findMyRank(Integer.parseInt(userId), stageNum);
+        RankResponseDto test = rankService.findMyRank(userId, stageNum);
 
         return ResponseEntity
                 .ok()
