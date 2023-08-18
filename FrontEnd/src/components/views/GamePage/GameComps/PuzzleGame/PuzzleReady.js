@@ -12,6 +12,7 @@ const PuzzleReady = ({
   R2,
   R3,
   R4,
+  onHandleVolume3
 }) => {
   const stageval = 3;
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +24,16 @@ const PuzzleReady = ({
   const [amIHost, setAmIHost] = useState(host);
   const [amIReady, setAmIReady] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   useEffect(() => {
     if (myRole === 1) {
@@ -56,6 +67,7 @@ const PuzzleReady = ({
     console.log(host);
     if (amIHost === "1") {
       if (R1 === 3 && R2 === 3 && R3 === 3 && R4 === 3) {
+        onHandleVolume3();
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");
@@ -94,7 +106,7 @@ const PuzzleReady = ({
 
   return (
     <div className={style.compStyle}>
-      <div className={style.background_G2}>
+      <div className={style.background_G3}>
         <div className={style.charStyle}>
           <div className={style.firstDiv}>
             <img
@@ -147,10 +159,10 @@ const PuzzleReady = ({
         </div>
         <div className={style.guideStyle}>
           <div className={style.topDivStyle}>
-            <div className={style.howToPlayImg}></div>
+          
           </div>
           <div className={style.bottomDivStyle}>
-            <div className={style.howToPlayBtn} onClick={onHandleExplain}>
+            <div className={style.howToPlayBtn} onClick={onHandleExplain} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               게임 방법
             </div>
 
@@ -160,12 +172,13 @@ const PuzzleReady = ({
                 const readyOrCancel = amIReady ? 0 : 1;
                 ReadyPublisher(readyOrCancel);
               }}
+              onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
             >
               {amIReady ? "준비 취소" : "준비 완료"}
             </div>
 
             {amIHost === "1" && (
-              <div className={style.startBtn} onClick={handleStartAfterReady}>
+              <div className={style.startBtn} onClick={handleStartAfterReady} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 게임 시작
               </div>
             )}

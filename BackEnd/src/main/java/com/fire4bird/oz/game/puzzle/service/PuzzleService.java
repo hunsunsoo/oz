@@ -59,6 +59,7 @@ public class PuzzleService {
         log.info("받아온 라운드 id : {}}", obj.getRoundId());
         //게임 시작 시 기록 타이밍
         //유효성 체크
+        //일단 주석처리
         recordService.validRequest(3, findRound.getRoundId(), owner);
 
         //기록 저장
@@ -106,12 +107,14 @@ public class PuzzleService {
         log.info("라운드 id : {}", obj.getRoundId());
 
         //게임 종료 기록 저장 타이밍
+        // 일단 주석 처리
         if (check == 1) {
             recordService.clearCheck(obj.getRoundId(), 3, "clear");
         } else {
             recordService.clearCheck(obj.getRoundId(), 3, "false");
         }
 
+        log.info("라운드 getUserAnswer : {}", req.getUserAnswer()+", check: "+check);
 
         //type 4: 게임 정답 제출 로그
         saveLog(req.getRtcSession(), req.getUserId(), 0, 4, "Answer Submit: " + req.getUserAnswer() + ", Check: " + check);

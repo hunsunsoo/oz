@@ -8,7 +8,7 @@ import {
 } from "../../../../scripts/gameexplain";
 import { useState } from "react";
 const stageImages = {
-  1: ["/image/explain/hesou(ex).png", "/image/explain/assist(stage1).png"],
+  1: ["/image/explain/heosu(ex).png", "/image/explain/assist(stage1).png"],
   2: [
     "/image/explain/assist(stage2).png",
     "/image/explain/lion(ex).png",

@@ -101,6 +101,7 @@ public class GameManager {
             req.setNumberBoard(this.setNumberBoard());
 
             //게임 기록 저장 타이밍
+            //일단 주석 처리
             recordService.saveStartRecord(roundId, 1);
 
             res = calculationService.initSave(req);

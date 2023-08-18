@@ -1,4 +1,4 @@
-.WithDrawl{
+.WithDrawl {
     background-image: url('../../../../public/image/backGround/backgroundUser.png');
     background-size: cover;
     background-position: center;
@@ -9,52 +9,55 @@
     height: 100vh;
 }
 
-.box{
+.box {
     width: 20%;
     height: 30%;
     background-color: #F0EAD2;
     border-color: #6C584C;
-    border-width : 5px ;
-    border-style : solid ;
+    border-width: 5px;
+    border-style: solid;
     border-radius: 25px;
-    padding: 4rem 4rem ;
+    padding: 4rem 4rem;
     display: grid;
     /* justify-content: center; 
       align-items: center;  */
-      box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
-    
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+
 }
 
-.logo{
+.logo {
     position: absolute;
     left: 45%;
     top: 28%;
+    z-index: 1;
+    /* 추가 */
+
 }
 
-.logoImage{
+.logoImage {
     width: 17%;
     cursor: pointer;
 }
 
-.allBox{
+.allBox {
     position: relative;
     margin-top: 30%;
     height: 80%;
 }
 
-.topBox{
+.topBox {
     display: flex;
     height: 25%;
     padding: 2% 0 0 0;
     border-bottom: 4px solid #6C584C;
 }
 
-.frontZone{
+.frontZone {
     height: 100%;
     width: 15%;
 }
 
-.inputZone{
+.inputZone {
     padding-left: 3%;
     background: transparent;
     border: none;
@@ -66,12 +69,14 @@
     color: #6C584C;
 }
 
-.deleteDiv{
+.deleteDiv {
     height: 50%;
     justify-content: center;
+    z-index: 300;
 }
 
-.Button{
+.Button {
+    z-index: 1000;
     background-color: #6C584C;
     margin-top: 2%;
     border-radius: 10px;
@@ -80,8 +85,22 @@
     color: #F0EAD2;
     cursor: pointer;
     border: none;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     font-size: x-large;
     font-weight: bold;
     margin-left: 5%;
+}
+
+.closeInputBox {
+    position: absolute;
+    cursor: pointer;
+    left: 36%;
+    top: 31%;
+    width: 7%;
+    height: 10%;
+    background-color: transparent;
+    color: #6C584C;
+    font-weight: bold;
+    font-size: 70px;
+    border: none;
 }

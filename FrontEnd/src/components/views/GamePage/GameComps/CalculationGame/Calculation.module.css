@@ -11,6 +11,7 @@
     left: 7.5%;
     width: 50px;
     height: 50px;
+    cursor: pointer;
   }
 
   .troop2 {
@@ -108,6 +109,14 @@
     margin: -150px 0 0 -150px;
   }
 
+  .head024Style {
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
+  }
+
+  .head13Style {
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
+  }
+
   .AnsBoardStyle {
     position: absolute;
     top: 62%;
@@ -145,6 +154,12 @@
     font-Weight: bold;
     color: #F0EAD2;
     border-Radius: 20px;
+    cursor: pointer;
+  }
+
+  .ansSubmitBtn:hover {
+    background-color: #f0ead2;
+    color: #a98467;
   }
 
   .resetBtn {
@@ -162,6 +177,12 @@
     color: #F0EAD2;
     border-radius: 20px;
     margin: -150px 0 0 -150px;
+    cursor: pointer;
+  }
+
+  .resetBtn:hover {
+    background-color: #f0ead2;
+    color: #a98467;
   }
 
   .rectangleStyle {
@@ -200,7 +221,7 @@
   .juseok {
     position: absolute;
     top: 16%;
-    width: 30%;
+    width: 40%;
     height: 5%;
     background-color: #A98467;
     display: flex;

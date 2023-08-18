@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Picture from "./Picture";
 import style from "./PuzzleGame.module.css";
 import Board from "./PuzzleBoard";
+import GameModal from "../GameModal/GameModal";
 
 const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
   const numberOfBoards = 6;
@@ -12,6 +13,16 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
   const imageIds = puzzle.split(",");
 
   const initialBoardsFromBackend = [];
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   // 나머지 빈 보드 추가
   for (let i = 0; i < 6; i++) {
@@ -129,6 +140,11 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
     }
   }
 
+  const stageval = 3;
+  const [showModal, setShowModal] = useState(false);
+  const onHandleExplain = () => {
+    setShowModal(true);
+  };
   return (
     <div className={style.compStyle}>
       <div className={style.container}>
@@ -166,10 +182,12 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
             src="image/tools/questionMark.png"
             alt="questionMark"
             className={style.iconStyle}
+            onClick={onHandleExplain}
           />
           <button
             className={style.stage3SelectBtn}
             onClick={handleSendAnswerCheck}
+            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
           >
             정답 확인
           </button>
@@ -194,6 +212,12 @@ const PuzzleTwm = ({ startData, client, sessionId, userId }) => {
         </div>
 
       </div>
+      {showModal && (
+          <GameModal
+            isStage={stageval}
+            closeModal={() => setShowModal(false)}
+          />
+        )}
       {/* <div className={style.stage3SelectBtn} onClick={props.changeIsClear}>
         선택완료
       </div> */}

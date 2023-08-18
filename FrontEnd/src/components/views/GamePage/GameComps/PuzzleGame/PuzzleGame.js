@@ -10,6 +10,10 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   const [isStart, setIsStart] = useState(false);
   const stage = 3;
 
+  const [isClear, setIsClear] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+  const [volume3, setVolume3] = useState(0.7);
+
   const accessToken = useSelector(
     (state) => state.user.loginSuccess.headers.accesstoken
   );
@@ -34,6 +38,11 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   // 하위 컴포넌트에서 현재 컴포넌트의 state를 바꿀 수 있게 해주는 콜백함수
   const handleGamingStart = (status) => {
     setIsStart(status);
+  };
+
+  // 볼륨 조절
+  const handleVolume3 = () => {
+    setVolume3(0.3);
   };
 
   // 게임시작 - 게임방법 / 게임중 상태를 바꿔줌 startData를 받아 넘겨줌
@@ -88,15 +97,25 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
               const resJson = JSON.parse(message.body);
 
               if (resJson.data === 1) {
-                alert("성공입니다! 다음 게임으로 넘어갑니다.");
-                // 다음 페이지는
-                handleindexSet(21);
+                setIsClear(true);
+                const timer = setTimeout(() => {
+                  setIsClear(false);
+                  handleindexSet(21);
+                }, 3000);
+                return () => {
+                  clearTimeout(timer);
+                }
               } else if (resJson.data === -1) {
-                alert(
-                  "실패입니다! 게임이 다시 시작됩니다 준비화면으로 돌아갑니다."
-                );
-                setTurn(turn + 1);
-                handleGamingStart(false);
+                setIsFail(true);
+                const timer = setTimeout(() => {
+                  setIsFail(false);
+                  setTurn(turn + 1);
+                  handleGamingStart(false);
+                }, 3000);
+                return () => {
+                  clearTimeout(timer);
+                }
+                
               }
             } catch (error) {
               console.error("Error parsing message body:", error);
@@ -181,7 +200,14 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
   // PuzzleGame 컴포넌트
   return (
     <div style={{ height: "100%" }}>
-      {/* {isStart ? TrapGameRenderingState : <TrapReady isStart={isStart} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} />} */}
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Dice Game_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+        volume={volume3}
+      ></iframe>
       {isStart ? (
         PuzzleGameRenderingState
       ) : (
@@ -191,8 +217,11 @@ const PuzzleGame = ({ client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) 
           client={client}
           sessionId={sessionId}
           R1={R1} R2={R2} R3={R3} R4={R4}
+          onHandleVolume3={handleVolume3}
         />
       )}
+      {isClear && <div className={style.clearDiv}>Clear</div>}
+      {isFail && <div className={style.failDiv}>Fail</div>}
     </div>
   );
 };

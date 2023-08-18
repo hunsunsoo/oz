@@ -3,10 +3,16 @@ import TrapLion from './TrapLion';
 import TrapAid from './TrapAid';
 import { useSelector } from 'react-redux';
 import TrapReady from './TrapReady';
+import style from './TrapGame.module.css'
 
 const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => {
   // isStart 참이면 TrapGameRederingState에 의해 분기되는 게임페이지가 렌더링된다.
   const [isStart, setIsStart] = useState(false);
+
+  const [isClear, setIsClear] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+  const [volume2, setVolume2] = useState(0.7);
+
   // TrapGameRederingState 에서 나눠지는 조건 => myRole
   const stage = 2;
 
@@ -26,6 +32,11 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
   // 하위 컴포넌트에서 현재 컴포넌트의 state를 바꿀 수 있게 해주는 handler
   const handleGamingStart = (status) => {
     setIsStart(status);
+  };
+
+  // 볼륨 조절
+  const handleVolume2 = () => {
+    setVolume2(0.3);
   };
 
   useEffect(() => {
@@ -111,12 +122,24 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
           try {
             const resJson = JSON.parse(message.body);
             if(resJson.data.resultCode === 0){
-              alert("실패입니다! 게임이 다시 시작됩니다 준비화면으로 돌아갑니다.");
-              handleGamingStart(false);
+              setIsFail(true);
+              const timer = setTimeout(() => {
+                setIsFail(false);
+                handleGamingStart(false);
+              }, 3000);
+              return () => {
+                clearTimeout(timer);
+              }
+              
             } else if(resJson.data.resultCode === 1){
-              alert("성공입니다! 다음 게임으로 넘어갑니다.")
-              // 다음 페이지는
-              handleindexSet(21);
+              setIsClear(true);
+              const timer = setTimeout(() => {
+                setIsClear(false);
+                handleindexSet(21);
+              }, 3000);
+              return () => {
+                clearTimeout(timer);
+              }
             }
             
           } catch (error) {
@@ -150,7 +173,17 @@ const TrapGame = ({client, sessionId, myRole, handleindexSet, R1,R2,R3,R4 }) => 
   // TrapGame 컴포넌트
   return (
     <div style={{height:'100%'}}>
-      {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} />}
+      <iframe
+        style={{display: "none"}}
+        src="/audio/Two Faced_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+        volume={volume2}
+      ></iframe>
+      {isStart ? TrapGameRenderingState : <TrapReady myRole={myRole} onHandleStart={trapGameStartPublisher} client={client} sessionId={sessionId} R1={R1} R2={R2} R3={R3} R4={R4} onHandleVolume2={handleVolume2}/>}
+      {isClear && <div className={style.clearDiv}>Clear</div>}
+      {isFail && <div className={style.failDiv}>Fail</div>}
     </div>
   );
 };
