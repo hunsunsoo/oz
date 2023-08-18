@@ -18,6 +18,7 @@ import com.fire4bird.oz.team.repository.TeamRepository;
 import com.fire4bird.oz.user.entity.User;
 import com.fire4bird.oz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RoundService {
     private final SocketRepository socketRepository;
@@ -57,14 +59,18 @@ public class RoundService {
     @Transactional
     public int roleSave(RoundStartReq req, Round round) throws BusinessLogicException {
         //팀 확인
+        log.info("rtcSession: "+req.getRtcSession());
         Team team = checkTeam(req.getTeamName());
+        log.info("team: "+team);
         List<RoundStartReq.RoleDTO> roleList = req.getUserRole();
+        log.info("roleList: "+roleList);
+        log.info("roleList.size()1: "+roleList.size());
         if(roleList.size() != 4) return -1;
-
+        log.info("roleList.size()2: "+roleList.size());
         for (RoundStartReq.RoleDTO roleDTO : roleList) {
 
             User user = userRepository.findById(roleDTO.getUserId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-
+            log.info("user: "+user);
             //복합키
             UserRoundId userRoundId = UserRoundId.builder()
                     .roundId(round.getRoundId())
@@ -90,7 +96,7 @@ public class RoundService {
                     .role(roleDTO.getRole())
                     .userId(user.getUserId())
                     .build();
-
+            log.info("userId: "+user.getUserId()+", save: "+save);
             socketRepository.enterUser(req.getRtcSession(),String.valueOf(user.getUserId()),save);
             userRoundRepository.save(userRound);
         }

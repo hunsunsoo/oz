@@ -3,7 +3,7 @@ import style from "./TrapReady.module.css"
 import { useLocation } from "react-router-dom";
 import GameModal from "../GameModal/GameModal";
 import CustomAlert from '../Alert/alert';
-const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 }) => {
+const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4, onHandleVolume2 }) => {
   const stageval = 2;
   const [showModal, setShowModal] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -14,6 +14,16 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
 
   const [amIHost, setAmIHost] = useState(host);
   const [amIReady, setAmIReady] = useState(false);
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   useEffect(() => {
     if(myRole === 1){
@@ -47,6 +57,7 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
     console.log(host)
     if(amIHost === "1"){
       if(R1 === 2 && R2 === 2 && R3 === 2 && R4 === 2){
+        onHandleVolume2(); // 볼륨조절
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");
@@ -144,18 +155,20 @@ const TrapReady = ({ myRole, onHandleStart, client, sessionId, R1, R2, R3, R4 })
             </div> */}
           </div>
           <div className={style.bottomDivStyle}>
-            <div className={style.howToPlayBtn} onClick={onHandleExplain} >
+            <div className={style.howToPlayBtn} onClick={onHandleExplain} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 게임 방법
               </div>
               <div className={style.readyBtn} onClick={() => {
-                                              const readyOrCancel = amIReady ? 0 : 1;
-                                              trapReadyPublisher(readyOrCancel);
-                                            }}>
+                const readyOrCancel = amIReady ? 0 : 1;
+                trapReadyPublisher(readyOrCancel);
+                }}
+                onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
+              >
                 {amIReady ? "준비 취소" : "준비 완료"}
               </div>
 
               {amIHost === "1" && (
-                <div className={style.startBtn} onClick={handleStartAfterReady}>
+                <div className={style.startBtn} onClick={handleStartAfterReady} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                   게임 시작
                 </div>
               )}

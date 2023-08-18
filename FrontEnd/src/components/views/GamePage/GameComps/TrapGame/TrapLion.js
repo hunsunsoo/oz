@@ -14,6 +14,16 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
     setShowModal(true);
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   const lionMovePublisher = async (type) => {
     if(screen==="wall" && type==="Go"){
       setAlertMessage("벽으로는 갈 수 없어요");
@@ -67,11 +77,11 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
         <div className={style.lionDiv}>
           <div className={style.lionView}>
             <div onClick={() => lionMovePublisher("L")}>
-              <img style={{ width: "60%", height: "100px" }} src="image/game/trapGame/ArrowLeft.png" />
+              <img style={{ width: "60%", height: "100px", cursor: "pointer" }} src="image/game/trapGame/ArrowLeft.png" />
             </div>
             <img src={`image/game/trapGame/${startData.data.screen}.png`} style={{ width: "60%", height: "40%", marginTop: "5%" }}/>
             <div onClick={() => lionMovePublisher("R")}>
-              <img style={{ width: "60%", height: "100px" }} src="image/game/trapGame/ArrowRight.png" />
+              <img style={{ width: "60%", height: "100px", cursor: "pointer" }} src="image/game/trapGame/ArrowRight.png" />
             </div> 
           </div>
           {hasKey === 1 ? (
@@ -86,7 +96,7 @@ const TrapLion = ({ startData, client, sessionId, userId }) => {
         </div>
         <div className={style.arrowDiv2}>
           <div className={style.goArrow} onClick={() => lionMovePublisher("Go")}>
-            <img style={{ width: "30%" }} src="image/game/trapGame/ArrowFront.png" />
+            <img style={{ width: "30%", cursor: "pointer" }} src="image/game/trapGame/ArrowFront.png" />
           </div>
         </div>
       </div>

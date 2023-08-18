@@ -77,6 +77,7 @@ public class TrapService {
                 trapGameManager.lionMovePublisher(req, trapGameManager.lionScreen(trap.getMap(), curLocX, curLocY, curDir, hasKey, trap.getScreenMap()));
             } else if (check == 2) {
                 //기록 저장 타이밍
+                //일단 주석 타이밍
                 recordService.validRequest(2, obj.getRoundId(), obj.getUserId());
                 recordService.clearCheck(obj.getRoundId(), 2, "clear");
 

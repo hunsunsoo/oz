@@ -110,6 +110,7 @@ public class CatchmindService {
         int check = -1;
         if (req.getUserAnswer().equals(catchmind.getAnswer())) check = 1;
 
+        //일단 주석 처리
         if (check == 1) {
             recordService.clearCheck(obj.getRoundId(), 4, "clear");
         }

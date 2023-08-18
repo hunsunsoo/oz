@@ -299,7 +299,7 @@ const CalculationAid = ({
       <div className={style.compStyle}>
         <div className={style.background_G1}>
           <div className={style.juseokbalance}>
-            <div className={style.juseok}>사자가 열심히 푸는 중이야!</div>
+            <div className={style.juseok}>허수아비가 열심히 푸는 중이야!</div>
           </div>
 
           <div className={style.BoardStyle2}>

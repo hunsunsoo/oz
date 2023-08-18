@@ -1,10 +1,10 @@
 .compStyle {
-	width: 90%;
-	height: 95%;
-	padding: 2.5% 5%;
+  width: 90%;
+  height: 95%;
+  padding: 2.5% 5%;
   display: flex;
 }
-.background_G2{
+.background_G3 {
   width: 100%;
   height: 90%;
   display: flex;
@@ -13,24 +13,29 @@
   background-position: center;
   padding: 0;
 }
-.charStyle{
+.charStyle {
   display: flex;
   width: 55%;
   height: 100%;
 }
-.guideStyle{
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  height: 100%;
-}
-
 .firstDiv {
   height: 100%;
   width: 34%;
   display: flex;
   padding-bottom: 2%;
   position: relative;
+}
+.checkMain {
+  height: auto;
+  width: 100%;
+}
+.checkMarkExtra {
+  width: 50%;
+  height: auto;
+  position: absolute;
+  top: 70%;
+  left: 30%;
+  z-index: 1;
 }
 .otherDiv {
   height: 100%;
@@ -41,42 +46,30 @@
   padding-bottom: 2%;
   position: relative;
 }
-
-.topDivStyle {
-  height: 67%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.checkExtra {
+  height: auto;
+  width: 100%;
 }
-
+.guideStyle {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 45%;
+  height: 100%;
+}
+.topDivStyle {
+  height: 80%;
+  width: 100%;
+  top: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: fl;
+}
 .bottomDivStyle {
   height: 33%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-}
-
-.howToPlayImg {
-  width: 50%;
-  height: 50%;
-  background-image: url("../../../../../../public/image/ready/gamecapture_stage3_1.PNG");
-  background-size: cover;
-  background-position: center;
-  border: 4px solid #6C584C;
-  border-radius: 10px;
-
-}
-.readyBtn {
-  width: 20%;
-  height: 50%;
-  background-Color: #A98467;
-  display: flex;
-  align-Items: center;
-  justify-Content: center;
-  font-Size: 24px;
-  font-Weight: bold;
-  color:#F0EAD2;
-  border-Radius: 20px;
 }
 .howToPlayBtn {
   width: 20%;
@@ -87,8 +80,32 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
+  margin-right: 8%;
+  cursor: pointer;
+}
+.howToPlayBtn:hover {
+  background-color: #f0ead2;
+  color: #a98467;
+}
+.readyBtn {
+  width: 20%;
+  height: 50%;
+  background-Color: #A98467;
+  display: flex;
+  align-Items: center;
+  justify-Content: center;
+  font-Size: 24px;
+  font-Weight: bold;
+  color: #F0EAD2;
+  border-Radius: 20px;
+  margin-right: 8%;
+  cursor: pointer;
+}
+.readyBtn:hover {
+  background-color: #f0ead2;
+  color: #a98467;
 }
 .startBtn {
   width: 20%;
@@ -99,30 +116,13 @@
   justify-Content: center;
   font-Size: 24px;
   font-Weight: bold;
-  color:#F0EAD2;
+  color: #F0EAD2;
   border-Radius: 20px;
+  margin-right: 8%;
+  top: 100%;
+  cursor: pointer;
 }
-.checkMain{
-  height: 67;
-  width: 100%;
-}
-.checkExtra{
-  height: auto;
-  width: 100%;
-}
-.checkMark{
-  width: 50%;
-  height: auto;
-  position: absolute;
-  top: 50%;
-  left: 30%;
-  z-index: 1;
-}
-.checkMarkExtra{
-  width: 50%;
-  height: auto;
-  position: absolute;
-  top: 70%;
-  left: 30%;
-  z-index: 1;
+.startBtn:hover {
+  background-color: #f0ead2;
+  color: #a98467;
 }

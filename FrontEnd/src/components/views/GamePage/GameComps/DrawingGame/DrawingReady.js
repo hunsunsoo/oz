@@ -12,6 +12,7 @@ const DrawingReady = ({
   R2,
   R3,
   R4,
+  onHandleVolume4
 }) => {
   const stageval = 4;
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +24,17 @@ const DrawingReady = ({
   const [amIHost, setAmIHost] = useState(host);
   const [amIReady, setAmIReady] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   useEffect(() => {
     if (myRole === 1) {
       if (R1 === 4) {
@@ -56,6 +68,7 @@ const DrawingReady = ({
     if (amIHost === "1") {
       console.log(R3);
       if (R1 === 4 && R2 === 4 && R3 === 4 && R4 === 4) {
+        onHandleVolume4();
         onHandleStart(true);
       } else {
         setAlertMessage("4명이 준비 완료 상태가 아닙니다");
@@ -95,7 +108,7 @@ const DrawingReady = ({
 
   return (
     <div className={style.compStyle}>
-      <div className={style.background_G2}>
+      <div className={style.background_G4}>
         <div className={style.charStyle}>
           <div className={style.firstDiv}>
             <img
@@ -103,18 +116,6 @@ const DrawingReady = ({
               className={style.checkMain}
             ></img>
             {R1 === 4 && (
-              <img
-                src="image/tools/checkmarker.png"
-                className={style.checkMarkExtra}
-              ></img>
-            )}
-          </div>
-          <div className={style.otherDiv}>
-            <img
-              src="image/character/twa.png"
-              className={style.checkExtra}
-            ></img>
-            {R4 === 4 && (
               <img
                 src="image/tools/checkmarker.png"
                 className={style.checkMarkExtra}
@@ -145,13 +146,22 @@ const DrawingReady = ({
               ></img>
             )}
           </div>
+          <div className={style.otherDiv}>
+            <img
+              src="image/character/twa.png"
+              className={style.checkExtra}
+            ></img>
+            {R4 === 4 && (
+              <img
+                src="image/tools/checkmarker.png"
+                className={style.checkMarkExtra}
+              ></img>
+            )}
+          </div>
         </div>
         <div className={style.guideStyle}>
-          <div className={style.topDivStyle}>
-            {/* <div className={style.howToPlayImg}>게임 방법 넣을 part</div> */}
-          </div>
           <div className={style.bottomDivStyle}>
-            <div className={style.howToPlayBtn} onClick={onHandleExplain}>
+            <div className={style.howToPlayBtn} onClick={onHandleExplain} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               게임 방법
             </div>
 
@@ -161,12 +171,13 @@ const DrawingReady = ({
                 const readyOrCancel = amIReady ? 0 : 1;
                 ReadyPublisher(readyOrCancel);
               }}
+              onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
             >
               {amIReady ? "준비 취소" : "준비 완료"}
             </div>
 
             {amIHost === "1" && (
-              <div className={style.startBtn} onClick={handleStartAfterReady}>
+              <div className={style.startBtn} onClick={handleStartAfterReady} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 게임 시작
               </div>
             )}

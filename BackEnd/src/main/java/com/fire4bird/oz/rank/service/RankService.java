@@ -2,6 +2,7 @@ package com.fire4bird.oz.rank.service;
 
 import com.fire4bird.oz.rank.dto.MyRankDto;
 import com.fire4bird.oz.rank.dto.RankResponseDto;
+import com.fire4bird.oz.rank.dto.TeamRecordDto;
 import com.fire4bird.oz.rank.dto.TotalRankDto;
 import com.fire4bird.oz.rank.mapper.RankMapper;
 import com.fire4bird.oz.record.repository.RecordRepository;
@@ -26,5 +27,10 @@ public class RankService {
         List<MyRankDto> myRankDtos = rankMapper.myRankListToList(myRankTest);
 
         return rankMapper.toRankResponseDto(totalRankDtos, myRankDtos);
+    }
+
+    //게임이 다 끝나고 바로 나오는 해당 팀의 기록
+    public TeamRecordDto findTeamRank(int roundId) {
+        return recordRepository.findTeamRecord(roundId);
     }
 }

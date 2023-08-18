@@ -61,6 +61,13 @@ const showModal = () => {
 
   return (
     <div className={style.coverPage}>
+      <iframe
+        style={{display: "none"}}
+        src="/audio/My Happy Song_full.mp3?autoplay=true"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
       <div className={style.landingpage}>
         <div className={style.dorothy}></div>
         {accessToken && (

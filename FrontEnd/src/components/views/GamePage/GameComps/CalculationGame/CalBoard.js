@@ -125,8 +125,8 @@ const AlphaBoard = ( {onCellClick, boardData, sel11, sel12, sel21, sel22, sel41,
               onClick={() => onCellClick(cell)}
               style={{
                 // Apply red border style to selected cells
-                outline: checkSelected(cell) ? "2px solid red" : "none",
-                outlineOffset: "-2px" }} >
+                outline: checkSelected(cell) ? "5px solid red" : "none",
+                outlineOffset: "-5px" }} >
               {cell}
             </div>
           ))}
@@ -147,12 +147,12 @@ const AlphaBoardH = ( { onHandleCellClick, boardData, client, roundId, head } ) 
   };
 
   return (
-    <div className="alpha-board">
+    <div className="alpha-board2">
       {boardData.map((row, rowIndex) => (
-        <div className="alpha-row" key={rowIndex}>
+        <div className="alpha-row2" key={rowIndex}>
           {row.map((cell, columnIndex) => (
             <div
-              className={rowIndex % 2 === columnIndex % 2 ? "alpha-cell even" : "alpha-cell odd"}
+              className={rowIndex % 2 === columnIndex % 2 ? "alpha-cell2 even" : "alpha-cell2 odd"}
               key={columnIndex}
               onClick={() => cellClick(rowIndex, columnIndex)} >
               {cell}
@@ -165,36 +165,68 @@ const AlphaBoardH = ( { onHandleCellClick, boardData, client, roundId, head } ) 
 };
 
 const MathBoard = ({ onHandleCellClick, head}) => {
-    const boardData = [
-      ["+", "-"],
-      ["x", "/"]
-    ];
+  const boardData = [
+    ["+", "-"],
+    ["x", "/"]
+  ];
 
-    const cellClick = (cell) => {
-      if(head === 1 || head === 3){
-        onHandleCellClick(cell);
-      } else {
-        console.log("숫자를 골라라 or 다골랐잖아")
-      }
-    };
-  
-    return (
-      <div className="math-board">
-        {boardData.map((row, rowIndex) => (
-          <div className="math-row" key={rowIndex}>
-            {row.map((cell, columnIndex) => (
-              <div
-                className={rowIndex % 2 === columnIndex % 2 ? "math-cell even" : "math-cell odd"}
-                key={columnIndex}
-                onClick={() => cellClick(cell)}>
-                {cell}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
+  const cellClick = (cell) => {
+    if(head === 1 || head === 3){
+      onHandleCellClick(cell);
+    } else {
+      console.log("숫자를 골라라 or 다골랐잖아")
+    }
   };
+
+  return (
+    <div className="math-board">
+      {boardData.map((row, rowIndex) => (
+        <div className="math-row" key={rowIndex}>
+          {row.map((cell, columnIndex) => (
+            <div
+              className={rowIndex % 2 === columnIndex % 2 ? "math-cell even" : "math-cell odd"}
+              key={columnIndex}
+              onClick={() => cellClick(cell)}>
+              {cell}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const MathBoardH = ({ onHandleCellClick, head}) => {
+  const boardData = [
+    ["+", "-"],
+    ["x", "/"]
+  ];
+
+  const cellClick = (cell) => {
+    if(head === 1 || head === 3){
+      onHandleCellClick(cell);
+    } else {
+      console.log("숫자를 골라라 or 다골랐잖아")
+    }
+  };
+
+  return (
+    <div className="math-board2">
+      {boardData.map((row, rowIndex) => (
+        <div className="math-row2" key={rowIndex}>
+          {row.map((cell, columnIndex) => (
+            <div
+            className={rowIndex % 2 === columnIndex % 2 ? "math-cell2 even" : "math-cell2 odd"}
+            key={columnIndex}
+            onClick={() => cellClick(cell)}>
+            {cell}
+          </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const AnsBoard = ({ tableData, head }) => {
   
@@ -208,8 +240,8 @@ const AnsBoard = ({ tableData, head }) => {
             key={columnIndex}
             style={{
               // Apply red border style to selected cells
-              outline: head === columnIndex ? "2px solid red" : "none",
-              outlineOffset: "-2px"
+              outline: head === columnIndex ? "5px solid red" : "none",
+              outlineOffset: "-5px"
             }} >
             {cell}
           </div>
@@ -221,4 +253,4 @@ const AnsBoard = ({ tableData, head }) => {
 };
 
 
-export { NumberBoard, AlphaBoard, AlphaBoardH, MathBoard, AnsBoard };
+export { NumberBoard, AlphaBoard, AlphaBoardH, MathBoard, MathBoardH, AnsBoard };

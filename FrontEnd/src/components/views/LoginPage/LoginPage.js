@@ -11,8 +11,8 @@ function LoginPage(props) {
   const dispatch = useDispatch();
 
   // 1.  로그인 데이터 부분
-  const [Email, setEmail] = useState("1@a.com");
-  const [Password, setPassword] = useState("1");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
 
   // usestate: const [state, setstate] = useState(initialState) 자동완성.
   // initialState : = placeholder
@@ -88,6 +88,11 @@ function LoginPage(props) {
         }}
       >
         <div className={style.box}>
+        <button className={style.closeInputBox}
+                onClick={() => navigate(`/`)}
+                >
+                  <i class="fi fi-rr-left"></i>
+            </button>
           <div className={style.logo}>
             <img
               className={style.logoImage}
