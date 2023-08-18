@@ -1,0 +1,142 @@
+.compStyle {
+  width: 90%;
+  height: 100%;
+  padding: 3% 5%;
+}
+
+.container {
+  display: flex;
+  /* justify-content: space-between; */
+  width: 100%; 
+  height: 100%;
+}
+
+.iconStyle {
+  position: absolute;
+  top: 80%;
+  left: 5%;
+  width: 7.5%;
+  height: 10%;
+  cursor: pointer;
+}
+
+.stage3SelectBtn {
+  position: absolute;
+  top: 80%;
+  right: 6%;
+  width: 14%;
+  height: 10%;
+  background-Color: #A98467;
+  display: flex;
+  align-Items: center;
+  justify-Content: center;
+  font-Size: 24px;
+  font-Weight: bold;
+  color:#F0EAD2;
+  border-Radius: 20px;
+  cursor: pointer;
+}
+.stage3SelectBtn:hover {
+  background-color: #f0ead2;
+  color: #a98467;
+}
+
+.puzzleLeft {
+  flex: 0 0 70%;
+  max-width: 70%;
+  height: 100%;
+  margin-top: -2%;
+  background-image: url("../../../../../../public/image/game/puzzleGame/puzzleGameBgHeart.JPG");
+  background-size: 100% 95%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.puzzleRight {
+  max-width: 30%;
+  width: 40%;
+  height: 87%;
+  display: grid;
+  background-color:#F3EDE2;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  margin-left: 3%;
+  align-items: center;
+  justify-items: center;
+}
+
+.commonBoard {
+  margin-top: 100px;
+  position: relative;
+}
+
+.board0 {
+  left: 30%;
+  top: 10%;
+  position: absolute
+}
+
+.board1 {
+  left: 20%;
+  top: 30%;
+  position: absolute
+}
+.board2 {
+  width: 80px;
+  left: 70%;
+  top : 30%;
+  position: absolute
+}
+
+.board3 {
+  left: 60%;
+  top: 10%;
+  width: 80px;
+  position: absolute
+  
+}
+
+.board4 {
+
+  left: 35%;
+  top: 55%;
+ 
+  position: absolute
+}
+
+.board5 {
+
+  left: 52%;
+  top: 55%;
+  position: absolute
+  
+}
+
+
+
+.fireEffect {
+  background-image: url('/public/logo192.png'); 
+  background-size: cover;
+  transition: background-image 0.5s;
+}
+
+.clearDiv{
+  color: rgb(128, 188, 39);
+  font-size: 200px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%; /* 가로 중앙 정렬 */
+  top: 50%; /* 세로 중앙 정렬 */
+  transform: translate(-50%, -75%); /* 중앙으로 이동 */
+  text-shadow: -6px 0px white, 0px 6px white, 6px 0px white, 0px -6px white;
+}
+.failDiv{
+  color: rgb(243, 39, 39);
+  font-size: 200px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%; /* 가로 중앙 정렬 */
+  top: 50%; /* 세로 중앙 정렬 */
+  transform: translate(-50%, -75%); /* 중앙으로 이동 */
+  text-shadow: -6px 0px white, 0px 6px white, 6px 0px white, 0px -6px white;
+}

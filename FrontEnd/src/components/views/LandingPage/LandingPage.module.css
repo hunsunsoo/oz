@@ -1,0 +1,240 @@
+/* 1. 배경 */
+
+.coverPage{
+  height: 100vh;
+  overflow: hidden;
+}
+.landingpage {
+  position: relative; /* 여기에 추가 */
+  background-image: url("../../../../public/image/backGround/background.png");
+  background-size: cover;
+  background-repeat: no-repeat; 
+  width: 100%;
+  height:100%;
+
+}
+
+.milestone {
+  position: absolute; /* 여기에 추가 */
+  background-image: url("../../../../public/image/button/bong.png");
+  background-size: contain; /* 이미지를 div 안에 맞게 조절 */
+  background-repeat: no-repeat; /* 이미지 반복 없음 */
+  width: 200px; /* 캐릭터의 너비 */
+  height: 220px; /* 캐릭터의 높이 */
+  bottom: 1%;
+  right :-2%
+}
+
+.afterLoginMilestoneDiv {
+  position: absolute; /* 여기에 추가 */
+  width: 200px; /* 캐릭터의 너비 */
+  height: 220px; /* 캐릭터의 높이 */
+  bottom: 1%;
+  right :-2%
+
+}
+
+.afterLoginMilestone {
+  position: absolute; /* 여기에 추가 */
+  background-image: url("../../../../public/image/button/그림1.png");
+  background-size: 100% 100%; /* 이미지를 div 안에 맞게 조절 */
+  background-repeat: no-repeat; /* 이미지 반복 없음 */
+  width: 44%;
+  height: 111%;
+  bottom: 1%
+}
+
+/* 3. 버튼 */
+
+.gotologin {
+  background-image: url("../../../../public/image/button/rightArrowButton.png");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  border: none; 
+  /* 테두리 제거 */
+
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+
+  font-size: large;
+  font-weight: bold;
+  color: #F0EAD2;
+
+  width: 90%;
+  height: 30%;
+  position: absolute;
+  top: 9%;
+  left :-18%;
+  cursor: pointer;
+}
+
+.gotologin:hover{
+  transform: rotate(-5deg);
+}
+
+.gotosignup {
+  background-image: url("../../../../public/image/button/leftArrowButton.png");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent; 
+  border: none; 
+  /* 테두리 제거 */
+
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+
+  font-size: large;
+  font-weight: bold;
+  color: #F0EAD2;
+
+  width: 90%;
+  height: 30%;
+  position: absolute;
+  top: 39%;
+  right: 40%;
+  cursor: pointer;
+}
+
+.gotosignup:hover{
+  transform: rotate(-5deg);
+}
+
+.gotologin:hover + .milestone { /* 버튼에 마우스가 올라갔을 때 마일스톤에 적용될 스타일 */
+  transform: scale(1.7); /* 크기를 10% 늘림 */
+}
+
+.goToMypage {
+  background-image: url("../../../../public/image/button/rightArrowButton.png");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  border: none; 
+  /* 테두리 제거 */
+
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+
+  font-size: large;
+  font-weight: bold;
+  color: #F0EAD2;
+
+  width: 90%;
+  height: 30%;
+  position: absolute;
+  top: -21%;
+  left :-18%;
+  cursor: pointer;
+}
+
+.goToMypage:hover{
+  transform: rotate(-5deg);
+}
+
+.makeRoom {
+  background-image: url("../../../../public/image/button/leftArrowButton.png");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent; 
+  border: none; 
+  /* 테두리 제거 */
+
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+
+  font-size: large;
+  font-weight: bold;
+  color: #F0EAD2;
+
+  width: 90%;
+  height: 30%;
+  position: absolute;
+  top: 9%;
+  right: 40%;
+  cursor: pointer;
+}
+
+.makeRoom:hover{
+  transform: rotate(-5deg);
+}
+
+.logout {
+  background-image: url("../../../../public/image/button/rightArrowButton.png");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  border: none; 
+  /* 테두리 제거 */
+
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+
+  font-size: large;
+  font-weight: bold;
+  color: #F0EAD2;
+
+  width: 90%;
+  height: 30%;
+  position: absolute;
+  top: 40%;
+  left :-18%;
+  cursor: pointer;
+}
+
+.logout:hover{
+  transform: rotate(-5deg);
+}
+
+/* 움직이는 것들 */
+
+.rankingZone{
+  position: absolute;
+  right: 15%;
+  top: 6%;
+  height: 13%;
+  width: 7%;
+  background-image: url("../../../../public/image/button/starButton.png");
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  animation: upDown 2s linear infinite;
+}
+
+.rankingZone:hover{
+  transform: scale(1.1);
+}
+
+@keyframes upDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.dorothy{
+  position: absolute;
+  left: 20%;
+  bottom: 12%;
+  height: 22%;
+  width: 8%;
+  background-image: url("../../../../public/image/character/dorothy.png");
+  background-size: cover;
+  background-position: center;
+  animation: rotateMotion 2s linear infinite;
+}
+
+@keyframes rotateMotion {
+  0%, 100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(8deg); /* 5도만큼 회전 */
+  }
+}

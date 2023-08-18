@@ -1,0 +1,81 @@
+/* 스테이지 공통 */
+.compStyle {
+  width: 90%;
+  height: 95%;
+  padding: 2.5% 5%;
+}
+
+.background_G4 {
+  width: 100%;
+  height: 90%;
+  display: flex;
+
+  background-image: url("../../../../../../public/image/backGround/G4_BG_catchmind.png");
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+}
+
+
+.hideZone {
+  position: absolute;
+  width: 40%;
+  background: #f0ead2;
+  right: 10%;
+  height: 43%;
+  top: 19%;
+  border-radius: 20px;
+  border: 4px solid #6c584c;
+  text-align: center;
+  color: #6c584c;
+  font-weight: bold;
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.answerInput {
+  background-color: #f0ead2;
+  color: #6c584c;
+  padding-left: 1%;
+  width: 19%;
+  height: 6%;
+  border: 4px solid #6c584c;
+  position: absolute;
+  margin-left: 5%;
+  margin-top: 5%;
+  font-weight: bold;
+  font-size: x-large;
+  border-radius: 10px;
+  outline: none;
+}
+
+.answerButton {
+  position: absolute;
+  width: 5%;
+  height: 7%;
+  border: 4px solid #6c584c;
+  border-radius: 10px;
+  font-size: large;
+  font-weight: bold;
+  background-color: #f0ead2;
+  color: #6c584c;
+  cursor: pointer;
+  margin-left: 5%;
+  margin-top: 9%;
+}
+
+.answerButton:hover {
+  background-color: #6c584c;
+  color: #f0ead2;
+}
+
+.iconStyle {
+  position: absolute;
+  top: 55%;
+  left: 7.5%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}

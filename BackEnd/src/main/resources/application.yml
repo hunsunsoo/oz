@@ -1,21 +1,59 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
+  profiles:
+    active: local
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
-    username: sa
-    password:
-
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    #   배포된 db
+        url: jdbc:mysql://i9b104.p.ssafy.io:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
+        username: fire4bird
+        password: fire4bird
+    #    배포 db 쓰려면 여기까지 3줄 주석 제거
+    #   로컬 db
+#    url: jdbc:mysql://localhost:3306/oz?allowPublicKeyRetrieval=true&useSSL=false
+#    username: ssafy
+#    password: ssafy
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: project534900
+    password: vufykbyvgkxxlrkm
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  freemarker:
+    cache: false
+
+  redis:
+    host: i9b104.p.ssafy.io
+    #    host: localhost
+    port: 6379
+    password: fire4bird
+
+jwt:
+  secret-key: asdasdasdasdasdasdasdassdasdasdasdasdassdasd
+  access-token-valid-time: 60000
+  refresh-token-valid-time: 60000
+
+kakao:
+  client-id: 581ca2cce261061e9424b527fdadf174
+  redirect-uri: https://i9b104.p.ssafy.io/kakaoLogin
+  token-url: https://kauth.kakao.com/oauth/token
+  info-url: https://kapi.kakao.com/v2/user/me

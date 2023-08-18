@@ -1,0 +1,83 @@
+/* 미로_빨강 */
+.miro-red {
+  display: flex;
+  flex-direction: column;
+  width: 430px;
+}
+.miro-red-row {
+  display: flex;
+}
+.miro-red-cell {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+}
+.miro-gray-cell {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+}
+
+/* 미로_초록 */
+.miro-green {
+  display: flex;
+  flex-direction: column;
+  width: 430px;
+}
+.miro-green-row {
+  display: flex;
+}
+.miro-green-cell {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+}
+.miro-gray-cell {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+}
+
+/* 미로_파랑 */
+.miro-blue {
+  display: flex;
+  flex-direction: column;
+  width: 430px;
+}
+.miro-blue-row {
+  display: flex;
+}
+.miro-blue-cell {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blue;
+}
+.miro-gray-cell {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+}
